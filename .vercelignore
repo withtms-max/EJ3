@@ -1,0 +1,23 @@
+# 버셀 빌드 부하를 줄이기 위한 제외 목록
+uploads/
+새 폴더/
+새*폴더*/
+*새*폴더*
+Copy 3D Animation or Hover Features from Website/
+Copy*Animation*
+*.py
+*.zip
+*.rar
+*.mp4
+*.mov
+*.avi
+.git/
+.vscode/
+node_modules/
+vendor/
+db/schema.sql
+db/journey_migration.php
+README.md
+new_sections.txt
+index_backup_spline.html
+index_debug.txt

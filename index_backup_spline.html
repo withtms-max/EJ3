@@ -1,0 +1,2115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE3 STUDIO | 사장님들의 든든한 디자인 파트너</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <style>
+        /* CSS Variables - DARK PREMIUM */
+        :root {
+            /* 프리미엄 컬러 시스템 (Portavia Benchmarked) */
+            --bg-color: #050505; /* Deeper Void Black */
+            --bg-soft: #0C0C0C;  /* Soft Elevation */
+            --bg-card: #111111;  /* Card Surface */
+            --text-primary: #FFFFFF;
+            --text-secondary: #A3A3A3; /* Portavia Gray */
+            --text-muted: #525252;
+            --accent: #E63E00;   /* Terracotta Red */
+            --luxury-point: #C9A66B; /* Warm Gold */
+            --accent-glow: rgba(230, 62, 0, 0.08); /* More subtle glow */
+            --border: rgba(255, 255, 255, 0.06); /* Ultra-thin border */
+            --transition-smooth: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', 'Pretendard', -apple-system, sans-serif;
+            background: var(--bg-color) !important;
+            color: var(--text-primary);
+            font-size: 1.125rem;
+            line-height: 1.6;
+            overflow-x: hidden;
+            word-break: keep-all;
+            letter-spacing: -0.01em;
+        }
+
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--bg-color); }
+        ::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 10px; border: 2px solid var(--bg-color); }
+        ::-webkit-scrollbar-thumb:hover { background: var(--luxury-point); }
+
+        /* Floating Pill Navigation */
+        nav {
+            position: fixed;
+            top: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+            background: rgba(13, 13, 13, 0.85); /* Dark Blur */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 0.9rem 3.5rem;
+            border-radius: 100px;
+            border: 1px solid var(--border);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 1.1rem; /* Easier to read */
+            font-weight: 700;
+            transition: all 0.3s ease;
+            letter-spacing: -0.02em;
+        }
+        .nav-links a:hover { 
+            color: var(--accent); 
+        }
+
+        /* Global Section Layout */
+        section {
+            padding: 8rem 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        .section-header h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3.5rem; 
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.04em;
+            color: var(--text-primary);
+            line-height: 1.1;
+        }
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.5;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+        }
+
+        /* -------------------------------------
+           Hero Section (Particle Text & Emphasis)
+           ------------------------------------- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            text-align: center;
+            padding-top: 200px;
+            padding-bottom: 0;
+            position: relative;
+            background: radial-gradient(circle at 50% -10%, #1a1a1a 0%, #0d0d0d 100%);
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(230, 62, 0, 0.03) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(201, 166, 107, 0.03) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: 1;
+        }
+        .hero-title-wrap {
+            max-width: 1000px;
+            z-index: 10;
+        }
+        .hero-tagline {
+            font-size: 5rem;
+            font-weight: 800;
+            line-height: 1.05;
+            margin-bottom: 0;
+            letter-spacing: -0.05em;
+            color: var(--text-primary);
+        }
+        .canvas-container {
+            position: relative;
+            height: 120px;
+            width: 100vw;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-bottom: 1rem;
+        }
+
+        /* -------------------------------------
+           Cover Flow Album (Swiper)
+           ------------------------------------- */
+        .swiper-container-wrap {
+            width: 100vw;
+            margin-top: 1rem;
+            padding: 2rem 0;
+            overflow: hidden;
+            position: relative;
+        }
+        .cover-swiper {
+            width: 100%;
+            padding-top: 20px;
+            padding-bottom: 40px; 
+        }
+        .cover-swiper .swiper-slide {
+            background-position: center;
+            background-size: cover;
+            width: 250px;
+            height: 350px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border);
+            transition: box-shadow 0.6s ease, border-color 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            -webkit-box-reflect: bottom 15px linear-gradient(transparent, transparent 70%, rgba(255, 255, 255, 0.15));
+        }
+        .cover-swiper .swiper-slide-active {
+            box-shadow: 0 30px 60px rgba(230, 62, 0, 0.2);
+            border-color: var(--accent);
+            transform: scale(1.1) translateY(-10px);
+        }
+
+        /* -------------------------------------
+           Feature Presentation (3 Landscape Cards)
+           ------------------------------------- */
+        .feature-presentation {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+        .feat-card {
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-soft);
+            padding: 2.25rem;
+            border-radius: 32px;
+            border: 1px solid var(--border);
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .feat-card::before, .ext-card::before, .j-card::before, .service-card::before, .expert-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.08), transparent 80%);
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .feat-card:hover::before, .ext-card:hover::before, .j-card:hover::before, .service-card:hover::before, .expert-card:hover::before {
+            opacity: 1;
+        }
+        .feat-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 255, 255, 0.12);
+            background: #0A0A0A;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
+        }
+        .feat-img-wrap {
+            width: 100%;
+            aspect-ratio: 4/3;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
+            transition: all 0.4s ease;
+        }
+        .feat-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        .feat-card:hover .feat-img-wrap {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        .feat-card:hover .feat-img-wrap {
+            border-color: var(--accent);
+        }
+        .feat-card:hover .feat-img-wrap img {
+            transform: scale(1.05);
+        }
+        .feat-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+        .feat-card p {
+            color: var(--text-secondary);
+            font-size: 1.06rem;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        /* -------------------------------------
+           The Extended Cut (4 Portrait Cards + Line)
+           ------------------------------------- */
+        .extended-section {
+            position: relative;
+            padding-top: 4rem;
+        }
+        .extended-header h2 {
+            color: var(--luxury-point); 
+            font-size: 1.3rem;
+            font-family: 'Inter', sans-serif;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0;
+            font-weight: 700;
+        }
+        .extended-grid-wrapper {
+            position: relative;
+            margin-top: 3rem;
+        }
+        .horizontal-line {
+            position: absolute;
+            top: 50%;
+            left: -5vw;
+            width: 110vw;
+            height: 1px;
+            background: var(--border);
+            z-index: 0;
+            opacity: 0.6;
+        }
+        .extended-cut {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        .ext-card {
+            background: var(--bg-card);
+            padding: 1rem;
+            border-radius: 15px;
+            border: 1px solid var(--border);
+            transition: all 0.4s ease;
+        }
+        .ext-card .ext-img-wrap {
+            width: 100%;
+            aspect-ratio: 1/1.2;
+            border-radius: 10px;
+            margin-bottom: 1.2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.4s ease;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+        .ext-card .ext-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .ext-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(51, 45, 41, 0.08);
+            border-color: var(--luxury-point);
+        }
+        .ext-card:hover .ext-img-wrap {
+            border-color: var(--luxury-point);
+        }
+        .ext-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.6rem;
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-primary);
+            transition: color 0.3s ease;
+            font-weight: 800;
+        }
+        .ext-card:hover h3 {
+            color: var(--luxury-point);
+        }
+        .ext-card p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* -------------------------------------
+           My Journey (Overlapping Cards)
+           ------------------------------------- */
+        .journey-container {
+            position: relative;
+            height: 600px;
+            width: 100%;
+            margin-top: 4rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .j-card {
+            position: absolute;
+            width: 260px;
+            height: auto;
+            min-height: 360px;
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.8rem 1.8rem 3rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), z-index 0s, border-color 0.4s, box-shadow 0.4s;
+            display: flex;
+            flex-direction: column;
+        }
+        .j-card:nth-child(1) { transform: translateX(-350px) rotate(-8deg) translateY(-20px); z-index: 1; }
+        .j-card:nth-child(2) { transform: translateX(-130px) rotate(-3deg) translateY(-40px); z-index: 2; }
+        .j-card:nth-child(3) { transform: translateX(80px) rotate(4deg) translateY(-30px); z-index: 3; }
+        .j-card:nth-child(4) { transform: translateX(290px) rotate(11deg) translateY(-10px); z-index: 2; }
+
+        .j-card:hover {
+            transform: translateY(-20px) scale(1.05) !important;
+            z-index: 10 !important;
+            border-color: var(--accent);
+            box-shadow: 0 20px 45px rgba(255, 129, 74, 0.12);
+        }
+        .j-card .j-logo {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-primary);
+            font-family: 'Poppins', sans-serif;
+        }
+        .j-card .j-date {
+            font-size: 0.75rem;
+            color: var(--accent);
+            font-weight: 600;
+        }
+        .j-card h4 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            font-family: 'Poppins', sans-serif;
+            transition: color 0.3s ease;
+            font-weight: 800;
+        }
+        .j-card:hover h4 {
+            color: var(--accent);
+        }
+        .j-card p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-weight: 500;
+        }
+
+        /* -------------------------------------
+           Start a Conversation (Chat Bot UI)
+           ------------------------------------- */
+        .chat-contact {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border-radius: 32px;
+            border: 1px solid var(--border);
+            padding: 3.5rem;
+            box-shadow: 0 15px 40px rgba(51, 45, 41, 0.08);
+        }
+        .chat-messages {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+        .chat-msg {
+            max-width: 85%;
+            padding: 1.5rem 2rem;
+            border-radius: 25px;
+            font-size: 1.3rem; /* Significantly larger */
+            line-height: 1.6;
+            animation: fadeInUpSpring 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .msg-left {
+            align-self: flex-start;
+            background: var(--bg-color);
+            color: var(--text-primary);
+            border-bottom-left-radius: 4px;
+            border: 1px solid var(--border);
+            animation-delay: 0.2s;
+            box-shadow: 0 4px 15px rgba(51, 45, 41, 0.04);
+        }
+        .msg-right {
+            align-self: flex-end;
+            background: var(--accent);
+            color: #fff; 
+            border-bottom-right-radius: 4px;
+            animation-delay: 0.6s;
+            box-shadow: 0 5px 15px var(--accent-glow);
+            font-weight: 600;
+        }
+        .msg-btn {
+            align-self: flex-end;
+            background: var(--luxury-point); /* 민트 -> 프리미엄 골드 */
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            display: inline-block;
+            margin-top: 1.5rem;
+            padding: 1.2rem 2.5rem;
+            border-radius: 100px;
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+            animation-delay: 1.0s;
+            box-shadow: 0 5px 15px rgba(201, 166, 107, 0.2);
+        }
+        .msg-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(201, 166, 107, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            padding: 4rem 5%;
+            text-align: center;
+            font-size: 1.1rem; /* Larger footer text */
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            background: var(--bg-color);
+        }
+
+        /* Animations - Spring Physics */
+        @keyframes fadeInUpSpring {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(100px) rotateX(-15deg) scale(0.9);
+            transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                        transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+            perspective: 2000px;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0) rotateX(0) scale(1);
+        }
+
+        /* Staggered Entrance */
+        .stagger-item {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), 
+                        transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .stagger-item.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .stagger-item.is-visible:nth-child(1) { transition-delay: 0.1s; }
+        .stagger-item.is-visible:nth-child(2) { transition-delay: 0.2s; }
+        .stagger-item.is-visible:nth-child(3) { transition-delay: 0.3s; }
+        .stagger-item.is-visible:nth-child(4) { transition-delay: 0.4s; }
+        .stagger-item.is-visible:nth-child(5) { transition-delay: 0.5s; }
+        .stagger-item.is-visible:nth-child(6) { transition-delay: 0.6s; }
+
+        /* Responsive */
+        @media (max-width: 1100px) {
+            .journey-container {
+                height: auto;
+                flex-direction: column;
+                padding: 3rem 0;
+                gap: 2.5rem;
+                display: flex;
+            }
+            .j-card {
+                position: relative;
+                width: 95%;
+                max-width: 500px;
+                height: auto;
+                transform: none !important;
+                margin: 0 auto;
+            }
+            .extended-cut {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav { width: 95%; top: 1rem; }
+            .nav-links { padding: 0.8rem 1.5rem; gap: 1rem; }
+            .nav-links a { font-size: 0.85rem; }
+            
+            section { padding: 4rem 1.2rem; }
+            .section-header h2 { font-size: 2.2rem; margin-bottom: 1rem; }
+            .section-header p { font-size: 1.1rem; }
+            
+            .feature-presentation { grid-template-columns: 1fr; }
+            .extended-cut { grid-template-columns: 1fr; }
+            .horizontal-line { display: none; }
+            
+            .experts-grid { grid-template-columns: 1fr; gap: 30px; }
+            
+            .chat-contact { padding: 2rem 1rem; border-radius: 20px; }
+            .chat-msg { font-size: 1.1rem; max-width: 95%; }
+            
+            .cover-swiper .swiper-slide { width: 180px; height: 260px; }
+        }
+        
+        /* -------------------------------------
+           New Boxed Layout Styles
+           ------------------------------------- */
+        .hero-box {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+            box-shadow: none;
+            display: inline;
+            border-radius: 0;
+            margin: 0;
+        }
+        .premium-highlight {
+            color: var(--accent);
+            font-weight: 900;
+            position: relative;
+            display: inline-block;
+            margin: 0 4px;
+        }
+        /* Underline effect for keywords */
+        .premium-highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 0.15em;
+            left: 0;
+            width: 100%;
+            height: 0.2em;
+            background: var(--accent-glow);
+            z-index: -1;
+            border-radius: 2px;
+        }
+        .hero-tagline-main {
+            font-size: 4rem;
+            font-weight: 900;
+            color: #fff;
+            line-height: 1.2;
+            letter-spacing: -0.04em;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        @media (max-width: 768px) {
+            .hero-tagline-main { font-size: 2.5rem; }
+        }
+        .hero-btns {
+            margin-top: 3rem;
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            z-index: 100;
+            position: relative;
+        }
+        .hero-btn-outline {
+            border: 3px solid var(--accent); /* Thicker border */
+            padding: 18px 45px;
+            border-radius: 100px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            background: var(--bg-soft);
+            color: var(--accent);
+            font-weight: 900;
+            font-size: 1.3rem; /* Much larger action button */
+            box-shadow: 0 10px 25px rgba(255, 129, 74, 0.12);
+        }
+        .hero-btn-outline:hover {
+            background: var(--accent);
+            color: #fff;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px var(--accent-glow);
+        }
+        .hero-btn-outline .hero-box {
+            margin: 0;
+            padding: 2px 10px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            background: var(--bg-soft);
+            color: var(--luxury-point);
+        }
+
+        /* -------------------------------------
+           Premium Service Redesign Styles
+           ------------------------------------- */
+        .services-redesign {
+            padding: 120px 5%;
+            background: var(--bg-color);
+            position: relative;
+            overflow: hidden;
+            border-top: 1px solid var(--border);
+        }
+        .service-cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 3rem;
+            margin-top: 60px;
+        }
+        .service-card {
+            background: var(--bg-soft);
+            border: 1px solid var(--border);
+            padding: 60px 40px;
+            border-radius: 40px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 15px 35px rgba(51, 45, 41, 0.04);
+        }
+        .service-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 30px 60px rgba(51, 45, 41, 0.08);
+        }
+        .service-bg-text {
+            position: absolute;
+            bottom: -35px;
+            right: -25px;
+            font-size: 11rem;
+            font-weight: 900;
+            color: rgba(201, 166, 107, 0.05); /* 민트 -> 골드 투명 배경 */
+            line-height: 1;
+            z-index: 0;
+            pointer-events: none;
+            text-transform: uppercase;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: -6px;
+        }
+        .service-card h3 {
+            font-size: 2.2rem;
+            margin-bottom: 1.8rem;
+            color: var(--text-primary);
+            position: relative;
+            z-index: 1;
+            font-weight: 900;
+        }
+        .service-card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 3rem;
+            position: relative;
+            z-index: 1;
+            font-size: 1.35rem;
+            font-weight: 500;
+        }
+        .service-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            position: relative;
+            z-index: 1;
+        }
+        .service-list li {
+            color: var(--text-primary);
+            margin-bottom: 18px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .service-list li::before {
+            content: '✓';
+            color: var(--luxury-point);
+            font-weight: bold;
+            display: inline-block;
+            background: rgba(201, 166, 107, 0.15);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 24px;
+            font-size: 0.9rem;
+        }
+
+        /* ── 포트폴리오 상세 팝업 모달 ─────────────────── */
+        .pf-modal-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(10,8,6,0.92);
+            backdrop-filter: blur(16px);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .pf-modal-backdrop.open { display: flex; }
+
+        .pf-modal {
+            background: var(--bg-card, #1a1612);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 24px;
+            width: 100%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+            position: relative;
+            animation: modalIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.92) translateY(30px); }
+            to   { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .pf-close {
+            position: absolute;
+            top: 20px; right: 24px;
+            font-size: 1.8rem;
+            color: rgba(255,255,255,0.4);
+            cursor: pointer;
+            line-height: 1;
+            z-index: 10;
+            transition: color 0.2s;
+        }
+        .pf-close:hover { color: #fff; }
+
+        /* 갤러리 슬라이더 */
+        .pf-gallery {
+            position: relative;
+            width: 100%;
+            min-height: 280px;
+            max-height: 520px;
+            height: 50vw;
+            overflow: hidden;
+            border-radius: 24px 24px 0 0;
+            background: #0a0a0a;
+        }
+        .pf-gallery-slides {
+            display: flex;
+            height: 100%;
+            transition: transform 0.45s cubic-bezier(0.4,0,0.2,1);
+        }
+        .pf-slide {
+            min-width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #0a0a0a;
+        }
+        .pf-thumb-placeholder {
+            width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 4rem; color: rgba(255,255,255,0.1);
+        }
+        .pf-gallery-btn {
+            position: absolute;
+            top: 50%; transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            border: none; color: #fff;
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .pf-gallery-btn:hover { background: var(--accent, #c9a227); }
+        .pf-gallery-btn.prev { left: 16px; }
+        .pf-gallery-btn.next { right: 16px; }
+        .pf-gallery-dots {
+            position: absolute;
+            bottom: 14px; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 6px;
+        }
+        .pf-dot {
+            width: 7px; height: 7px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.35);
+            cursor: pointer; border: none;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .pf-dot.active { background: #fff; transform: scale(1.3); }
+
+        /* 상세 내용 */
+        .pf-body { padding: 32px 36px 40px; }
+        .pf-tag {
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 99px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            margin-bottom: 14px;
+        }
+        .pf-tag.branding { background: rgba(168,85,247,0.15); color: #c084fc; }
+        .pf-tag.consulting { background: rgba(59,130,246,0.15); color: #60a5fa; }
+        .pf-tag.video { background: rgba(234,179,8,0.15); color: #fde047; }
+        .pf-tag.integrated { background: rgba(34,197,94,0.15); color: #4ade80; }
+
+        .pf-title { font-size: 2rem; font-weight: 900; color: #fff; margin-bottom: 6px; }
+        .pf-client { color: rgba(255,255,255,0.4); font-size: 0.95rem; margin-bottom: 28px; }
+
+        .pf-sections { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+        @media(max-width: 650px) { .pf-sections { grid-template-columns: 1fr; } }
+        .pf-section-item {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 14px;
+            padding: 20px;
+        }
+        .pf-section-item h4 {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--luxury-point);
+            margin-bottom: 10px;
+        }
+        .pf-section-item p {
+            font-size: 0.92rem;
+            color: rgba(255,255,255,0.65);
+            line-height: 1.7;
+        }
+        .pf-tags-row { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 8px; }
+        .pf-chip {
+            padding: 5px 13px;
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 99px;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* 카드 클릭 커서 */
+        #portfolio-grid .ext-card { cursor: pointer; }
+        #portfolio-grid .ext-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
+
+        @keyframes pulse {
+            0% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+            100% { opacity: 0.3; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <ul class="nav-links">
+            <li><a href="#home">홈</a></li>
+            <li><a href="#portfolio">포트폴리오</a></li>
+            <li><a href="#journey">우리의 성장</a></li>
+            <li><a href="#services">서비스 패키지</a></li>
+            <li><a href="#contact">문의하기</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-title-wrap fade-in-section is-visible">
+            <!-- Simplified, High-Impact Header -->
+            <h1 class="hero-tagline-main">
+                장사 바쁜 사장님,<br>
+                브랜딩·홍보는 이제 <span class="premium-highlight">THE 3</span>에게 맡기세요!
+            </h1>
+
+            <p id="hero-subtitle-wrap" style="margin-bottom: 2rem;">
+                <span id="hero-subtitle" style="font-size: 1.5rem; font-weight: 600; color: var(--text-secondary); letter-spacing: -0.02em;">
+                    대기업 퀄리티 로고·릴스·간판을 <span style="color: var(--luxury-point);">동네 가게 맞춤 비용</span>으로.
+                </span>
+            </p>
+
+            <p id="hero-top-phrase" style="margin-bottom: 3.5rem; font-size: 1.1rem; font-weight: 400; color: var(--text-muted); max-width: 600px; margin-left: auto; margin-right: auto;">
+                사장님은 장사만 하세요. 성장의 모든 과정은 저희가 책임지고 설계합니다.
+            </p>
+            
+            <div class="hero-btns fade-in-section" style="transition-delay: 0.4s;">
+                <a href="#contact" class="btn btn-primary" style="padding: 20px 45px; font-size: 1.2rem; background-color: var(--accent); color: #fff; text-decoration: none;">
+                    우리 가게 무료 진단받기
+                </a>
+                <a href="#results" class="hero-btn-outline" style="background: rgba(255,255,255,0.03); backdrop-filter: blur(10px); color: #fff; border: 1px solid rgba(255,255,255,0.2); text-decoration: none;">
+                    실제 성장 사례 보기
+                </a>
+            </div>
+
+            <!-- Canvas container for the decorative effect -->
+            <div class="canvas-container">
+                <canvas id="text-canvas" style="position: absolute; top:0; left:0; width: 100%; height: 100%; pointer-events: none;"></canvas>
+            </div>
+        </div>
+
+        <!-- Old iPhone Music App Cover Flow (Swiper) -->
+        <div class="swiper-container-wrap fade-in-section is-visible" style="transition-delay: 0.3s; z-index: 5;">
+            <div class="swiper cover-swiper">
+                <div class="swiper-wrapper" id="hero-swiper-wrapper">
+                    <!-- Album format cards (Dynamic) -->
+                </div>
+                <!-- Pagination -->
+                <div class="swiper-pagination"></div>
+            </div>
+            <!-- Swipe text hint -->
+            <p style="text-align: center; color: var(--accent); font-size: 0.85rem; margin-top: 1rem; opacity: 0.8; animation: pulse 2s infinite; font-weight: 600;">
+                마우스(스크롤)를 좌우로 밀어서 앨범 넘기기 ↔
+            </p>
+        </div>
+    </section>
+
+
+    <!-- Before & After Section (New) -->
+    <section class="ba-section" id="results" style="padding: 100px 5%; background: var(--bg-color);">
+        <div class="section-header fade-in-section">
+            <h2 style="font-family: 'Poppins', sans-serif;">Real Results</h2>
+            <p style="color: rgba(255,255,255,0.6);">디자인 하나로 바뀌는 가게의 매출, 직접 확인해보세요.</p>
+        </div>
+
+        <div class="ba-container fade-in-section" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 3rem; margin-top: 50px;">
+            <!-- Example 1 -->
+            <div class="ba-item stagger-item">
+                <div style="position: relative; border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);">
+                    <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=800&auto=format&fit=crop" class="parallax-img" style="width: 100%; height: 350px; object-fit: cover; filter: grayscale(100%) brightness(50%);" alt="Before">
+                    <div style="position: absolute; top: 10px; left: 10px; background: #666; padding: 5px 10px; border-radius: 5px; font-size: 0.7rem; font-weight: bold;">BEFORE</div>
+                </div>
+                <div style="margin-top: -50px; position: relative; z-index: 2; padding: 0 15px;">
+                    <div style="position: relative; border-radius: 20px; overflow: hidden; border: 2px solid var(--luxury-point); box-shadow: 0 15px 35px rgba(201,166,107,0.2);">
+                        <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=800&auto=format&fit=crop" style="width: 100%; height: 250px; object-fit: cover;" alt="After">
+                        <div style="position: absolute; top: 10px; left: 10px; background: var(--luxury-point); padding: 5px 10px; border-radius: 5px; font-size: 0.7rem; font-weight: bold; color: #000;">AFTER THE3</div>
+                    </div>
+                </div>
+                <div style="margin-top: 20px; text-align: center;">
+                    <h3 style="font-size: 1.2rem; margin-bottom: 5px;">동네 작은 카페 A</h3>
+                    <p style="color: var(--luxury-point); font-weight: bold;">방문객 40% 증가</p>
+                </div>
+            </div>
+
+            <!-- Example 2 -->
+            <div class="ba-item stagger-item">
+                <div style="position: relative; border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);">
+                    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=800&auto=format&fit=crop" class="parallax-img" style="width: 100%; height: 350px; object-fit: cover; filter: grayscale(100%) brightness(50%);" alt="Before">
+                    <div style="position: absolute; top: 10px; left: 10px; background: #666; padding: 5px 10px; border-radius: 5px; font-size: 0.7rem; font-weight: bold;">BEFORE</div>
+                </div>
+                <div style="margin-top: -50px; position: relative; z-index: 2; padding: 0 15px;">
+                    <div style="position: relative; border-radius: 20px; overflow: hidden; border: 2px solid var(--luxury-point); box-shadow: 0 15px 35px rgba(201,166,107,0.2);">
+                        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=800&auto=format&fit=crop" style="width: 100%; height: 250px; object-fit: cover;" alt="After">
+                        <div style="position: absolute; top: 10px; left: 10px; background: var(--luxury-point); padding: 5px 10px; border-radius: 5px; font-size: 0.7rem; font-weight: bold; color: #000;">AFTER THE3</div>
+                    </div>
+                </div>
+                <div style="margin-top: 20px; text-align: center;">
+                    <h3 style="font-size: 1.2rem; margin-bottom: 5px;">전통 한식당 B</h3>
+                    <p style="color: var(--luxury-point); font-weight: bold;">인스타 예약 문의 3배 급증</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="extended-section" id="portfolio">
+        <div class="section-header extended-header fade-in-section">
+            <h2>Portfolio</h2>
+            <p style="font-size: 0.95rem; color: var(--text-secondary);">사장님들과 함께 고민하고 해결하며 쌓아온 소중한 기록들입니다.</p>
+        </div>
+
+        <div class="extended-grid-wrapper">
+            <div class="horizontal-line"></div>
+            <div id="portfolio-grid" class="extended-cut fade-in-section">
+                <!-- Data will be loaded from API -->
+                <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted);">
+                    등록된 포트폴리오를 불러오는 중입니다...
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- My Journey Section -->
+    <section class="journey" id="journey">
+        <div class="section-header fade-in-section">
+            <h2 style="font-family: 'Noto Sans KR', sans-serif;">우리 여정: 동네 가게부터 시작해 큰 꿈까지</h2>
+            <p>압도적 실력을 가진 전문가들이 사장님 곁에서 함께합니다.<br>이름만 대면 아는 대기업 프로젝트부터, 골목 상권의 작은 성공까지 모두 경험했습니다.</p>
+        </div>
+
+        <div class="journey-container fade-in-section" id="journey-grid">
+            <div style="grid-column:1/-1;text-align:center;padding:60px;color:rgba(255,255,255,0.2);">여정 데이터를 불러오는 중...</div>
+        </div>
+    </section>
+
+    <!-- THE 3: Experts Section -->
+    <section class="experts-section" id="experts" style="padding: 120px 0; background: var(--bg-soft) !important; color: #fff;">
+        <div class="container">
+            <div class="section-header fade-in-section">
+                <h2 style="font-family: 'Noto Sans KR', sans-serif; color: #fff !important;">THE 3: 사장님의 성장을 돕는 전문가들</h2>
+                <p style="color: var(--text-gray) !important;">각 분야 최고의 전문가 3인이 사장님 브랜드의 처음부터 끝까지 책임집니다.<br>얼굴을 걸고 약속하는 압도적인 퀄리티를 경험하세요.</p>
+            </div>
+            
+            <div class="experts-grid fade-in-section" id="team-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; margin-top: 60px;">
+                <!-- API에서 자동 로드됩니다 -->
+                <div style="grid-column:1/-1;text-align:center;padding:40px;color:rgba(255,255,255,0.3);">
+                    팀 정보를 불러오는 중...
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .expert-card:hover img { filter: grayscale(0) !important; transform: scale(1.05); }
+    </style>
+
+    <!-- Services Redesign Section -->
+    <section class="services-redesign" id="services">
+        <div class="section-header fade-in-section">
+            <h2 style="font-family: 'Poppins', sans-serif; letter-spacing: -1px;">필요한 것만 딱! 맞춤 서비스</h2>
+            <p style="color: rgba(255,255,255,0.6); max-width: 600px; margin: 0 auto; line-height: 1.6;">"옆 가게는 왜 바쁠까?" 고민하지 마세요.<br>THE3 STUDIO가 사장님의 무기를 찾아드립니다.</p>
+        </div>
+        
+        <div class="service-cards-container fade-in-section">
+            <div class="service-card stagger-item">
+                <div class="service-bg-text">THE</div>
+                <div class="service-content">
+                    <span class="hero-box" style="font-size: 0.7rem; margin-bottom: 1rem;">STRATEGY</span>
+                    <h3>우리 가게<br>대박 전략</h3>
+                    <p>시작부터 꼬이지 않게, 동네 상권을 분석하고 타겟 고객이 누구인지 명확하게 찾아 실패 없는 탄탄한 뼈대를 세워 드립니다.</p>
+                    <ul class="service-list">
+                        <li>진짜 '우리 가게' 장점 분석</li>
+                        <li>단골 만드는 동네 상권 분석</li>
+                        <li>사장님 고민 해결 1:1 진단</li>
+                        <li>최적의 가격/메뉴 전략 제안</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Card 2: Branding Design -> 로고·간판·명함 -->
+            <div class="service-card stagger-item">
+                <div class="service-bg-text">3</div>
+                <div class="service-content">
+                    <span class="hero-box" style="font-size: 0.7rem; margin-bottom: 1rem; background-color: var(--luxury-point);">IDENTITY</span>
+                    <h3>로고·간판·명함<br>한 번에</h3>
+                    <p>멀리서도 눈에 띄고, 명함 한 장만으로도 대접받는 느낌을 주는 비주얼을 만듭니다. '비싸 보이는' 가게의 비밀, 디자인에 있습니다.</p>
+                    <ul class="service-list">
+                        <li>눈에 쏙 들어오는 로고 제작</li>
+                        <li>명함, 전단지, 메뉴판 디자인</li>
+                        <li>매장 분위기 맞춤형 유니폼</li>
+                        <li>간판 및 인테리어 비주얼 가이드</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Card 3: Video Production -> 브랜드 스토리, 영화가 되다 -->
+            <div class="service-card stagger-item">
+                <div class="service-bg-text">STUDIO</div>
+                <div class="service-content">
+                    <span class="hero-box" style="font-size: 0.7rem; margin-bottom: 1rem;">MOTION</span>
+                    <h3>브랜드 스토리,<br>영화가 되다</h3>
+                    <p>영화 같은 정교함으로 브랜드 스토리에 생명력을 불어넣습니다. 창의적인 스토리텔링부터 완벽한 마무리까지, 하이엔드 비주얼 마스터피스를 제작합니다.</p>
+                    <ul class="service-list">
+                        <li>하이엔드 기업·브랜드 홍보 필름</li>
+                        <li>광고 영상 기획 및 고퀄리티 촬영</li>
+                        <li>조회수 중심의 소셜 미디어 바이럴</li>
+                        <li>정교한 모션 그래픽 및 애니메이션</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing & Packages Section (New) -->
+    <section class="pricing-section" id="pricing" style="padding: 100px 5%; background: var(--bg-main); text-align: center; border-top: 1px solid var(--border);">
+        <div class="section-header fade-in-section">
+            <h2 style="font-family: 'Poppins', sans-serif;">Affordable Packages</h2>
+            <p style="color: rgba(255,255,255,0.6);">대행사 거품은 빼고, 사장님께 꼭 필요한 것만 담았습니다.</p>
+        </div>
+        
+        <div class="service-cards-container fade-in-section" style="margin-top: 50px;">
+            <div class="service-card stagger-item" style="min-height: auto; padding: 40px 30px;">
+                <h4 style="color: var(--secondary); font-size: 1rem; margin-bottom: 1rem; font-weight: 700;">BASIC</h4>
+                <h3>실속형 패키지</h3>
+                <p>로고 + 명함 + 네이버 플레이스 세팅</p>
+                <div style="font-size: 1.8rem; font-weight: 900; color: var(--text-primary); margin: 1.5rem 0;">총 120~180만원<br><span style="font-size: 1rem; color: var(--text-secondary); font-weight: 500;">(월 분할 납부 가능)</span></div>
+                <a href="#contact" class="btn btn-primary" style="padding: 12px 24px; font-size: 1rem; width: 100%; color: #fff; text-decoration: none;">문의하기</a>
+            </div>
+            <div class="service-card stagger-item" style="min-height: auto; padding: 40px 30px; border-color: var(--luxury-point);">
+                <h4 style="color: var(--secondary); font-size: 1rem; margin-bottom: 1rem; font-weight: 700;">POPULAR</h4>
+                <h3>홍보 끝판왕 패키지</h3>
+                <p style="margin-bottom: 0.5rem;">로고 + SNS 숏폼 영상 4편 + 광고 가이드</p>
+                <p style="font-size: 0.9rem; color: var(--primary); font-weight: 700;">🔥 실제 사례: 릴스 4편으로 주말 웨이팅 발생!</p>
+                <div style="font-size: 1.8rem; font-weight: 900; color: var(--text-primary); margin: 1.5rem 0;">총 250~450만원<br><span style="font-size: 1rem; color: var(--text-secondary); font-weight: 500;">(월 분할 납부 가능)</span></div>
+                <a href="#contact" class="btn btn-primary" style="padding: 12px 24px; font-size: 1rem; width: 100%; color: #fff; text-decoration: none;">가장 많이 찾아요</a>
+            </div>
+            <div class="service-card stagger-item" style="min-height: auto; padding: 40px 30px;">
+                <h4 style="color: var(--luxury-point); font-size: 1rem; margin-bottom: 1rem; font-weight: 700;">CUSTOM</h4>
+                <h3>맞춤형 솔루션</h3>
+                <p>가게 오픈부터 운영 전략까지 1:1 밀착 관리</p>
+                <div style="font-size: 1.8rem; font-weight: 900; color: var(--text-primary); margin: 1.5rem 0;">1:1 무료 미팅 후<br><span style="font-size: 1rem; color: var(--text-secondary); font-weight: 500;">정확한 견적 제안</span></div>
+                <a href="#contact" class="btn btn-primary" style="padding: 12px 24px; font-size: 1rem; width: 100%; color: #fff; text-decoration: none;">무료 진단받기</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Chat Section -->
+    <section class="contact" id="contact">
+        <div class="section-header fade-in-section" style="font-family: 'Courier New', monospace;">
+            <h2 style="font-family: inherit;">Start a Conversation</h2>
+            <p>복잡하고 막막한 기획서는 잊으세요. 지금 채팅하듯 편하게 대화를 시작해 볼까요?</p>
+        </div>
+
+        <div class="chat-contact fade-in-section">
+            <div class="chat-messages">
+                <div class="chat-msg msg-left">
+                    안녕하세요! 매장 오픈이나 브랜드 리뉴얼 때문에 고민이 많으시죠? 어떤 부분이 제일 막막하신지 편하게 말씀해 주세요. 🤔
+                </div>
+                <div class="chat-msg msg-right">
+                    디자인 퀄리티는 백화점 브랜드처럼 높이고 싶은데, 솔직히 예산이 한정적이라서요. 로고, 명함, 간판, 인스타 광고까지 전부 필요하긴 한데...
+                </div>
+                <div class="chat-msg msg-left" style="animation-delay: 0.8s;">
+                    제일 많이 듣는 고민입니다. THE3 STUDIO는 오직 소상공인만을 위한 '거품 제로 맞춤형 패키지'를 설계해 드립니다. 지금 바로 무료 진단부터 받아 보실래요? 😊
+                </div>
+                <a href="mailto:hello@the3studio.com" class="chat-msg msg-btn">
+                    👉 무료 진단 시작하기 💬 
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 THE3 STUDIO. Crafted with passion for Local Businesses.</p>
+    </footer>
+
+    <!-- Floating Contact Button & AI Chatbot -->
+    <div class="contact-suite">
+        <!-- AI Chatbot Window -->
+        <div id="chatbot-window" class="chatbot-window">
+            <div class="chat-header">
+                <div class="chat-avatar">👤</div>
+                <div class="chat-info">
+                    <strong>THE3 사장님 도우미</strong>
+                    <span>답변이 빨라요!</span>
+                </div>
+                <button id="close-chat" class="close-chat">&times;</button>
+            </div>
+            <div id="chat-messages" class="chat-messages">
+                <div class="message bot-message">
+                    안녕하세요 사장님! 오늘 장사는 어떠셨나요? 😊<br>
+                    THE3 STUDIO가 사장님의 든든한 파트너가 되어드릴게요. 궁금한 점이 있으신가요?
+                </div>
+            </div>
+            <div id="chat-input-area" class="chat-input-area" style="display: none;">
+                <input type="text" id="chat-input" placeholder="성함을 입력해 주세요..." autocomplete="off">
+                <button id="send-chat" class="send-btn">전송</button>
+            </div>
+            <div id="chat-options" class="chat-options">
+                <button onclick="handleChatOption('가격')">💰 가격 궁금해요</button>
+                <button onclick="handleChatOption('기간')">⏱ 얼마나 걸리나요?</button>
+                <button onclick="handleChatOption('효과')">📈 진짜 효과 있나요?</button>
+                <button id="consult-btn" onclick="handleChatOption('상담')">💬 상담 신청하기</button>
+            </div>
+        </div>
+
+        <!-- Floating Toggle Button (Simplified) -->
+        <a href="javascript:void(0)" id="chat-toggle" class="floating-contact">
+            <span class="pulse-ring"></span>
+            <span class="chat-icon">💬</span>
+        </a>
+    </div>
+
+    <style>
+        .contact-suite {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 2000;
+        }
+
+        /* Chatbot Window */
+        .chatbot-window {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 350px;
+            height: 500px;
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 25px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform: translateY(20px);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .chatbot-window.active {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .chat-header {
+            padding: 20px;
+            background: var(--bg-soft);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border);
+        }
+        .chat-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--luxury-point); /* 민트 -> 골드 아바타 */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #000;
+        }
+        .chat-info strong { display: block; font-size: 0.95rem; color: var(--text-primary); }
+        .chat-info span { font-size: 0.75rem; color: var(--text-secondary); }
+        .close-chat {
+            margin-left: auto;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0.8;
+            transition: color 0.3s;
+        }
+        .close-chat:hover { color: var(--accent); }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background: var(--bg-color);
+        }
+        .message {
+            max-width: 85%;
+            padding: 12px 18px;
+            border-radius: 18px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        .bot-message {
+            background: var(--bg-soft);
+            color: var(--text-primary);
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+            border: 1px solid var(--border);
+        }
+        .user-message {
+            background: var(--accent);
+            color: #fff;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+        /* Chat Input Area */
+        .chat-input-area {
+            padding: 15px;
+            display: flex;
+            gap: 10px;
+            background: var(--bg-soft);
+            border-top: 1px solid var(--border);
+        }
+        .chat-input-area input {
+            flex: 1;
+            background: var(--bg-main);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 10px 15px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+        .chat-input-area input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        .send-btn {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            padding: 0 20px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .chat-options {
+            padding: 15px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            border-top: 1px solid var(--border);
+            background: var(--bg-soft);
+        }
+        .chat-options button {
+            background: var(--bg-main);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 10px 5px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .chat-options button:hover {
+            background: var(--bg-soft);
+            border-color: var(--luxury-point);
+            color: var(--luxury-point);
+        }
+
+        /* Floating Toggle Label Style (Existing) */
+        .floating-contact {
+            width: 70px;
+            height: 70px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-decoration: none;
+            box-shadow: 0 10px 30px rgba(230, 62, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            cursor: pointer;
+            z-index: 2001;
+        }
+        .floating-contact:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 15px 40px rgba(255, 126, 54, 0.4);
+        }
+        .chat-icon {
+            font-size: 2rem;
+        }
+        /* ... existing pulse animations ... */
+        .pulse-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: rgba(255, 126, 54, 0.4);
+            left: 0;
+            top: 0;
+            animation: ring-pulse 2s infinite;
+            z-index: -1;
+        }
+        @keyframes ring-pulse {
+            0% { transform: scale(1); opacity: 0.6; }
+            100% { transform: scale(1.3); opacity: 0; }
+        }
+        @media (max-width: 480px) {
+            .chatbot-window { width: 90vw; height: 70vh; bottom: 70px; right: -10px; }
+            .contact-text { display: none; }
+            .floating-contact { padding: 15px; border-radius: 50%; width: 55px; height: 55px; justify-content: center; }
+        }
+    </style>
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        // Swiper initialization is now handled after API fetch
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, idx) => {
+                if (entry.isIntersecting) {
+                    // Stagger child elements if they exist
+                    const children = entry.target.querySelectorAll('.stagger-item');
+                    if(children.length > 0) {
+                        children.forEach((child, cIdx) => {
+                            child.style.transitionDelay = `${cIdx * 0.1}s`;
+                            child.classList.add('is-visible');
+                        });
+                    }
+                    
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); 
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-section').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Simple Parallax Effect on Scroll
+        window.addEventListener('scroll', () => {
+            const parallaxImages = document.querySelectorAll('.parallax-img');
+            
+            parallaxImages.forEach(img => {
+                const speed = 0.1; // Reduced for subtle feel
+                const parentRect = img.parentElement.getBoundingClientRect();
+                const offset = parentRect.top;
+                
+                // Optimized movement
+                img.style.transform = `translateY(${offset * speed}px) scale(1.1)`;
+                img.style.transition = 'transform 0.1s linear'; 
+            });
+        });
+
+        // -------------------------------------------------------------
+        // Particle Dissolve Text (Sand/Dust Wind Effect)
+        // -------------------------------------------------------------
+        const canvas = document.getElementById('text-canvas');
+        if(canvas) {
+            const ctx = canvas.getContext('2d', { willReadFrequently: true });
+            let particles = [];
+            let words = ["Brand Strategy", "Visual Design", "Video Production"]; // Default, will be overwritten
+            let wordIdx = 0;
+            let isExploding = false;
+
+            // Density map: low step = high density exactly like sand
+            const step = 2; 
+
+            class Particle {
+                constructor(x, y) {
+                    this.originX = x;
+                    this.originY = y;
+                    // Spawn them slightly to the left, scattered
+                    this.x = x - (Math.random() * 150 + 20);
+                    this.y = y + (Math.random() - 0.5) * 40;
+                    // Base velocity for blowing away to the right
+                    this.baseVx = Math.random() * 4 + 1.5;
+                    this.baseVy = (Math.random() - 0.5) * 2 - 0.5;
+                    this.vx = this.baseVx;
+                    this.vy = this.baseVy;
+                    this.alpha = 0;
+                    this.size = step * 1.5; // Overlap for solid typography
+                    this.baseSize = this.size;
+                    this.color = '#C9A66B'; // Premium Warm Gold
+                }
+                update() {
+                    if (isExploding) {
+                        // Sand blowing to the right
+                        this.x += this.vx * 1.5;
+                        this.y += this.vy * 1.5;
+                        this.vx *= 1.02; // Accelerate with wind
+                        this.alpha -= 0.025; // Gradual fade
+                        this.size *= 0.98; // Shrink to dust
+                    } else {
+                        // Reset properties when forming
+                        this.vx = this.baseVx;
+                        this.vy = this.baseVy;
+                        this.size = this.baseSize;
+                        
+                        // Assemble back together smoothly
+                        const dx = this.originX - this.x;
+                        const dy = this.originY - this.y;
+                        this.x += dx * 0.15;
+                        this.y += dy * 0.15;
+                        
+                        // Snap exactly to origin if very close, to prevent jitter
+                        if (Math.abs(dx) < 0.1) this.x = this.originX;
+                        if (Math.abs(dy) < 0.1) this.y = this.originY;
+
+                        if (this.alpha < 1) this.alpha += 0.08;
+                    }
+                }
+                draw() {
+                    if (this.alpha <= 0 || this.size <= 0.1) return;
+                    ctx.globalAlpha = Math.max(0, this.alpha);
+                    ctx.fillStyle = this.color;
+                    ctx.fillRect(this.x, this.y, this.size, this.size);
+                }
+            }
+
+            function initText() {
+                canvas.width = window.innerWidth;
+                canvas.height = 120;
+                particles = [];
+                
+                ctx.clearRect(0,0, canvas.width, canvas.height);
+                const fontSize = window.innerWidth < 768 ? '40px' : '64px';
+                ctx.font = `800 ${fontSize} Poppins, sans-serif`;
+                ctx.fillStyle = "#fff";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillText(words[wordIdx], canvas.width/2, canvas.height/2);
+                
+                const imageData = ctx.getImageData(0,0, canvas.width, canvas.height);
+                const data = imageData.data;
+                ctx.clearRect(0,0, canvas.width, canvas.height);
+                
+                for(let y=0; y<canvas.height; y+=step) {
+                    for(let x=0; x<canvas.width; x+=step) {
+                        const index = (y * canvas.width + x) * 4;
+                        const alpha = data[index + 3];
+                        if(alpha > 128) {
+                            particles.push(new Particle(x, y));
+                        }
+                    }
+                }
+            }
+
+            function animateParticles() {
+                ctx.clearRect(0,0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+                requestAnimationFrame(animateParticles);
+            }
+
+            window.addEventListener('load', () => {
+                fetch('/api/get_hero.php')
+                    .then(res => res.json())
+                    .then(data => {
+                        // 1. Update Texts
+                        if (data.settings) {
+                            if (data.settings.hero_top_phrase) document.getElementById('hero-top-phrase').innerText = data.settings.hero_top_phrase;
+                            if (data.settings.hero_subtitle) document.getElementById('hero-subtitle').innerText = data.settings.hero_subtitle;
+                            if (data.settings.hero_title) document.getElementById('hero-title').innerText = data.settings.hero_title;
+                            if (data.settings.hero_particle_words) {
+                                words = data.settings.hero_particle_words.split(',').map(w => w.trim());
+                            }
+                        }
+
+                        // 2. Add Swiper Slides
+                        if (data.carousel && data.carousel.length > 0) {
+                            const swiperWrapper = document.getElementById('hero-swiper-wrapper');
+                            data.carousel.forEach(item => {
+                                const slide = document.createElement('div');
+                                slide.className = 'swiper-slide';
+                                const imgSrc = item.image_path.startsWith('http') ? item.image_path : `/uploads/${item.image_path}`;
+                                slide.style.backgroundImage = `url('${imgSrc}')`;
+                                swiperWrapper.appendChild(slide);
+                            });
+                        }
+
+                        // 3. Init Swiper
+                        var swiper = new Swiper(".cover-swiper", {
+                            effect: "coverflow",
+                            grabCursor: true,
+                            centeredSlides: true,
+                            slidesPerView: "auto",
+                            initialSlide: Math.floor(data.carousel.length / 2) || 2,
+                            loop: true,
+                            speed: 800,
+                            coverflowEffect: {
+                                rotate: 50,       
+                                stretch: -30, // Overlap
+                                depth: 250,       
+                                modifier: 1,
+                                slideShadows: true, 
+                            },
+                            mousewheel: {
+                                invert: false,
+                            },
+                            pagination: {
+                                el: ".swiper-pagination",
+                                clickable: true,
+                            },
+                        });
+
+                        // 4. Start Particles
+                        initText();
+                        animateParticles();
+                        setInterval(() => {
+                            isExploding = true;
+                            setTimeout(() => {
+                                wordIdx = (wordIdx + 1) % words.length;
+                                initText();
+                                isExploding = false;
+                            }, 1200); 
+                        }, 4000); 
+                        // 5. Mouse Interaction
+                        const hero = document.querySelector('.hero');
+                        const titleWrap = document.querySelector('.hero-title-wrap');
+                        let mouseX = 0;
+                        let mouseY = 0;
+
+                        window.addEventListener('mousemove', (e) => {
+                            mouseX = e.clientX;
+                            mouseY = e.clientY;
+                            
+                            // 3D Tilt Effect
+                            const centerX = window.innerWidth / 2;
+                            const centerY = window.innerHeight / 2;
+                            const tiltX = (mouseY - centerY) / 30; 
+                            const tiltY = (centerX - mouseX) / 30;
+                            
+                            if(titleWrap) {
+                                titleWrap.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+                            }
+
+                            // Particle Reaction
+                            particles.forEach(p => {
+                                const dx = mouseX - (p.x + canvas.offsetLeft);
+                                const dy = mouseY - (p.y + canvas.offsetTop);
+                                const dist = Math.sqrt(dx*dx + dy*dy);
+                                if(dist < 100) {
+                                    const force = (100 - dist) / 100;
+                                    p.x -= dx * force * 0.2;
+                                    p.y -= dy * force * 0.2;
+                                }
+                            });
+
+                            // Parallax Effect for .parallax-img
+                            const parallaxImgs = document.querySelectorAll('.parallax-img');
+                            parallaxImgs.forEach(img => {
+                                const speed = 0.02;
+                                const x = (window.innerWidth - e.pageX * speed) / 100;
+                                const y = (window.innerHeight - e.pageY * speed) / 100;
+                                img.style.transform = `translateX(${x}px) translateY(${y}px) scale(1.1)`;
+                            });
+                        });
+
+                        // 6. Staggered Animations Observer
+                        const staggerObserver = new IntersectionObserver((entries) => {
+                            entries.forEach((entry) => {
+                                if (entry.isIntersecting) {
+                                    const parent = entry.target;
+                                    const items = parent.querySelectorAll('.stagger-item');
+                                    items.forEach((item, index) => {
+                                        setTimeout(() => {
+                                            item.classList.add('is-visible');
+                                        }, index * 150); // 150ms delay for each item
+                                    });
+                                    staggerObserver.unobserve(parent);
+                                }
+                            });
+                        }, { threshold: 0.1 });
+
+                        document.querySelectorAll('.service-cards-container, .extended-cut, .experts-grid').forEach(el => {
+                            staggerObserver.observe(el);
+                        });
+
+
+                        // 7. AI Chatbot Logic
+                        const chatToggle = document.getElementById('chat-toggle');
+                        const chatbotWindow = document.getElementById('chatbot-window');
+                        const closeChat = document.getElementById('close-chat');
+                        const chatMessages = document.getElementById('chat-messages');
+                        const chatInputArea = document.getElementById('chat-input-area');
+                        const chatInput = document.getElementById('chat-input');
+                        const sendChat = document.getElementById('send-chat');
+                        const chatOptions = document.getElementById('chat-options');
+
+                        let chatState = 'idle'; // idle, naming, phoning
+                        let leadData = { name: '', phone: '' };
+
+                        chatToggle.addEventListener('click', () => {
+                            chatbotWindow.classList.toggle('active');
+                        });
+
+                        closeChat.addEventListener('click', () => {
+                            chatbotWindow.classList.remove('active');
+                        });
+
+                        window.handleChatOption = function(type) {
+                            let userMsg = '';
+                            let botMsg = '';
+
+                            if (type === '상담') {
+                                chatState = 'naming';
+                                chatOptions.style.display = 'none';
+                                chatInputArea.style.display = 'flex';
+                                chatInput.placeholder = "성함을 입력해 주세요...";
+                                appendMessage("💬 상담 신청을 시작합니다.", 'user-message');
+                                setTimeout(() => {
+                                    appendMessage("반갑습니다 사장님! 먼저 성함(가게 이름)이 어떻게 되시나요? 😊", 'bot-message');
+                                }, 500);
+                                return;
+                            }
+
+                            switch(type) {
+                                case '가격':
+                                    userMsg = "💰 가격이 궁금해요.";
+                                    botMsg = "사장님, 가격 걱정 마세요! 저희는 거품을 쏙 뺀 '실속형 패키지(100만원대~)'부터 준비되어 있습니다. 사장님의 현재 상황에 딱 맞는 합리적인 견적을 무료로 상담해 드릴게요. 😊";
+                                    break;
+                                case '기간':
+                                    userMsg = "⏱ 제작 기간은 얼마나 걸리나요?";
+                                    botMsg = "보통 로고와 기본 브랜딩은 1~2주, 영상은 기획 후 1주 내외로 완성됩니다. 사장님의 오픈 일정에 늦지 않도록 가장 빠른 스케줄로 맞춰드릴게요!";
+                                    break;
+                                case '효과':
+                                    userMsg = "📈 진짜 효과가 있을까요?";
+                                    botMsg = "네, 확신합니다! 단순히 예쁜 게 아니라 '손님이 클릭하게 만드는' 디자인을 합니다. 이미 많은 사장님들이 비주얼 개편 후 매출 상승을 경험하셨어요. 'Before & After' 섹션에서 실제 결과를 확인해 보세요!";
+                                    break;
+                            }
+
+                            appendMessage(userMsg, 'user-message');
+                            setTimeout(() => {
+                                appendMessage(botMsg, 'bot-message');
+                            }, 500);
+                        };
+
+                        function processInput() {
+                            const val = chatInput.value.trim();
+                            if (!val) return;
+
+                            appendMessage(val, 'user-message');
+                            chatInput.value = '';
+
+                            if (chatState === 'naming') {
+                                leadData.name = val;
+                                chatState = 'phoning';
+                                chatInput.placeholder = "연락처를 입력해 주세요...";
+                                setTimeout(() => {
+                                    appendMessage(`${leadData.name} 사장님, 반갑습니다! 연락처를 남겨주시면 10분 내로 확인 후 빠르게 연락드릴게요. 📞`, 'bot-message');
+                                }, 500);
+                            } else if (chatState === 'phoning') {
+                                leadData.phone = val;
+                                chatState = 'idle';
+                                chatInputArea.style.display = 'none';
+                                
+                                // Send to DB
+                                fetch('/api/api.php?action=chatbot_submit', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify(leadData)
+                                })
+                                .then(res => res.json())
+                                .then(data => {
+                                    console.log('Lead saved:', data);
+                                    chatOptions.style.display = 'grid';
+                                    setTimeout(() => {
+                                        appendMessage("신청이 완료되었습니다! 확인 즉시 사장님의 고민을 덜어드리러 가겠습니다. 감사합니다. 👍", 'bot-message');
+                                    }, 500);
+                                })
+                                .catch(err => {
+                                    console.error('Lead save error:', err);
+                                    chatOptions.style.display = 'grid';
+                                    appendMessage("잠시 통신 오류가 발생했습니다. 카카오톡으로 문의해 주시면 더 빠르게 도움드릴 수 있습니다!", 'bot-message');
+                                });
+                            }
+                        }
+
+                        sendChat.addEventListener('click', processInput);
+                        chatInput.addEventListener('keypress', (e) => {
+                            if (e.key === 'Enter') processInput();
+                        });
+
+                        function appendMessage(text, className) {
+                            const msgDiv = document.createElement('div');
+                            msgDiv.className = `message ${className}`;
+                            chatMessages.appendChild(msgDiv);
+                            
+                            if (className === 'bot-message') {
+                                // Typing effect for bot
+                                let i = 0;
+                                const speed = 30;
+                                function typeWriter() {
+                                    if (i < text.length) {
+                                        msgDiv.innerHTML += text.charAt(i);
+                                        i++;
+                                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                                        setTimeout(typeWriter, speed);
+                                    }
+                                }
+                                typeWriter();
+                            } else {
+                                msgDiv.innerText = text;
+                                chatMessages.scrollTop = chatMessages.scrollHeight;
+                            }
+                        }
+                    })
+                    .catch(e => {
+                        console.error('Error fetching hero data:', e);
+                        // Fallback init
+                        initText();
+                        animateParticles();
+                    });
+            });
+
+            window.addEventListener('resize', () => {
+                if(!isExploding) initText();
+            });
+
+            /* Data Sync: Portfolio & Team */
+            (function() {
+                const API_BASE = '/api/api.php';
+
+                // 1. Load Portfolio (Featured)
+                fetch(`${API_BASE}?action=portfolio&featured=1`)
+                    .then(r => r.json())
+                    .then(items => {
+                        const grid = document.getElementById('portfolio-grid');
+                        if (!grid) return;
+                        if (items && items.length > 0) {
+                            const catLabel = {branding:'Branding', consulting:'Consulting', video:'Video', integrated:'Integrated'};
+                            grid.innerHTML = items.map((item, idx) => `
+                                <div class="ext-card stagger-item" style="cursor:pointer;" onclick="openPortfolioDetail('${item.slug}')">
+                                    <div class="ext-img-wrap" style="position:relative; overflow:hidden;">
+                                        <img src="/${item.thumbnail}" alt="${item.title}" class="parallax-img" style="width:100%;height:100%;object-fit:cover;transition:transform 0.4s;">
+                                        <div style="position:absolute;inset:0;background:rgba(0,0,0,0);transition:background 0.3s;display:flex;align-items:center;justify-content:center;opacity:0;" class="pf-card-overlay">
+                                            <span style="color:#fff;font-size:0.85rem;font-weight:600;letter-spacing:0.05em;padding:8px 18px;border:1px solid rgba(255,255,255,0.5);border-radius:99px;">자세히 보기</span>
+                                        </div>
+                                    </div>
+                                    <div style="padding:4px 0 0;">
+                                        <span style="font-size:0.75rem;font-weight:700;color:var(--luxury-point);text-transform:uppercase;letter-spacing:0.06em;">${catLabel[item.category]||item.category}</span>
+                                        <h3 style="margin:4px 0 2px;">${item.title}</h3>
+                                        <p style="margin:0;opacity:0.5;">${item.client || ''}</p>
+                                    </div>
+                                </div>
+                            `).join('');
+
+                            // 호버 오버레이 효과
+                            grid.querySelectorAll('.ext-card').forEach(card => {
+                                const overlay = card.querySelector('.pf-card-overlay');
+                                const img = card.querySelector('img');
+                                card.addEventListener('mouseenter', () => {
+                                    if(overlay) { overlay.style.background='rgba(0,0,0,0.45)'; overlay.style.opacity='1'; }
+                                    if(img) img.style.transform = 'scale(1.05)';
+                                });
+                                card.addEventListener('mouseleave', () => {
+                                    if(overlay) { overlay.style.background='rgba(0,0,0,0)'; overlay.style.opacity='0'; }
+                                    if(img) img.style.transform = 'scale(1)';
+                                });
+                            });
+
+                        } else {
+                            grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted);">등록된 포트폴리오가 없습니다.</div>';
+                        }
+                    });
+
+                // 2. Load Team
+                fetch(`${API_BASE}?action=team`)
+                    .then(r => r.json())
+                    .then(members => {
+                        const teamGrid = document.getElementById('team-grid');
+                        if (!teamGrid) return;
+                        if (members && members.length > 0) {
+                            teamGrid.innerHTML = members.map((m, idx) => `
+                                <div class="expert-card stagger-item" style="text-align: center;">
+                                    <div class="expert-img-wrap" style="width: 100%; aspect-ratio: 3/4; overflow: hidden; border-radius: 30px; margin-bottom: 25px; box-shadow: var(--shadow-md); background: #121212;">
+                                        <img src="/${m.photo}?v=${new Date().getTime()}" alt="${m.name}" class="parallax-img" style="width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: all 0.5s;">
+                                    </div>
+                                    <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom: 5px; font-weight: 700;">${m.role}</h4>
+                                    <h3 style="font-size: 1.5rem; margin-bottom: 10px; font-weight: 900; color: #fff;">${m.name}</h3>
+                                    <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.6;">${m.specialty || ''}<br>${m.bio || ''}</p>
+                                </div>
+                            `).join('');
+                        }
+                    });
+
+                // 3. Load Clients
+                fetch(`${API_BASE}?action=clients`)
+                    .then(r => r.json())
+                    .then(clients => {
+                        const logoGrid = document.querySelector('.clients-logo-grid');
+                        if (!logoGrid) return;
+                        if (clients && clients.length > 0) {
+                            logoGrid.innerHTML = clients.map(c => `
+                                <div class="client-logo-item" style="display:flex; align-items:center; justify-content:center; padding:20px; background:rgba(255,255,255,0.03); border-radius:15px; border:1px solid rgba(255,255,255,0.05); transition:0.3s; height:100px;">
+                                    <img src="/${c.logo_path}" alt="${c.name}" style="max-width:140px; max-height:45px; object-fit:contain; opacity:0.6; filter:grayscale(1) brightness(1.5); transition:0.3s;">
+                                </div>
+                            `).join('');
+                        }
+                    });
+
+                // 4. Load Stats
+                fetch(`${API_BASE}?action=stats`)
+                    .then(r => r.json())
+                    .then(stats => {
+                        const statsGrid = document.querySelector('.stats-grid');
+                        if (!statsGrid) return;
+                        if (stats && stats.length > 0) {
+                            statsGrid.innerHTML = stats.map(s => `
+                                <div class="stat-item">
+                                    <div class="stat-value">${s.value}</div>
+                                    <div class="stat-label">${s.label}</div>
+                                </div>
+                            `).join('');
+                        }
+                    });
+
+                // 5. Load Journey
+                fetch(`${API_BASE}?action=journey`)
+                    .then(r => r.json())
+                    .then(items => {
+                        const journeyGrid = document.getElementById('journey-grid');
+                        if (!journeyGrid) return;
+                        if (items && items.length > 0) {
+                            journeyGrid.innerHTML = items.map(item => `
+                                <div class="j-card fade-in-section is-visible">
+                                    <div class="j-logo">${item.title} ${item.period ? `<span class="j-date">${item.period}</span>` : ''}</div>
+                                    <h4>${item.subtitle || ''}</h4>
+                                    <p>${item.description || ''}</p>
+                                </div>
+                            `).join('');
+                        } else {
+                            journeyGrid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: rgba(255,255,255,0.2);">등록된 성장 여정이 없습니다.</div>';
+                        }
+                    });
+            })();
+        }
+    </script>
+
+    <!-- ===== 포트폴리오 상세 팝업 모달 ===== -->
+    <div class="pf-modal-backdrop" id="pf-modal" role="dialog" aria-modal="true">
+        <div class="pf-modal" id="pf-modal-inner">
+            <span class="pf-close" id="pf-close" title="닫기">&times;</span>
+
+            <!-- 갤러리 슬라이더 -->
+            <div class="pf-gallery" id="pf-gallery">
+                <div class="pf-gallery-slides" id="pf-slides"></div>
+                <button class="pf-gallery-btn prev" id="pf-prev" aria-label="이전">‹</button>
+                <button class="pf-gallery-btn next" id="pf-next" aria-label="다음">›</button>
+                <div class="pf-gallery-dots" id="pf-dots"></div>
+            </div>
+
+            <!-- 텍스트 상세 -->
+            <div class="pf-body">
+                <span class="pf-tag" id="pf-tag"></span>
+                <h2 class="pf-title" id="pf-title"></h2>
+                <p class="pf-client" id="pf-client"></p>
+
+                <div class="pf-sections" id="pf-sections">
+                    <div class="pf-section-item" id="pf-challenge-wrap">
+                        <h4>문제 (Challenge)</h4>
+                        <p id="pf-challenge"></p>
+                    </div>
+                    <div class="pf-section-item" id="pf-solution-wrap">
+                        <h4>솔루션 (Solution)</h4>
+                        <p id="pf-solution"></p>
+                    </div>
+                    <div class="pf-section-item" id="pf-result-wrap">
+                        <h4>결과 (Result)</h4>
+                        <p id="pf-result"></p>
+                    </div>
+                </div>
+
+                <div class="pf-tags-row" id="pf-tags"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    /* ===== 포트폴리오 상세 팝업 스크립트 ===== */
+    (function() {
+        let slideIdx = 0;
+        let slideCount = 0;
+
+        function goSlide(n) {
+            slideIdx = (n + slideCount) % slideCount;
+            document.getElementById('pf-slides').style.transform = `translateX(-${slideIdx * 100}%)`;
+            document.querySelectorAll('.pf-dot').forEach((d, i) => d.classList.toggle('active', i === slideIdx));
+        }
+
+        document.getElementById('pf-prev')?.addEventListener('click', () => goSlide(slideIdx - 1));
+        document.getElementById('pf-next')?.addEventListener('click', () => goSlide(slideIdx + 1));
+
+        document.getElementById('pf-close')?.addEventListener('click', closeModal);
+        document.getElementById('pf-modal')?.addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+        function closeModal() {
+            document.getElementById('pf-modal').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        window.openPortfolioDetail = async function(slug) {
+            const modal = document.getElementById('pf-modal');
+            modal.classList.add('open');
+            document.body.style.overflow = 'hidden';
+
+            // 로딩 상태
+            document.getElementById('pf-title').textContent = '로딩 중다...';
+            document.getElementById('pf-client').textContent = '';
+            document.getElementById('pf-slides').innerHTML = '<div class="pf-thumb-placeholder"><i class="fa fa-spinner fa-spin"></i></div>';
+
+            try {
+                const res = await fetch(`/api/api.php?action=portfolio_detail&slug=${slug}`);
+                const d = await res.json();
+                if (d.error) { closeModal(); return; }
+
+                // 제목/클라이언트
+                document.getElementById('pf-title').textContent = d.title || '';
+                document.getElementById('pf-client').textContent = d.client ? `클라이언트: ${d.client}` + (d.year ? ` · ${d.year}` : '') : (d.year || '');
+
+                // 카테고리 태그
+                const catLabel = {branding:'Branding', consulting:'Consulting', video:'Video', integrated:'Integrated'};
+                const tagEl = document.getElementById('pf-tag');
+                tagEl.textContent = catLabel[d.category] || d.category;
+                tagEl.className = `pf-tag ${d.category || ''}`;
+
+                // Challenge / Solution / Result
+                const show = (id, text) => {
+                    const el = document.getElementById(id);
+                    const wrap = document.getElementById(id + '-wrap');
+                    if (text) { el.textContent = text; wrap && (wrap.style.display = ''); }
+                    else { wrap && (wrap.style.display = 'none'); }
+                };
+                show('pf-challenge', d.challenge);
+                show('pf-solution', d.solution);
+                show('pf-result', d.result);
+
+                // 섹션 그리드 — 내용 없는 것 제외하고 컬럼 수 자동 조정
+                const visCount = [d.challenge, d.solution, d.result].filter(Boolean).length;
+                document.getElementById('pf-sections').style.gridTemplateColumns = `repeat(${visCount || 1}, 1fr)`;
+
+                // 태그 칩
+                const tagsRow = document.getElementById('pf-tags');
+                tagsRow.innerHTML = (d.tags || '').split(',').filter(t=>t.trim()).map(t => `<span class="pf-chip">${t.trim()}</span>`).join('');
+
+                // 갤러리 이미지 구성
+                let slides = [];
+                if (d.thumbnail) slides.push(d.thumbnail);
+                if (d.images && d.images.length) slides.push(...d.images.map(i => i.image_path));
+
+                slideCount = slides.length;
+                slideIdx = 0;
+
+                const slidesEl = document.getElementById('pf-slides');
+                const dotsEl = document.getElementById('pf-dots');
+                const prevBtn = document.getElementById('pf-prev');
+                const nextBtn = document.getElementById('pf-next');
+
+                if (slideCount === 0) {
+                    slidesEl.innerHTML = '<div class="pf-thumb-placeholder" style="min-width:100%"><i class="fa-solid fa-image" style="opacity:0.15"></i></div>';
+                    dotsEl.innerHTML = '';
+                    prevBtn.style.display = nextBtn.style.display = 'none';
+                } else {
+                    slidesEl.style.transform = 'translateX(0)';
+                    slidesEl.innerHTML = slides.map(src => `<img class="pf-slide" src="/${src}" alt="">`).join('');
+                    dotsEl.innerHTML = slides.map((_, i) => `<button class="pf-dot${i===0?' active':''}" onclick="goSlide(${i})"></button>`).join('');
+                    prevBtn.style.display = nextBtn.style.display = slideCount > 1 ? 'flex' : 'none';
+                }
+
+                // 모달 상단으로 스크롤
+                document.getElementById('pf-modal-inner').scrollTop = 0;
+
+            } catch(err) {
+                console.error('Portfolio detail error:', err);
+                closeModal();
+            }
+        };
+    })();
+    </script>
+    <script>
+        // Mouse Tracker for Radial G gradients (Portavia FX)
+        document.querySelectorAll('.feat-card, .ext-card, .j-card, .service-card, .expert-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE3 STUDIO | Premium Design</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        outfit: ['Outfit', 'sans-serif']
+                    },
+                    colors: {
+                        background: '#050505',
+                        primary: '#ffffff',
+                        accent: '#d8b4fe', /* The purple from screenshot */
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- SPLINE -->
+    <script type="module" src="https://unpkg.com/@splinetool/viewer/build/spline-viewer.js"></script>
+    <!-- SWIPER -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@700;900&display=swap');
+        body { background-color: #050505; color: #fff; overflow-x: hidden; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        
+        .nav-pill {
+            background: rgba(20, 20, 20, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 999px;
+        }
+
+        .cover-swiper { width: 100%; padding: 50px 0; }
+        .swiper-slide {
+            width: 300px; height: 400px;
+            background: #111;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            -webkit-box-reflect: bottom 10px linear-gradient(transparent, transparent 70%, rgba(255,255,255,0.2));
+            transition: all 0.3s ease;
+        }
+        .swiper-slide-active {
+            border-color: rgba(216, 180, 254, 0.5); /* accent */
+            box-shadow: 0 0 40px rgba(216, 180, 254, 0.1);
+        }
+        .pf-image { object-fit: cover; width: 100%; height: 100%; filter: grayscale(1); transition: 0.5s; }
+        .swiper-slide:hover .pf-image { filter: grayscale(0); transform: scale(1.05); }
+    </style>
+</head>
+<body class="antialiased selection:bg-accent selection:text-black">
+
+    <!-- Navbar -->
+    <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50">
+        <ul class="nav-pill flex items-center gap-6 px-8 py-3 text-xs md:text-sm font-semibold tracking-widest uppercase text-white/70">
+            <li><a href="#home" class="hover:text-white transition">홈</a></li>
+            <li><a href="#portfolio" class="hover:text-white transition">포트폴리오</a></li>
+            <li><a href="#services" class="hover:text-white transition">서비스패키지</a></li>
+            <li><a href="#contact" class="hover:text-white transition">문의하기</a></li>
+        </ul>
+    </nav>
+
+    <!-- Spline Background Hero -->
+    <section id="home" class="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden">
+        <!-- The enormous text / Spline in background -->
+        <div id="hero-spline-container" class="absolute inset-0 z-0 scale-125 md:scale-150 transform">
+            <spline-viewer url="https://prod.spline.design/zYnTxAxV1wIuElaT/scene.splinecode"></spline-viewer>
+        </div>
+
+        <!-- Or large fallback text -->
+        <h1 class="absolute z-10 text-[18vw] font-black leading-none tracking-tighter mix-blend-difference pointer-events-none uppercase font-outfit text-white">
+            THE3<br>STUDIO
+        </h1>
+
+        <div class="absolute bottom-10 z-20 flex flex-col items-center gap-4">
+            <div class="w-[1px] h-16 bg-white/30"></div>
+            <p class="text-xs uppercase tracking-[0.3em] text-white/50">Scroll Down</p>
+        </div>
+    </section>
+
+    <!-- Intro / About like "Hi, I'm Gyongy" -->
+    <section class="relative z-20 py-32 px-6 md:px-20 bg-[#050505]">
+        <div class="max-w-7xl mx-auto flex flex-col items-start">
+            <p class="text-accent font-semibold tracking-widest uppercase text-sm mb-4">Hi, We are THE3 STUDIO</p>
+            <h2 class="text-5xl md:text-7xl font-sans font-black tracking-tight leading-[1.1] mb-20 text-white uppercase">
+                YOUR <span class="text-white/40">BRANDING</span><br>
+                INNOVATION <span class="text-white/40">PARTNER</span>
+            </h2>
+        </div>
+
+        <!-- Coverflow Swiper (Portfolios/Teams Mix) -->
+        <div class="w-full relative">
+            <div class="swiper cover-swiper">
+                <div class="swiper-wrapper" id="combined-swiper">
+                    <!-- Loaded via JS -->
+                    <div class="swiper-slide flex items-center justify-center text-white/30">Loading...</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Let's Connect equivalent -->
+    <section id="contact" class="relative z-20 py-32 px-6 md:px-20 bg-[#050505]">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-20 items-end">
+            <!-- Left Text -->
+            <div class="flex-1">
+                <p class="text-accent font-semibold tracking-widest uppercase text-sm mb-4">Let's</p>
+                <h2 class="text-6xl md:text-8xl font-sans font-black tracking-tighter mb-8 uppercase text-white">
+                    CONNECT
+                </h2>
+                <p class="text-white/50 max-w-sm text-lg mb-8 leading-relaxed">
+                    복잡한 기획서 없이 편하게 문의하세요. 사장님의 고민을 완벽한 성과로 바꿔드립니다.
+                </p>
+                <div class="flex items-center gap-4">
+                    <a href="mailto:hello@the3studio.com" class="px-8 py-4 bg-white text-black font-bold uppercase tracking-widest rounded-full hover:bg-accent hover:scale-105 transition-all">
+                        E-MAIL US
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Profile/Image -->
+            <div class="flex-1 flex justify-end">
+                <div class="w-full max-w-md aspect-[3/4] rounded-t-full bg-[#111] overflow-hidden border border-white/5">
+                    <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-700" alt="Process">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-10 px-6 bg-[#050505] border-t border-white/5 text-center text-xs uppercase tracking-widest text-white/30">
+        © 2026 THE 3 STUDIO. ALL RIGHTS RESERVED.
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const API_BASE = '/api/api.php';
+            
+            try {
+                // Fetch portfolio and team, combine them for the swiper
+                const [pfRes, teamRes] = await Promise.all([
+                    fetch(`${API_BASE}?action=portfolio&featured=1`),
+                    fetch(`${API_BASE}?action=team`)
+                ]);
+                
+                const portfolios = await pfRes.json();
+                const team = await teamRes.json();
+                
+                const swiperWrapper = document.getElementById('combined-swiper');
+                swiperWrapper.innerHTML = '';
+
+                // Add Team Cards
+                if(team && !team.error) {
+                    team.forEach(m => {
+                        swiperWrapper.innerHTML += `
+                        <div class="swiper-slide relative group">
+                            <img src="/${m.photo}" class="pf-image" alt="${m.name}">
+                            <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/90 to-transparent">
+                                <p class="text-accent text-xs font-bold uppercase tracking-widest mb-1">${m.role}</p>
+                                <h3 class="text-white text-xl font-bold">${m.name}</h3>
+                            </div>
+                        </div>`;
+                    });
+                }
+
+                // Add Portfolio Cards
+                if(portfolios && !portfolios.error) {
+                    portfolios.forEach(p => {
+                        swiperWrapper.innerHTML += `
+                        <div class="swiper-slide relative group border-accent/20">
+                            <img src="/${p.thumbnail}" class="pf-image" alt="${p.title}">
+                            <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/90 to-transparent">
+                                <p class="text-white/60 text-xs font-bold uppercase tracking-widest mb-1">${p.category}</p>
+                                <h3 class="text-white text-xl font-bold">${p.title}</h3>
+                            </div>
+                        </div>`;
+                    });
+                }
+
+                // Init Swiper
+                new Swiper('.cover-swiper', {
+                    effect: 'coverflow',
+                    grabCursor: true,
+                    centeredSlides: true,
+                    slidesPerView: 'auto',
+                    loop: true,
+                    coverflowEffect: {
+                        rotate: 30,
+                        stretch: 0,
+                        depth: 100,
+                        modifier: 1,
+                        slideShadows: true,
+                    },
+                });
+
+            } catch(e) {
+                console.error("Error loading data:", e);
+            }
+        });
+    </script>
+</body>
+</html>

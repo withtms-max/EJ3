@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE 3 STUDIO | Ultimate Master Control v5.0</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #000000; --bg-card: #0a0a0a; --accent: #0088ff;
+            --text-main: #ffffff; --text-dim: rgba(255,255,255,0.5);
+            --border: rgba(255,255,255,0.08); --sidebar-w: 260px;
+            --danger: #ff3b30; --success: #28cd41;
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background: var(--bg-dark); color: var(--text-main); font-family: 'Inter', sans-serif; overflow: hidden; }
+        .dashboard-layout { display: flex; height: 100vh; }
+
+        /* Sidebar */
+        .sidebar { width: var(--sidebar-w); background: #000; border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 2rem 1rem; flex-shrink: 0; z-index: 1000; }
+        .logo { font-family: 'Outfit'; font-weight: 900; font-size: 1.4rem; color: #fff; margin-bottom: 2.5rem; padding: 0 1rem; }
+        .logo span { color: var(--accent); }
+        .nav-menu { flex: 1; overflow-y: auto; }
+        .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; color: var(--text-dim); border-radius: 12px; transition: 0.3s; margin-bottom: 5px; cursor: pointer; font-size: 0.85rem; font-weight: 600; }
+        .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.05); color: #fff; }
+        .nav-item.active { background: var(--accent); box-shadow: 0 10px 20px rgba(0, 136, 255, 0.2); }
+
+        /* Content Area */
+        .main-content { flex: 1; display: flex; flex-direction: column; overflow-y: auto; background: #050505; }
+        .top-bar { height: 70px; display: flex; align-items: center; justify-content: flex-end; padding: 0 2rem; border-bottom: 1px solid var(--border); }
+        .app-view { padding: 2.5rem; max-width: 1400px; margin: 0 auto; width: 100%; }
+
+        /* UI Elements */
+        .header-content { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+        .view-title h1 { font-family: 'Outfit'; font-size: 2rem; font-weight: 900; }
+        .btn { background: var(--accent); color: #fff; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font-size: 0.8rem; transition: 0.3s; }
+        .btn:hover { transform: translateY(-1px); filter: brightness(1.1); }
+        .btn-s { background: rgba(255,255,255,0.08); padding: 8px 16px; border-radius: 8px; }
+        .btn-danger { color: var(--danger); }
+        .btn-outline { background: transparent; border: 1px solid var(--border); }
+
+        .table-container { background: var(--bg-card); border-radius: 20px; border: 1px solid var(--border); overflow: hidden; margin-top: 2rem; }
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 1.2rem; background: rgba(255,255,255,0.02); color: var(--text-dim); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
+        td { padding: 1.2rem; border-top: 1px solid var(--border); font-size: 0.85rem; vertical-align: middle; }
+        .thumb-cell { width: 60px; height: 45px; border-radius: 8px; overflow: hidden; background: #111; border: 1px solid var(--border); }
+        .thumb-cell img, .thumb-cell video { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Forms & Modals */
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(15px); display: none; align-items: center; justify-content: center; z-index: 10000; }
+        .modal-box { background: #0a0a0a; border: 1px solid var(--border); border-radius: 30px; width: 100%; max-width: 750px; padding: 3rem; max-height: 90vh; overflow-y: auto; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-label { display: block; color: var(--text-dim); font-size: 0.65rem; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; }
+        .form-input { width: 100%; background: #111; border: 1px solid var(--border); border-radius: 12px; padding: 14px; color: #fff; font-size: 0.9rem; }
+        .form-input:focus { border-color: var(--accent); outline: none; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        textarea.form-input { min-height: 80px; }
+
+        /* Toggle Switch */
+        .switch-wrap { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .switch-box { width: 40px; height: 22px; background: #222; border-radius: 20px; position: relative; transition: 0.3s; }
+        .switch-box::after { content: ''; position: absolute; left: 3px; top: 3px; width: 16px; height: 16px; background: #666; border-radius: 50%; transition: 0.3s; }
+        input:checked + .switch-box { background: var(--accent); }
+        input:checked + .switch-box::after { left: 21px; background: #fff; }
+
+        /* Stats Cards */
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .stat-card { background: var(--bg-card); padding: 25px; border-radius: 20px; border: 1px solid var(--border); }
+        .stat-card label { display: block; font-size: 0.65rem; font-weight: 900; color: var(--text-dim); margin-bottom: 10px; }
+        .stat-card input { width: 100%; background: transparent; border: none; font-size: 2rem; font-weight: 900; color: #fff; margin-top: 5px; }
+        /* Upload & Preview System */
+        .upload-row { display: flex; gap: 20px; align-items: start; margin-bottom: 20px; }
+        .upload-box { 
+            flex: 1; min-height: 120px; background: rgba(255,255,255,0.03); 
+            border: 2px dashed var(--border); border-radius: 15px; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            cursor: pointer; transition: 0.3s; position: relative; gap: 10px;
+        }
+        .upload-box:hover { border-color: var(--accent); background: rgba(0,136,255,0.05); }
+        .upload-box i { font-size: 2rem; color: var(--text-dim); }
+        .upload-box span { font-size: 0.75rem; font-weight: 700; color: var(--text-dim); }
+        .preview-pane { 
+            width: 120px; height: 120px; background: #111; border-radius: 12px; 
+            border: 1px solid var(--border); overflow: hidden; display: flex; align-items: center; justify-content: center;
+            position: relative;
+        }
+        .preview-pane img, .preview-pane video { width: 100%; height: 100%; object-fit: cover; }
+        .upload-progress { 
+            position: absolute; bottom: 0; left: 0; height: 3px; background: var(--accent); 
+            width: 0%; border-radius: 0 0 15px 15px; transition: 0.3s;
+        }
+    </style>
+</head>
+<body>
+
+<div class="dashboard-layout">
+    <aside class="sidebar">
+        <div class="logo">THE <span>3</span> STUDIO</div>
+        <nav class="nav-menu">
+            <div class="nav-item active" onclick="switchView('dashboard')"><i class="fa fa-home"></i> 대시보드 홈</div>
+            <div class="nav-item" onclick="switchView('global')"><i class="fa fa-globe"></i> 전역 설정 (테마)</div>
+            <div class="nav-item" onclick="switchView('hero')"><i class="fa fa-tv"></i> 히어로 섹션 마스터</div>
+            <div class="nav-item" onclick="switchView('hero_slides')"><i class="fa fa-images"></i> 히어로 캐러셀</div>
+            <div class="nav-item" onclick="switchView('stats')"><i class="fa fa-chart-bar"></i> 성과 수치 (Stats)</div>
+            <div class="nav-item" onclick="switchView('portfolio')"><i class="fa fa-folder"></i> 포트폴리오 관리</div>
+            <div class="nav-item" onclick="switchView('team')"><i class="fa fa-users"></i> 팀 멤버</div>
+            <div class="nav-item" onclick="switchView('journey')"><i class="fa fa-route"></i> 성공 연혁</div>
+            <div class="nav-item" onclick="switchView('clients')"><i class="fa fa-building"></i> 고객사</div>
+            <div class="nav-item" onclick="switchView('consulting')"><i class="fa fa-envelope"></i> 문의 내역</div>
+            <div style="margin:2rem 0 0.5rem 1.5rem; font-size:0.6rem; font-weight:900; color:rgba(255,255,255,0.3); letter-spacing:0.1em;">EDITOR</div>
+            <div class="nav-item" onclick="switchView('placements')"><i class="fa fa-th-large"></i> 1:1 라이브 배치</div>
+        </nav>
+        <div class="nav-item" style="margin-top:auto;" onclick="location.assign('/api/admin/logout.php')"><i class="fa fa-sign-out"></i> 로그아웃</div>
+    </aside>
+
+    <main class="main-content">
+        <div class="top-bar"><span style="font-weight:900; font-size:0.7rem; color:var(--text-dim); letter-spacing:0.1em;">ULTIMATE STABLE v5.0</span></div>
+        <div class="app-view" id="app-view"></div>
+    </main>
+</div>
+
+<!-- Modal -->
+<div class="modal" id="modal">
+    <div class="modal-box">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem;">
+            <h2 id="modal-title" style="font-family:'Outfit'; font-weight:900; font-size:1.8rem;">정보 편집</h2>
+            <button onclick="closeModal()" style="background:none; border:none; color:var(--text-dim); cursor:pointer; font-size:2rem;">&times;</button>
+        </div>
+        <form id="item-form">
+            <input type="hidden" id="item-col">
+            <input type="hidden" id="item-id">
+            <div id="modal-content"></div>
+            <div style="margin-top:2.5rem; display:flex; gap:12px;">
+                <button type="button" class="btn btn-s" onclick="closeModal()" style="flex:1">취소</button>
+                <button type="submit" class="btn" style="flex:2">저장 완료</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<input type="file" id="file-uploader" hidden accept="image/*,video/*">
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, getDocs, getDoc, setDoc, updateDoc, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBTX7XZ3WRxvf1MnpotRvUQC8x9o6N44yc", authDomain: "the3-fc45a.firebaseapp.com",
+        projectId: "the3-fc45a", storageBucket: "the3-fc45a.appspot.com",
+        messagingSenderId: "431210870560", appId: "1:431210870560:web:89283eeb92998db6358945"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+
+    const appView = document.getElementById('app-view');
+    const modal = document.getElementById('modal');
+    const itemForm = document.getElementById('item-form');
+    const uploader = document.getElementById('file-uploader');
+    const isVideo = (path) => /\.(mp4|webm|mov|avi)$/i.test(path);
+    const getMediaSrc = (path) => path.startsWith('http') ? path : '../' + path;
+
+    // ───── UPLOAD HELPER ─────
+    window.triggerUpload = (targetField, targetType) => {
+        uploader.onchange = async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            const box = document.getElementById('ubox-' + targetField);
+            const prog = document.getElementById('uprog-' + targetField);
+            const preview = document.getElementById('uprev-' + targetField);
+            const pathInput = document.getElementById('path-' + targetField);
+
+            if(box) box.style.opacity = '0.5';
+            if(prog) prog.style.width = '30%';
+
+            try {
+                // 파이어베이스 스토리지 업로드
+                const ext = file.name.split('.').pop();
+                const filename = `${targetType}_${Date.now()}_${Math.floor(Math.random()*1000)}.${ext}`;
+                const storageRef = ref(storage, `uploads/${targetType}/${filename}`);
+                
+                if(prog) prog.style.width = '50%';
+                const snapshot = await uploadBytes(storageRef, file);
+                const downloadURL = await getDownloadURL(snapshot.ref);
+                
+                if(prog) prog.style.width = '100%';
+                pathInput.value = downloadURL; // 이제 텍스트 경로가 아닌 풀 URL을 저장합니다
+                
+                // Update Preview
+                if(preview) {
+                    if(isVideo(downloadURL)) {
+                        preview.innerHTML = `<video src="${downloadURL}" autoplay muted loop></video>`;
+                    } else {
+                        preview.innerHTML = `<img src="${downloadURL}">`;
+                    }
+                }
+                setTimeout(() => { if(prog) prog.style.width = '0%'; if(box) box.style.opacity = '1'; }, 1000);
+            } catch (err) {
+                console.error('Firebase Storage Error:', err);
+                alert('업로드 실패: ' + err.message);
+                if(box) box.style.opacity = '1';
+            }
+        };
+        uploader.click();
+    };
+
+    window.switchView = (view) => {
+        document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+        if(event && event.currentTarget) event.currentTarget.classList.add('active');
+        
+        if(view === 'dashboard') renderDashboard();
+        else if(view === 'global') renderGlobalSettings();
+        else if(view === 'hero') renderHeroSettings();
+        else if(view === 'hero_slides') renderList('hero_slides', '히어로 캐러셀', ['image_path', 'sort_order']);
+        else if(view === 'stats') renderStatsSettings();
+        else if(view === 'portfolio') renderPortfolio();
+        else if(view === 'team') renderList(view, '팀 멤버', ['photo', 'name', 'role']);
+        else if(view === 'journey') renderList(view, '성공 연혁', ['period', 'title', 'subtitle']);
+        else if(view === 'clients') renderList(view, '고객사', ['logo', 'name']);
+        else if(view === 'consulting') renderList('contacts', '문의 내역', ['company_name', 'email', 'service', 'message', 'created_at']);
+        else if(view === 'placements') renderPlacements();
+    };
+
+    function renderDashboard() {
+        appView.innerHTML = `
+            <div class="header-content"><div class="view-title"><h1>마스터 대시보드</h1><p>THE3 스튜디오의 모든 데이터를 통제합니다.</p></div></div>
+        `;
+    }
+
+    // ───── 1. 전역 테마 설정 (RESTORED) ─────
+    async function renderGlobalSettings() {
+        appView.innerHTML = '<div style="text-align:center; padding:10rem;"><i class="fa fa-spinner fa-spin"></i></div>';
+        const docRef = doc(db, 'settings', 'global');
+        const s = await getDoc(docRef);
+        const data = s.exists() ? s.data() : { theme: 'dark' };
+        appView.innerHTML = `
+            <div class="header-content"><div class="view-title"><h1>전역 환경 설정</h1><p>웹사이트의 전반적인 테마와 모드를 제어합니다.</p></div></div>
+            <div class="table-container" style="padding:3rem;">
+                <div class="form-group">
+                    <label class="form-label">웹사이트 테마 모드</label>
+                    <label class="switch-wrap">
+                        <input type="checkbox" id="theme-toggle" hidden ${data.theme==='light'?'checked':''}>
+                        <div class="switch-box"></div>
+                        <span id="theme-text" style="font-weight:900;">${data.theme === 'light' ? '라이트 테마 (White)' : '다크 테마 (Black)'}</span>
+                    </label>
+                </div>
+                <button class="btn" id="save-global" style="margin-top:2rem;"><i class="fa fa-save"></i> 설정값 저장</button>
+            </div>
+        `;
+        const toggle = document.getElementById('theme-toggle');
+        toggle.onchange = () => { document.getElementById('theme-text').innerText = toggle.checked ? '라이트 테마 (White)' : '다크 테마 (Black)'; };
+        document.getElementById('save-global').onclick = async () => {
+            await setDoc(docRef, { theme: toggle.checked ? 'light' : 'dark' });
+            alert('테마 설정이 저장되었습니다. 모든 방문자에게 즉시 반영됩니다.');
+        };
+    }
+
+    // ───── 2. 히어로 섹션 마스터 (RESTORED ALL WRITINGS) ─────
+    async function renderHeroSettings() {
+        appView.innerHTML = '<div style="text-align:center; padding:10rem;"><i class="fa fa-spinner fa-spin"></i></div>';
+        const s = await getDoc(doc(db, 'settings', 'hero'));
+        const data = s.exists() ? s.data() : {};
+        appView.innerHTML = `
+            <div class="header-content"><div class="view-title"><h1>히어로 섹션 편집</h1><p>메인의 모든 텍스트와 3D 배경을 관리합니다.</p></div></div>
+            <div class="table-container" style="padding:3rem;">
+                <form id="hero-form">
+                    <div class="form-group"><label class="form-label">Sub-title (Hi, We are 등)</label><input name="subtitle" class="form-input" value="${data.subtitle||''}"></div>
+                    <div class="form-group"><label class="form-label">Main Title (STUDIO 로고 등)</label><input name="title" class="form-input" value="${data.title||''}"></div>
+                    <div class="form-group"><label class="form-label">Description (중간 요약 문구)</label><textarea name="description" class="form-input">${data.description||''}</textarea></div>
+                    <div class="form-group"><label class="form-label">Long Description (하단 상세 정보)</label><textarea name="long_description" class="form-input" style="min-height:120px;">${data.long_description||''}</textarea></div>
+                    <div class="form-row">
+                        <div class="form-group"><label class="form-label">남은 상담 슬롯 (Slots Left)</label><input name="slots_left" class="form-input" value="${data.slots_left||''}"></div>
+                        <div class="form-group"><label class="form-label">배경 Spline 3D URL</label><input name="bg_url" class="form-input" value="${data.bg_url||''}"></div>
+                    </div>
+                    <button type="submit" class="btn" style="width:100%;"><i class="fa fa-save"></i> 모든 텍스트 및 배경 저장</button>
+                </form>
+            </div>
+        `;
+        document.getElementById('hero-form').onsubmit = async (e) => { e.preventDefault(); await setDoc(doc(db, 'settings', 'hero'), Object.fromEntries(new FormData(e.target).entries())); alert('저장 성공!'); };
+    }
+
+    // ───── 3. 성과 수치 마스터 (RESTORED STATS) ─────
+    async function renderStatsSettings() {
+        appView.innerHTML = '<div style="text-align:center; padding:10rem;"><i class="fa fa-spinner fa-spin"></i></div>';
+        const snap = await getDocs(query(collection(db, 'stats'), orderBy('sort_order', 'asc')));
+        const items = []; snap.forEach(d => items.push({...d.data(), id: d.id}));
+        appView.innerHTML = `
+            <div class="header-content"><div class="view-title"><h1>성과 수치 관리 (Stats)</h1><p>웹사이트에 표시되는 실적 수치를 편집합니다.</p></div><button class="btn" onclick="openEditModal('stats')"><i class="fa fa-plus"></i> 항목 추가</button></div>
+            <div class="stats-grid">
+                ${items.map(it => `
+                    <div class="stat-card">
+                        <div style="display:flex; justify-content:space-between;">
+                             <label>${it.label || '제목 없음'}</label>
+                             <div style="display:flex; gap:10px;">
+                                <i class="fa fa-edit" style="cursor:pointer" onclick="editItem('stats','${it.id}')"></i>
+                                <i class="fa fa-trash" style="cursor:pointer; color:var(--danger)" onclick="deleteItem('stats','${it.id}')"></i>
+                             </div>
+                        </div>
+                        <input value="${it.value || '0'}" readonly disabled>
+                        <p style="font-size:0.6rem; color:var(--text-dim); margin-top:10px; font-weight:800;">ORDER: ${it.sort_order || 0}</p>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    }
+
+    // ───── 4. 포트폴리오 (CRITICAL RESTORATION) ─────
+    async function renderPortfolio() {
+        appView.innerHTML = '<div style="text-align:center; padding:10rem;"><i class="fa fa-spinner fa-spin"></i></div>';
+        const snap = await getDocs(query(collection(db, 'portfolio'), orderBy('sort_order', 'asc')));
+        const items = []; snap.forEach(d => items.push({...d.data(), id: d.id}));
+        appView.innerHTML = `
+            <div class="header-content"><div class="view-title"><h1>포트폴리오 총괄</h1><p>모든 데이터 필드가 완벽하게 복구되었습니다.</p></div><button class="btn" onclick="openEditModal('portfolio')"><i class="fa fa-plus"></i> 작업물 신규 등록</button></div>
+            <div class="table-container">
+                <table>
+                    <thead><tr><th>Visual</th><th>제목 / 슬러그</th><th>카테고리</th><th>순서</th><th style="text-align:right">Action</th></tr></thead>
+                    <tbody>
+                        ${items.map(it => `<tr>
+                            <td><div class="thumb-cell">${isVideo(it.thumbnail)?`<video src="${getMediaSrc(it.thumbnail)}" muted></video>`:`<img src="${getMediaSrc(it.thumbnail)}">`}</div></td>
+                            <td><strong>${it.title}</strong><br><small style="color:var(--text-dim)">${it.slug}</small></td>
+                            <td>${it.category}</td>
+                            <td>${it.sort_order}</td>
+                            <td style="text-align:right"><button class="btn btn-s" onclick="editItem('portfolio','${it.id}')"><i class="fa fa-edit"></i></button><button class="btn btn-s btn-danger" onclick="deleteItem('portfolio','${it.id}')"><i class="fa fa-trash"></i></button></td>
+                        </tr>`).join('')}
+                    </tbody>
+                </table>
+            </div>
+        `;
+    }
+
+    // ── Table Label Mapping ──
+    const labelMap = {
+        'company_name': '회사/성함',
+        'email': '이메일',
+        'service': '서비스',
+        'message': '문의내용',
+        'created_at': '날짜',
+        'thumbnail': '썸네일',
+        'title': '제목',
+        'category': '분류',
+        'role': '역할',
+        'name': '이름',
+        'photo': '사진',
+        'value': '지표값',
+        'label': '라벨',
+        'slug': 'URL명',
+        'image_path': '이미지',
+        'sort_order': '순서'
+    };
+
+    async function renderList(col, title, fields) {
+        appView.innerHTML = '<div style="text-align:center; padding:10rem;"><i class="fa fa-spinner fa-spin"></i></div>';
+        try {
+            const snap = await getDocs(collection(db, col));
+            const items = []; snap.forEach(d => items.push({...d.data(), id: d.id}));
+            
+            // 신규 문의 상단 노출을 위한 날짜순 정렬
+            if(items.length > 0 && items[0].created_at) {
+                items.sort((a,b) => (b.created_at || '').localeCompare(a.created_at || ''));
+            } else if(items.length > 0 && items[0].sort_order !== undefined) {
+                items.sort((a,b) => (parseInt(a.sort_order)||0) - (parseInt(b.sort_order)||0));
+            }
+
+            appView.innerHTML = `
+                <div class="header-content"><h1>${title} 관리</h1>${col==='contacts'?'':`<button class="btn" onclick="openEditModal('${col}')"><i class="fa fa-plus"></i> 추가</button>`}</div>
+                <div class="table-container">
+                    ${items.length === 0 ? '<div style="text-align:center; padding:5rem; color:rgba(255,255,255,0.2);">데이터가 존재하지 않습니다.</div>' : `
+                    <table>
+                        <thead><tr>${fields.map(f => `<th>${labelMap[f] || f}</th>`).join('')}<th style="text-align:right">관리</th></tr></thead>
+                        <tbody>
+                            ${items.map(it => `<tr>${fields.map(f => {
+                                if(f==='photo'||f==='logo'||f==='image_path'||f==='thumbnail') return `<td><div class="thumb-cell">${isVideo(it[f])?`<video src="${getMediaSrc(it[f])}"></video>`:`<img src="${getMediaSrc(it[f])}">`}</div></td>`;
+                                if(f==='created_at' && it[f]) return `<td>${it[f].split('T')[0]}</td>`;
+                                return `<td>${it[f] || '-'}</td>`;
+                            }).join('')}<td style="text-align:right"><button class="btn btn-s" onclick="editItem('${col}','${it.id}')"><i class="fa fa-${col==='contacts'?'eye':'edit'}"></i></button><button class="btn btn-s btn-danger" onclick="deleteItem('${col}','${it.id}')"><i class="fa fa-trash"></i></button></td></tr>`).join('')}
+                        </tbody>
+                    </table>`}
+                </div>
+            `;
+        } catch (err) {
+            console.error(err);
+            appView.innerHTML = `<div style="text-align:center; padding:10rem; color:#ff4444;">데이터를 불러오는 중 오류가 발생했습니다: ${err.message}</div>`;
+        }
+    }
+
+    // ──────── ULTIMATE MODAL (RESTORING MEDIA ATTACH) ────────
+    function renderUploadUI(name, type, value) {
+        const previewHTML = value ? (isVideo(value) ? `<video src="${getMediaSrc(value)}" autoplay muted loop></video>` : `<img src="${getMediaSrc(value)}">`) : '<i class="fa fa-image" style="opacity:0.1"></i>';
+        return `
+            <div class="upload-row">
+                <div class="preview-pane" id="uprev-${name}">${previewHTML}</div>
+                <div class="upload-box" id="ubox-${name}" onclick="triggerUpload('${name}', '${type}')">
+                    <i class="fa fa-cloud-upload"></i>
+                    <span>클릭하여 미디어 업로드</span>
+                    <div class="upload-progress" id="uprog-${name}"></div>
+                </div>
+            </div>
+            <input name="${name}" id="path-${name}" class="form-input" value="${value||''}" placeholder="또는 직접 경로 입력 /uploads/...">
+        `;
+    }
+
+    window.openEditModal = (col, data = null) => {
+        document.getElementById('modal-title').innerText = (data ? '편집: ' : '신규 추가: ') + col;
+        document.getElementById('item-col').value = col;
+        document.getElementById('item-id').value = data ? data.id : '';
+        let html = '';
+        if(col === 'portfolio') {
+            html = `
+                <div class="form-row"><div class="form-group"><label class="form-label">제목 *</label><input name="title" class="form-input" value="${data?.title||''}" required></div><div class="form-group"><label class="form-label">슬러그 (URL)</label><input name="slug" class="form-input" value="${data?.slug||''}"></div></div>
+                <div class="form-row"><div class="form-group"><label class="form-label">카테고리</label><input name="category" class="form-input" value="${data?.category||''}"></div><div class="form-group"><label class="form-label">클라이언트</label><input name="client" class="form-input" value="${data?.client||''}"></div></div>
+                <div class="form-row"><div class="form-group"><label class="form-label">제작 연도</label><input name="year" class="form-input" value="${data?.year||'2025'}"></div><div class="form-group"><label class="form-label">순서</label><input name="sort_order" class="form-input" value="${data?.sort_order||0}"></div></div>
+                <div class="form-group"><label class="form-label">3D 카드 사이즈</label><select name="card_size" class="form-input"><option value="normal">Normal</option><option value="tall">Tall</option><option value="wide">Wide</option><option value="large">Large</option></select></div>
+                
+                <div class="form-group">
+                    <label class="form-label">비주얼 미디어 (썸네일/영상)</label>
+                    ${renderUploadUI('thumbnail', 'portfolio', data?.thumbnail)}
+                </div>
+
+                <div class="form-group"><label class="form-label">Challenge</label><textarea name="challenge" class="form-input">${data?.challenge||''}</textarea></div>
+                <div class="form-group"><label class="form-label">Solution</label><textarea name="solution" class="form-input">${data?.solution||''}</textarea></div>
+                <div class="form-group"><label class="form-label">Result</label><textarea name="result" class="form-input">${data?.result||''}</textarea></div>
+                <label class="switch-wrap"><input type="checkbox" name="is_featured" value="1" hidden ${(data?.is_featured==='1' || data?.is_featured===1)?'checked':''}> <div class="switch-box"></div> <span style="font-size:0.8rem; font-weight:700;">메인 홈페이지 노출 활성화</span></label>
+            `;
+        } else if(col === 'stats') {
+            html = `<div class="form-group"><label class="form-label">수치 제목</label><input name="label" class="form-input" value="${data?.label||''}"></div><div class="form-group"><label class="form-label">수치 (숫자/텍스트)</label><input name="value" class="form-input" value="${data?.value||''}"></div><div class="form-group"><label class="form-label">정렬 순서</label><input name="sort_order" class="form-input" value="${data?.sort_order||0}"></div>`;
+        } else if(col === 'hero_slides') {
+            html = `
+                <div class="form-group">
+                    <label class="form-label">히어로 이미지/영상</label>
+                    ${renderUploadUI('image_path', 'hero', data?.image_path)}
+                </div>
+                <div class="form-group"><label class="form-label">정렬 순서</label><input name="sort_order" class="form-input" value="${data?.sort_order||0}"></div>
+            `;
+        } else if(col === 'team') {
+            html = `
+                <div class="form-group"><label class="form-label">이름</label><input name="name" class="form-input" value="${data?.name||''}"></div><div class="form-group"><label class="form-label">역할/직책</label><input name="role" class="form-input" value="${data?.role||''}"></div>
+                <div class="form-group">
+                    <label class="form-label">프로필 사진</label>
+                    ${renderUploadUI('photo', 'team', data?.photo)}
+                </div>
+            `;
+        } else if(col === 'journey') {
+             html = `<div class="form-group"><label class="form-label">기간</label><input name="period" class="form-input" value="${data?.period||''}"></div><div class="form-group"><label class="form-label">타이틀</label><input name="title" class="form-input" value="${data?.title||''}"></div><div class="form-group"><label class="form-label">요약</label><textarea name="subtitle" class="form-input">${data?.subtitle||''}</textarea></div>`;
+        } else if(col === 'clients') {
+             html = `
+                <div class="form-group"><label class="form-label">기업명</label><input name="name" class="form-input" value="${data?.name||''}"></div>
+                <div class="form-group">
+                    <label class="form-label">로고 이미지</label>
+                    ${renderUploadUI('logo', 'clients', data?.logo)}
+                </div>
+             `;
+        } else if(col === 'contacts') {
+             html = `
+                <div class="form-group"><label class="form-label">성함/회사명</label><input class="form-input" value="${data?.company_name||''}" readonly></div>
+                <div class="form-group"><label class="form-label">이메일</label><input class="form-input" value="${data?.email||''}" readonly></div>
+                <div class="form-group"><label class="form-label">관심 서비스</label><input class="form-input" value="${data?.service||''}" readonly></div>
+                <div class="form-group"><label class="form-label">문의 내용</label><textarea class="form-input" style="min-height:150px;" readonly>${data?.message||''}</textarea></div>
+                <div class="form-group"><label class="form-label">문의 날짜</label><input class="form-input" value="${data?.created_at||''}" readonly></div>
+             `;
+        }
+        document.getElementById('modal-content').innerHTML = html;
+        if(data?.card_size) document.querySelector('[name=card_size]').value = data.card_size;
+        modal.style.display = 'flex';
+    };
+
+    window.editItem = async (col, id) => { const s = await getDoc(doc(db, col, id)); openEditModal(col, {...s.data(), id: s.id}); };
+    window.deleteItem = async (col, id) => { if(confirm('영구 삭제하시겠습니까?')) { await deleteDoc(doc(db, col, id)); switchView(col); } };
+    window.closeModal = () => modal.style.display='none';
+    itemForm.onsubmit = async (e) => {
+        e.preventDefault(); const fd = new FormData(itemForm); const col = document.getElementById('item-col').value; const id = document.getElementById('item-id').value;
+        const o = Object.fromEntries(fd.entries()); if(col==='portfolio') o.is_featured = fd.get('is_featured') || '0';
+        if(id) await updateDoc(doc(db, col, id), o); else await setDoc(doc(collection(db, col)), o);
+        closeModal(); switchView(col);
+    };
+
+    // 1:1 Live Simulator
+    async function renderPlacements() {
+        appView.innerHTML = '<div style="text-align:center; padding:10rem;"><i class="fa fa-spinner fa-spin"></i></div>';
+        let mode = 'pc';
+        const [ps, hs] = await Promise.all([getDocs(query(collection(db,'portfolio'), orderBy('sort_order','asc'))), getDoc(doc(db,'settings','hero'))]);
+        const pItems = ps.docs.map(d=>({...d.data(), id:d.id})); const hero = hs.exists() ? hs.data() : {};
+        const pcS = await getDoc(doc(db,'placements','pc')); const mS = await getDoc(doc(db,'placements','mobile'));
+        let allPos = { pc: pcS.exists() ? pcS.data().items || [] : [], mobile: mS.exists() ? mS.data().items || [] : [] };
+        
+        appView.innerHTML = `
+            <div class="header-content"><div class="view-title"><h1>1:1 라이브 풀-사이트 미러</h1><p>사이트 하단 인트로 글까지 포함된 가장 완벽한 배치 모드입니다.</p></div><button class="btn" id="save-p"><i class="fa fa-save"></i> 배치 저장</button></div>
+            <div class="p-mode-toggle"><button class="on" id="bw">💻 DESKTOP</button><button id="bm">📱 MOBILE</button></div>
+            <div id="p-sm-wrap" style="width:100%; height:82vh; overflow-y:scroll; background:#111; border-radius:30px; border:4px solid #1a1a1a; position:relative;">
+                <div id="p-site-shell" style="width:1200px; min-height:5000px; background:#000; position:relative; margin:0 auto; transition:0.6s cubic-bezier(0.16, 1, 0.3, 1);">
+                    <div style="height:850px; background:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+                         <span style="color:#0066ff; font-weight:900; letter-spacing:0.2em; font-size:0.8rem; margin-bottom:20px;">${hero.subtitle || 'CREATIVE PARTNER'}</span>
+                         <h1 style="font-family:'Outfit'; font-size:8rem; color:#000; font-weight:900; line-height:0.9;">${hero.title || 'THE 3 STUDIO'}</h1>
+                         <p style="color:#666; font-size:1.3rem; margin-top:40px; font-weight:500;">${hero.description || ''}</p>
+                    </div>
+                    <div id="p-gallery-zone" style="width:100%; height:130vh; background:#000; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center;">
+                        <h2 style="color:#fff; font-size:4rem; font-weight:900; z-index:1; pointer-events:none; text-align:center;">결과로 증명하는 <br>THE 3 STUDIO의 시선</h2>
+                        <div id="cards-container" style="position:absolute; inset:0; z-index:10;"></div>
+                    </div>
+                    <div style="height:600px; background:#000; border-top:1px solid #222; display:flex; align-items:center; justify-content:center;"><h1 style="color:#fff; font-size:10rem; opacity:0.04; font-weight:900;">GROW?</h1></div>
+                </div>
+            </div>
+        `;
+        const wrap = document.getElementById('p-sm-wrap'); const shell = document.getElementById('p-site-shell'); const cont = document.getElementById('cards-container');
+        const szM = { 'normal':{w:300,h:200}, 'tall':{w:240,h:350}, 'wide':{w:400,h:220}, 'large':{w:450,h:300} };
+        function draw() {
+            cont.innerHTML = ''; const isM = mode === 'mobile'; shell.style.width = isM ? '375px' : '1200px'; shell.style.borderRadius = isM ? '50px' : '0';
+            pItems.forEach(item => {
+                const found = allPos[mode].find(p => String(p.id) === String(item.id)); const x = found?found.x:0; const y = found?found.y:0;
+                const sz = szM[item.card_size] || szM['normal']; let w = sz.w; let h = sz.h; if(isM) { w*=0.55; h*=0.55; }
+                const el = document.createElement('div'); el.style.position='absolute'; el.style.cursor='move'; el.style.backgroundColor='#111'; el.style.borderRadius='20px'; el.style.overflow='hidden'; el.style.boxShadow='0 20px 60px rgba(0,0,0,1)'; el.style.width=w+'px'; el.style.height=h+'px'; el.style.left = (cont.offsetWidth/2 + x - w/2)+'px'; el.style.top = (cont.offsetHeight/2 + y - h/2)+'px';
+                el.innerHTML = isVideo(item.thumbnail)?`<video src="${getMediaSrc(item.thumbnail)}" muted autoplay loop style="width:100%; height:100%; object-fit:cover; opacity:0.8;"></video>`:`<img src="${getMediaSrc(item.thumbnail)}" style="width:100%; height:100%; object-fit:cover; opacity:0.8;">`;
+                el.onmousedown = (e) => {
+                    const sx = e.clientX - el.offsetLeft; const sy = e.clientY - el.offsetTop;
+                    document.onmousemove = (me) => {
+                        const nx = me.clientX - sx; const ny = me.clientY - sy; el.style.left = nx+'px'; el.style.top = ny+'px';
+                        const fx = Math.round(nx - cont.offsetWidth/2 + w/2); const fy = Math.round(ny - cont.offsetHeight/2 + h/2);
+                        const idx = allPos[mode].findIndex(p => String(p.id) === String(item.id)); if(idx > -1) { allPos[mode][idx].x = fx; allPos[mode][idx].y = fy; } else { allPos[mode].push({id: item.id, x: fx, y: fy}); }
+                    };
+                    document.onmouseup = () => { document.onmousemove = null; };
+                };
+                cont.appendChild(el);
+            });
+        }
+        setTimeout(() => { draw(); wrap.scrollTop = document.getElementById('p-gallery-zone').offsetTop; }, 700);
+        document.getElementById('bw').onclick = () => { mode='pc'; document.getElementById('bw').className='on'; document.getElementById('bm').className=''; draw(); };
+        document.getElementById('bm').onclick = () => { mode='mobile'; document.getElementById('bm').className='on'; document.getElementById('bw').className=''; draw(); };
+        document.getElementById('save-p').onclick = async () => { await setDoc(doc(db,'placements','pc'), { items: allPos.pc }); await setDoc(doc(db,'placements','mobile'), { items: allPos.mobile }); alert('배치 성공!'); };
+    }
+
+    renderDashboard();
+</script>
+</body>
+</html>

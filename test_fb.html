@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html>
+<body>
+<div id="status">Testing...</div>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getStorage, ref, uploadString, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBTX7XZ3WRxvf1MnpotRvUQC8x9o6N44yc",
+        authDomain: "the3-fc45a.firebaseapp.com",
+        projectId: "the3-fc45a",
+        storageBucket: "the3-fc45a.appspot.com",
+        messagingSenderId: "431210870560",
+        appId: "1:431210870560:web:89283eeb92998db6358945"
+    };
+
+    try {
+        const app = initializeApp(firebaseConfig);
+        const storage = getStorage(app);
+        const testRef = ref(storage, 'test_from_agent.txt');
+        
+        uploadString(testRef, 'Hello from Antigravity Agent!').then((snapshot) => {
+            getDownloadURL(snapshot.ref).then(url => {
+                document.getElementById('status').innerText = 'SUCCESS! URL: ' + url;
+                console.log('UPLOAD_SUCCESS', url);
+            });
+        }).catch(err => {
+            document.getElementById('status').innerText = 'FAILED: ' + err.message;
+            console.error('UPLOAD_FAIL', err);
+        });
+    } catch (e) {
+        document.getElementById('status').innerText = 'ERROR: ' + e.message;
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>THE 3 STUDIO - 미디어 클라우드 이관 도구</title>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <style>
+        body { font-family: 'Pretendard', sans-serif; background: #000; color: #fff; padding: 50px; line-height: 1.6; }
+        .card { background: #111; border: 1px solid #333; padding: 40px; border-radius: 20px; max-width: 800px; margin: 0 auto; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        h1 { color: #0066ff; margin-bottom: 10px; }
+        .btn { background: #0066ff; color: #fff; border: none; padding: 15px 30px; border-radius: 10px; font-weight: 800; cursor: pointer; margin-right: 10px; margin-bottom: 10px; }
+        .btn:disabled { background: #333; cursor: not-allowed; }
+        .log { background: #000; border: 1px solid #222; padding: 20px; height: 300px; overflow-y: auto; font-family: monospace; font-size: 13px; margin-top: 20px; border-radius: 10px; }
+        .status { margin-bottom: 20px; font-weight: bold; }
+        .progress-bar { height: 5px; background: #222; width: 100%; border-radius: 5px; margin-top: 10px; overflow: hidden; }
+        .progress-fill { height: 100%; background: #0066ff; width: 0%; transition: 0.3s; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>THE 3 STUDIO migration TOOL</h1>
+        <p>로컬에 있는 이미지와 영상을 파이어베이스 클라우드로 한꺼번에 옮깁니다.<br>이 작업이 완료되면 버셀(Vercel)에서도 사진이 정상적으로 보입니다.</p>
+        
+        <div class="status" id="status">준비됨</div>
+        
+        <input type="file" id="folder-input" webkitdirectory directory multiple style="display:none">
+        <button class="btn" onclick="document.getElementById('folder-input').click()">1. 이미지 폴더(uploads) 선택</button>
+        <button class="btn" id="start-btn" disabled>2. 클라우드로 마이그레이션 시작</button>
+        
+        <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+        
+        <div class="log" id="log">로그가 여기에 표시됩니다...</div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBTX7XZ3WRxvf1MnpotRvUQC8x9o6N44yc",
+            authDomain: "the3-fc45a.firebaseapp.com",
+            projectId: "the3-fc45a",
+            storageBucket: "the3-fc45a.appspot.com",
+            messagingSenderId: "431210870560",
+            appId: "1:431210870560:web:89283eeb92998db6358945"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+
+        const logEl = document.getElementById('log');
+        const startBtn = document.getElementById('start-btn');
+        const folderInput = document.getElementById('folder-input');
+        const progressEl = document.getElementById('progress');
+        const statusEl = document.getElementById('status');
+
+        let fileMap = {};
+
+        function addLog(msg, color = '#fff') {
+            const div = document.createElement('div');
+            div.style.color = color;
+            div.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+            logEl.appendChild(div);
+            logEl.scrollTop = logEl.scrollHeight;
+        }
+
+        folderInput.onchange = (e) => {
+            fileMap = {};
+            const files = e.target.files;
+            for (let f of files) {
+                // uploads/portfolio/img.jpg 구조에서 파일명만 혹은 상대경로 추출
+                const path = f.webkitRelativePath.replace(/.*\/uploads\//, 'uploads/');
+                fileMap[path] = f;
+            }
+            addLog(`${Object.keys(fileMap).length}개의 파일을 찾았습니다.`);
+            startBtn.disabled = false;
+            statusEl.textContent = '마이그레이션 준비 완료';
+        };
+
+        startBtn.onclick = async () => {
+            startBtn.disabled = true;
+            statusEl.textContent = '작업 중...';
+            addLog('데이터베이스 조회 시작...', '#0066ff');
+
+            const collections = ['portfolio', 'team', 'hero_slides', 'clients'];
+            let totalTasks = 0;
+            let completedTasks = 0;
+
+            try {
+                for (const colName of collections) {
+                    addLog(`${colName} 컬렉션 확인 중...`);
+                    const snap = await getDocs(collection(db, colName));
+                    const docs = [];
+                    snap.forEach(d => docs.push({ id: d.id, data: d.data() }));
+
+                    for (let d of docs) {
+                        // 미디어 필드 후보들 확인
+                        const fieldsToMigrate = ['thumbnail', 'photo', 'logo', 'image_path'];
+                        for (let field of fieldsToMigrate) {
+                            const val = d.data[field];
+                            if (val && typeof val === 'string' && val.startsWith('uploads/')) {
+                                totalTasks++;
+                                migrateFile(colName, d.id, field, val);
+                            }
+                        }
+                    }
+                }
+
+                if (totalTasks === 0) {
+                    addLog('이관할 로컬 이미지가 없습니다. 모두 클라우드에 있거나 데이터가 비어있습니다.', '#ffff00');
+                    statusEl.textContent = '종료';
+                    return;
+                }
+
+                async function migrateFile(col, docId, field, localPath) {
+                    const file = fileMap[localPath];
+                    if (!file) {
+                        addLog(`준비되지 않은 파일 건너뜀: ${localPath}`, '#ff4444');
+                        taskDone();
+                        return;
+                    }
+
+                    try {
+                        addLog(`업로드 중: ${localPath}...`);
+                        const storageRef = ref(storage, localPath);
+                        const snapshot = await uploadBytes(storageRef, file);
+                        const url = await getDownloadURL(snapshot.ref);
+
+                        addLog(`업로드 완료! DB 업데이트 중: ${docId}`, '#00ff00');
+                        await updateDoc(doc(db, col, docId), { [field]: url });
+                        
+                        taskDone();
+                    } catch (err) {
+                        addLog(`오류 발생 (${localPath}): ${err.message}`, '#ff4444');
+                        taskDone();
+                    }
+                }
+
+                function taskDone() {
+                    completedTasks++;
+                    const p = (completedTasks / totalTasks) * 100;
+                    progressEl.style.width = p + '%';
+                    if (completedTasks >= totalTasks) {
+                        addLog('!!! 모든 이관 작업이 완료되었습니다 !!!', '#00ff00');
+                        statusEl.textContent = '완료';
+                    }
+                }
+
+            } catch (err) {
+                addLog(`치명적 오류: ${err.message}`, '#ff0000');
+            }
+        };
+    </script>
+</body>
+</html>

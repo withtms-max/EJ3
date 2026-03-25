@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+vendor/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Large files / Backups
+*.zip
+*.rar
+bak/
+temp/
+
+# DB files (SQLite binary)
+# IDE files
+.vscode/
+.idea/
+
+# PHP config
+php_info.php
+check_ini.php
