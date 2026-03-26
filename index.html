@@ -1282,8 +1282,9 @@ body.light-mode .pkg-item { border-bottom-color: rgba(0,0,0,0.05) !important; }
       let items = [];
       portfolioSnap.forEach(doc => {
         const data = doc.data();
-        // ID는 문서 ID(SQLite ID 보존)를 사용하거나 필드에 있는 ID 사용
-        items.push({ ...data, id: data.id || doc.id });
+        if(data.status !== 'Draft') {
+          items.push({ ...data, id: data.id || doc.id });
+        }
       });
 
       if(items.length > 0) {
@@ -1307,8 +1308,8 @@ body.light-mode .pkg-item { border-bottom-color: rgba(0,0,0,0.05) !important; }
           }
         } catch(e) { console.error('Firestore Placements Load Error:', e); }
 
-        // 갤러리 초기화 및 렌더링
-        initGallery(items);
+        // 갤러리 초기화 및 렌더링 (3D 갤러리 노출 설정된 항목만)
+        initGallery(items.filter(it => it.show_in_gallery === '1'));
 
         // URL 파라미터(slug)가 있으면 해당 모달 자동 오픈
         const urlParams = new URLSearchParams(window.location.search);
@@ -1423,7 +1424,14 @@ body.light-mode .pkg-item { border-bottom-color: rgba(0,0,0,0.05) !important; }
         if(heroItems && heroItems.length > 0) {
             displayItems = heroItems.map(h => ({ thumbnail: h.image_path, title: 'Hero' }));
         } else {
-            displayItems = cachedPortfolioItems.length > 0 ? cachedPortfolioItems.slice(0, 5) : [];
+            // 추천 항목(is_featured)만 추출하여 사용 (캐시가 비었을 경우 대비)
+            let source = cachedPortfolioItems;
+            if (source.length === 0) {
+                const pSnap = await getDocs(collection(db, 'portfolio'));
+                source = [];
+                pSnap.forEach(d => { if(d.data().status !== 'Draft') source.push(d.data()); });
+            }
+            displayItems = source.filter(it => it.is_featured === '1').slice(0, 5);
         }
 
         if(displayItems.length > 0) {
