@@ -98,7 +98,17 @@ body.light-mode .work-title { color: #111; }
 body.light-mode .work-thumb-wrap { background: #f0f3f8; }
 body.light-mode footer { background: #fff; border-top-color: rgba(0,0,0,0.05); }
 body.light-mode .footer-logo { color: #111; }
-body.light-mode .footer-copy { color: rgba(0,0,0,0.3); }
+body.light-mode .footer-copy { color: rgba(0,0,0,0.4); }
+
+/* LIGHT MODE SUPPORT - CSS VARS */
+body.light-mode {
+    --bg: #fff;
+    --surface: #f8f9fa;
+    --border: rgba(0,0,0,0.08);
+    --text: #111;
+    --text-dim: #666;
+}
+
 /* MOBILE MENU & RESPONSIVE FIXES */
 .nav-toggle { display: none; background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; z-index: 1001; }
 .mobile-menu { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.95); backdrop-filter: blur(20px); z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center; transform: translateY(-100%); transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); opacity: 0; visibility: hidden; }

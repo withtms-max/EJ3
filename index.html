@@ -416,8 +416,13 @@ body.light-mode .gh-p { color: rgba(0,0,0,0.6) !important; }
 
 body.light-mode .team-sect { background: #f1f3f6 !important; border-top: 1px solid rgba(0,0,0,0.08); border-bottom: 1px solid rgba(0,0,0,0.08); }
 body.light-mode .team-card { background: #fff !important; box-shadow: 0 15px 45px rgba(0,0,0,0.06) !important; border: 1px solid rgba(0,0,0,0.05) !important; }
+body.light-mode .team-details { background: #fff !important; }
+body.light-mode .team-bio-text { color: #555 !important; }
+
 body.light-mode .journey-sect { background: #fff !important; }
-body.light-mode .journey-item { background: #f1f3f6 !important; border: 1px solid rgba(0,0,0,0.1) !important; box-shadow: 0 10px 25px rgba(0,0,0,0.04) !important; }
+body.light-mode .j-card { background: #f1f3f6 !important; border: 1px solid rgba(0,0,0,0.1) !important; box-shadow: 0 10px 25px rgba(0,0,0,0.04) !important; }
+body.light-mode .j-desc { color: #555 !important; }
+
 body.light-mode .pf-backdrop { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); }
 body.light-mode .pf-box { background: #fff; border-color: rgba(0,0,0,0.1); color: #111; box-shadow: 0 40px 100px rgba(0,0,0,0.1); }
 body.light-mode .pf-title { color: #111; }
@@ -427,7 +432,15 @@ body.light-mode .pf-sec p { color: #555; }
 body.light-mode .pf-close-btn { color: #000; background: rgba(0,0,0,0.05); }
 body.light-mode .pf-btn { background: rgba(255,255,255,0.8); color: #000; border: 1px solid rgba(0,0,0,0.05); }
 body.light-mode .pf-btn:hover { background: #fff; }
-body.light-mode .pf-dot { background: rgba(0,0,0,0.1); }
+body.light-mode .pf-dot { background: rgba(0,0,0,0.2) !important; }
+body.light-mode .pf-dot.on { background: #0066ff !important; }
+
+/* Banner Light Mode Fix */
+body.light-mode .banner { background: rgba(255,255,255,0.9) !important; border-color: rgba(0,0,0,0.1) !important; box-shadow: 0 20px 40px rgba(0,0,0,0.1) !important; }
+body.light-mode .banner p { color: #333 !important; }
+body.light-mode .banner-btns .bb2 { background: rgba(0,0,0,0.05) !important; color: #555 !important; border-color: rgba(0,0,0,0.1) !important; }
+body.light-mode .banner-btns .bb2:hover { background: rgba(0,0,0,0.1) !important; color: #000 !important; }
+
 
 /* BASE (DARK) THEME REFINEMENTS */
 .svc-chip { 
@@ -1388,7 +1401,7 @@ body.light-mode .pkg-item { border-bottom-color: rgba(0,0,0,0.05) !important; }
                 }
 
                 teamHTML += `
-                  <div class="team-card" style="background:#0a0a0a; border:1px solid rgba(255,255,255,0.08); border-radius:30px; overflow:hidden; box-shadow:0 20px 40px rgba(0,0,0,0.3); transition:0.4s;">
+                  <div class="team-card">
                     <div style="position:relative; height:450px; overflow:hidden;">
                       <img src="${photo}" style="width:100%; height:100%; object-fit:cover; filter:grayscale(100%); transition: 0.5s;">
                       <div style="position:absolute; bottom:0; left:0; width:100%; padding:30px; background:linear-gradient(transparent, rgba(0,0,0,0.8));">
@@ -1396,8 +1409,8 @@ body.light-mode .pkg-item { border-bottom-color: rgba(0,0,0,0.05) !important; }
                         <h3 style="color:#fff; font-size:1.8rem; font-weight:900;">${it.name || 'Master'}</h3>
                       </div>
                     </div>
-                    <div style="padding:40px; background:#0a0a0a;">
-                      <p style="font-size:1.1rem; font-weight:600; color:rgba(255,255,255,0.6); margin-bottom:0; line-height:1.6;">
+                    <div class="team-details" style="padding:40px; background:#0a0a0a; transition: background 0.3s;">
+                      <p class="team-bio-text" style="font-size:1.1rem; font-weight:600; color:rgba(255,255,255,0.6); margin-bottom:0; line-height:1.6; transition: color 0.3s;">
                         ${it.bio || '"사장님의 비즈니스가 지속 가능한 성장을 이룰 수 있도록 우리는 최선을 다합니다."'}
                       </p>
                     </div>
@@ -1406,9 +1419,9 @@ body.light-mode .pkg-item { border-bottom-color: rgba(0,0,0,0.05) !important; }
             });
             teamGrid.innerHTML = teamHTML;
             
-            // 동적 생성된 카드에 fade-up 효과 적용
-            if(window.io) {
-                document.querySelectorAll('#team-grid .team-card').forEach(el => window.io.observe(el));
+            // Re-apply fade-up observation for dynamic elements
+            if(io) {
+                document.querySelectorAll('#team-grid .team-card').forEach(el => io.observe(el));
             }
         }
     } catch(e) { console.error('Team Load Error:', e); }

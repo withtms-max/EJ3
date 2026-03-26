@@ -136,7 +136,17 @@ body.light-mode .back-btn { background: #0066ff; color: #fff; padding: 0.8rem 1.
 body.light-mode .back-btn:hover { background: #0055dd; color: #fff; }
 body.light-mode footer { background: #fbfcfe; border-top-color: rgba(0,0,0,0.05); }
 body.light-mode .footer-logo, body.light-mode .footer-copy { color: #111; }
-body.light-mode .footer-copy { opacity: 0.4; }
+body.light-mode .footer-copy { opacity: 0.5; }
+
+/* LIGHT MODE SUPPORT - CSS VARS */
+body.light-mode {
+    --bg: #fff;
+    --surface: #f8f9fa;
+    --border: rgba(0,0,0,0.08);
+    --text: #111;
+    --text-dim: #555;
+}
+
 
 /* NAV LIGHT MODE OVERRIDES */
 body.light-mode nav:not(.scrolled) .nav-logo { color: #111 !important; }
