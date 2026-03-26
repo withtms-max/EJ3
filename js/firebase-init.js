@@ -8,7 +8,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyBTX7XZ3WRxvf1MnpotRvUQC8x9o6N44yc",
   authDomain: "the3-fc45a.firebaseapp.com",
   projectId: "the3-fc45a",
-  storageBucket: "the3-fc45a.appspot.com", // storageBucket was slightly wrong in previous artifacts, usually .appspot.com
+  storageBucket: "the3-fc45a.firebasestorage.app",
   messagingSenderId: "431210870560",
   appId: "1:431210870560:web:89283eeb92998db6358945",
   measurementId: "G-7CV2EYEP2V"
