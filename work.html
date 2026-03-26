@@ -153,22 +153,11 @@ body.light-mode {
   <a href="index.html#contact" class="nav-cta">문의하기</a>
 </nav>
 
-<div class="mobile-menu" id="mobile-menu">
-  <button class="close-mobile" id="close-mobile">✕</button>
-  <ul class="mobile-links">
-    <li><a href="index.html#home">홈</a></li>
-    <li><a href="index.html#gallery">포트폴리오</a></li>
-    <li><a href="index.html#team">전문가 서비스</a></li>
-    <li><a href="index.html#journey">스토리</a></li>
-    <li><a href="index.html#contact">문의하기</a></li>
-  </ul>
-</div>
-
 <!-- MOBILE MENU OVERLAY -->
 <div class="mobile-menu" id="mobile-menu">
   <button class="close-mobile" id="close-mobile">&times;</button>
   <ul class="mobile-links">
-    <li><a href="index.html" onclick="toggleMobileMenu()">홈</a></li>
+    <li><a href="index.html#home" onclick="toggleMobileMenu()">홈</a></li>
     <li><a href="work.html" onclick="toggleMobileMenu()">포트폴리오</a></li>
     <li><a href="index.html#team" onclick="toggleMobileMenu()">전문가 서비스</a></li>
     <li><a href="index.html#journey" onclick="toggleMobileMenu()">스토리</a></li>
@@ -287,7 +276,7 @@ body.light-mode {
                 </div>
             </a>
         `}).join('');
-        document.querySelectorAll('.work-card.fu').forEach(el => io.observe(el));
+        document.querySelectorAll('.work-card.fu').forEach(el => observer.observe(el));
     }
 
     async function loadWork() {
@@ -330,7 +319,7 @@ body.light-mode {
     loadWork();
     
     // Initial Fade-up
-    document.querySelectorAll('.fu').forEach(el => io.observe(el));
+    document.querySelectorAll('.fu').forEach(el => observer.observe(el));
 </script>
 </body>
 </html>

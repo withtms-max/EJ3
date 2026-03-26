@@ -624,7 +624,8 @@
                 }
                 const items = cat === 'all' ? allItems : allItems.filter(i => i.category === cat);
                 grid.innerHTML = items.map(item => {
-                    const thumb = item.thumbnail ? '/' + item.thumbnail : '/img/placeholder.jpg';
+                    let thumb = item.thumbnail || '/img/placeholder.jpg';
+                    if (!thumb.startsWith('http') && !thumb.startsWith('/')) thumb = '/' + thumb;
                     const isVideo = /\.(mp4|webm|avi|mov)$/i.test(thumb);
                     return `
                 <a href="index.html?slug=${item.slug}#gallery" class="work-card fu">
