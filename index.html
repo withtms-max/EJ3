@@ -1424,17 +1424,18 @@ body.light-mode .pkg-item { border-bottom-color: rgba(0,0,0,0.05) !important; }
         if(heroItems && heroItems.length > 0) {
             displayItems = heroItems.map(h => ({ thumbnail: h.image_path, title: 'Hero' }));
         } else {
-            // 추천 항목(is_featured)만 추출하여 사용 (캐시가 비었을 경우 대비)
+            // 추천 항목(is_featured)이 있으면 우선 사용, 없으면 전체 중 최신 5개 사용
             let source = cachedPortfolioItems;
             if (source.length === 0) {
                 const pSnap = await getDocs(collection(db, 'portfolio'));
                 source = [];
                 pSnap.forEach(d => { if(d.data().status !== 'Draft') source.push(d.data()); });
             }
-            displayItems = source.filter(it => it.is_featured === '1').slice(0, 5);
+            const featured = source.filter(it => it.is_featured === '1');
+            displayItems = featured.length > 0 ? featured.slice(0, 5) : source.slice(0, 5);
         }
 
-        if(displayItems.length > 0) {
+        if(displayItems && displayItems.length > 0) {
             let fanHTML = '';
             const classes = ['fh-c1', 'fh-c2', 'fh-c3', 'fh-c4', 'fh-c5'];
             const limit = Math.min(displayItems.length, 5);
