@@ -628,6 +628,111 @@ body.light-mode .pkg-item { border-bottom-color: rgba(0,0,0,0.05) !important; }
 }
 .scroll-bar { width: 1px; height: 60px; background: linear-gradient(to bottom, var(--primary), transparent); }
 @keyframes guideFade { 0%, 100% { opacity: 0.3; transform: translate(-50%, 0); } 50% { opacity: 0.8; transform: translate(-50%, 10px); } }
+
+/* IMPACT SECTION & SLIDER */
+.impact-sect {
+  padding: 12rem 1.5rem;
+  background: #000;
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+.impact-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 1000px;
+  height: 1000px;
+  background: radial-gradient(circle, rgba(0,102,255,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+.impact-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+.impact-slider {
+  width: 100%;
+  overflow: hidden;
+  padding-bottom: 3rem;
+}
+.impact-slide {
+  text-align: center;
+}
+.impact-quote-icon {
+  font-family: 'Outfit', sans-serif;
+  font-size: 6rem;
+  color: #0066ff;
+  opacity: 0.25;
+  line-height: 0.5;
+  margin-bottom: 2.5rem;
+  font-weight: 900;
+}
+.impact-main-text {
+  font-family: 'Pretendard', sans-serif;
+  font-size: clamp(1.4rem, 4vw, 2.5rem);
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.5;
+  word-break: keep-all;
+  margin-bottom: 4rem;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.impact-main-text .highlight {
+  color: #0066ff;
+}
+.impact-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+}
+.impact-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(0,102,255,0.2);
+}
+.impact-info-name {
+  font-weight: 800;
+  color: #fff;
+  font-size: 1.1rem;
+  margin-bottom: 0.3rem;
+}
+.impact-info-result {
+  font-weight: 900;
+  color: #0066ff;
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  background: rgba(0,102,255,0.1);
+  padding: 4px 14px;
+  border-radius: 99px;
+  display: inline-block;
+}
+.impact-pagination {
+  bottom: 0 !important;
+}
+.impact-pagination .swiper-pagination-bullet {
+  background: rgba(255,255,255,0.2);
+  width: 10px;
+  height: 10px;
+  transition: 0.3s;
+}
+.impact-pagination .swiper-pagination-bullet-active {
+  background: #0066ff;
+  width: 30px;
+  border-radius: 5px;
+}
+
+body.light-mode .impact-sect { background: #FFFFFF; border-top-color: rgba(0,0,0,0.05); }
+body.light-mode .impact-main-text { color: #111; }
+body.light-mode .impact-info-name { color: #111; }
 </style>
 </head>
 <body id="home" class="loading">
@@ -799,6 +904,103 @@ body.light-mode .pkg-item { border-bottom-color: rgba(0,0,0,0.05) !important; }
     <div class="gallery-scene" id="gallery-scene" style="transform-style:preserve-3d;">
     </div><!-- /scene -->
   </div><!-- /stage -->
+</section>
+
+<!-- SUCCESS STORIES (IMPACT SECTION) -->
+<section id="impact" class="impact-sect">
+  <div class="impact-glow"></div>
+  <div class="impact-inner fu">
+    <div class="swiper impact-slider" id="impact-slider">
+      <div class="swiper-wrapper">
+        <!-- Slide 1: 한사발포차 -->
+        <div class="swiper-slide impact-slide">
+          <div class="impact-quote-icon">"</div>
+          <h2 class="impact-main-text">
+             "줄 서는 식당으로 소문나서 막막했는데, <span class="highlight">THE 3</span>의 브랜딩 이후 <br class="show-desktop">영등포에서 가장 힙한 플레이스가 되었어요."
+          </h2>
+          <div class="impact-profile">
+            <img src="https://images.unsplash.com/photo-1552058544-f2b08422138a?q=80&w=200&auto=format&fit=crop" alt="한사발포차" class="impact-avatar">
+            <div class="impact-info">
+              <p class="impact-info-name">한사발포차 최한사 사장님</p>
+              <p class="impact-info-result">네이버 플레이스 상위 1% 달성</p>
+            </div>
+          </div>
+        </div>
+        <!-- Slide 2: 태백우장수 -->
+        <div class="swiper-slide impact-slide">
+          <div class="impact-quote-icon">"</div>
+          <h2 class="impact-main-text">
+             "가족 외식 장소로 홍보가 안 돼서 힘들었지만, <br class="show-desktop"><span class="highlight">THE 3</span>와 함께한 뒤 당산동 최고의 고기 맛집으로 자리 잡았습니다."
+          </h2>
+          <div class="impact-profile">
+            <img src="https://images.unsplash.com/photo-1544168190-79c17527004f?q=80&w=200&auto=format&fit=crop" alt="태백우장수" class="impact-avatar">
+            <div class="impact-info">
+              <p class="impact-info-name">태백우장수 고태백 사장님</p>
+              <p class="impact-info-result">월 매출 3배 성장 달성</p>
+            </div>
+          </div>
+        </div>
+        <!-- Slide 3: 일품각 -->
+        <div class="swiper-slide impact-slide">
+          <div class="impact-quote-icon">"</div>
+          <h2 class="impact-main-text">
+             "당산역 원조의 자존심을 <span class="highlight">THE 3</span>가 다시 세워줬습니다. <br class="show-desktop">전통과 트렌드를 모두 잡은 완벽한 디자인의 승리입니다."
+          </h2>
+          <div class="impact-profile">
+            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=200&auto=format&fit=crop" alt="일품각" class="impact-avatar">
+            <div class="impact-info">
+              <p class="impact-info-name">일품각 장양꼬 사장님</p>
+              <p class="impact-info-result">지역 기반 검색 1위 점유</p>
+            </div>
+          </div>
+        </div>
+        <!-- Slide 4: 하와이조개 -->
+        <div class="swiper-slide impact-slide">
+          <div class="impact-quote-icon">"</div>
+          <h2 class="impact-main-text">
+             "무제한 해물라면의 가치를 <span class="highlight">THE 3</span>가 영상으로 증명해줬어요. <br class="show-desktop">이제 당산에서 조개구이 하면 저희부터 찾습니다."
+          </h2>
+          <div class="impact-profile">
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&auto=format&fit=crop" alt="하와이조개" class="impact-avatar">
+            <div class="impact-info">
+              <p class="impact-info-name">하와이조개 조하와 사장님</p>
+              <p class="impact-info-result">인스타그램 태그 수 2,000% 폭증</p>
+            </div>
+          </div>
+        </div>
+        <!-- Slide 5: 안동실비 -->
+        <div class="swiper-slide impact-slide">
+          <div class="impact-quote-icon">"</div>
+          <h2 class="impact-main-text">
+             "24시간 영업의 강점을 <span class="highlight">THE 3</span>가 정교하게 타겟팅해줬습니다. <br class="show-desktop">새벽에도 끊이지 않는 손님들로 즐거운 비명을 지릅니다."
+          </h2>
+          <div class="impact-profile">
+            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=200&auto=format&fit=crop" alt="안동실비" class="impact-avatar">
+            <div class="impact-info">
+              <p class="impact-info-name">안동실비 심안동 사장님</p>
+              <p class="impact-info-result">방문자 리뷰 1,000개 돌파</p>
+            </div>
+          </div>
+        </div>
+        <!-- Slide 6: 손정보쌈 -->
+        <div class="swiper-slide impact-slide">
+          <div class="impact-quote-icon">"</div>
+          <h2 class="impact-main-text">
+             "막걸리 쿠폰 전략 하나로 <span class="highlight">THE 3</span>가 상권 지도를 바꿨어요. <br class="show-desktop">가장 단순한 게 가장 강력한 전략임을 배우고 갑니다."
+          </h2>
+          <div class="impact-profile">
+            <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=200&auto=format&fit=crop" alt="손정보쌈" class="impact-avatar">
+            <div class="impact-info">
+              <p class="impact-info-name">손정보쌈 박보쌈 사장님</p>
+              <p class="impact-info-result">재방문율 40% 이상 기록</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Pagination -->
+      <div class="swiper-pagination impact-pagination"></div>
+    </div>
+  </div>
 </section>
 
 <!-- JOURNEY -->
@@ -1795,6 +1997,16 @@ body.light-mode .pkg-item { border-bottom-color: rgba(0,0,0,0.05) !important; }
   });
 
 
+
+  // ── IMPACT SLIDER (Swiper) ──
+  new Swiper('#impact-slider', {
+    loop: true,
+    autoplay: { delay: 5000, disableOnInteraction: false },
+    pagination: { el: '.impact-pagination', clickable: true },
+    speed: 800,
+    effect: 'fade',
+    fadeEffect: { crossFade: true }
+  });
 
   document.getElementById('contact-form')?.addEventListener('submit', async (e) => {
     e.preventDefault();
