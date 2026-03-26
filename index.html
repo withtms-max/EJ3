@@ -601,6 +601,114 @@ body.light-mode .banner-btns .bb2 { color: #111; }
 
 /* (CLEANED UP BY MERGE) */
 
+/* CINEMATIC ATMOSPHERE (FINAL) */
+.fan-hero {
+    background: radial-gradient(circle at 50% 50%, #0a0a0a 0%, #000 100%) !important;
+    position: relative;
+    overflow: hidden;
+}
+.fan-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    /* Rich blue atmospheric glow */
+    background: radial-gradient(circle at 80% 20%, rgba(0,102,255,0.1) 0%, transparent 40%),
+                radial-gradient(circle at 20% 80%, rgba(0,102,255,0.06) 0%, transparent 40%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* HIGH-END GLASS CARDS (NO LONGER TUBAK!) */
+.fh-card {
+    background: rgba(255, 255, 255, 0.03) !important;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 30px !important; 
+    box-shadow: 0 40px 100px -15px rgba(0, 0, 0, 0.7) !important;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease !important;
+}
+.fh-card:hover {
+    border-color: rgba(0, 102, 255, 0.6) !important;
+    box-shadow: 0 0 50px rgba(0, 102, 255, 0.3) !important;
+    transform: var(--fan-pos) translateY(-20px) scale(1.08) !important;
+    z-index: 100 !important;
+}
+
+/* INTERACTIVE TITLE & REVEAL (THE FINAL MASTERPIECE) */
+.hero-title-wrap { 
+  position: relative; 
+  display: flex !important; 
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer; 
+  z-index: 10; 
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  min-height: 250px; /* 웅장한 높이 확보 */
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* 기본 문구 스타일 */
+#hero-title { 
+  font-size: clamp(2.8rem, 9vw, 6.8rem); 
+  line-height: 1.2; 
+  font-weight: 950; 
+  letter-spacing: -0.05em; 
+  color: #fff;
+  opacity: 1; /* 기본값 보임 */
+  visibility: visible;
+  transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1); 
+  text-align: center;
+  margin: 0;
+  display: block;
+  z-index: 2;
+}
+
+/* 로고 스타일 (기본은 숨김) */
+#hero-hover-text {
+  position: absolute; 
+  top: 50%; 
+  left: 50%; 
+  width: 100%;
+  transform: translate(-50%, -50%) scale(1.1);
+  opacity: 0; /* 기본값 숨김 */
+  visibility: hidden;
+  pointer-events: none;
+  transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  font-weight: 950; 
+  color: #fff; 
+  text-align: center; 
+  line-height: 1;
+  letter-spacing: -0.05em;
+  font-size: clamp(3rem, 10vw, 8.5rem); 
+  filter: blur(20px);
+  text-shadow: 0 0 60px rgba(0, 102, 255, 0.6);
+  z-index: 1;
+}
+
+/* HOVER 및 ACTIVE 상태 - CSS 우선순위 확보 */
+.hero-title-wrap:hover #hero-title,
+.hero-title-wrap.active #hero-title { 
+  opacity: 0; 
+  transform: scale(0.95); 
+  filter: blur(20px); 
+}
+
+.hero-title-wrap:hover #hero-hover-text,
+.hero-title-wrap.active #hero-hover-text { 
+  opacity: 1; 
+  visibility: visible;
+  transform: translate(-50%, -50%) scale(1); 
+  filter: blur(0px);
+}
+
+/* TYPOGRAPHY RHYTHM */
+.hero-reveal { opacity: 0; transform: translateY(30px); filter: blur(10px); }
+body.loaded .hero-reveal { animation: heroReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+@keyframes heroReveal { to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+
 body.light-mode .svc-chip { 
     background: #f0f0f0 !important; 
     border-color: rgba(0,0,0,0.1) !important; 
@@ -784,41 +892,43 @@ body.light-mode .impact-info-name { color: #111; }
   </filter>
 </svg>
 
-<!-- FAN HERO -->
-<section class="fan-hero" id="home" style="position:relative; overflow:hidden;">
-  <div class="fh-title fu">
-    <h3 id="hero-sub" style="font-weight:800; opacity:0.6; font-size: 0.9rem; color:var(--primary); letter-spacing:0.3em; text-transform:uppercase; margin-bottom:1.5rem;">One and Only Mastery</h3>
-    <div class="hero-title-wrap">
-      <h1 id="hero-title" class="highlight" style="filter:url(#sand-filter); display:inline-block; font-size: clamp(3rem, 10vw, 8.5rem); margin-bottom: 1.5rem; line-height:1; font-weight:900; transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);">THE <span style="color:#0066ff; text-shadow: 0 0 40px rgba(0, 102, 255, 0.4);">3</span> STUDIO</h1>
+<!-- FAN HERO (MINIMAL LUXURY EVOLUTION) -->
+<section class="fan-hero loading" id="home" style="min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; background: radial-gradient(circle at center, #0a0a0a 0%, #000 100%) !important;">
+  <div class="fh-title hero-reveal" style="max-width: 1200px; padding: 0 20px; z-index: 10;">
+    <h3 id="hero-sub" style="font-weight:900; opacity:0.6; font-size: 0.8rem; color:#0066ff; letter-spacing:0.5rem; text-transform:uppercase; margin-bottom:2.5rem;">The Premier Creative Agency</h3>
+    
+    <div class="hero-title-wrap" id="main-click-title">
+      <h1 id="hero-title">
+        장사하기도 바쁜 사장님,<br>
+        <span style="background: linear-gradient(to right, #fff 0%, #0066ff 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 25px rgba(0, 102, 255, 0.4));">브랜딩은 저희가</span> 할게요.
+      </h1>
       <div id="hero-hover-text">
-        사장님의 브랜드를 <br>
-        <span class="h-accent">전략 · 영상 · 디자인</span>으로 <span class="h-accent">3배 성장</span>시킵니다
-        <span class="h-sub">- THE 3 -</span>
+         THE <span style="color:#0066ff;">3</span> STUDIO
       </div>
     </div>
-    <p id="hero-desc" class="fh-subcopy" style="font-size: 1.5rem; font-weight:800; opacity:0.9; margin-bottom: 3.5rem;">사장님의 장사는 '비즈니스'가 되어야 합니다.</p>
+    
+    <p id="hero-desc" style="font-size: clamp(1rem, 2.5vw, 1.35rem); font-weight:500; color:rgba(255,255,255,0.45); line-height:1.8; max-width: 850px; margin-left: auto; margin-right: auto; word-break: keep-all; margin-bottom: 4rem;">
+       최적의 브랜드 경험을 설계하는 프리미엄 브랜딩 스튜디오, 더쓰리스튜디오입니다.<br>
+       고객의 마음에 남는 차별화된 아이덴티티를 만듭니다.
+    </p>
+
+    <!-- REFINED PILL BUTTON -->
+    <div style="margin-top: 2rem;">
+      <a href="#contact" class="gallery-btn" style="padding: 1.2rem 3.8rem; font-size: 1.15rem; border-radius: 999px; background: linear-gradient(135deg, #007aff 0%, #0044cc 100%); border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 20px 50px rgba(0, 102, 255, 0.4); text-transform: none; font-weight: 800;">
+        👈 우리 가게도 바뀔 수 있을까? 무료 진단받기
+      </a>
+    </div>
+
+    <!-- SCROLL GUIDE (REFINED) -->
+    <div class="scroll-guide hero-reveal" style="position:relative; margin-top: 6rem; animation-delay: 1.2s; opacity: 0.3;">
+      <div class="scroll-bar" style="height: 50px; width: 1px; background: linear-gradient(to bottom, #0066ff, transparent); margin: 0 auto;"></div>
+    </div>
   </div>
   
-  <div class="fh-fan fu" style="transition-delay: 0.2s;" id="hero-fan">
-    <!-- 동적으로 포트폴리오 이미지가 로딩됩니다. -->
-    <div class="fh-card" style="display:flex; align-items:center; justify-content:center; color:#666;">
-        <i class="fa fa-spinner fa-spin"></i>
-    </div>
-  </div>
-
-  <!-- SCROLL GUIDE & DESCRIPTION WRAP -->
-  <div style="margin-top: 2rem; display: flex; flex-direction: column; align-items: center; gap: 2rem; padding-bottom: 2rem;">
-    <!-- SCROLL GUIDE -->
-    <div class="scroll-guide fu" style="position:relative; transition-delay: 1.2s; margin-bottom: 1rem;">
-      <p style="font-size:0.65rem; font-weight:900; letter-spacing:0.4em; text-transform:uppercase; color:#0066ff; margin-bottom:1rem;">Scroll Down</p>
-      <div class="scroll-bar" style="height: 40px; width: 1px; background: linear-gradient(to bottom, #0066ff, transparent); margin: 0 auto; opacity: 0.8;"></div>
-    </div>
-
-    <!-- DESCRIPTION -->
-    <div id="hero-long-desc" class="fh-desc fu" style="font-size: 1.1rem; opacity:0.95; line-height:1.5; max-width:800px; font-weight:800; word-break:keep-all; color:#fff; text-align:center;">
-      대기업의 브랜딩 전략, 이제 사장님 가게에 통째로 이식합니다.<br>
-      우리는 결과로 증명하는 <span style="color:#0066ff;">3</span>명의 마스터입니다.
-    </div>
+  <!-- BACKGROUND ATMOSPHERE -->
+  <div style="position:absolute; inset:0; pointer-events:none;">
+    <div style="position:absolute; top: -10%; right: -10%; width: 60%; height: 60%; background: radial-gradient(circle, rgba(0,102,255,0.08) 0%, transparent 70%);"></div>
+    <div style="position:absolute; bottom: -10%; left: -10%; width: 50%; height: 50%; background: radial-gradient(circle, rgba(0,102,255,0.05) 0%, transparent 70%);"></div>
   </div>
 </section>
 
@@ -2026,6 +2136,36 @@ body.light-mode .impact-info-name { color: #111; }
       document.getElementById('contact-form-area').style.display = 'none';
       document.getElementById('success-msg').style.display = 'block';
     } catch (err) { alert('오류: ' + err.message); btn.disabled = false; btn.textContent = '다시 시도'; }
+  });
+
+  // ── HERO 3D PARALLAX EFFECT (FOR TRENDY UI) ──
+  document.addEventListener('mousemove', (e) => {
+    const x = (window.innerWidth / 2 - e.pageX) / 60;
+    const y = (window.innerHeight / 2 - e.pageY) / 60;
+    
+    // Parallax for cards (subtle 3D tilt)
+    const cards = document.querySelectorAll('.fh-card');
+    cards.forEach((card, idx) => {
+        const factor = (idx + 1) * 2.5;
+        card.style.transform = `var(--fan-pos) translate3d(${x/factor}px, ${y/factor}px, 0)`;
+    });
+  });
+
+  // ── INTERACTIVE TITLE LOGIC (REFINED & CLEAN) ──
+  const mainTitle = document.getElementById('main-click-title');
+  if (mainTitle) {
+      mainTitle.addEventListener('click', (e) => {
+          mainTitle.classList.toggle('active');
+          e.stopPropagation();
+      });
+  }
+
+  // Finish Loading Animation Trigger
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+        document.body.classList.remove('loading');
+        document.body.classList.add('loaded');
+    }, 450);
   });
 </script>
 </body>
