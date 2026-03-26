@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="stylesheet" href="css/style.css">
 <style>
+:root { --primary: #0066ff; }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
 html{scroll-behavior:smooth;}
 body{
@@ -66,6 +67,39 @@ nav.scrolled{background:rgba(5,5,5,.9);backdrop-filter:blur(12px);padding:1rem 3
   line-height: 1.05;
   letter-spacing: -0.05em;
 }
+.hero-title-wrap { position: relative; display: inline-block; cursor: pointer; }
+#hero-hover-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1.1);
+  opacity: 0;
+  width: 100vw;
+  max-width: 1200px;
+  text-align: center;
+  pointer-events: none;
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 800;
+  line-height: 1.3;
+  color: #fff;
+  word-break: keep-all;
+  z-index: 5;
+}
+@media (min-width: 768px) { #hero-hover-text { font-size: 3rem; } }
+@media (max-width: 767px) { #hero-hover-text { font-size: 1.5rem; padding: 0 20px; } }
+
+.hero-title-wrap:hover #hero-title {
+  opacity: 0;
+  transform: scale(0.9) translateY(-20px);
+  filter: blur(20px) url(#sand-filter);
+}
+.hero-title-wrap:hover #hero-hover-text {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+#hero-hover-text .h-accent { color: #0066ff; text-shadow: 0 0 30px rgba(0,102,255,0.4); }
+#hero-hover-text .h-sub { display: block; margin-top: 1.5rem; font-size: 0.35em; opacity: 0.5; letter-spacing: 0.5em; font-weight: 900; }
 .fh-title .highlight {
   display: inline-block;
   font-family: 'Outfit', sans-serif;
@@ -610,7 +644,7 @@ body.light-mode .pkg-item { border-bottom-color: rgba(0,0,0,0.05) !important; }
 
 <!-- NAV -->
 <nav id="navbar">
-  <a href="#home" class="nav-logo">THE <span>3</span> STUDIO</a>
+  <a href="#home" class="nav-logo">THE <span style="color:#0066ff;">3</span> STUDIO</a>
   <div class="nav-toggle" id="nav-toggle">
     <i class="fa fa-bars"></i>
   </div>
@@ -649,7 +683,14 @@ body.light-mode .pkg-item { border-bottom-color: rgba(0,0,0,0.05) !important; }
 <section class="fan-hero" id="home" style="position:relative; overflow:hidden;">
   <div class="fh-title fu">
     <h3 id="hero-sub" style="font-weight:800; opacity:0.6; font-size: 0.9rem; color:var(--primary); letter-spacing:0.3em; text-transform:uppercase; margin-bottom:1.5rem;">One and Only Mastery</h3>
-    <h1 id="hero-title" class="highlight" style="cursor:pointer; filter:url(#sand-filter); display:inline-block; font-size: clamp(3rem, 10vw, 8.5rem); margin-bottom: 1.5rem; line-height:1; font-weight:900;">THE 3 STUDIO</h1>
+    <div class="hero-title-wrap">
+      <h1 id="hero-title" class="highlight" style="filter:url(#sand-filter); display:inline-block; font-size: clamp(3rem, 10vw, 8.5rem); margin-bottom: 1.5rem; line-height:1; font-weight:900; transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);">THE <span style="color:#0066ff; text-shadow: 0 0 40px rgba(0, 102, 255, 0.4);">3</span> STUDIO</h1>
+      <div id="hero-hover-text">
+        사장님의 브랜드를 <br>
+        <span class="h-accent">전략 · 영상 · 디자인</span>으로 <span class="h-accent">3배 성장</span>시킵니다
+        <span class="h-sub">- THE 3 -</span>
+      </div>
+    </div>
     <p id="hero-desc" class="fh-subcopy" style="font-size: 1.5rem; font-weight:800; opacity:0.9; margin-bottom: 3.5rem;">사장님의 장사는 '비즈니스'가 되어야 합니다.</p>
   </div>
   
@@ -854,7 +895,7 @@ body.light-mode .pkg-item { border-bottom-color: rgba(0,0,0,0.05) !important; }
 </section>
     
     <div style="text-align:center; margin-top:5rem;">
-      <h3 class="studio-footer-logo" style="font-size:1.1rem; font-weight:900; color:#fff; letter-spacing:0.2em; border-top:1px solid rgba(255,255,255,0.05); display:inline-block; padding-top:2rem;">THE 3 STUDIO</h3>
+      <h3 class="studio-footer-logo" style="font-size:1.1rem; font-weight:900; color:#fff; letter-spacing:0.2em; border-top:1px solid rgba(255,255,255,0.05); display:inline-block; padding-top:2rem;">THE <span style="color:#0066ff;">3</span> STUDIO</h3>
     </div>
   </div>
 </section>
@@ -932,7 +973,7 @@ body.light-mode .pkg-item { border-bottom-color: rgba(0,0,0,0.05) !important; }
 <!-- BANNER -->
 <div id="banner" class="banner">
   <p>
-    THE 3 STUDIO는 한 달에 단 <strong>3곳의 브랜드</strong>만 집중 컨설팅합니다.
+    THE <span style="color:#0066ff; font-weight:900;">3</span> STUDIO는 한 달에 단 <strong style="color:#0066ff;">3곳의 브랜드</strong>만 집중 컨설팅합니다.
     <span id="banner-slots-wrap" style="display:none;" class="slots-badge">
       <span class="slots-dot"></span>
       현재 <span id="banner-slots-count">2</span>자리 남음
@@ -1376,10 +1417,12 @@ body.light-mode .pkg-item { border-bottom-color: rgba(0,0,0,0.05) !important; }
         const snap = await getDoc(doc(db, 'settings', 'hero'));
         if (snap.exists()) {
             const s = snap.data();
-            if(s.subtitle) document.getElementById('hero-sub').innerText = s.subtitle;
-            if(s.title) document.getElementById('hero-title').innerText = s.title;
-            if(s.description) document.getElementById('hero-desc').innerText = s.description;
-            if(s.long_description) document.getElementById('hero-long-desc').innerHTML = s.long_description;
+            const fmt3 = (txt) => txt.replace(/3/g, '<span style="color:#0066ff; text-shadow: 0 0 40px rgba(0, 102, 255, 0.4); font-weight:900;">3</span>');
+            
+            if(s.subtitle) document.getElementById('hero-sub').innerHTML = fmt3(s.subtitle);
+            if(s.title) document.getElementById('hero-title').innerHTML = fmt3(s.title);
+            if(s.description) document.getElementById('hero-desc').innerHTML = fmt3(s.description);
+            if(s.long_description) document.getElementById('hero-long-desc').innerHTML = fmt3(s.long_description);
             
             // Banner Slots
             if(s.slots_left) {
