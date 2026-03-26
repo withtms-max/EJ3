@@ -81,6 +81,14 @@ body.light-mode .svc-row {
   color: #111;
 }
 
+body.light-mode .j-period {
+  color: #868e96;
+}
+
+body.light-mode .j-title {
+  color: #0055dd;
+}
+
 body.light-mode .fh-desc,
 body.light-mode .team-bio,
 body.light-mode .j-desc,
@@ -161,82 +169,124 @@ ul {
   transform: translateY(0);
 }
 
-/* Navbar */
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  padding: 24px 0;
-  z-index: 1000;
-  transition: var(--transition);
-}
-
-.navbar.scrolled {
-  padding: 16px 0;
-  background: rgba(10, 10, 10, 0.9); /* Deep Void Black 기반 반투명 */
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(201, 166, 107, 0.1); /* 미세한 골드 라인 */
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-}
-
-.navbar.scrolled .nav-links li a {
-  color: var(--text-primary);
-}
-
-.navbar.scrolled .logo {
-  color: var(--primary);
-}
-
-/* Subpage Navbar */
-.navbar.sub-navbar {
-  background: var(--surface-color);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-}
-
-.navbar.sub-navbar .nav-links li a {
-  color: var(--text-primary);
-}
-
-.navbar.sub-navbar .nav-links li a:hover {
-  color: var(--primary);
-}
-
-.nav-content {
+.nav-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 .logo {
-  font-size: clamp(18px, 3.5vw, 28px);
+  font-size: clamp(20px, 4vw, 24px);
   font-weight: 900;
-  font-family: 'Outfit', sans-serif;
-  color: var(--text-primary);
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.logo span {
-  font-weight: 500;
+  letter-spacing: -0.05em;
+  color: #fff;
+  z-index: 1001;
 }
 
 .nav-links {
   display: flex;
-  gap: clamp(10px, 2vw, 20px);
-  flex-shrink: 0;
-  white-space: nowrap;
+  gap: 40px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.nav-links li a {
-  font-size: clamp(12px, 1.8vw, 15px);
-  font-weight: 600;
-  color: var(--text-primary);
-  opacity: 0.9;
+.nav-links a {
+  font-size: 14px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  position: relative;
 }
 
-.nav-links li a:hover {
-  opacity: 1;
+.nav-links a.active,
+.nav-links a:hover {
+  color: #fff;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  z-index: 1001;
+}
+
+.nav-cta {
+  background: #fff;
+  color: #000;
+  padding: 10px 24px;
+  border-radius: 99px;
+  font-size: 13px;
+  font-weight: 800;
+  transition: all 0.3s ease;
+}
+
+/* Hamburger Toggle */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px;
+  height: 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.menu-toggle span {
+  width: 100%;
+  height: 2px;
+  background-color: #fff;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+}
+
+@media (max-width: 991px) {
+  .nav-container { padding: 0 24px; }
+  .show-desktop { display: none; }
+  .menu-toggle { display: flex; }
+  
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 100%;
+    height: 100vh;
+    background: #000;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+  }
+  
+  .nav-links.active {
+    right: 0;
+  }
+  
+  .nav-links a {
+    font-size: 32px;
+    font-weight: 800;
+  }
+  
+  .menu-toggle.active span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+  
+  .menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .menu-toggle.active span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
 }
 
 /* Sujit Pradhan Clone - Hero Section */

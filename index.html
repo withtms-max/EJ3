@@ -385,9 +385,11 @@ body.light-mode .gallery-header h2 { color: #111; }
 body.light-mode .gallery-header p { color: rgba(0,0,0,0.6); }
 
 body.light-mode .team-sect, body.light-mode .journey-sect { background: #F8F9FA; border-top-color: rgba(0,0,0,0.05); }
-body.light-mode .team-card, body.light-mode .j-card { background: #fff; border-color: rgba(0,0,0,0.06); }
+body.light-mode .team-card, body.light-mode .j-card { background: #fff; border-color: rgba(0,0,0,0.06); box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
 body.light-mode .team-name, body.light-mode .j-sub { color: #111; }
-body.light-mode .team-bio, body.light-mode .j-desc { color: rgba(0,0,0,0.5); }
+body.light-mode .team-bio, body.light-mode .j-desc { color: #444; }
+body.light-mode .j-period { color: rgba(0,0,0,0.4); }
+body.light-mode .j-title { color: #0055dd; } /* Slightly darker blue for readability */
 
 body.light-mode .svc-sect { background: #fff; border-top-color: rgba(0,0,0,0.05); }
 body.light-mode .svc-title { color: rgba(0,0,0,0.2); }
@@ -395,43 +397,211 @@ body.light-mode .svc-row:hover .svc-title { color: #000; }
 body.light-mode .svc-row { border-bottom-color: rgba(0,0,0,0.05); }
 
 body.light-mode .footer-sect { background: #f0f0f0; border-top-color: rgba(0,0,0,0.05); }
-body.light-mode .footer-big { color: #111; }
-body.light-mode .footer-sub { color: rgba(0,0,0,0.4); }
-body.light-mode .footer-btn-sec { color: #111; border-color: rgba(0,0,0,0.2); }
-body.light-mode .footer-copy { color: rgba(0,0,0,0.3); border-top-color: rgba(0,0,0,0.05); }
+body.light-mode .footer-sect { background: #fbfcfe !important; border-top-color: rgba(0,0,0,0.05) !important; }
+body.light-mode .footer-big { color: #111 !important; }
+body.light-mode .footer-sub { color: rgba(0,0,0,0.5) !important; }
+body.light-mode .footer-btn-sec { background: rgba(0,0,0,0.05) !important; color: #111 !important; border-color: rgba(0,0,0,0.1) !important; }
+body.light-mode .footer-copy { color: rgba(0,0,0,0.4) !important; border-top-color: rgba(0,0,0,0.05) !important; }
 
-body.light-mode .pf-box { background: #fff; border-color: rgba(0,0,0,0.1); color: #111; }
+body.light-mode .contact-sect { background: #eef2ff !important; border-top: 1px solid rgba(0,0,0,0.1); }
+body.light-mode .c-desc { color: #444 !important; }
+body.light-mode .c-link { color: #000 !important; }
+body.light-mode .c-form-box { background: #fff !important; border-color: rgba(0,0,0,0.08) !important; box-shadow: 0 30px 60px rgba(0,0,0,0.08) !important; }
+body.light-mode .c-input { background: #f8f9fa !important; border-color: rgba(0,0,0,0.12) !important; color: #111 !important; }
+body.light-mode .svc-chip { color: #444; border-color: rgba(0,0,0,0.15); background: #fff; }
+
+body.light-mode .gallery-stage { background: #fff !important; }
+body.light-mode .gh-h2 { color: #111 !important; }
+body.light-mode .gh-p { color: rgba(0,0,0,0.6) !important; }
+
+body.light-mode .team-sect { background: #f1f3f6 !important; border-top: 1px solid rgba(0,0,0,0.08); border-bottom: 1px solid rgba(0,0,0,0.08); }
+body.light-mode .team-card { background: #fff !important; box-shadow: 0 15px 45px rgba(0,0,0,0.06) !important; border: 1px solid rgba(0,0,0,0.05) !important; }
+body.light-mode .journey-sect { background: #fff !important; }
+body.light-mode .journey-item { background: #f1f3f6 !important; border: 1px solid rgba(0,0,0,0.1) !important; box-shadow: 0 10px 25px rgba(0,0,0,0.04) !important; }
+body.light-mode .pf-backdrop { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); }
+body.light-mode .pf-box { background: #fff; border-color: rgba(0,0,0,0.1); color: #111; box-shadow: 0 40px 100px rgba(0,0,0,0.1); }
 body.light-mode .pf-title { color: #111; }
 body.light-mode .pf-client { color: rgba(0,0,0,0.4); }
-body.light-mode .pf-sec { background: rgba(0,0,0,0.02); border-color: rgba(0,0,0,0.05); }
-body.light-mode .pf-sec p { color: rgba(0,0,0,0.6); }
+body.light-mode .pf-sec h4 { color: #0066ff; }
+body.light-mode .pf-sec p { color: #555; }
+body.light-mode .pf-close-btn { color: #000; background: rgba(0,0,0,0.05); }
+body.light-mode .pf-btn { background: rgba(255,255,255,0.8); color: #000; border: 1px solid rgba(0,0,0,0.05); }
+body.light-mode .pf-btn:hover { background: #fff; }
+body.light-mode .pf-dot { background: rgba(0,0,0,0.1); }
+
+/* BASE (DARK) THEME REFINEMENTS */
+.svc-chip { 
+    background: rgba(255,255,255,0.05); 
+    border: 1px solid rgba(255,255,255,0.1); 
+    color: rgba(255,255,255,0.6); 
+    border-radius: 999px; 
+    padding: 0.6rem 1.4rem; 
+    font-weight: 700; 
+    cursor: pointer; 
+    transition: 0.3s;
+}
+.svc-chip:hover { border-color: #0066ff; color: #fff; transform: translateY(-2px); }
+.svc-chip.selected { 
+    background: #0066ff !important; 
+    color: #fff !important; 
+    border-color: #0066ff !important; 
+    box-shadow: 0 10px 20px rgba(0,102,255,0.3);
+}
+.c-input { 
+    background: rgba(255,255,255,0.03) !important; 
+    border: 1px solid rgba(255,255,255,0.12) !important; 
+    border-radius: 15px !important; 
+    padding: 1.2rem !important; 
+    color: #fff !important;
+    transition: 0.3s;
+}
+.c-input:focus { border-color: #0066ff !important; background: rgba(255,255,255,0.06) !important; box-shadow: 0 0 15px rgba(0,102,255,0.1); }
+#submit-btn { border-radius: 999px !important; padding: 1.2rem 3rem !important; font-weight: 900 !important; }
+body.light-mode .pf-dot.on { background: #0066ff; }
 
 body.light-mode .chat-win { background: #fff; border-color: rgba(0,0,0,0.1); }
 body.light-mode .chat-hd { background: #f8f9fa; border-bottom-color: rgba(0,0,0,0.05); }
 body.light-mode .chat-msgs { background: #fff; }
 body.light-mode .bot { background: #f0f0f0; color: #111; border-color: rgba(0,0,0,0.05); }
-body.light-mode .chat-opts { background: #f8f9fa; border-top-color: rgba(0,0,0,0.05); }
-body.light-mode .chat-opts button { background: #fff; color: #666; }
-
-body.light-mode .banner { background: #fff; border-top-color: rgba(0,0,0,0.1); }
-body.light-mode .banner p { color: #444; }
 body.light-mode .banner-btns .bb2 { color: #111; }
+
+/* PREMIUM GRADIENT BUTTONS */
+.nav-cta, #submit-btn, .pf-btn-main { background: linear-gradient(135deg, #0066ff 0%, #0099ff 100%) !important; box-shadow: 0 10px 30px rgba(0,102,255,0.4) !important; color: #fff !important; border: none !important; font-weight: 900 !important; }
+
+/* MOBILE MENU & RESPONSIVE FIXES */
+.nav-toggle { display: none; background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; z-index: 1001; }
+.mobile-menu { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.95); backdrop-filter: blur(20px); z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center; transform: translateY(-100%); transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); opacity: 0; visibility: hidden; }
+.mobile-menu.on { transform: translateY(0); opacity: 1; visibility: visible; }
+.mobile-links { list-style: none; padding: 0; text-align: center; }
+.mobile-links li { margin: 2rem 0; }
+.mobile-links li a { color: #fff; font-size: 1.8rem; font-weight: 800; text-decoration: none; transition: 0.3s; }
+.mobile-links li a:active { color: #0066ff; }
+.close-mobile { position: absolute; top: 2rem; right: 2rem; background: none; border: none; color: #fff; font-size: 2rem; cursor: pointer; }
+
+@media(max-width: 640px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links, .nav-cta { display: none; }
+  .nav-toggle { display: block; }
+  body.light-mode .nav-toggle { color: #000; }
+  
+  .team-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 3rem !important;
+    padding: 1rem 1.5rem !important;
+  }
+  .team-card {
+    min-width: 100%;
+    background: transparent !important;
+    border: none !important;
+  }
+  .team-img-box {
+    border-radius: 25px !important;
+    overflow: hidden !important;
+    aspect-ratio: 4/5 !important;
+    position: relative;
+    background: #111;
+  }
+  .team-info {
+    padding: 1.5rem 0.5rem !important;
+  }
+}
+
+/* CHIPS & BUTTONS STYLE (SCREENSHOT SYNC) */
+.svc-chip { 
+    background: rgba(255,255,255,0.05) !important; 
+    border: 1px solid rgba(255,255,255,0.1) !important; 
+    color: rgba(255,255,255,0.6) !important; 
+    padding: 0.8rem 1.5rem !important; 
+    border-radius: 99px !important; 
+    font-weight: 700 !important; 
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 0.9rem;
+}
+.svc-chip.selected { 
+    background: #007aff !important; 
+    color: #fff !important; 
+    border-color: #007aff !important;
+    box-shadow: 0 5px 15px rgba(0,122,255,0.3);
+}
+
+#submit-btn { 
+    background: linear-gradient(135deg, #007aff, #00c6ff) !important; 
+    color: #fff !important; 
+    border-radius: 99px !important; 
+    font-weight: 900 !important; 
+    box-shadow: 0 10px 40px rgba(0,122,255,0.3) !important; 
+}
+
+body.light-mode .svc-chip { 
+    background: #f0f0f0 !important; 
+    border-color: rgba(0,0,0,0.1) !important; 
+    color: #555 !important; 
+}
+body.light-mode .team-name { color: #111 !important; }
+body.light-mode .team-bio { color: #666 !important; }
+body.light-mode .pkg-item span { color: #111 !important; }
+body.light-mode .pkg-item { border-bottom-color: rgba(0,0,0,0.05) !important; }
+
+
+/* FILM GRAIN TEXTURE */
+#film-grain {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 9999; opacity: 0.04;
+  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+  mix-blend-mode: overlay;
+}
+
+/* SCROLL GUIDE */
+.scroll-guide {
+  position: absolute; bottom: 5vh; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 1rem;
+  opacity: 0.6; animation: guideFade 2s infinite;
+}
+.scroll-bar { width: 1px; height: 60px; background: linear-gradient(to bottom, var(--primary), transparent); }
+@keyframes guideFade { 0%, 100% { opacity: 0.3; transform: translate(-50%, 0); } 50% { opacity: 0.8; transform: translate(-50%, 10px); } }
 </style>
 </head>
-<body>
+<body id="home" class="loading">
+<script>
+  (function() {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+      document.body.classList.add('light-mode');
+      document.documentElement.classList.add('light-mode');
+    }
+  })();
+</script>
+<div id="film-grain"></div>
 
 <!-- NAV -->
 <nav id="navbar">
-  <a href="/" class="nav-logo">THE <span>3</span> STUDIO</a>
+  <a href="#home" class="nav-logo">THE <span>3</span> STUDIO</a>
+  <div class="nav-toggle" id="nav-toggle">
+    <i class="fa fa-bars"></i>
+  </div>
   <ul class="nav-links">
-    <li><a href="#home">홈</a></li>
+    <li><a href="#home" class="active">홈</a></li>
+    <li><a href="#team">전문가 서비스</a></li>
     <li><a href="#gallery">포트폴리오</a></li>
-    <li><a href="services.html">서비스</a></li>
-    <li><a href="#team">전문가</a></li>
-    <li><a href="contact.html">문의</a></li>
+    <li><a href="#journey">스토리</a></li>
+    <li><a href="#contact">문의하기</a></li>
   </ul>
-  <a href="contact.html" class="nav-cta">문의하기</a>
+  <a href="#contact" class="nav-cta">문의하기</a>
 </nav>
+
+<!-- MOBILE MENU OVERLAY -->
+<div class="mobile-menu" id="mobile-menu">
+  <button class="close-mobile" id="close-mobile">&times;</button>
+  <ul class="mobile-links">
+    <li><a href="#home" onclick="toggleMobileMenu()">홈</a></li>
+    <li><a href="#team" onclick="toggleMobileMenu()">전문가 서비스</a></li>
+    <li><a href="#gallery" onclick="toggleMobileMenu()">포트폴리오</a></li>
+    <li><a href="#journey" onclick="toggleMobileMenu()">스토리</a></li>
+    <li><a href="#contact" onclick="toggleMobileMenu()">문의하기</a></li>
+  </ul>
+</div>
 
 <!-- SVG FILTER FOR DUST EFFECT -->
 <svg style="display:none; position: absolute;">
@@ -443,69 +613,164 @@ body.light-mode .banner-btns .bb2 { color: #111; }
 </svg>
 
 <!-- FAN HERO -->
-<section class="fan-hero" id="home">
+<section class="fan-hero" id="home" style="position:relative; overflow:hidden;">
   <div class="fh-title fu">
-    <h1 id="hero-sub" style="font-weight:300; opacity:0.8; font-size: 1.1rem; margin-bottom: -0.5rem;">Hi, We are</h1>
-    <span id="hero-title" class="highlight" style="cursor:pointer; filter:url(#sand-filter); display:inline-block; transition: 0.1s;">THE 3 STUDIO</span>
-    <p id="hero-desc" class="fh-subcopy fu" style="transition-delay: 0.2s;"></p>
+    <h3 id="hero-sub" style="font-weight:800; opacity:0.6; font-size: 0.9rem; color:var(--primary); letter-spacing:0.3em; text-transform:uppercase; margin-bottom:1.5rem;">One and Only Mastery</h3>
+    <h1 id="hero-title" class="highlight" style="cursor:pointer; filter:url(#sand-filter); display:inline-block; font-size: clamp(3rem, 10vw, 8.5rem); margin-bottom: 1.5rem; line-height:1; font-weight:900;">THE 3 STUDIO</h1>
+    <p id="hero-desc" class="fh-subcopy" style="font-size: 1.5rem; font-weight:800; opacity:0.9; margin-bottom: 3.5rem;">사장님의 장사는 '비즈니스'가 되어야 합니다.</p>
   </div>
   
   <div class="fh-fan fu" style="transition-delay: 0.2s;" id="hero-fan">
     <!-- 동적으로 포트폴리오 이미지가 로딩됩니다. -->
-    <div class="fh-card fh-c3" style="z-index:3; transform:none; display:flex; align-items:center; justify-content:center; color:#666;">Loading...</div>
+    <div class="fh-card" style="display:flex; align-items:center; justify-content:center; color:#666;">
+        <i class="fa fa-spinner fa-spin"></i>
+    </div>
   </div>
 
-  <div id="hero-long-desc" class="fh-desc fu" style="transition-delay: 0.4s;"></div>
+  <div id="hero-long-desc" class="fh-desc fu" style="font-size: 1.15rem; opacity:0.5; line-height:1.8; max-width:650px; margin: 3rem auto 0; font-weight:500;">
+    대기업의 브랜딩 전략, 이제 사장님 가게에 통째로 이식합니다.<br>
+    우리는 결과로 증명하는 세 명의 마스터입니다.
+  </div>
+
+  <!-- SCROLL GUIDE -->
+  <div class="scroll-guide fu" style="transition-delay: 1.2s;">
+    <p style="font-size:0.7rem; font-weight:900; letter-spacing:0.4em; text-transform:uppercase; color:var(--primary); margin-bottom:1rem;">Scroll Down</p>
+    <div class="scroll-bar"></div>
+  </div>
+</section>
+
+<!-- TEAM & SERVICES (INTEGRATED) -->
+<section class="team-sect" id="team" style="background:#050505; padding:10rem 1.5rem; border-top:1px solid rgba(255,255,255,0.05);">
+  <div class="team-inner" style="max-width:1200px; margin:0 auto;">
+    <p class="sect-label" style="text-align:center; color:#007aff; font-weight:900;">THE EXPERTS</p>
+    <h2 class="sect-h2" style="color:#fff; text-align:center; margin-bottom:5rem;">THE 3: 사장님의 성장을 돕는 전문가들</h2>
+    
+    <div class="team-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:2rem; padding:1rem;">
+      <!-- Expert 1 (Strategy) -->
+      <div class="team-card" style="background:#0a0a0a; border:1px solid rgba(255,255,255,0.08); border-radius:30px; overflow:hidden; box-shadow:0 20px 40px rgba(0,0,0,0.3); transition:0.4s;">
+        <div style="position:relative; height:450px; overflow:hidden;">
+          <img src="https://the-3-wep.vercel.app/img/p1.png" style="width:100%; height:100%; object-fit:cover; filter:grayscale(100%);">
+          <div style="position:absolute; bottom:0; left:0; width:100%; padding:30px; background:linear-gradient(transparent, rgba(0,0,0,0.8));">
+            <p style="color:#007aff; font-size:0.75rem; font-weight:900; letter-spacing:0.1em; margin-bottom:5px;">STRATEGY / CONSULTING</p>
+            <h3 style="color:#fff; font-size:1.8rem; font-weight:900;">김상훈 소장</h3>
+          </div>
+        </div>
+        <div style="padding:40px; background:#0a0a0a;">
+          <p style="font-size:1.2rem; font-weight:800; color:#fff; margin-bottom:25px; line-height:1.4;">"사장님의 브랜드가 이길 수밖에 없는 뼈대 설계"</p>
+          <ul style="list-style:none; padding:0;">
+            <li style="display:flex; align-items:center; gap:10px; margin-bottom:12px; color:rgba(255,255,255,0.6); font-weight:600;">
+              <span style="color:#007aff;">✓</span> 비즈니스 성장 전략 수립
+            </li>
+            <li style="display:flex; align-items:center; gap:10px; margin-bottom:12px; color:rgba(255,255,255,0.6); font-weight:600;">
+              <span style="color:#007aff;">✓</span> 시장 분석 및 경쟁력 평가
+            </li>
+            <li style="display:flex; align-items:center; gap:10px; color:rgba(255,255,255,0.6); font-weight:600;">
+              <span style="color:#007aff;">✓</span> 데이터 기반 성과 분석
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Expert 2 (Video) -->
+      <div class="team-card" style="background:#0a0a0a; border:1px solid rgba(255,255,255,0.08); border-radius:30px; overflow:hidden; box-shadow:0 20px 40px rgba(0,0,0,0.3); transition:0.4s;">
+        <div style="position:relative; height:450px; overflow:hidden;">
+          <img src="https://the-3-wep.vercel.app/img/p2.png" style="width:100%; height:100%; object-fit:cover; filter:grayscale(100%);">
+          <div style="position:absolute; bottom:0; left:0; width:100%; padding:30px; background:linear-gradient(transparent, rgba(0,0,0,0.8));">
+            <p style="color:#007aff; font-size:0.75rem; font-weight:900; letter-spacing:0.1em; margin-bottom:5px;">VIDEO DIRECTING</p>
+            <h3 style="color:#fff; font-size:1.8rem; font-weight:900;">이수정 대표</h3>
+          </div>
+        </div>
+        <div style="padding:40px; background:#0a0a0a;">
+          <p style="font-size:1.2rem; font-weight:800; color:#fff; margin-bottom:25px; line-height:1.4;">"1초 만에 시선을 사로잡는 강력한 영상 연출"</p>
+          <ul style="list-style:none; padding:0;">
+            <li style="display:flex; align-items:center; gap:10px; margin-bottom:12px; color:rgba(255,255,255,0.6); font-weight:600;">
+              <span style="color:#007aff;">✓</span> 하이엔드 홍보 필름 제작
+            </li>
+            <li style="display:flex; align-items:center; gap:10px; margin-bottom:12px; color:rgba(255,255,255,0.6); font-weight:600;">
+              <span style="color:#007aff;">✓</span> 인스타/유튜브 숏폼 브랜딩
+            </li>
+            <li style="display:flex; align-items:center; gap:10px; color:rgba(255,255,255,0.6); font-weight:600;">
+              <span style="color:#007aff;">✓</span> 브랜드 스토리텔링 영상
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Expert 3 (Brand) -->
+      <div class="team-card" style="background:#0a0a0a; border:1px solid rgba(255,255,255,0.08); border-radius:30px; overflow:hidden; box-shadow:0 20px 40px rgba(0,0,0,0.3); transition:0.4s;">
+        <div style="position:relative; height:450px; overflow:hidden;">
+          <img src="https://the-3-wep.vercel.app/img/p3.png" style="width:100%; height:100%; object-fit:cover; filter:grayscale(100%);">
+          <div style="position:absolute; bottom:0; left:0; width:100%; padding:30px; background:linear-gradient(transparent, rgba(0,0,0,0.8));">
+            <p style="color:#007aff; font-size:0.75rem; font-weight:900; letter-spacing:0.1em; margin-bottom:5px;">BRAND DESIGN</p>
+            <h3 style="color:#fff; font-size:1.8rem; font-weight:900;">김영신 대표</h3>
+          </div>
+        </div>
+        <div style="padding:40px; background:#0a0a0a;">
+          <p style="font-size:1.2rem; font-weight:800; color:#fff; margin-bottom:25px; line-height:1.4;">"고객의 마음에 깊이 각인되는 압도적 이미지"</p>
+          <ul style="list-style:none; padding:0;">
+            <li style="display:flex; align-items:center; gap:10px; margin-bottom:12px; color:rgba(255,255,255,0.6); font-weight:600;">
+              <span style="color:#007aff;">✓</span> 프리미엄 BI / BX 디자인
+            </li>
+            <li style="display:flex; align-items:center; gap:10px; margin-bottom:12px; color:rgba(255,255,255,0.6); font-weight:600;">
+              <span style="color:#007aff;">✓</span> 브랜드 비주얼 아이덴티티
+            </li>
+            <li style="display:flex; align-items:center; gap:10px; color:rgba(255,255,255,0.6); font-weight:600;">
+              <span style="color:#007aff;">✓</span> 웹/앱 UX 및 인터페이스 디자인
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVICE PACKAGES (As per Screenshot) -->
+    <div class="svc-packages" style="margin-top:6rem; padding:0 1rem;">
+      <p class="sect-label" style="text-align:left; color:#007aff; font-weight:900; letter-spacing:0.1em; margin-bottom:1.5rem;">SERVICE PACKAGES</p>
+      <h2 style="text-align:left; font-size:2.8rem; font-weight:900; color:#fff; margin-bottom:1.5rem; line-height:1.1;">필요한 것만<br>딱! 맞춤 서비스</h2>
+      <p style="color:rgba(255,255,255,0.5); font-size:1.1rem; margin-bottom:3.5rem; line-height:1.6; max-width:600px;">
+        기획부터 디자인, 영상 제작, 실전 마케팅까지, 사장님의 비즈니스 성장에 필요한 모든 과정을 완벽하게 구축해 드립니다.
+      </p>
+
+      <div class="pkg-list" style="border-top:1px solid rgba(255,255,255,0.1);">
+        <div class="pkg-item" style="display:flex; justify-content:space-between; align-items:center; padding:2rem 0; border-bottom:1px solid rgba(255,255,255,0.1);">
+          <span style="font-size:1.2rem; font-weight:900; color:#fff; letter-spacing:0.02em;">BRAND STRATEGY CONSULTING</span>
+          <i class="fa fa-plus" style="color:#fff; font-size:1.2rem;"></i>
+        </div>
+        <div class="pkg-item" style="display:flex; justify-content:space-between; align-items:center; padding:2rem 0; border-bottom:1px solid rgba(255,255,255,0.1);">
+          <span style="font-size:1.2rem; font-weight:900; color:#fff; letter-spacing:0.02em;">VISUAL IDENTITY DESIGN</span>
+          <i class="fa fa-plus" style="color:#fff; font-size:1.2rem;"></i>
+        </div>
+        <div class="pkg-item" style="display:flex; justify-content:space-between; align-items:center; padding:2rem 0; border-bottom:1px solid rgba(255,255,255,0.1);">
+          <span style="font-size:1.2rem; font-weight:900; color:#fff; letter-spacing:0.02em;">COMMERCIAL VIDEO & SHORTS</span>
+          <i class="fa fa-plus" style="color:#fff; font-size:1.2rem;"></i>
+        </div>
+        <div class="pkg-item" style="display:flex; justify-content:space-between; align-items:center; padding:2rem 0; border-bottom:1px solid rgba(255,255,255,0.1);">
+          <span style="font-size:1.2rem; font-weight:900; color:#fff; letter-spacing:0.02em;">PERFORMANCE MARKETING</span>
+          <i class="fa fa-plus" style="color:#fff; font-size:1.2rem;"></i>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- 3D GALLERY -->
-<section class="gallery-sect" id="gallery" style="padding:0; border-top:none;">
+<section class="gallery-sect" id="gallery" style="padding:0; border-top:none; border-bottom:1px solid rgba(255,255,255,0.05);">
   <div class="gallery-stage" id="gallery-stage" style="perspective:2000px; height:100vh; max-height:none; min-height:800px; background:#000;">
     <!-- 중앙 플로팅 타이틀 (인스타그램/커넥트 컨셉) -->
-    <div class="gallery-header fu" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); z-index:10; pointer-events:none; margin:0; width:100%; text-align:center;">
-      <h2 style="font-family:'Pretendard', 'Outfit', Apple SD Gothic Neo, sans-serif; font-size:clamp(1.5rem, 4.5vw, 3.8rem); font-weight:800; line-height:1.2; letter-spacing:-0.05em; margin-bottom:1.5rem; color:#fff; word-break:keep-all; padding: 0 20px;">
+    <div class="gallery-header fu" id="gallery-header" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); z-index:10; pointer-events:none; margin:0; width:100%; text-align:center;">
+      <h2 class="gh-h2" style="font-family:'Pretendard', 'Outfit', Apple SD Gothic Neo, sans-serif; font-size:clamp(1.5rem, 4.5vw, 3.8rem); font-weight:800; line-height:1.2; letter-spacing:-0.05em; margin-bottom:1.5rem; color:#fff; word-break:keep-all; padding: 0 20px;">
         결과로 증명하는<br>
-        <span style="background: linear-gradient(180deg, #fff 30%, #0066ff 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; filter: drop-shadow(0 0 10px rgba(0, 102, 255, 0.2));">THE 3 STUDIO</span>의 시선
+        <span style="background: linear-gradient(180deg, #fff 30%, #0066ff 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 10px rgba(0, 102, 255, 0.2));">THE 3 STUDIO</span>의 시선
       </h2>
-      <p style="color:rgba(255,255,255,0.6); font-size:0.95rem; max-width:550px; margin:0 auto 2.5rem; line-height:1.7; pointer-events:none; padding:0 20px; font-weight:500;">
+      <p class="gh-p" style="color:rgba(255,255,255,0.6); font-size:0.95rem; max-width:550px; margin:0 auto 2.5rem; line-height:1.7; pointer-events:none; padding:0 20px; font-weight:500;">
         단순히 예쁜 디자인을 넘어, 비즈니스의 실질적인 성과를 만드는<br>
         THE 3 STUDIO만의 크리에이티브 아카이브입니다.
       </p>
-      <a href="about.html" class="gallery-btn">포트폴리오 자세히 보기</a>
+      <a href="work.html" class="gallery-btn">포트폴리오 자세히 보기</a>
     </div>
     
     <div class="gallery-scene" id="gallery-scene" style="transform-style:preserve-3d;">
     </div><!-- /scene -->
   </div><!-- /stage -->
-</section>
-
-<!-- TEAM -->
-<section class="team-sect" id="team">
-  <div class="team-inner">
-    <p class="sect-label" style="text-align:center;">The Experts</p>
-    <h2 class="sect-h2">THE 3: 사장님의 성장을 돕는 전문가들</h2>
-    <div class="team-grid" id="team-grid">
-      <div style="grid-column:1/-1;text-align:center;padding:3rem;color:rgba(255,255,255,.2);">팀 정보를 불러오는 중...</div>
-    </div>
-  </div>
-</section>
-
-<!-- SERVICES -->
-<section class="svc-sect" id="services">
-  <div class="svc-inner">
-    <div class="fu">
-      <p class="sect-label">Service Packages</p>
-      <h2 style="font-family:'Outfit',sans-serif;font-size:clamp(2rem,3vw,2.5rem);font-weight:900;letter-spacing:-.04em;text-transform:uppercase;line-height:1.1;">필요한 것만<br>딱! 맞춤 서비스</h2>
-      <p class="svc-desc"><p style="color:rgba(255,255,255,.45);font-size:1rem;line-height:1.8;margin-top:1rem;">기획부터 브랜딩, 영상 제작, 실전 마케팅까지. 사장님의 비즈니스 성장에 필요한 모든 과정을 완벽하게 구축해 드립니다.</p></p>
-    </div>
-    <div class="svc-list fu" style="transition-delay:.1s;">
-      <div class="svc-row"><span class="svc-title">Brand Strategy Consulting</span><i class="fa fa-plus svc-icon"></i></div>
-      <div class="svc-row"><span class="svc-title">Visual Identity Design</span><i class="fa fa-plus svc-icon"></i></div>
-      <div class="svc-row"><span class="svc-title">Commercial Video & Shorts</span><i class="fa fa-plus svc-icon"></i></div>
-      <div class="svc-row"><span class="svc-title">Performance Marketing</span><i class="fa fa-plus svc-icon"></i></div>
-      <div class="svc-row"><span class="svc-title">Growth Hacking</span><i class="fa fa-plus svc-icon"></i></div>
-    </div>
-  </div>
 </section>
 
 <!-- JOURNEY -->
@@ -519,8 +784,76 @@ body.light-mode .banner-btns .bb2 { color: #111; }
   </div>
 </section>
 
-<!-- FOOTER / CONTACT -->
-<footer class="footer-sect" id="contact">
+<!-- CONTACT SECTION (EXACT AS PER SCREENSHOT) -->
+<section class="contact-sect" id="contact" style="padding:10rem 1.5rem; background:#000;">
+  <div style="max-width:1100px; margin:0 auto;">
+    <div class="fu" style="text-align:center; margin-bottom:4.5rem;">
+      <p style="color:rgba(255,255,255,0.6); font-size:1.05rem; line-height:1.6; font-weight:500;">
+        사장님의 비즈니스 성장을 위한 단 하나의 파트너,<br>
+        THE 3 STUDIO입니다.
+      </p>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1.5rem; margin-bottom:5rem;">
+      <div class="fu" style="display:flex; align-items:center; gap:1.2rem; background:rgba(255,255,255,0.03); padding:1.5rem; border-radius:20px; border:1px solid rgba(255,255,255,0.05);">
+        <div style="width:50px; height:50px; background:#007aff; border-radius:12px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.3rem;"><i class="fa fa-envelope"></i></div>
+        <div><p style="font-size:0.75rem; color:rgba(255,255,255,0.4); margin:0 0 0.2rem; text-transform:uppercase;">E-mail</p><a href="mailto:hello@the3studio.com" style="color:#fff; text-decoration:none; font-weight:800; font-size:1rem;">hello@the3studio.com</a></div>
+      </div>
+      <div class="fu" style="display:flex; align-items:center; gap:1.2rem; background:rgba(255,255,255,0.03); padding:1.5rem; border-radius:20px; border:1px solid rgba(255,255,255,0.05);">
+        <div style="width:50px; height:50px; background:#007aff; border-radius:12px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.3rem;"><i class="fa fa-phone"></i></div>
+        <div><p style="font-size:0.75rem; color:rgba(255,255,255,0.4); margin:0 0 0.2rem; text-transform:uppercase;">Phone</p><a href="tel:010-1234-5678" style="color:#fff; text-decoration:none; font-weight:800; font-size:1rem;">+82 10 1234 5678</a></div>
+      </div>
+      <div class="fu" style="display:flex; align-items:center; gap:1.2rem; background:rgba(255,255,255,0.03); padding:1.5rem; border-radius:20px; border:1px solid rgba(255,255,255,0.05);">
+        <div style="width:50px; height:50px; background:#007aff; border-radius:12px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.3rem;"><i class="fa fa-location-dot"></i></div>
+        <div><p style="font-size:0.75rem; color:rgba(255,255,255,0.4); margin:0 0 0.2rem; text-transform:uppercase;">Location</p><span style="color:#fff; font-weight:800; font-size:1rem;">Seoul, Republic of Korea</span></div>
+      </div>
+    </div>
+
+    <div class="fu c-form-box" style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:2.5rem; padding:3.5rem;">
+      <div id="contact-form-area">
+        <div style="margin-bottom:2.5rem;">
+          <label style="display:block; font-size:0.85rem; font-weight:900; color:#007aff; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:1.5rem;">어떤 서비스에 관심이 있으신가요?</label>
+          <div id="service-chips" style="display:flex; gap:0.8rem; flex-wrap:wrap;">
+            <button type="button" class="svc-chip" data-val="consulting" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:rgba(255,255,255,0.6); padding:0.8rem 1.5rem; border-radius:99px; font-weight:700; cursor:pointer;">Business Consulting</button>
+            <button type="button" class="svc-chip" data-val="branding" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:rgba(255,255,255,0.6); padding:0.8rem 1.5rem; border-radius:99px; font-weight:700; cursor:pointer;">Branding Design</button>
+            <button type="button" class="svc-chip" data-val="video" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:rgba(255,255,255,0.6); padding:0.8rem 1.5rem; border-radius:99px; font-weight:700; cursor:pointer;">Video Production</button>
+            <button type="button" class="svc-chip" data-val="uxui" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:rgba(255,255,255,0.6); padding:0.8rem 1.5rem; border-radius:99px; font-weight:700; cursor:pointer;">UI/UX Design</button>
+          </div>
+          <input type="hidden" id="selected-service">
+        </div>
+        <form id="contact-form">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-bottom:1.5rem;">
+            <div>
+              <label style="display:block; font-size:0.8rem; font-weight:800; color:rgba(255,255,255,0.4); margin-bottom:0.8rem;">회사 및 성함</label>
+              <input type="text" id="f-company" placeholder="Ex) 홍길동 / THE3 STUDIO" style="width:100%; background:transparent; border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:1.2rem; color:#fff; font-size:1rem; outline:none;" required>
+            </div>
+            <div>
+              <label style="display:block; font-size:0.8rem; font-weight:800; color:rgba(255,255,255,0.4); margin-bottom:0.8rem;">이메일</label>
+              <input type="email" id="f-email" placeholder="example@email.com" style="width:100%; background:transparent; border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:1.2rem; color:#fff; font-size:1rem; outline:none;" required>
+            </div>
+          </div>
+          <div style="margin-bottom:2.5rem;">
+            <label style="display:block; font-size:0.8rem; font-weight:800; color:rgba(255,255,255,0.4); margin-bottom:0.8rem;">내용</label>
+            <textarea id="f-message" placeholder="사장님의 비즈니스 배경과 원하시는 목표를 자유롭게 남겨주세요." style="width:100%; background:transparent; border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:1.2rem; color:#fff; font-size:1rem; outline:none; resize:none;" rows="5" required></textarea>
+          </div>
+          <button type="submit" id="submit-btn" style="width:100%; background:linear-gradient(135deg, #007aff, #00c6ff); color:#fff; border:none; padding:1.5rem; border-radius:99px; font-weight:900; font-size:1.2rem; cursor:pointer; box-shadow:0 10px 40px rgba(0,122,255,0.3); transition:0.3s;">프로젝트 문의하기</button>
+        </form>
+      </div>
+      <div id="success-msg" style="display:none; text-align:center; padding:3rem 0;">
+        <i class="fa fa-circle-check" style="font-size:4rem; color:#007aff; margin-bottom:1.5rem;"></i>
+        <h3 style="font-size:1.8rem; font-weight:900;">문의가 성공적으로 전송되었습니다!</h3>
+        <p style="color:rgba(255,255,255,0.5); font-size:1.1rem; margin-top:1rem;">확인 후 대표 본인이 직접 연락드리겠습니다.</p>
+      </div>
+    </div>
+    
+    <div style="text-align:center; margin-top:5rem;">
+      <h3 style="font-size:1.1rem; font-weight:900; color:#fff; letter-spacing:0.2em; border-top:1px solid rgba(255,255,255,0.05); display:inline-block; padding-top:2rem;">THE 3 STUDIO</h3>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer-sect">
   <p class="footer-sub">READY TO</p>
   <h2 class="footer-big">GROW?</h2>
   <p class="footer-sub" style="margin-bottom:3rem;">사장님의 브랜드, 이제 대기업 퀄리티로 시작하세요.</p>
@@ -607,7 +940,21 @@ body.light-mode .banner-btns .bb2 { color: #111; }
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script type="module">
-  import { db, doc, getDoc, setDoc, collection, getDocs } from './js/firebase-init.js';
+  import { db, doc, getDoc, setDoc, collection, getDocs, addDoc } from './js/firebase-init.js';
+  
+  // ── 0. FETCH GLOBAL CONTACT INFO ──
+  async function initContactSettings() {
+    try {
+      const s = await getDoc(doc(db, 'settings', 'contact'));
+      if(s.exists()) {
+        const d = s.data();
+        const eEl = document.getElementById('info-email'); if(eEl){ eEl.innerText = d.email; eEl.href = 'mailto:'+d.email; }
+        const pEl = document.getElementById('info-phone'); if(pEl){ pEl.innerText = d.phone; pEl.href = 'tel:'+d.phone; }
+        const lEl = document.getElementById('info-location'); if(lEl){ lEl.innerText = d.location; }
+      }
+    } catch(e) { console.error("Contact Load Fail:", e); }
+  }
+  initContactSettings();
 
   // ── NAV SCROLL ──
   window.addEventListener('scroll', () => {
@@ -619,26 +966,37 @@ body.light-mode .banner-btns .bb2 { color: #111; }
   const io = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('vis'); io.unobserve(e.target); } }), {threshold:.1});
   document.querySelectorAll('.fu').forEach(el => io.observe(el));
 
-  // ── API DATA ──
-  const API = '/api/api.php';
-  // ── TEAM ──
-  (async function loadTeamFromFirestore() {
+  // ── FIREBASE & DATA ──
+  // ── TEAM & SERVICES DATA BINDING ──
+  (async function loadTeamData() {
     try {
       const qSnap = await getDocs(collection(db, 'team'));
-      const ms = [];
-      qSnap.forEach(doc => { if(doc.data().is_active != 0) ms.push({ ...doc.data(), id: doc.id }); });
-      if(!ms.length) return;
-      document.getElementById('team-grid').innerHTML = ms.map(m=>`
-        <div class="team-card">
-          <img src="${m.photo && m.photo.startsWith('http') ? m.photo : '/' + m.photo}" alt="${m.name}">
-          <div class="team-info">
-            <p class="team-role">${m.role}</p>
-            <h3 class="team-name">${m.name}</h3>
-            <p class="team-bio">${m.bio||''}</p>
-          </div>
-        </div>
-      `).join('');
-    } catch(e) { console.error('Team Load Error:', e); }
+      const experts = {};
+      qSnap.forEach(doc => {
+        const d = doc.data();
+        // 역할을 키로 사용하여 데이터를 매핑합니다. (Strategy, Video, Brand)
+        if(d.role.toUpperCase().includes('STRATEGY')) experts.strategy = d;
+        if(d.role.toUpperCase().includes('VIDEO')) experts.video = d;
+        if(d.role.toUpperCase().includes('BRAND')) experts.brand = d;
+      });
+
+      const updateCard = (selector, data) => {
+        if(!data) return;
+        const card = document.querySelector(selector);
+        if(!card) return;
+        const img = card.querySelector('img');
+        const name = card.querySelector('.team-name');
+        const bio = card.querySelector('.team-bio');
+        if(img) img.src = data.photo && data.photo.startsWith('http') ? data.photo : '/' + data.photo;
+        if(name) name.textContent = data.name;
+        if(bio && data.bio) bio.textContent = `"${data.bio}"`;
+      };
+
+      updateCard('#expert-strategy', experts.strategy);
+      updateCard('#expert-video', experts.video);
+      updateCard('#expert-brand', experts.brand);
+
+    } catch(e) { console.error('Team Data Binding Error:', e); }
   })();
 
   // ── JOURNEY ──
@@ -718,38 +1076,53 @@ body.light-mode .banner-btns .bb2 { color: #111; }
     curZ: initialZ, tZ: initialZ
   };
 
-  if (isAdmin) {
-    const sBtn = document.createElement('button');
-    sBtn.className = 'save-btn-fixed'; // 클래스 추가로 스타일 및 핸들러 연결
-    sBtn.textContent = '현재 위치 저장하기';
-    Object.assign(sBtn.style, {
-      position:'fixed', bottom:'100px', left:'50%', transform:'translateX(-50%)',
-      zIndex:9999, padding:'15px 30px', background:'#dfff00', color:'#000',
-      border:'none', borderRadius:'50px', fontWeight:'900', cursor:'pointer',
-      boxShadow:'0 10px 30px rgba(0,0,0,0.5)'
+  if (isAdmin || window.location.hash.includes('admin')) {
+    // 에디터 모드 UI 구성
+    const editorUI = document.createElement('div');
+    editorUI.id = 'admin-editor-ui';
+    Object.assign(editorUI.style, {
+      position:'fixed', top:'0', left:'0', width:'100%', height:'100%', 
+      pointerEvents:'none', zIndex:'9999'
     });
-    sBtn.onclick = () => window.savePlacements();
-    document.body.appendChild(sBtn);
     
-    // 대시보드 복귀 버튼 추가
-    const bBtn = document.createElement('a');
-    bBtn.innerHTML = '<i class="fa-solid fa-arrow-left"></i> 대시보드로 돌아가기';
-    bBtn.href = 'javascript:void(0)';
-    bBtn.onclick = () => { window.top.location.href = '/admin/portfolio.php'; };
-    Object.assign(bBtn.style, {
-      position:'fixed', top:'20px', left:'20px',
-      zIndex:9999, padding:'12px 24px', background:'rgba(0,0,0,0.8)', color:'#fff',
-      border:'1px solid rgba(255,255,255,0.2)', borderRadius:'50px', fontWeight:'700', cursor:'pointer',
-      textDecoration:'none', backdropFilter:'blur(10px)', fontSize:'14px'
+    // 하단 툴바 (Bottom Toolbar로 이동)
+    const toolbar = document.createElement('div');
+    Object.assign(toolbar.style, {
+      position:'absolute', bottom:'40px', left:'50%', transform:'translateX(-50%)',
+      display:'flex', gap:'15px', alignItems:'center', background:'rgba(0,0,0,0.85)',
+      padding:'12px 25px', borderRadius:'100px', border:'1px solid rgba(255,255,255,0.15)',
+      backdropFilter:'blur(30px)', pointerEvents:'auto', boxShadow:'0 20px 50px rgba(0,0,0,0.8)'
     });
-    document.body.appendChild(bBtn);
     
+    toolbar.innerHTML = `
+      <div style="display:flex; background:rgba(255,255,255,0.05); padding:4px; border-radius:100px;">
+        <button id="toggle-pc" style="padding:8px 20px; border:none; border-radius:100px; background:${!isM?'#fff':'transparent'}; color:${!isM?'#000':'#fff'}; font-weight:900; cursor:pointer;">PC</button>
+        <button id="toggle-m" style="padding:8px 20px; border:none; border-radius:100px; background:${isM?'#fff':'transparent'}; color:${isM?'#000':'#fff'}; font-weight:900; cursor:pointer;">MOBILE</button>
+      </div>
+      <div style="width:1px; height:20px; background:rgba(255,255,255,0.1);"></div>
+      <button id="save-live" style="background:#0066ff; color:#fff; border:none; padding:10px 25px; border-radius:100px; font-weight:900; cursor:pointer;">현재 위치 저장</button>
+      <a href="/admin/index.html" style="color:rgba(255,255,255,0.5); font-size:12px; font-weight:700; text-decoration:none; margin-left:10px;">대시보드로 복귀</a>
+    `;
+    
+    document.body.appendChild(toolbar);
+
+    // 모드 전환 이벤트
+    const btnPc = toolbar.querySelector('#toggle-pc');
+    const btnM = toolbar.querySelector('#toggle-m');
+    const toggle = (toM) => {
+        window.location.hash = toM ? '#admin-mobile' : '#admin';
+        window.location.reload(); 
+    }
+    btnPc.onclick = () => toggle(false);
+    btnM.onclick = () => toggle(true);
+    toolbar.querySelector('#save-live').onclick = () => window.savePlacements();
+
     const hint = document.createElement('div');
-    hint.innerHTML = '💡 <b>관리자 모드:</b> 카드를 드래그해서 위치를 잡고 버튼을 누르세요.';
+    hint.innerHTML = `💡 <b>라이브 에디터 모드 (${isM?'MOBILE':'PC'}):</b> 카드를 드래그해서 위치를 잡으세요.`;
     Object.assign(hint.style, {
-      position:'fixed', bottom:'160px', left:'50%', transform:'translateX(-50%)',
-      zIndex:9998, color:'#fff', fontSize:'13px', background:'rgba(0,0,0,0.7)',
-      padding:'8px 16px', borderRadius:'10px'
+      position:'absolute', top:'100px', left:'50%', transform:'translateX(-50%)',
+      color:'#fff', fontSize:'12px', background:'rgba(0,0,0,0.7)', padding:'8px 16px', borderRadius:'10px',
+      backdropFilter:'blur(10px)', border:'1px solid rgba(255,255,255,0.1)'
     });
     document.body.appendChild(hint);
   }
@@ -803,7 +1176,8 @@ body.light-mode .banner-btns .bb2 { color: #111; }
   window.addEventListener('mousemove',e=>{ if(drag.isSc||drag.cardIdx!==null) onMove(e.clientX,e.clientY); });
   window.addEventListener('touchmove',e=>{ if(drag.isSc||drag.cardIdx!==null) onMove(e.touches[0].clientX,e.touches[0].clientY); });
 
-  function onUp(){ drag.isSc=false; drag.cardIdx=null; drag.hasMoved=false; 
+  function onUp(){ 
+    drag.isSc=false; drag.cardIdx=null; drag.hasMoved=false; 
     drag.tRX = 0; drag.tRY = 0;
   }
   window.addEventListener('mouseup',onUp);
@@ -826,11 +1200,16 @@ body.light-mode .banner-btns .bb2 { color: #111; }
           if (thumb && !thumb.startsWith('http')) {
               thumb = thumb.startsWith('/') ? thumb : '/' + thumb;
           }
-          const isVideo = thumb && /\.(mp4|webm|avi|mov)$/i.test(thumb);
+          const isVideo = (path) => {
+              if(!path) return false;
+              const cleanPath = path.split('?')[0].split('#')[0];
+              return /\.(mp4|webm|mov|avi)$/i.test(cleanPath);
+          };
+          const isVid = isVideo(thumb);
           const catLabel = {branding:'Branding', consulting:'Consulting', video:'Video', integrated:'Integrated'}[item.category] || item.category || '';
           
           let mediaHtml = '';
-          if(isVideo) {
+          if(isVid) {
              mediaHtml = `<video src="${thumb}" autoplay loop muted playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:20px;display:block;"></video>`;
           } else if(thumb) {
              mediaHtml = `<img src="${thumb}" alt="${item.title||''}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:20px;display:block;">`;
@@ -981,9 +1360,9 @@ body.light-mode .banner-btns .bb2 { color: #111; }
         return;
     }
     
-    // 버튼 UI 업데이트
-    const btn = document.querySelector('.save-btn-fixed');
-    const oldText = btn ? btn.innerText : '현재 위치 저장하기';
+    // 버튼 UI 업데이트 (통합 지원)
+    const btn = document.querySelector('.save-btn-fixed') || document.getElementById('save-live');
+    const oldText = btn ? (btn.innerText || btn.textContent) : '현재 위치 저장하기';
     if(btn) btn.innerText = '📡 저장 중...';
 
     const dataToSave = cachedPortfolioItems.map((it, idx) => {
@@ -1070,11 +1449,11 @@ body.light-mode .banner-btns .bb2 { color: #111; }
                 
                 let mediaHtml = '';
                 if(thumb) {
-                   if(/\.(mp4|webm|avi|mov)$/i.test(thumb)) {
-                       mediaHtml = `<video src="${thumb}" autoplay loop muted playsinline></video>`;
-                   } else {
-                       mediaHtml = `<img src="${thumb}" alt="Hero">`;
-                   }
+                    if(isVideo(thumb)) {
+                        mediaHtml = `<video src="${thumb}" autoplay loop muted playsinline></video>`;
+                    } else {
+                        mediaHtml = `<img src="${thumb}" alt="Hero">`;
+                    }
                 }
                 
                 fanHTML += `<div class="fh-card ${classes[i] || 'fh-c3'}">
@@ -1126,10 +1505,10 @@ body.light-mode .banner-btns .bb2 { color: #111; }
     document.getElementById('pf-slides').innerHTML='<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.3);"><i class="fa fa-spinner fa-spin fa-2x"></i></div>';
     
     try {
-      // API 대신 캐시된 데이터 혹은 Firestore에서 직접 검색합니다.
+      // 1. 캐시된 데이터에서 검색
       let d = cachedPortfolioItems.find(it => it.slug === slug);
       
-      // 캐시에 없으면(직접 링크 등) Firestore에서 쿼리 시도
+      // 2. 캐시에 없으면(직접 링크 등) Firestore에서 쿼리 시도
       if(!d) {
          const qSnap = await getDocs(collection(db, 'portfolio'));
          qSnap.forEach(doc => { if(doc.data().slug === slug) d = doc.data(); });
@@ -1140,23 +1519,21 @@ body.light-mode .banner-btns .bb2 { color: #111; }
       document.getElementById('pf-title').textContent=d.title||'';
       document.getElementById('pf-client').textContent=d.client?`클라이언트: ${d.client}${d.year?' · '+d.year:''}`:d.year||'';
       document.getElementById('pf-tag').textContent={branding:'Branding',consulting:'Consulting',video:'Video',integrated:'Integrated'}[d.category]||d.category;
+      
       const show=(id,txt)=>{ const el=document.getElementById(id),wr=document.getElementById(id+'-wrap'); if(txt){el.textContent=txt;if(wr)wr.style.display='';}else{if(wr)wr.style.display='none';} };
       show('pf-challenge',d.challenge); show('pf-solution',d.solution); show('pf-result',d.result);
+      
       const vis=[d.challenge,d.solution,d.result].filter(Boolean).length;
       document.getElementById('pf-secs').style.gridTemplateColumns=`repeat(${vis||1},1fr)`;
       document.getElementById('pf-chips').innerHTML=(d.tags||'').split(',').filter(t=>t.trim()).map(t=>`<span class="pf-chip">${t.trim()}</span>`).join('');
       
-      // 슬라이드 구성
+      // 슬라이드 구성 (경로 최적화)
+      const cleanPath = (p) => (!p.startsWith('http') && !p.startsWith('/')) ? '/' + p : p;
+      const isVid = (p) => /\.(mp4|webm|mov|avi)$/i.test(p.split('?')[0]);
+      
       let slides = [];
-      if(d.thumbnail) {
-        const isVid = /\.(mp4|webm|mov|avi)$/i.test(d.thumbnail);
-        slides.push({src:d.thumbnail, type: isVid ? 'video' : 'image'});
-      }
-      if(d.images && d.images.length) slides.push(...d.images.map(i => {
-        const s = i.image_path;
-        const isVideo = /\.(mp4|webm|mov|avi)$/i.test(s);
-        return { src: s, type: isVideo ? 'video' : 'image' };
-      }));
+      if(d.thumbnail) slides.push({src: cleanPath(d.thumbnail), type: isVid(d.thumbnail) ? 'video' : 'image'});
+      if(d.images && d.images.length) slides.push(...d.images.map(i => ({ src: cleanPath(i.image_path), type: isVid(i.image_path) ? 'video' : 'image' })));
 
       slideCount = slides.length; slideIdx = 0;
       const se=document.getElementById('pf-slides'),de=document.getElementById('pf-dots');
@@ -1168,11 +1545,10 @@ body.light-mode .banner-btns .bb2 { color: #111; }
       } else {
         se.style.transform='translateX(0)';
         se.innerHTML = slides.map(s => {
-          let uri = s.src && s.src.startsWith('http') ? s.src : '/' + s.src;
           if(s.type === 'video') {
-            return `<video class="pf-slide" src="${uri}" controls autoplay muted playsinline style="object-fit:contain;background:#000;"></video>`;
+            return `<video class="pf-slide" src="${s.src}" controls autoplay muted playsinline style="object-fit:contain;background:#000;"></video>`;
           }
-          return `<img class="pf-slide" src="${uri}" alt="">`;
+          return `<img class="pf-slide" src="${s.src}" alt="">`;
         }).join('');
         de.innerHTML = slides.map((_,i) => `<button class="pf-dot${i===0?' on':''}" onclick="pfGoSlide(${i})"></button>`).join('');
         pv.style.display=nx.style.display=slideCount>1?'flex':'none';
@@ -1224,6 +1600,63 @@ body.light-mode .banner-btns .bb2 { color: #111; }
     if(who==='bot'){let i=0;const ti=setInterval(()=>{d.textContent+=txt[i++];msgs.scrollTop=9999;if(i>=txt.length)clearInterval(ti);},22);}
     else{d.textContent=txt;msgs.scrollTop=9999;}
   }
+
+  // ── MOBILE MENU TOGGLE ──
+  const mobileMenu = document.getElementById('mobile-menu');
+  window.toggleMobileMenu = () => {
+    mobileMenu.classList.toggle('on');
+  };
+  document.getElementById('nav-toggle').addEventListener('click', toggleMobileMenu);
+  document.getElementById('close-mobile').addEventListener('click', toggleMobileMenu);
+
+  // ── NAV ACTIVE ON SCROLL (Scroll-Spy) ──
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const sections = ['home', 'team', 'gallery', 'journey', 'contact'].map(id => document.getElementById(id));
+  
+  const spyOptions = { threshold: 0.3, rootMargin: "-10% 0px -70% 0px" };
+  const spyObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id');
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+        });
+      }
+    });
+  }, spyOptions);
+
+  sections.forEach(sec => { if(sec) spyObserver.observe(sec); });
+
+  // ── CONTACT FORM ──
+  document.querySelectorAll('.svc-chip').forEach(chip => {
+    chip.addEventListener('click', function() {
+      document.querySelectorAll('.svc-chip').forEach(c => c.classList.remove('selected'));
+      this.classList.add('selected');
+      document.getElementById('selected-service').value = this.dataset.val;
+    });
+  });
+
+
+
+  document.getElementById('contact-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const service = document.getElementById('selected-service').value || 'general';
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true; btn.textContent = '전송 중...';
+
+    try {
+      await addDoc(collection(db, 'contacts'), {
+        company_name: document.getElementById('f-company').value,
+        email: document.getElementById('f-email').value,
+        service: service,
+        message: document.getElementById('f-message').value,
+        status: 'new',
+        created_at: new Date().toISOString()
+      });
+      document.getElementById('contact-form-area').style.display = 'none';
+      document.getElementById('success-msg').style.display = 'block';
+    } catch (err) { alert('오류: ' + err.message); btn.disabled = false; btn.textContent = '다시 시도'; }
+  });
 </script>
 </body>
 </html>

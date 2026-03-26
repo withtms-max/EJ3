@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   // ── 넵바 스크롤 ─────────────────────────────────────────────
-  const navbar = document.querySelector(".navbar");
+  const navbar = document.getElementById("navbar");
   window.addEventListener("scroll", () => navbar.classList.toggle("scrolled", window.scrollY > 50));
 
   // ── 앵커 스크롤 ──────────────────────────────────────────────
