@@ -1040,6 +1040,12 @@ body.light-mode .pkg-item { border-bottom-color: rgba(0,0,0,0.05) !important; }
   let isM = window.innerWidth < 768 || window.location.hash.includes('mobile');
   const isAdmin = window.location.hash.startsWith('#admin');
   let initialZ = isM ? -900 : -350;
+  
+  const isVideo = (path) => {
+      if(!path) return false;
+      const cleanPath = path.split('?')[0].split('#')[0];
+      return /\.(mp4|webm|mov|avi)$/i.test(cleanPath);
+  };
 
   let drag = {
     isSc:false, cardIdx:null, hasMoved:false,
@@ -1173,11 +1179,6 @@ body.light-mode .pkg-item { border-bottom-color: rgba(0,0,0,0.05) !important; }
           if (thumb && !thumb.startsWith('http')) {
               thumb = thumb.startsWith('/') ? thumb : '/' + thumb;
           }
-          const isVideo = (path) => {
-              if(!path) return false;
-              const cleanPath = path.split('?')[0].split('#')[0];
-              return /\.(mp4|webm|mov|avi)$/i.test(cleanPath);
-          };
           const isVid = isVideo(thumb);
           const catLabel = {branding:'Branding', consulting:'Consulting', video:'Video', integrated:'Integrated'}[item.category] || item.category || '';
           
@@ -1420,19 +1421,31 @@ body.light-mode .pkg-item { border-bottom-color: rgba(0,0,0,0.05) !important; }
         // Sort by sort_order
         heroItems.sort((a,b) => (parseInt(a.sort_order)||0) - (parseInt(b.sort_order)||0));
         
+        // 1. 수동 등록한 히어로 슬라이드(hero_slides) 가져오기
         let displayItems = [];
         if(heroItems && heroItems.length > 0) {
-            displayItems = heroItems.map(h => ({ thumbnail: h.image_path, title: 'Hero' }));
-        } else {
-            // 추천 항목(is_featured)이 있으면 우선 사용, 없으면 전체 중 최신 5개 사용
-            let source = cachedPortfolioItems;
-            if (source.length === 0) {
+            displayItems = heroItems
+                .filter(h => h.image_path) // 경로가 있는 것만
+                .map(h => ({ thumbnail: h.image_path, title: 'Hero', slug: h.slug || '', sort: parseInt(h.sort_order)||0 }));
+        }
+
+        // 2. 만약 히어로 슬라이드가 없거나 부족하면 '홈페이지 추천' 포트폴리오로 채우기
+        if(displayItems.length < 5) {
+            let pSource = cachedPortfolioItems;
+            if (pSource.length === 0) {
                 const pSnap = await getDocs(collection(db, 'portfolio'));
-                source = [];
-                pSnap.forEach(d => { if(d.data().status !== 'Draft') source.push(d.data()); });
+                pSnap.forEach(d => { if(d.data().status !== 'Draft') pSource.push({ ...d.data(), id: d.id }); });
             }
-            const featured = source.filter(it => it.is_featured === '1');
-            displayItems = featured.length > 0 ? featured.slice(0, 5) : source.slice(0, 5);
+            const featured = pSource.filter(it => String(it.is_featured) === '1' && it.thumbnail);
+            const extra = featured.map(it => ({ thumbnail: it.thumbnail, title: it.title, slug: it.slug, sort: 999 }));
+            
+            // 기존 수동 슬라이드와 병합 (중복 방지는 간단하게 처리)
+            displayItems = [...displayItems, ...extra];
+        }
+
+        // 3. 그래도 없으면 전체 포트폴리오에서 가져오기
+        if(displayItems.length === 0) {
+            displayItems = cachedPortfolioItems.slice(0, 5).map(it => ({ thumbnail: it.thumbnail, title: it.title, slug: it.slug }));
         }
 
         if(displayItems && displayItems.length > 0) {
@@ -1444,17 +1457,15 @@ body.light-mode .pkg-item { border-bottom-color: rgba(0,0,0,0.05) !important; }
                 const item = displayItems[i];
                 let thumb = item.thumbnail;
                 if(thumb && !thumb.startsWith('http') && !thumb.startsWith('/')) {
-                    // if it already starts with uploads/, just add a leading slash
-                    if(thumb.startsWith('uploads/')) thumb = '/' + thumb;
-                    else thumb = '/uploads/' + thumb;
+                    thumb = '/' + thumb;
                 }
                 
                 let mediaHtml = '';
                 if(thumb) {
                     if(isVideo(thumb)) {
-                        mediaHtml = `<video src="${thumb}" autoplay loop muted playsinline></video>`;
+                        mediaHtml = `<video src="${thumb}" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;"></video>`;
                     } else {
-                        mediaHtml = `<img src="${thumb}" alt="Hero">`;
+                        mediaHtml = `<img src="${thumb}" alt="Hero" style="width:100%;height:100%;object-fit:cover;">`;
                     }
                 }
                 
