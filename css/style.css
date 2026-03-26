@@ -104,7 +104,82 @@ body.light-mode .gallery-stage {
 }
 
 body.light-mode .pf-backdrop {
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.82);
+}
+
+/* GLOBAL LIGHT MODE FIXES - High Contrast & Visibility */
+body.light-mode h1, 
+body.light-mode h2, 
+body.light-mode h3, 
+body.light-mode .sect-h2,
+body.light-mode .hero-title,
+body.light-mode .work-title,
+body.light-mode .pf-title { 
+  color: #111111 !important; 
+}
+
+body.light-mode .sect-label { 
+  color: #0055dd !important; 
+  opacity: 1 !important; 
+  font-weight: 800 !important;
+}
+
+body.light-mode .highlight { 
+  color: #111111 !important; 
+  text-shadow: none !important; 
+}
+
+body.light-mode .footer-big { 
+  color: #111111 !important; 
+}
+
+body.light-mode .footer-sub { 
+  color: #495057 !important; 
+  font-weight: 700 !important; 
+}
+
+body.light-mode .footer-sect { 
+  background: #f8f9fa !important; 
+  border-top: 1px solid rgba(0, 0, 0, 0.05) !important; 
+}
+
+body.light-mode .team-card { 
+  background: #ffffff !important; 
+  border-color: rgba(0, 0, 0, 0.05) !important; 
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05) !important; 
+}
+
+body.light-mode .team-name { 
+  color: #111111 !important; 
+}
+
+body.light-mode .team-role { 
+  color: #0055dd !important; 
+  font-weight: 900 !important;
+}
+
+body.light-mode .pkg-item span { 
+  color: #111111 !important; 
+}
+
+body.light-mode .pkg-desc p { 
+  color: #495057 !important; 
+}
+
+body.light-mode .c-label,
+body.light-mode .form-label { 
+  color: #111111 !important; 
+  font-weight: 900 !important; 
+}
+
+body.light-mode .c-input { 
+  background: #ffffff !important; 
+  border: 1px solid rgba(0, 0, 0, 0.1) !important; 
+  color: #111111 !important; 
+}
+
+body.light-mode .c-input::placeholder { 
+  color: #adb5bd !important; 
 }
 
 
