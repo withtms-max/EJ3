@@ -403,12 +403,23 @@ body.light-mode .footer-sub { color: rgba(0,0,0,0.5) !important; }
 body.light-mode .footer-btn-sec { background: rgba(0,0,0,0.05) !important; color: #111 !important; border-color: rgba(0,0,0,0.1) !important; }
 body.light-mode .footer-copy { color: rgba(0,0,0,0.4) !important; border-top-color: rgba(0,0,0,0.05) !important; }
 
-body.light-mode .contact-sect { background: #eef2ff !important; border-top: 1px solid rgba(0,0,0,0.1); }
-body.light-mode .c-desc { color: #444 !important; }
-body.light-mode .c-link { color: #000 !important; }
-body.light-mode .c-form-box { background: #fff !important; border-color: rgba(0,0,0,0.08) !important; box-shadow: 0 30px 60px rgba(0,0,0,0.08) !important; }
-body.light-mode .c-input { background: #f8f9fa !important; border-color: rgba(0,0,0,0.12) !important; color: #111 !important; }
-body.light-mode .svc-chip { color: #444; border-color: rgba(0,0,0,0.15); background: #fff; }
+body.light-mode .contact-sect { background: #fdfdfe !important; border-top: 1px solid rgba(0,0,0,0.05); }
+body.light-mode .contact-grid-wrap h2 { color: #111 !important; }
+body.light-mode .c-info-card { background: transparent !important; }
+body.light-mode .c-info-text p { color: rgba(0,0,0,0.4) !important; }
+body.light-mode .c-info-text a, body.light-mode .c-info-text span { color: #111 !important; }
+body.light-mode .c-form-box { background: #fff !important; border: 1px solid rgba(0,0,0,0.06) !important; box-shadow: 0 40px 100px rgba(0,0,0,0.06) !important; }
+body.light-mode .c-label { color: #111 !important; }
+body.light-mode .c-input { background: #fcfcfd !important; border: 1px solid rgba(0,0,0,0.1) !important; color: #111 !important; }
+body.light-mode .c-input::placeholder { color: rgba(0,0,0,0.3) !important; }
+body.light-mode .svc-chip { 
+    background: #f1f3f6 !important; 
+    border-color: rgba(0,0,0,0.08) !important; 
+    color: #666 !important; 
+}
+body.light-mode .svc-chip.selected { background: #007aff !important; color: #fff !important; box-shadow: 0 5px 15px rgba(0,122,255,0.2) !important; }
+
+
 
 body.light-mode .gallery-stage { background: #fff !important; }
 body.light-mode .gh-h2 { color: #111 !important; }
@@ -442,34 +453,45 @@ body.light-mode .banner-btns .bb2 { background: rgba(0,0,0,0.05) !important; col
 body.light-mode .banner-btns .bb2:hover { background: rgba(0,0,0,0.1) !important; color: #000 !important; }
 
 
-/* BASE (DARK) THEME REFINEMENTS */
+/* BASE (DARK) THEME REFINEMENTS - CONTACT FORM */
 .svc-chip { 
     background: rgba(255,255,255,0.05); 
     border: 1px solid rgba(255,255,255,0.1); 
     color: rgba(255,255,255,0.6); 
     border-radius: 999px; 
-    padding: 0.6rem 1.4rem; 
+    padding: 0.8rem 1.6rem; 
     font-weight: 700; 
     cursor: pointer; 
     transition: 0.3s;
+    font-size: 0.9rem;
 }
-.svc-chip:hover { border-color: #0066ff; color: #fff; transform: translateY(-2px); }
+.svc-chip:hover { border-color: #007aff; color: #fff; transform: translateY(-2px); }
 .svc-chip.selected { 
-    background: #0066ff !important; 
+    background: #007aff !important; 
     color: #fff !important; 
-    border-color: #0066ff !important; 
-    box-shadow: 0 10px 20px rgba(0,102,255,0.3);
+    border-color: #007aff !important; 
+    box-shadow: 0 10px 20px rgba(0,122,255,0.3);
 }
 .c-input { 
     background: rgba(255,255,255,0.03) !important; 
     border: 1px solid rgba(255,255,255,0.12) !important; 
-    border-radius: 15px !important; 
-    padding: 1.2rem !important; 
-    color: #fff !important;
-    transition: 0.3s;
+    border-radius: 1.2rem !important; 
+    padding: 1.4rem !important; 
+    color: #fff !important; 
+    font-size: 1rem !important;
+    outline: none !important;
+    transition: 0.3s !important;
 }
-.c-input:focus { border-color: #0066ff !important; background: rgba(255,255,255,0.06) !important; box-shadow: 0 0 15px rgba(0,102,255,0.1); }
-#submit-btn { border-radius: 999px !important; padding: 1.2rem 3rem !important; font-weight: 900 !important; }
+.c-input:focus { border-color: #007aff !important; background: rgba(255,255,255,0.06) !important; box-shadow: 0 0 15px rgba(0,102,255,0.1); }
+#submit-btn { 
+    border-radius: 999px !important; 
+    padding: 1.2rem 3rem !important; 
+    font-weight: 900 !important; 
+    background: linear-gradient(135deg, #007aff, #00c6ff) !important; 
+    color: #fff !important; 
+    box-shadow: 0 10px 40px rgba(0,122,255,0.3) !important; 
+    border: none !important;
+}
 body.light-mode .pf-dot.on { background: #0066ff; }
 
 body.light-mode .chat-win { background: #fff; border-color: rgba(0,0,0,0.1); }
@@ -491,61 +513,24 @@ body.light-mode .banner-btns .bb2 { color: #111; }
 .mobile-links li a:active { color: #0066ff; }
 .close-mobile { position: absolute; top: 2rem; right: 2rem; background: none; border: none; color: #fff; font-size: 2rem; cursor: pointer; }
 
+@media(max-width: 992px) {
+  .contact-grid-wrap > div:last-child {
+    grid-template-columns: 1fr !important;
+    gap: 4rem !important;
+  }
+}
+
 @media(max-width: 640px) {
   nav { padding: 1rem 1.5rem; }
   .nav-links, .nav-cta { display: none; }
   .nav-toggle { display: block; }
   body.light-mode .nav-toggle { color: #000; }
   
-  .team-grid {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 3rem !important;
-    padding: 1rem 1.5rem !important;
-  }
-  .team-card {
-    min-width: 100%;
-    background: transparent !important;
-    border: none !important;
-  }
-  .team-img-box {
-    border-radius: 25px !important;
-    overflow: hidden !important;
-    aspect-ratio: 4/5 !important;
-    position: relative;
-    background: #111;
-  }
-  .team-info {
-    padding: 1.5rem 0.5rem !important;
-  }
+  .c-form-box { padding: 2.5rem !important; }
 }
 
-/* CHIPS & BUTTONS STYLE (SCREENSHOT SYNC) */
-.svc-chip { 
-    background: rgba(255,255,255,0.05) !important; 
-    border: 1px solid rgba(255,255,255,0.1) !important; 
-    color: rgba(255,255,255,0.6) !important; 
-    padding: 0.8rem 1.5rem !important; 
-    border-radius: 99px !important; 
-    font-weight: 700 !important; 
-    cursor: pointer;
-    transition: 0.3s;
-    font-size: 0.9rem;
-}
-.svc-chip.selected { 
-    background: #007aff !important; 
-    color: #fff !important; 
-    border-color: #007aff !important;
-    box-shadow: 0 5px 15px rgba(0,122,255,0.3);
-}
 
-#submit-btn { 
-    background: linear-gradient(135deg, #007aff, #00c6ff) !important; 
-    color: #fff !important; 
-    border-radius: 99px !important; 
-    font-weight: 900 !important; 
-    box-shadow: 0 10px 40px rgba(0,122,255,0.3) !important; 
-}
+/* (CLEANED UP BY MERGE) */
 
 body.light-mode .svc-chip { 
     background: #f0f0f0 !important; 
@@ -728,66 +713,84 @@ body.light-mode .pkg-item { border-bottom-color: rgba(0,0,0,0.05) !important; }
 </section>
 
 <!-- CONTACT SECTION (EXACT AS PER SCREENSHOT) -->
-<section class="contact-sect" id="contact" style="padding:10rem 1.5rem; background:#000;">
-  <div style="max-width:1100px; margin:0 auto;">
-    <div class="fu" style="text-align:center; margin-bottom:4.5rem;">
-      <p style="color:rgba(255,255,255,0.6); font-size:1.05rem; line-height:1.6; font-weight:500;">
-        사장님의 비즈니스 성장을 위한 단 하나의 파트너,<br>
-        THE 3 STUDIO입니다.
-      </p>
+<section class="contact-sect" id="contact" style="padding:10rem 1.5rem; background:#000; position:relative; overflow:hidden;">
+  <!-- Background radial for context -->
+  <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:80%; height:80%; background:radial-gradient(circle, rgba(0,102,255,0.05) 0%, transparent 70%); pointer-events:none;"></div>
+  
+  <div class="contact-grid-wrap" style="max-width:1200px; margin:0 auto; position:relative; z-index:2;">
+    <div class="fu" style="text-align:center; margin-bottom:5rem;">
+      <p style="color:#007aff; font-size:0.85rem; font-weight:900; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:1.5rem;">GET IN TOUCH</p>
+      <h2 style="font-family:'Pretendard', sans-serif; font-size:clamp(2rem, 5vw, 3.5rem); font-weight:900; color:#fff; line-height:1.2; letter-spacing:-0.03em;">여러분의 비즈니스 성장을<br>함께 고민합니다</h2>
     </div>
 
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1.5rem; margin-bottom:5rem;">
-      <div class="fu" style="display:flex; align-items:center; gap:1.2rem; background:rgba(255,255,255,0.03); padding:1.5rem; border-radius:20px; border:1px solid rgba(255,255,255,0.05);">
-        <div style="width:50px; height:50px; background:#007aff; border-radius:12px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.3rem;"><i class="fa fa-envelope"></i></div>
-        <div><p style="font-size:0.75rem; color:rgba(255,255,255,0.4); margin:0 0 0.2rem; text-transform:uppercase;">E-mail</p><a href="mailto:hello@the3studio.com" style="color:#fff; text-decoration:none; font-weight:800; font-size:1rem;">hello@the3studio.com</a></div>
-      </div>
-      <div class="fu" style="display:flex; align-items:center; gap:1.2rem; background:rgba(255,255,255,0.03); padding:1.5rem; border-radius:20px; border:1px solid rgba(255,255,255,0.05);">
-        <div style="width:50px; height:50px; background:#007aff; border-radius:12px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.3rem;"><i class="fa fa-phone"></i></div>
-        <div><p style="font-size:0.75rem; color:rgba(255,255,255,0.4); margin:0 0 0.2rem; text-transform:uppercase;">Phone</p><a href="tel:010-1234-5678" style="color:#fff; text-decoration:none; font-weight:800; font-size:1rem;">+82 10 1234 5678</a></div>
-      </div>
-      <div class="fu" style="display:flex; align-items:center; gap:1.2rem; background:rgba(255,255,255,0.03); padding:1.5rem; border-radius:20px; border:1px solid rgba(255,255,255,0.05);">
-        <div style="width:50px; height:50px; background:#007aff; border-radius:12px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.3rem;"><i class="fa fa-location-dot"></i></div>
-        <div><p style="font-size:0.75rem; color:rgba(255,255,255,0.4); margin:0 0 0.2rem; text-transform:uppercase;">Location</p><span style="color:#fff; font-weight:800; font-size:1rem;">Seoul, Republic of Korea</span></div>
-      </div>
-    </div>
-
-    <div class="fu c-form-box" style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:2.5rem; padding:3.5rem;">
-      <div id="contact-form-area">
-        <div style="margin-bottom:2.5rem;">
-          <label style="display:block; font-size:0.85rem; font-weight:900; color:#007aff; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:1.5rem;">어떤 서비스에 관심이 있으신가요?</label>
-          <div id="service-chips" style="display:flex; gap:0.8rem; flex-wrap:wrap;">
-            <button type="button" class="svc-chip" data-val="consulting" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:rgba(255,255,255,0.6); padding:0.8rem 1.5rem; border-radius:99px; font-weight:700; cursor:pointer;">Business Consulting</button>
-            <button type="button" class="svc-chip" data-val="branding" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:rgba(255,255,255,0.6); padding:0.8rem 1.5rem; border-radius:99px; font-weight:700; cursor:pointer;">Branding Design</button>
-            <button type="button" class="svc-chip" data-val="video" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:rgba(255,255,255,0.6); padding:0.8rem 1.5rem; border-radius:99px; font-weight:700; cursor:pointer;">Video Production</button>
-            <button type="button" class="svc-chip" data-val="uxui" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:rgba(255,255,255,0.6); padding:0.8rem 1.5rem; border-radius:99px; font-weight:700; cursor:pointer;">UI/UX Design</button>
+    <div style="display:grid; grid-template-columns: 1fr 1.2fr; gap:6rem; align-items:start;">
+      <!-- Left: Info -->
+      <div style="display:flex; flex-direction:column; gap:2.5rem; padding-top:2rem;">
+        <div class="fu c-info-card" style="display:flex; align-items:center; gap:1.5rem;">
+          <div style="width:58px; height:58px; background:rgba(0,122,255,0.1); border:1px solid rgba(0,122,255,0.2); border-radius:18px; display:flex; align-items:center; justify-content:center; color:#007aff; font-size:1.4rem;"><i class="fa fa-envelope"></i></div>
+          <div class="c-info-text">
+            <p style="font-size:0.75rem; color:rgba(255,255,255,0.4); margin:0 0 4px; text-transform:uppercase; font-weight:800; letter-spacing:0.05em;">E-mail</p>
+            <a href="mailto:hello@the3studio.com" style="color:#fff; text-decoration:none; font-weight:800; font-size:1.1rem; transition:0.3s;">hello@the3studio.com</a>
           </div>
-          <input type="hidden" id="selected-service">
         </div>
-        <form id="contact-form">
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-bottom:1.5rem;">
-            <div>
-              <label style="display:block; font-size:0.8rem; font-weight:800; color:rgba(255,255,255,0.4); margin-bottom:0.8rem;">회사 및 성함</label>
-              <input type="text" id="f-company" placeholder="Ex) 홍길동 / THE3 STUDIO" style="width:100%; background:transparent; border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:1.2rem; color:#fff; font-size:1rem; outline:none;" required>
-            </div>
-            <div>
-              <label style="display:block; font-size:0.8rem; font-weight:800; color:rgba(255,255,255,0.4); margin-bottom:0.8rem;">이메일</label>
-              <input type="email" id="f-email" placeholder="example@email.com" style="width:100%; background:transparent; border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:1.2rem; color:#fff; font-size:1rem; outline:none;" required>
-            </div>
+        <div class="fu c-info-card" style="display:flex; align-items:center; gap:1.5rem;">
+          <div style="width:58px; height:58px; background:rgba(0,122,255,0.1); border:1px solid rgba(0,122,255,0.2); border-radius:18px; display:flex; align-items:center; justify-content:center; color:#007aff; font-size:1.4rem;"><i class="fa fa-phone"></i></div>
+          <div class="c-info-text">
+            <p style="font-size:0.75rem; color:rgba(255,255,255,0.4); margin:0 0 4px; text-transform:uppercase; font-weight:800; letter-spacing:0.05em;">Phone</p>
+            <a href="tel:010-1234-5678" style="color:#fff; text-decoration:none; font-weight:800; font-size:1.1rem; transition:0.3s;">+82 10 1234 5678</a>
           </div>
-          <div style="margin-bottom:2.5rem;">
-            <label style="display:block; font-size:0.8rem; font-weight:800; color:rgba(255,255,255,0.4); margin-bottom:0.8rem;">내용</label>
-            <textarea id="f-message" placeholder="사장님의 비즈니스 배경과 원하시는 목표를 자유롭게 남겨주세요." style="width:100%; background:transparent; border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:1.2rem; color:#fff; font-size:1rem; outline:none; resize:none;" rows="5" required></textarea>
+        </div>
+        <div class="fu c-info-card" style="display:flex; align-items:center; gap:1.5rem;">
+          <div style="width:58px; height:58px; background:rgba(0,122,255,0.1); border:1px solid rgba(0,122,255,0.2); border-radius:18px; display:flex; align-items:center; justify-content:center; color:#007aff; font-size:1.4rem;"><i class="fa fa-location-dot"></i></div>
+          <div class="c-info-text">
+            <p style="font-size:0.75rem; color:rgba(255,255,255,0.4); margin:0 0 4px; text-transform:uppercase; font-weight:800; letter-spacing:0.05em;">Location</p>
+            <span style="color:#fff; font-weight:800; font-size:1.1rem;">Seoul, Republic of Korea</span>
           </div>
-          <button type="submit" id="submit-btn" style="width:100%; background:linear-gradient(135deg, #007aff, #00c6ff); color:#fff; border:none; padding:1.5rem; border-radius:99px; font-weight:900; font-size:1.2rem; cursor:pointer; box-shadow:0 10px 40px rgba(0,122,255,0.3); transition:0.3s;">프로젝트 문의하기</button>
-        </form>
+        </div>
       </div>
-      <div id="success-msg" style="display:none; text-align:center; padding:3rem 0;">
-        <i class="fa fa-circle-check" style="font-size:4rem; color:#007aff; margin-bottom:1.5rem;"></i>
-        <h3 style="font-size:1.8rem; font-weight:900;">문의가 성공적으로 전송되었습니다!</h3>
-        <p style="color:rgba(255,255,255,0.5); font-size:1.1rem; margin-top:1rem;">확인 후 대표 본인이 직접 연락드리겠습니다.</p>
+
+      <!-- Right: Form -->
+      <div class="fu c-form-box" style="background:#0a0a0a; border:1px solid rgba(255,255,255,0.08); border-radius:3rem; padding:4rem; box-shadow:0 40px 100px rgba(0,0,0,0.4);">
+        <div id="contact-form-area">
+          <form id="contact-form">
+            <div style="margin-bottom:3rem;">
+              <label class="c-label" style="display:block; font-size:0.85rem; font-weight:900; color:#fff; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:1.5rem;">관심 서비스</label>
+              <div id="service-chips" style="display:flex; gap:0.8rem; flex-wrap:wrap;">
+                <button type="button" class="svc-chip" data-val="consulting">Business Consulting</button>
+                <button type="button" class="svc-chip" data-val="branding">Branding Design</button>
+                <button type="button" class="svc-chip" data-val="video">Video Production</button>
+                <button type="button" class="svc-chip" data-val="integrated">Integrated</button>
+              </div>
+              <input type="hidden" id="selected-service">
+            </div>
+
+            <div style="margin-bottom:2rem;">
+              <label class="c-label" style="display:block; font-size:0.85rem; font-weight:900; color:#fff; margin-bottom:1rem;">회사 및 성함</label>
+              <input type="text" id="f-company" class="c-input" placeholder="성함 혹은 회사명을 입력해주세요" style="width:100%;" required>
+            </div>
+
+            <div style="margin-bottom:2rem;">
+              <label class="c-label" style="display:block; font-size:0.85rem; font-weight:900; color:#fff; margin-bottom:1rem;">이메일</label>
+              <input type="email" id="f-email" class="c-input" placeholder="연락받으실 이메일 주소를 입력해주세요" style="width:100%;" required>
+            </div>
+
+            <div style="margin-bottom:3rem;">
+              <label class="c-label" style="display:block; font-size:0.85rem; font-weight:900; color:#fff; margin-bottom:1rem;">메시지</label>
+              <textarea id="f-message" class="c-input" placeholder="프로젝트에 대해 자유롭게 설명해주세요" style="width:100%; resize:none;" rows="5" required></textarea>
+            </div>
+
+            <button type="submit" id="submit-btn" style="width:100%; height:70px;">프로젝트 문의하기</button>
+          </form>
+        </div>
+        <div id="success-msg" style="display:none; text-align:center; padding:3rem 0;">
+          <div style="width:80px; height:80px; background:rgba(0,122,255,0.1); color:#007aff; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 2rem; font-size:2.5rem;"><i class="fa fa-check"></i></div>
+          <h3 style="font-size:1.8rem; font-weight:900; margin-bottom:1rem;">전송 완료!</h3>
+          <p style="color:rgba(255,255,255,0.5); font-size:1.1rem;">보내주신 소중한 문의를 확인 중입니다.<br>대표 본인이 직접 빠르게 연락드리겠습니다.</p>
+        </div>
       </div>
     </div>
+  </div>
+</section>
     
     <div style="text-align:center; margin-top:5rem;">
       <h3 style="font-size:1.1rem; font-weight:900; color:#fff; letter-spacing:0.2em; border-top:1px solid rgba(255,255,255,0.05); display:inline-block; padding-top:2rem;">THE 3 STUDIO</h3>
