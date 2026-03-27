@@ -335,9 +335,11 @@ body.light-mode nav.scrolled .nav-links li a { color: rgba(0,0,0,0.6) !important
             }
 
             if (!item) {
+                console.warn('LoadCase failed for:', {docId, slug});
                 document.querySelector('.case-body').innerHTML = `
                     <div style="padding:3rem; text-align:center; color:#fff;">
-                        <p style="font-size:1.5rem; margin-bottom:2rem;">데이터를 찾을 수 없습니다.</p>
+                        <p style="font-size:1.5rem; margin-bottom:1rem;">데이터를 찾을 수 없습니다.</p>
+                        <p style="opacity:0.3; font-size:0.7rem; margin-bottom:2rem;">(ID: ${docId || '-'} / Slug: ${slug || '-'})</p>
                         <a href="work.html" style="color:#0088ff; font-size:1rem;">← 포트폴리오 목록으로</a>
                     </div>`;
                 return;

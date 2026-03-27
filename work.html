@@ -311,9 +311,9 @@ body.light-mode {
             } else {
                 thumbHTML = `<div style="width:100%;height:100%;background:#111;"></div>`;
             }
-            const linkParam = item.slug ? `slug=${item.slug}` : `id=${item.id}`;
+            const linkParam = item.slug ? `slug=${encodeURIComponent(item.slug)}` : `id=${encodeURIComponent(item.id)}`;
             return `
-            <a href="work-detail.html?${linkParam}" class="work-card fu">
+            <a href="/work-detail.html?${linkParam}" class="work-card fu">
                 <div class="work-thumb-wrap">
                     ${thumbHTML}
                 </div>

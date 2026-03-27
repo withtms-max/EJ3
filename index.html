@@ -1778,7 +1778,7 @@ body.light-mode .impact-info-name { color: #111; }
       portfolioSnap.forEach(doc => {
         const data = doc.data();
         if(data.status !== 'Draft') {
-          items.push({ ...data, id: data.id || doc.id });
+          items.push({ ...data, id: doc.id });
         }
       });
 
