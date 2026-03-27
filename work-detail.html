@@ -310,7 +310,17 @@ body.light-mode nav.scrolled .nav-links li a { color: rgba(0,0,0,0.6) !important
     const slug = params.get('slug');
 
     async function loadCase() {
-        if (!docId && !slug) { location.href = 'work.html'; return; }
+        console.log('WorkDetail Init:', { href: location.href, search: location.search, docId, slug });
+        
+        if (!docId && !slug) { 
+            document.querySelector('.case-body').innerHTML = `
+                <div style="padding:100px 20px; text-align:center; color:#fff;">
+                    <h2 style="font-size:2rem; margin-bottom:1rem;">파라미터 오류</h2>
+                    <p style="opacity:0.6; margin-bottom:2rem;">주소에 접근하려는 작품 정보(slug/id)가 없습니다.</p>
+                    <a href="work.html" style="color:#0066ff;">← 목록으로 돌아가기</a>
+                </div>`;
+            return; 
+        }
         try {
             let item = null;
 
