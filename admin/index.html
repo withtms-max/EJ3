@@ -106,6 +106,11 @@
 
         /* Drag & Drop Highlight */
         .gallery-list.drag-over { border-color: var(--accent) !important; background: rgba(0,136,255,0.1) !important; border-style: solid !important; }
+        .nav-group-title { margin:1.5rem 0 0.5rem 1.5rem; font-size:0.6rem; font-weight:900; color:rgba(255,255,255,0.2); letter-spacing:0.1em; text-transform:uppercase; }
+        .extra-menu { display:none; flex-direction:column; background: rgba(0,0,0,0.2); border-radius:10px; margin: 0 10px; padding: 5px 0; }
+        .extra-menu.show { display:flex; }
+        .nav-item.toggle-btn i.fa-chevron-down { font-size: 0.6rem; margin-left: auto; transition: 0.3s; }
+        .nav-item.toggle-btn.active i.fa-chevron-down { transform: rotate(180deg); }
     </style>
 </head>
 <body>
@@ -115,19 +120,28 @@
         <div class="logo">THE <span>3</span> STUDIO</div>
         <nav class="nav-menu">
             <div class="nav-item" onclick="window.open('../', '_blank')"><i class="fa fa-external-link"></i> 홈페이지 바로가기</div>
+            
+            <div class="nav-group-title">MAIN CONTENT</div>
             <div class="nav-item active" onclick="switchView('global')"><i class="fa fa-globe"></i> 전역 설정 (테마)</div>
             <div class="nav-item" onclick="switchView('hero')"><i class="fa fa-tv"></i> 히어로 섹션 마스터</div>
-            <div class="nav-item" onclick="switchView('hero_slides')"><i class="fa fa-images"></i> 히어로 캐러셀</div>
-            <div class="nav-item" onclick="switchView('stats')"><i class="fa fa-chart-bar"></i> 성과 수치 (Stats)</div>
             <div class="nav-item" onclick="switchView('portfolio')"><i class="fa fa-folder"></i> 포트폴리오 관리</div>
             <div class="nav-item" onclick="switchView('team')"><i class="fa fa-users"></i> 팀 멤버</div>
             <div class="nav-item" onclick="switchView('journey')"><i class="fa fa-route"></i> 성공 연혁</div>
-            <div class="nav-item" onclick="switchView('clients')"><i class="fa fa-building"></i> 고객사</div>
-            <div class="nav-item" onclick="switchView('contact_settings')"><i class="fa fa-address-book"></i> 문의하기 & 연락처 관리</div>
-            <div class="nav-item" onclick="switchView('impact_stories')"><i class="fa fa-quote-right"></i> 고객 성공 매시지</div>
+            <div class="nav-item" onclick="switchView('impact_stories')"><i class="fa fa-quote-right"></i> 고객 성공 메시지</div>
             <div class="nav-item" onclick="switchView('consulting')"><i class="fa fa-envelope"></i> 문의 내역</div>
-            <div style="margin:2rem 0 0.5rem 1.5rem; font-size:0.6rem; font-weight:900; color:rgba(255,255,255,0.3); letter-spacing:0.1em;">EDITOR</div>
-            <div class="nav-item" onclick="switchView('placements')"><i class="fa fa-th-large"></i> 1:1 라이브 배치</div>
+            <div class="nav-item" onclick="switchView('contact_settings')"><i class="fa fa-address-book"></i> 연락처/서비스 설정</div>
+
+            <div class="nav-group-title">ADVANCED</div>
+            <div class="nav-item toggle-btn" onclick="toggleExtraMenu(this)">
+                <i class="fa fa-tools"></i> 기능 더보기 (기타)
+                <i class="fa fa-chevron-down"></i>
+            </div>
+            <div class="extra-menu" id="extra-menu">
+                <div class="nav-item" onclick="switchView('hero_slides')"><i class="fa fa-images"></i> 히어로 캐러셀</div>
+                <div class="nav-item" onclick="switchView('stats')"><i class="fa fa-chart-bar"></i> 성과 수치 (Stats)</div>
+                <div class="nav-item" onclick="switchView('clients')"><i class="fa fa-building"></i> 고객사 관리</div>
+                <div class="nav-item" onclick="switchView('placements')"><i class="fa fa-th-large"></i> 1:1 라이브 배치</div>
+            </div>
         </nav>
         <div class="nav-item" style="margin-top:auto;" onclick="logout()"><i class="fa fa-sign-out"></i> 로그아웃</div>
     </aside>
@@ -248,6 +262,11 @@
     const appView = document.getElementById('app-view');
     const modal = document.getElementById('modal');
     const itemForm = document.getElementById('item-form');
+
+    window.toggleExtraMenu = (btn) => {
+        btn.classList.toggle('active');
+        document.getElementById('extra-menu').classList.toggle('show');
+    };
     const getMediaSrc = (path) => (path && path.startsWith('http')) ? path : (path ? '../' + path : '');
 
     // ───── UPLOAD HELPER ─────
