@@ -946,17 +946,33 @@
                     <p>시뮬레이터가 아닌 '진짜 내 웹사이트'에서 실시간으로 배치를 수정하세요.</p>
                 </div>
             </div>
-            <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:60vh; text-align:center; background:#0a0a0a; border-radius:30px; border:1px solid #1a1a1a; margin-top:2rem;">
-                <div style="font-size:5rem; color:#0066ff; margin-bottom:2rem;"><i class="fa-solid fa-earth-asia"></i></div>
-                <h2 style="font-family:'Outfit'; font-size:2.5rem; font-weight:900; color:#fff; margin-bottom:1rem;">원조 웹사이트에서 직접 배치하기</h2>
-                <p style="color:rgba(255,255,255,0.4); max-width:500px; margin-bottom:3rem; line-height:1.6;">가장 정확한 배치를 위해 실제 운영 중인 index.html 페이지를 에디터 모드로 엽니다. 거기서 직접 드래그하고 저장하면 사이트에 즉시 반영됩니다.</p>
-                <div style="display:flex; gap:1.5rem;">
-                    <a href="/index.html#admin" target="_blank" class="btn" style="background:#0066ff; padding:20px 40px; font-size:1.1rem; border-radius:15px; text-decoration:none;">
-                        <i class="fa-solid fa-up-right-from-square"></i> 라이브 PC 에디터 열기
+            <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:60vh; text-align:center; background:#0a0a0a; border-radius:30px; border:1px solid #1a1a1a; margin-top:2rem; padding: 4rem 2rem;">
+                <div style="font-size:5rem; color:#0066ff; margin-bottom:2rem;"><i class="fa-solid fa-layer-group"></i></div>
+                <h2 style="font-family:'Outfit'; font-size:2.5rem; font-weight:900; color:#fff; margin-bottom:1rem;">에디터 접속 모드 선택</h2>
+                <p style="color:rgba(255,255,255,0.4); max-width:600px; margin-bottom:3.5rem; line-height:1.7;">편집하고 싶은 환경에 맞춰 에디터를 열어주세요.<br>가장 정확한 배치를 위해 <b>[반응형 모바일]</b> 모드 사용 시 <b>F12</b> 키 조작이 권장됩니다.</p>
+                
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:1.5rem; width:100%; max-width:1000px;">
+                    <!-- 1. LIVE PC -->
+                    <a href="/index.html#admin" target="_blank" class="btn" style="background:linear-gradient(135deg, #0066ff 0%, #0044aa 100%); padding:25px; border-radius:15px; text-decoration:none; display:flex; flex-direction:column; align-items:center;">
+                        <i class="fa-solid fa-desktop" style="font-size:2rem; margin-bottom:15px;"></i>
+                        <span style="font-size:1.1rem; font-weight:900; margin-bottom:5px;">라이브 PC 에디터</span>
+                        <span style="font-size:0.75rem; opacity:0.6;">데스크탑용 배치를 수정합니다</span>
                     </a>
-                    <a href="/index.html#admin-mobile" target="_blank" class="btn" style="background:#ff0066; padding:20px 40px; font-size:1.1rem; border-radius:15px; text-decoration:none;">
-                        <i class="fa-solid fa-mobile-screen"></i> 라이브 모바일 에디터 열기
+
+                    <!-- 2. PC SIMULATOR -->
+                    <a href="/index.html#admin-mobile" target="_blank" class="btn" style="background:linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); padding:25px; border-radius:15px; text-decoration:none; display:flex; flex-direction:column; align-items:center;">
+                        <i class="fa-solid fa-laptop-code" style="font-size:2rem; margin-bottom:15px;"></i>
+                        <span style="font-size:1.1rem; font-weight:900; margin-bottom:5px;">반응형 모바일 (PC용)</span>
+                        <span style="font-size:0.75rem; opacity:0.9; color:#fff;"><b>필독: F12 → 모바일 아이콘 클릭</b></span>
                     </a>
+
+                    <!-- 3. REAL MOBILE -->
+                    <div style="background:linear-gradient(135deg, #ec4899 0%, #db2777 100%); padding:25px; border-radius:15px; display:flex; flex-direction:column; align-items:center; cursor:default;">
+                        <i class="fa-solid fa-mobile-screen-button" style="font-size:2rem; margin-bottom:15px;"></i>
+                        <span style="font-size:1.1rem; font-weight:900; margin-bottom:5px;">리얼 모바일 모드</span>
+                        <span style="font-size:0.75rem; opacity:0.7;">실제 휴대폰으로 접속 시 자동 활성화</span>
+                        <p style="font-size:10px; margin-top:10px; color:rgba(255,255,255,0.4);">현재 기기에서는 미리보기만 가능</p>
+                    </div>
                 </div>
             </div>
         `;

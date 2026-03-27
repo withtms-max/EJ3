@@ -1542,19 +1542,19 @@ body.light-mode .impact-info-name { color: #111; }
       pointerEvents:'none', zIndex:'9999'
     });
     
-    // 하단 툴바 (Bottom Toolbar로 이동)
+    // 하단 툴바
     const toolbar = document.createElement('div');
     Object.assign(toolbar.style, {
-      position:'absolute', bottom:'40px', left:'50%', transform:'translateX(-50%)',
-      display:'flex', gap:'15px', alignItems:'center', background:'rgba(0,0,0,0.85)',
-      padding:'12px 25px', borderRadius:'100px', border:'1px solid rgba(255,255,255,0.15)',
-      backdropFilter:'blur(30px)', pointerEvents:'auto', boxShadow:'0 20px 50px rgba(0,0,0,0.8)'
+      position: 'absolute', bottom: '40px', left: '50%', transform: 'translateX(-50%)',
+      display: 'flex', gap: '15px', alignItems: 'center', background: 'rgba(0,0,0,0.85)',
+      padding: '12px 25px', borderRadius: '100px', border: '1px solid rgba(255,255,255,0.15)',
+      backdropFilter: 'blur(30px)', pointerEvents: 'auto', boxShadow: '0 20px 50px rgba(0,0,0,0.8)'
     });
     
     toolbar.innerHTML = `
       <div style="display:flex; background:rgba(255,255,255,0.05); padding:4px; border-radius:100px;">
-        <button id="toggle-pc" style="padding:8px 20px; border:none; border-radius:100px; background:${!isM?'#fff':'transparent'}; color:${!isM?'#000':'#fff'}; font-weight:900; cursor:pointer;">PC</button>
-        <button id="toggle-m" style="padding:8px 20px; border:none; border-radius:100px; background:${isM?'#fff':'transparent'}; color:${isM?'#000':'#fff'}; font-weight:900; cursor:pointer;">MOBILE</button>
+        <button id="toggle-pc" style="padding:8px 20px; border:none; border-radius:100px; background:${!isM?'#fff':'transparent'}; color:${!isM?'#000':'#fff'}; font-weight:900; cursor:pointer;">라이브 PC</button>
+        <button id="toggle-m" style="padding:8px 20px; border:none; border-radius:100px; background:${isM?'#fff':'transparent'}; color:${isM?'#000':'#fff'}; font-weight:900; cursor:pointer;">반응형 모바일</button>
       </div>
       <div style="width:1px; height:20px; background:rgba(255,255,255,0.1);"></div>
       <button id="save-live" style="background:#0066ff; color:#fff; border:none; padding:10px 25px; border-radius:100px; font-weight:900; cursor:pointer;">현재 위치 저장</button>
@@ -1575,11 +1575,17 @@ body.light-mode .impact-info-name { color: #111; }
     toolbar.querySelector('#save-live').onclick = () => window.savePlacements();
 
     const hint = document.createElement('div');
-    hint.innerHTML = `💡 <b>라이브 에디터 모드 (${isM?'MOBILE':'PC'}):</b> 카드를 드래그해서 위치를 잡으세요.`;
+    hint.id = 'admin-hint';
+    let hintHTML = `💡 <b>기본 조작:</b> 카드를 드래그해서 위치를 잡으세요.`;
+    if (isM && window.innerWidth > 768) {
+        hintHTML = `📱 <b>모바일 반응형 편집:</b> <b>F12</b>를 누른 뒤 상단의 <b>모바일 아이콘(📱)</b>을 눌러야 정확한 배치가 가능합니다!`;
+    }
+    hint.innerHTML = hintHTML;
     Object.assign(hint.style, {
-      position:'absolute', top:'100px', left:'50%', transform:'translateX(-50%)',
-      color:'#fff', fontSize:'12px', background:'rgba(0,0,0,0.7)', padding:'8px 16px', borderRadius:'10px',
-      backdropFilter:'blur(10px)', border:'1px solid rgba(255,255,255,0.1)'
+      position:'fixed', top:'100px', left:'50%', transform:'translateX(-50%)',
+      color:'#fff', fontSize:'14px', background:'rgba(0,0,0,0.85)', padding:'12px 24px', borderRadius:'12px',
+      backdropFilter:'blur(20px)', border:'1px solid var(--accent)', zIndex:'10000', textAlign:'center',
+      boxShadow:'0 10px 30px rgba(0,0,0,0.5)', pointerEvents:'auto'
     });
     document.body.appendChild(hint);
   }
@@ -1826,13 +1832,14 @@ body.light-mode .impact-info-name { color: #111; }
     fetchHeroData();
         // 갤러리 초기화 및 렌더링 (기기별 노출 설정 반영)
         const galleryItems = items.filter(it => {
+          const sM = String(it.show_in_gallery_mobile || '');
+          const sP = String(it.show_in_gallery || '');
           if (isM) {
-            // 모바일 전용 설정이 '1'이면 노출, '0'이면 비노출, 없으면 PC 설정을 따름
-            if (it.show_in_gallery_mobile === '1') return true;
-            if (it.show_in_gallery_mobile === '0') return false;
-            return it.show_in_gallery === '1';
+            if (sM === '1') return true;
+            if (sM === '0') return false;
+            return sP === '1';
           }
-          return it.show_in_gallery === '1';
+          return sP === '1';
         });
         initGallery(galleryItems);
 
