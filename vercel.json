@@ -4,6 +4,8 @@
     { "handle": "filesystem" },
     { "src": "/admin/?", "dest": "/admin/index.html" },
     { "src": "/admin/login", "dest": "/admin/login.html" },
+    { "src": "/work-detail", "dest": "/work-detail.html" },
+    { "src": "/work", "dest": "/work.html" },
     { "src": "/admin/(.*)\\.html", "dest": "/admin/$1.html" },
     { "src": "/(.*)", "dest": "/$1" }
   ]
