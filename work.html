@@ -313,7 +313,7 @@ body.light-mode {
             }
             const linkParam = item.slug ? `slug=${encodeURIComponent(item.slug)}` : `id=${encodeURIComponent(item.id)}`;
             return `
-            <a href="work-detail.html?${linkParam}" class="work-card fu">
+            <a href="work-detail?${linkParam}" class="work-card fu">
                 <div class="work-thumb-wrap">
                     ${thumbHTML}
                 </div>
