@@ -57,6 +57,11 @@ nav.scrolled{background:rgba(5,5,5,.9);backdrop-filter:blur(12px);padding:1rem 3
   border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 #the3-headline-main { margin-bottom: 2rem; transition: transform 0.5s ease; }
+.hide-pc { display: none; }
+@media (max-width: 768px) {
+  .hide-pc { display: block; }
+  .hide-mobile { display: none !important; }
+}
 .the3-accent {
   background: linear-gradient(to right, #fff 0%, #0066ff 100%);
   -webkit-background-clip: text;
@@ -499,6 +504,28 @@ body.light-mode .impact-main-text, body.light-mode .impact-info-name { color: #1
 
 @media(max-width:768px){
   nav{padding:1rem; width:100%; transform:none; left:0; justify-content: space-between; gap: 15px;}
+  
+  /* MOB BANNER FIX (iPhone Kakao optimization) */
+  .banner {
+    flex-direction: column !important;
+    padding: 1.5rem 1rem !important;
+    width: calc(100% - 30px) !important;
+    bottom: 15px !important;
+    border-radius: 25px !important;
+    text-align: center;
+    gap: 15px;
+  }
+  .banner p { padding: 0 !important; width: 100%; }
+  .banner p strong { display: inline-block; }
+  .slots-badge {
+    margin-left: 0;
+    margin-top: 10px;
+    display: inline-flex;
+    justify-content: center;
+  }
+  .banner-btns { width: 100%; justify-content: center; gap: 10px; }
+  .banner-btns button { flex: 1; min-width: 100px; padding: 12px 10px; font-size: 0.75rem; }
+  
   .nav-logo{font-size:1.1rem; border:none; padding:0; flex-shrink: 0;}
   .nav-links{
     display:flex !important; 
@@ -574,7 +601,7 @@ body.light-mode .nav-links a { color: #111 !important; font-weight: 600 !importa
 
 body.light-mode .fan-hero { background: rgba(255,255,255,0.2) !important; border-bottom-color: rgba(0,0,0,0.05) !important; backdrop-filter: blur(10px); }
 body.light-mode #the3-headline-main { color: #111 !important; }
-body.light-mode .the3-accent { background: linear-gradient(to right, #0066ff 0%, #0044cc 100%) !important; -webkit-background-clip: text !important; filter: drop-shadow(0 0 5px rgba(0,102,255,0.1)) !important; }
+body.light-mode .the3-accent { background: linear-gradient(to right, #0066ff 0%, #0044cc 100%) !important; -webkit-background-clip: text !important; background-clip: text !important; filter: drop-shadow(0 0 5px rgba(0,102,255,0.1)) !important; }
 body.light-mode #hero-desc { color: #222 !important; font-weight: 600 !important; opacity: 1 !important; }
 body.light-mode #hero-sub { color: #0066ff !important; opacity: 1 !important; font-weight: 800 !important; }
 body.light-mode .gallery-btn { background: linear-gradient(135deg, #111 0%, #0066ff 100%) !important; color: #fff !important; }
@@ -1338,14 +1365,14 @@ body.light-mode .impact-info-name { color: #111; }
 </div>
 
 <!-- BANNER -->
-<div id="banner" class="banner">
+<div id="banner" class="banner" style="display:none; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);">
   <p>
-    THE <span style="color:#0066ff; font-weight:900;">3</span> STUDIO는 한 달에 단 <strong style="color:#0066ff;">3곳의 브랜드</strong>만 집중 컨설팅합니다.
+    THE <span style="color:#0066ff; font-weight:900;">3</span> STUDIO는 한 달에 단 <strong style="color:#0066ff;">3곳의 브랜드</strong>만 집중 컨설팅합니다.<br class="hide-pc">
     <span id="banner-slots-wrap" style="display:none;" class="slots-badge">
       <span class="slots-dot"></span>
-      현재 <span id="banner-slots-count">2</span>자리 남음
+      현재 <span id="banner-slots-count" style="margin:0 4px;">2</span>자리 남음
     </span>
-    <span style="display:block; font-size:0.75rem; color:rgba(255,255,255,0.4); margin-top:5px;">지금 바로 상담을 신청하세요.</span>
+    <span style="display:block; font-size:0.75rem; color:rgba(255,255,255,0.4); margin-top:8px;">지금 바로 상담을 신청하세요.</span>
   </p>
   <div class="banner-btns">
     <button class="bb1" onclick="document.getElementById('banner').style.display='none';document.getElementById('chat-win').classList.add('on');document.getElementById('chat-toggle').style.display='flex';">문의하기</button>
