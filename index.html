@@ -1863,38 +1863,41 @@ body.light-mode .impact-info-name { color: #111; }
 
   // ── SAVE PLACEMENTS TO FIRESTORE (최종 통합 모듈) ──
   window.savePlacements = async function() {
-    if (!cachedPortfolioItems.length || !transforms.length) {
+    if (!transforms.length || !portIds.length) {
         alert('저장할 카드 데이터가 아직 로드되지 않았습니다.');
         return;
     }
     
-    // 버튼 UI 업데이트 (통합 지원)
-    const btn = document.querySelector('.save-btn-fixed') || document.getElementById('save-live');
-    const oldText = btn ? (btn.innerText || btn.textContent) : '현재 위치 저장하기';
-    if(btn) btn.innerText = '📡 저장 중...';
-
-    const dataToSave = cachedPortfolioItems.map((it, idx) => {
-        const t = transforms[idx];
-        return {
-            id: it.id,
-            x: Math.round(t.x),
-            y: Math.round(t.y),
-            z: Math.round(t.z)
-        };
-    });
+    const btn = document.getElementById('save-live');
+    const oldText = btn ? (btn.innerText || btn.textContent) : '현재 위치 저장';
+    if(btn) { btn.innerText = '📡 저장 중...'; btn.disabled = true; }
 
     try {
+        // [FIX] 현재 화면에 표시된(portIds) 카드들의 좌표(transforms)만 추출하여 매칭
+        const dataToSave = portIds.map((id, idx) => {
+            const t = transforms[idx];
+            if (!t) return null;
+            return {
+                id: id,
+                x: Math.round(t.x),
+                y: Math.round(t.y),
+                z: Math.round(t.z)
+            };
+        }).filter(Boolean);
+
         await setDoc(doc(db, 'placements', isM ? 'mobile' : 'pc'), {
             items: dataToSave,
             updatedAt: new Date().toISOString()
         });
-        if(btn) btn.innerText = '✅ 저장되었습니다!';
+        
+        if(btn) { btn.innerText = '✅ 저장되었습니다!'; btn.disabled = false; }
+        console.log('Saved placements for', isM ? 'mobile' : 'pc', dataToSave);
         setTimeout(() => { if(btn) btn.innerText = oldText; }, 2000);
     } catch(e) {
         console.error('Save Placements Error:', e);
-        if(btn) btn.innerText = '❌ 저장 실패';
-        setTimeout(() => { if(btn) btn.innerText = oldText; }, 2000);
+        if(btn) { btn.innerText = '❌ 저장 실패'; btn.disabled = false; }
         alert('저장 중 오류가 발생했습니다: ' + e.message);
+        setTimeout(() => { if(btn) btn.innerText = oldText; }, 2000);
     }
   };
 
