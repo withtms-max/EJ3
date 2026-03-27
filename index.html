@@ -1756,8 +1756,13 @@ body.light-mode .impact-info-name { color: #111; }
              el.style.transform = `translate3d(${t.x}px,${t.y}px,${t.z}px) rotateX(${t.rx}deg) rotateY(${t.ry}deg) rotateZ(${t.rz}deg)`;
           });
 
-          // [FIX] 복구: 카드 클릭 시 상세 모달 오픈
+          // [FIX] 복구: 카드 클릭 시 상세 모달 오픈 (단, 관리자 모드(#admin)일 때는 차단하여 편집 편의성 극대화)
           el.addEventListener('click', e => {
+            if (isAdmin) {
+                e.preventDefault();
+                e.stopPropagation();
+                return;
+            }
             if (!drag.hasMoved) {
               e.stopPropagation();
               // [NEW] 상세보기 클릭 비활성화 설정 체크
