@@ -265,14 +265,24 @@ nav.scrolled{background:rgba(5,5,5,.9);backdrop-filter:blur(12px);padding:1rem 3
 .fh-desc strong { color: #fff; }
 
 /* 3D GALLERY */
-.gallery-sect{background:#111;padding:6rem 0 0;border-top:1px solid rgba(255,255,255,.05);display:flex;flex-direction:column;align-items:center;overflow:hidden;}
+.gallery-sect{background:#0a0a0a;padding:6rem 0 0;border-top:1px solid rgba(255,255,255,.05);display:flex;flex-direction:column;align-items:center;overflow:hidden;}
 .gallery-header{text-align:center;margin-bottom:3rem;padding:0 2rem;}
 .gallery-header h2{font-family:'Outfit',sans-serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:900;letter-spacing:-.04em;text-transform:uppercase;margin-bottom:1rem;}
 .gallery-hint{color:rgba(255,255,255,.4);font-size:.85rem;display:flex;flex-direction:column;gap:.4rem;align-items:center;}
 .gallery-hint span{display:flex;align-items:center;gap:.4rem;}
 .gallery-hint i{color:#0066ff;}
 
-.gallery-stage{width:100%;height:85vh;min-height:650px;max-height:900px;position:relative;overflow:hidden;background:radial-gradient(ellipse at center,#181818 0%,#060606 100%);cursor:grab;box-shadow:inset 0 0 200px rgba(0,0,0,.9);}
+.gallery-stage{
+    width:100%;
+    height:85vh;
+    min-height:650px;
+    max-height:900px;
+    position:relative;
+    overflow:hidden;
+    background: radial-gradient(circle at center, rgba(0, 102, 255, 0.04) 0%, rgba(0,0,0,0) 80%), #060606;
+    cursor:grab;
+    box-shadow: none;
+}
 .gallery-stage:active{cursor:grabbing;}
 .gallery-scene{position:absolute;top:50%;left:50%;width:0;height:0;transform-style:preserve-3d;}
 
