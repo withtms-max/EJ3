@@ -823,6 +823,7 @@
                     <label class="switch-wrap"><input type="checkbox" name="show_in_gallery" value="1" hidden ${(data?.show_in_gallery!=='0')?'checked':''}> <div class="switch-box"></div> <span style="font-size:0.75rem; font-weight:700;">3D 갤러리(PC)</span></label>
                     <label class="switch-wrap"><input type="checkbox" name="show_in_gallery_mobile" value="1" hidden ${(data?.show_in_gallery_mobile!=='0')?'checked':''}> <div class="switch-box"></div> <span style="font-size:0.75rem; font-weight:700; color:var(--accent);">3D 갤러리(모바일)</span></label>
                     <label class="switch-wrap"><input type="checkbox" name="show_in_list" value="1" hidden ${(data?.show_in_list!=='0')?'checked':''}> <div class="switch-box"></div> <span style="font-size:0.75rem; font-weight:700;">상세 리스트 노출</span></label>
+                    <label class="switch-wrap"><input type="checkbox" name="disable_detail_click" value="1" hidden ${(data?.disable_detail_click==='1')?'checked':''}> <div class="switch-box"></div> <span style="font-size:0.75rem; font-weight:700; color:#ff6b6b;">3D 클릭 비활성</span></label>
                 </div>
             `;
             if(data?.card_size) document.querySelector('[name=card_size]').value = data.card_size;
@@ -926,6 +927,7 @@
             o.show_in_gallery = fd.get('show_in_gallery') || '0';
             o.show_in_gallery_mobile = fd.get('show_in_gallery_mobile') || '0';
             o.show_in_list = fd.get('show_in_list') || '0';
+            o.disable_detail_click = fd.get('disable_detail_click') || '0';
         }
         try {
             if(id) await updateDoc(doc(db, col, id), o); 
@@ -959,20 +961,20 @@
                         <span style="font-size:0.75rem; opacity:0.6;">데스크탑용 배치를 수정합니다</span>
                     </a>
 
-                    <!-- 2. PC SIMULATOR -->
+                    <!-- 2. RESPONSIVE MOBILE -->
                     <a href="/index.html#admin-mobile" target="_blank" class="btn" style="background:linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); padding:25px; border-radius:15px; text-decoration:none; display:flex; flex-direction:column; align-items:center;">
-                        <i class="fa-solid fa-laptop-code" style="font-size:2rem; margin-bottom:15px;"></i>
-                        <span style="font-size:1.1rem; font-weight:900; margin-bottom:5px;">반응형 모바일 (PC용)</span>
-                        <span style="font-size:0.75rem; opacity:0.9; color:#fff;"><b>필독: F12 → 모바일 아이콘 클릭</b></span>
+                        <i class="fa-solid fa-expand" style="font-size:2rem; margin-bottom:15px;"></i>
+                        <span style="font-size:1.1rem; font-weight:900; margin-bottom:5px;">반응형 모바일 모드</span>
+                        <span style="font-size:0.75rem; opacity:0.7;">창 크기에 따라 비율이 자동 조절됩니다</span>
                     </a>
 
-                    <!-- 3. REAL MOBILE -->
-                    <div style="background:linear-gradient(135deg, #ec4899 0%, #db2777 100%); padding:25px; border-radius:15px; display:flex; flex-direction:column; align-items:center; cursor:default;">
-                        <i class="fa-solid fa-mobile-screen-button" style="font-size:2rem; margin-bottom:15px;"></i>
-                        <span style="font-size:1.1rem; font-weight:900; margin-bottom:5px;">리얼 모바일 모드</span>
-                        <span style="font-size:0.75rem; opacity:0.7;">실제 휴대폰으로 접속 시 자동 활성화</span>
-                        <p style="font-size:10px; margin-top:10px; color:rgba(255,255,255,0.4);">현재 기기에서는 미리보기만 가능</p>
-                    </div>
+                    <!-- 3. F12 SIMULATOR (USER PRECEDENCE) -->
+                    <a href="/index.html#admin-mobile" target="_blank" class="btn" style="background:linear-gradient(135deg, #ec4899 0%, #db2777 100%); padding:25px; border-radius:15px; text-decoration:none; display:flex; flex-direction:column; align-items:center;">
+                        <i class="fa-solid fa-bug" style="font-size:2rem; margin-bottom:15px;"></i>
+                        <span style="font-size:1.1rem; font-weight:900; margin-bottom:5px;">모바일 시뮬레이터 (F12)</span>
+                        <span style="font-size:0.75rem; opacity:0.9; color:#fff;"><b>필독: F12 → 📱 모바일 아이콘 클릭</b></span>
+                        <p style="font-size:10px; margin-top:10px; color:rgba(255,255,255,0.6);">정교한 모바일 배치를 위한 권장 모드</p>
+                    </a>
                 </div>
             </div>
         `;

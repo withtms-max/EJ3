@@ -1760,6 +1760,8 @@ body.light-mode .impact-info-name { color: #111; }
           el.addEventListener('click', e => {
             if (!drag.hasMoved) {
               e.stopPropagation();
+              // [NEW] 상세보기 클릭 비활성화 설정 체크
+              if (String(item.disable_detail_click) === '1') return;
               openPortfolioDetail(item.slug || item.id);
             }
           });
@@ -2023,7 +2025,11 @@ body.light-mode .impact-info-name { color: #111; }
                     }
                 }
                 
-                fanHTML += `<div class="fh-card ${classes[i] || 'fh-c3'}" onclick="openPortfolioDetail('${it.slug || it.id}')" style="cursor:pointer;">
+                // [NEW] 상세보기 클릭 비활성화 설정 반영
+                const clickAction = (String(it.disable_detail_click) === '1') ? '' : `onclick="openPortfolioDetail('${it.slug || it.id}')"`;
+                const cursorStyle = (String(it.disable_detail_click) === '1') ? 'default' : 'pointer';
+
+                fanHTML += `<div class="fh-card ${classes[i] || 'fh-c3'}" ${clickAction} style="cursor:${cursorStyle};">
                     ${mediaHtml}
                 </div>`;
             }
@@ -2165,16 +2171,25 @@ body.light-mode .impact-info-name { color: #111; }
     document.getElementById('pf-slides').innerHTML='<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.3);"><i class="fa fa-spinner fa-spin fa-2x"></i></div>';
     
     try {
-      // 1. 캐시된 데이터에서 검색 (Slug 또는 ID로 매칭)
-      let d = cachedPortfolioItems.find(it => it.slug === slug || it.id === slug);
+      // 1. 캐시된 데이터에서 검색 (ID 또는 Slug로 매칭)
+      let d = cachedPortfolioItems.find(it => String(it.id) === String(slug) || String(it.slug) === String(slug));
       
-      // 2. 캐시에 없으면(직접 링크 등) Firestore에서 쿼리 시도
+      // 2. 캐시에 없으면 Firestore에서 전체 로드하여 재시도 (매우 드문 경우)
       if(!d) {
-         const qSnap = await getDocs(collection(db, 'portfolio'));
-         qSnap.forEach(doc => { if(doc.data().slug === slug) d = doc.data(); });
+          const qSnap = await getDocs(collection(db, 'portfolio'));
+          qSnap.forEach(doc => {
+              const data = doc.data();
+              if(String(doc.id) === String(slug) || String(data.slug) === String(slug)) {
+                  d = { ...data, id: doc.id };
+              }
+          });
       }
 
-      if(!d) { closePF(); return; }
+      if(!d) { 
+        console.warn('Portfolio mismatch:', slug);
+        closePF(); 
+        return; 
+      }
 
       document.getElementById('pf-title').textContent=d.title||'';
       document.getElementById('pf-client').textContent=d.client?`클라이언트: ${d.client}${d.year?' · '+d.year:''}`:d.year||'';
