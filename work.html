@@ -59,6 +59,10 @@ body.light-mode .sort-tab.active { background: rgba(0,0,0,0.03); border-color: #
 .work-thumb-wrap { width: 100%; aspect-ratio: 4/3; background: #111; overflow: hidden; position: relative; }
 .work-thumb-wrap img { width: 100%; height: 100%; object-fit: cover; transition: 0.8s; }
 .work-card:hover .work-thumb-wrap img { transform: scale(1.1); }
+.yt-play-icon { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.35); transition: 0.3s; pointer-events: none; }
+.yt-play-icon i { font-size: 3rem; color: #fff; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5)); transition: 0.3s; }
+.work-card:hover .yt-play-icon { background: rgba(0,0,0,0.15); }
+.work-card:hover .yt-play-icon i { transform: scale(1.15); color: #ff4444; }
 .work-info { padding: 1.8rem; }
 .work-cat { color: var(--primary); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.6rem; }
 .work-title { font-size: 1.3rem; font-weight: 800; color: #fff; margin-bottom: 0.5rem; }
@@ -232,8 +236,29 @@ body.light-mode {
     }, { threshold: 0.1 });
     document.querySelectorAll('.fu').forEach(el => observer.observe(el));
 
+    // 이미지 로드 실패 시 fallback (전역 함수로 onerror 따옴표 충돌 방지)
+    window._imgFallback = function(el) {
+        el.onerror = null;
+        el.style.background = '#111';
+        el.style.opacity = '0';
+    };
+
     let allItems = [];
     const categoryLabel = { branding: 'Branding Design', consulting: 'Business Consulting', video: 'Video Production', integrated: 'Integrated' };
+
+    // YouTube 헬퍼 함수
+    const isYouTube = (url) => {
+        if(!url) return false;
+        return /(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([\w-]{11})/.test(url);
+    };
+    const getYouTubeId = (url) => {
+        const m = url.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/|youtube\.com\/live\/)?([\w-]{11})/);
+        return m ? m[1] : null;
+    };
+    const getYouTubeThumbnail = (url) => {
+        const id = getYouTubeId(url);
+        return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : null;
+    };
 
     let currentCat = 'all';
     let currentSort = 'latest';
@@ -269,15 +294,26 @@ body.light-mode {
         }
         
         grid.innerHTML = items.map(item => {
-            let thumb = item.thumbnail || '/img/placeholder.jpg';
-            if (!thumb.startsWith('http') && !thumb.startsWith('/')) thumb = '/' + thumb;
-            const isVideo = /\.(mp4|webm|avi|mov)$/i.test(thumb.split('?')[0]);
+            let thumb = item.thumbnail || '';
+            if (thumb && !thumb.startsWith('http') && !thumb.startsWith('/')) thumb = '/' + thumb;
+            const isVideoFile = /\.(mp4|webm|avi|mov)$/i.test(thumb.split('?')[0]);
+            const isYT = isYouTube(thumb);
+            let thumbHTML;
+            if(isYT) {
+                const ytThumb = getYouTubeThumbnail(thumb);
+                thumbHTML = `<img src="${ytThumb}" alt="${item.title}" onerror="_imgFallback(this)"><div class="yt-play-icon"><i class="fa fa-circle-play"></i></div>`;
+            } else if(isVideoFile) {
+                thumbHTML = `<video src="${thumb}" muted loop autoplay playsinline style="width:100%;height:100%;object-fit:cover;"></video>`;
+            } else if(thumb) {
+                thumbHTML = `<img src="${thumb}" alt="${item.title}" onerror="_imgFallback(this)">`;
+            } else {
+                thumbHTML = `<div style="width:100%;height:100%;background:#111;"></div>`;
+            }
+            const linkParam = item.slug ? `slug=${item.slug}` : `id=${item.id}`;
             return `
-            <a href="work-detail.html?slug=${item.slug}" class="work-card fu">
+            <a href="/work-detail?${linkParam}" class="work-card fu">
                 <div class="work-thumb-wrap">
-                    ${isVideo 
-                        ? `<video src="${thumb}" muted loop autoplay playsinline style="width:100%;height:100%;object-fit:cover;"></video>` 
-                        : `<img src="${thumb}" alt="${item.title}">`}
+                    ${thumbHTML}
                 </div>
                 <div class="work-info">
                     <div class="work-cat">${categoryLabel[item.category] || item.category}</div>

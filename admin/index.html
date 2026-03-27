@@ -190,6 +190,21 @@
         return /\.(mp4|webm|mov|avi)$/i.test(cleanPath);
     };
 
+    window.isYouTube = (url) => {
+        if(!url) return false;
+        return /(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([\w-]{11})/.test(url);
+    };
+
+    window.getYouTubeId = (url) => {
+        const m = url.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/|youtube\.com\/live\/)?([\w-]{11})/);
+        return m ? m[1] : null;
+    };
+
+    window.getYouTubeThumbnail = (url) => {
+        const id = window.getYouTubeId(url);
+        return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : null;
+    };
+
     window.generateSlug = (text) => {
         return text.toString().toLowerCase().trim()
             .replace(/\s+/g, '-')
@@ -318,13 +333,34 @@
     // Gallery Multi-Image Helpers
     window.renderGalleryItem = (url) => {
         const isVid = window.isVideo(url);
+        const isYT = window.isYouTube(url);
+        const ytThumb = isYT ? window.getYouTubeThumbnail(url) : null;
+        let mediaHTML;
+        if(isYT) {
+            mediaHTML = `<img src="${ytThumb}" style="width:100%;height:100%;object-fit:cover;"><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.4);"><i class="fa fa-brands fa-youtube" style="color:#ff0000;font-size:1.8rem;"></i></div>`;
+        } else if(isVid) {
+            mediaHTML = `<video src="${url}" muted loop autoplay></video>`;
+        } else {
+            mediaHTML = `<img src="${url}">`;
+        }
         return `
-            <div class="gallery-item">
+            <div class="gallery-item" style="position:relative;">
                 <button type="button" class="del-btn" onclick="this.parentElement.remove()">&times;</button>
-                ${isVid ? `<video src="${url}" muted loop autoplay></video>` : `<img src="${url}">`}
+                ${mediaHTML}
                 <input type="hidden" name="images" value="${url}">
             </div>
         `;
+    };
+
+    // URL로 갤러리에 추가 (유튜브 포함)
+    window.addGalleryUrl = () => {
+        const url = prompt('추가할 URL을 입력하세요:\n(유튜브, 이미지 URL 모두 가능)');
+        if(!url || !url.trim()) return;
+        const trimmed = url.trim();
+        const list = document.getElementById('gallery-list');
+        const div = document.createElement('div');
+        div.innerHTML = window.renderGalleryItem(trimmed);
+        list.appendChild(div.firstElementChild);
     };
 
     window.triggerGalleryUpload = () => {
@@ -616,14 +652,19 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">갤러리 이미지 (슬라이드 쇼)</label>
-                    <p style="font-size:0.65rem; color:var(--text-dim); margin-bottom:10px;">상세 페이지 내 슬라이드 쇼에 노출될 이미지들입니다. <b>(마우스로 드래그해서 여러 장을 한 번에 넣을 수 있습니다. 최대 30장)</b></p>
+                    <label class="form-label">갤러리 미디어 (슬라이드 쇼)</label>
+                    <p style="font-size:0.65rem; color:var(--text-dim); margin-bottom:10px;">상세 페이지 슬라이드쇼에 표시됩니다. <b>파일 업로드</b> 또는 <b>유튜브/이미지 URL</b>로 추가 가능합니다. (최대 30개)</p>
                     <div class="gallery-list" id="gallery-list" style="min-height:120px; border:1px dashed rgba(255,255,255,0.1); border-radius:12px; padding:15px; position:relative;">
                         ${(data?.images && Array.isArray(data.images)) ? data.images.map(img => window.renderGalleryItem(typeof img === 'string' ? img : (img.url || img.image_path))).join('') : ''}
                     </div>
-                    <button type="button" class="btn btn-outline" style="width:100%; margin-top:10px; border-style:dashed;" onclick="window.triggerGalleryUpload()">
-                        <i class="fa fa-plus"></i> 클릭하여 대량 추가
-                    </button>
+                    <div style="display:flex; gap:8px; margin-top:10px;">
+                        <button type="button" class="btn btn-outline" style="flex:1; border-style:dashed;" onclick="window.triggerGalleryUpload()">
+                            <i class="fa fa-cloud-upload"></i> 파일 업로드
+                        </button>
+                        <button type="button" class="btn btn-outline" style="flex:1; border-style:dashed; border-color:rgba(255,0,0,0.4); color:#ff6b6b;" onclick="window.addGalleryUrl()">
+                            <i class="fa fa-brands fa-youtube"></i> YouTube/URL 추가
+                        </button>
+                    </div>
                 </div>
 
                 <div class="form-row">
