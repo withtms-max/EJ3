@@ -1306,19 +1306,8 @@ body.light-mode .impact-info-name { color: #111; }
 <script type="module">
   import { db, doc, getDoc, setDoc, collection, getDocs, addDoc } from './js/firebase-init.js';
   
-  // ── 0. FETCH GLOBAL CONTACT INFO ──
-  async function initContactSettings() {
-    try {
-      const s = await getDoc(doc(db, 'settings', 'contact'));
-      if(s.exists()) {
-        const d = s.data();
-        const eEl = document.getElementById('info-email'); if(eEl){ eEl.innerText = d.email; eEl.href = 'mailto:'+d.email; }
-        const pEl = document.getElementById('info-phone'); if(pEl){ pEl.innerText = d.phone; pEl.href = 'tel:'+d.phone; }
-        const lEl = document.getElementById('info-location'); if(lEl){ lEl.innerText = d.location; }
-      }
-    } catch(e) { console.error("Contact Load Fail:", e); }
-  }
-  initContactSettings();
+  // (Duplicate Contact Init removed as merged into loadSettingsFromFirestore)
+
 
   // ── NAV SCROLL ──
   window.addEventListener('scroll', () => {
@@ -1735,10 +1724,10 @@ body.light-mode .impact-info-name { color: #111; }
             const s = snap.data();
             const fmt3 = (txt) => txt.replace(/3/g, '<span style="color:#0066ff; text-shadow: 0 0 40px rgba(0, 102, 255, 0.4); font-weight:900;">3</span>');
             
-            if(s.subtitle) document.getElementById('hero-sub').innerHTML = fmt3(s.subtitle);
-            if(s.title) document.getElementById('hero-title').innerHTML = fmt3(s.title);
-            if(s.description) document.getElementById('hero-desc').innerHTML = fmt3(s.description);
-            if(s.long_description) document.getElementById('hero-long-desc').innerHTML = fmt3(s.long_description);
+            const hSub = document.getElementById('hero-sub'); if(hSub && s.subtitle) hSub.innerHTML = fmt3(s.subtitle);
+            const hTitle = document.getElementById('hero-title'); if(hTitle && s.title) hTitle.innerHTML = fmt3(s.title);
+            const hDesc = document.getElementById('hero-desc'); if(hDesc && s.description) hDesc.innerHTML = fmt3(s.description);
+            const hLong = document.getElementById('hero-long-desc'); if(hLong && s.long_description) hLong.innerHTML = fmt3(s.long_description);
             
             // Banner Slots
             if(s.slots_left) {
@@ -1758,16 +1747,36 @@ body.light-mode .impact-info-name { color: #111; }
             if(cs.email) {
                 const el = document.getElementById('contact-email-link');
                 const fe = document.getElementById('footer-email-btn');
+                const infoE = document.getElementById('info-email');
                 if(el) { el.href = `mailto:${cs.email}`; el.innerText = cs.email; }
                 if(fe) { fe.href = `mailto:${cs.email}`; }
+                if(infoE) { infoE.href = `mailto:${cs.email}`; infoE.innerText = cs.email; }
             }
             if(cs.phone) {
                 const pl = document.getElementById('contact-phone-link');
+                const infoP = document.getElementById('info-phone');
                 if(pl) { pl.href = `tel:${cs.phone.replace(/[^0-9+]/g, '')}`; pl.innerText = cs.phone; }
+                if(infoP) { infoP.href = `tel:${cs.phone.replace(/[^0-9+]/g, '')}`; infoP.innerText = cs.phone; }
             }
             if(cs.location) {
                 const lo = document.getElementById('contact-loc-text');
+                const infoL = document.getElementById('info-location');
                 if(lo) lo.innerText = cs.location;
+                if(infoL) infoL.innerText = cs.location;
+            }
+            
+            // Dynamic Service Chips
+            if(cs.services && Array.isArray(cs.services)) {
+                const chipsWrap = document.getElementById('service-chips');
+                if(chipsWrap) {
+                    chipsWrap.innerHTML = cs.services.map((svc, idx) => `
+                        <button type="button" class="svc-chip ${idx === 0 ? 'selected' : ''}" data-val="${svc}">${svc}</button>
+                    `).join('');
+                    if(cs.services.length > 0) {
+                        const selInp = document.getElementById('selected-service');
+                        if(selInp) selInp.value = cs.services[0];
+                    }
+                }
             }
         }
     } catch(e) { console.error('Settings Load Error:', e); }
@@ -2098,12 +2107,14 @@ body.light-mode .impact-info-name { color: #111; }
   sections.forEach(sec => { if(sec) spyObserver.observe(sec); });
 
   // ── CONTACT FORM ──
-  document.querySelectorAll('.svc-chip').forEach(chip => {
-    chip.addEventListener('click', function() {
-      document.querySelectorAll('.svc-chip').forEach(c => c.classList.remove('selected'));
-      this.classList.add('selected');
-      document.getElementById('selected-service').value = this.dataset.val;
-    });
+  // ── CONTACT FORM (Using Event Delegation for Dynamic Chips) ──
+  document.getElementById('service-chips')?.addEventListener('click', function(e) {
+    const chip = e.target.closest('.svc-chip');
+    if (!chip) return;
+    
+    document.querySelectorAll('.svc-chip').forEach(c => c.classList.remove('selected'));
+    chip.classList.add('selected');
+    document.getElementById('selected-service').value = chip.dataset.val;
   });
 
 

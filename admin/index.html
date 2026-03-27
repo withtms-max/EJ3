@@ -122,7 +122,7 @@
             <div class="nav-item" onclick="switchView('team')"><i class="fa fa-users"></i> 팀 멤버</div>
             <div class="nav-item" onclick="switchView('journey')"><i class="fa fa-route"></i> 성공 연혁</div>
             <div class="nav-item" onclick="switchView('clients')"><i class="fa fa-building"></i> 고객사</div>
-            <div class="nav-item" onclick="switchView('contact_settings')"><i class="fa fa-address-book"></i> 연락처 정보 관리</div>
+            <div class="nav-item" onclick="switchView('contact_settings')"><i class="fa fa-address-book"></i> 문의하기 & 연락처 관리</div>
             <div class="nav-item" onclick="switchView('consulting')"><i class="fa fa-envelope"></i> 문의 내역</div>
             <div style="margin:2rem 0 0.5rem 1.5rem; font-size:0.6rem; font-weight:900; color:rgba(255,255,255,0.3); letter-spacing:0.1em;">EDITOR</div>
             <div class="nav-item" onclick="switchView('placements')"><i class="fa fa-th-large"></i> 1:1 라이브 배치</div>
@@ -491,23 +491,41 @@
         appView.innerHTML = '<div style="text-align:center; padding:10rem;"><i class="fa fa-spinner fa-spin"></i></div>';
         try {
             const s = await getDoc(doc(db, 'settings', 'contact'));
-            const data = s.exists() ? s.data() : { email: 'hello@the3studio.com', phone: '+82 (0)2-1234-5678', location: 'Seoul, Republic of Korea' };
+            const data = s.exists() ? s.data() : { 
+                email: 'hello@the3studio.com', 
+                phone: '01037577555', 
+                location: 'Seoul, Republic of Korea',
+                services: ['Strategy', 'Branding', 'Video', 'Integrated']
+            };
+            const servicesText = Array.isArray(data.services) ? data.services.join('\n') : (data.services || '');
+
             appView.innerHTML = `
-                <div class="header-content"><div class="view-title"><h1>연락처 정보 관리</h1><p>문의하기 섹션에 표시되는 이메일, 전화번호, 주소를 직접 수정합니다.</p></div></div>
+                <div class="header-content"><div class="view-title"><h1>문의하기 및 연락처 관리</h1><p>문의하기 섹션의 연락처와 관심 서비스 목록을 관리합니다.</p></div></div>
                 <div class="table-container" style="padding:3rem;">
                     <form id="contact-settings-form">
                         <div class="form-group"><label class="form-label">Email 주소</label><input name="email" class="form-input" value="${data.email||''}"></div>
                         <div class="form-group"><label class="form-label">Phone 번호</label><input name="phone" class="form-input" value="${data.phone||''}"></div>
                         <div class="form-group"><label class="form-label">Location (위치/주소)</label><input name="location" class="form-input" value="${data.location||''}"></div>
-                        <button type="submit" class="btn" style="width:100%; margin-top:2rem;"><i class="fa fa-save"></i> 연락처 정보 즉시 저장</button>
+                        
+                        <div class="form-group" style="margin-top:2rem; border-top:1px solid rgba(255,255,255,0.05); padding-top:2rem;">
+                            <label class="form-label">관심 서비스 목록</label>
+                            <p style="font-size:0.65rem; color:var(--text-dim); margin-bottom:10px;">홈페이지 문의하기 폼에 나타날 서비스 옵션들입니다. <b>줄바꿈(Enter)</b>으로 구분해주세요.</p>
+                            <textarea name="services" class="form-input" style="min-height:150px;" placeholder="Strategy\nBranding\nVideo\nIntegrated">${servicesText}</textarea>
+                        </div>
+
+                        <button type="submit" class="btn" style="width:100%; margin-top:2rem;"><i class="fa fa-save"></i> 설정 정보 즉시 저장</button>
                     </form>
                 </div>
             `;
             document.getElementById('contact-settings-form').onsubmit = async (e) => { 
                 e.preventDefault(); 
-                const o = Object.fromEntries(new FormData(e.target).entries());
+                const fd = new FormData(e.target);
+                const o = Object.fromEntries(fd.entries());
+                // 서비스 목록을 배열로 변환
+                o.services = o.services.split('\n').map(s => s.trim()).filter(s => s !== '');
+                
                 await setDoc(doc(db, 'settings', 'contact'), o); 
-                alert('연락처 정보가 저장되었습니다! 모든 페이지에 즉시 적용됩니다. 😊'); 
+                alert('연락처 및 서비스 설정이 저장되었습니다! 😊'); 
             };
         } catch (err) { alert('로드 중 오류: ' + err.message); }
     }
