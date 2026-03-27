@@ -423,7 +423,7 @@
         else if(view === 'stats') renderStatsSettings();
         else if(view === 'portfolio') renderPortfolio();
         else if(view === 'team') renderList(view, '팀 멤버', ['photo', 'name', 'role']);
-        else if(view === 'journey') renderList(view, '성공 연혁', ['period', 'title', 'subtitle']);
+        else if(view === 'journey') renderList(view, '성공 연혁', ['period', 'title', 'subtitle', 'description']);
         else if(view === 'clients') renderList(view, '고객사', ['logo', 'name']);
         else if(view === 'contact_settings') renderContactSettings();
         else if(view === 'impact_stories') renderList('impact_stories', '고객 성공 메시지', ['avatar', 'author', 'result']);
@@ -832,7 +832,12 @@
                 </div>
             `;
         } else if(col === 'journey') {
-             html = `<div class="form-group"><label class="form-label">기간</label><input name="period" class="form-input" value="${data?.period||''}"></div><div class="form-group"><label class="form-label">타이틀</label><input name="title" class="form-input" value="${data?.title||''}"></div><div class="form-group"><label class="form-label">요약</label><textarea name="subtitle" class="form-input">${data?.subtitle||''}</textarea></div>`;
+             html = `
+                <div class="form-group"><label class="form-label">기간</label><input name="period" class="form-input" value="${data?.period||''}" placeholder="예: 1998 - 현재"></div>
+                <div class="form-group"><label class="form-label">타이틀 (상단 라벨)</label><input name="title" class="form-input" value="${data?.title||''}" placeholder="예: 기획 & 전략"></div>
+                <div class="form-group"><label class="form-label">요약 (메인 제목)</label><input name="subtitle" class="form-input" value="${data?.subtitle||''}" placeholder="예: 대형 광고대행사 출신 기획"></div>
+                <div class="form-group"><label class="form-label">상세 설명 (하단 본문)</label><textarea name="description" class="form-input" style="min-height:120px;" placeholder="상세 내용을 입력하세요...">${data?.description||''}</textarea></div>
+             `;
         } else if(col === 'clients') {
              html = `
                 <div class="form-group"><label class="form-label">기업명</label><input name="name" class="form-input" value="${data?.name||''}"></div>
