@@ -1415,7 +1415,7 @@ body.light-mode .impact-info-name { color: #111; }
   </p>
   <div class="banner-btns">
     <button class="bb1" onclick="location.href='#contact';">문의하기</button>
-    <button class="bb2" onclick="document.getElementById('banner').style.display='none';">닫기</button>
+    <button class="bb2" onclick="window.closeBanner()">닫기</button>
   </div>
 </div>
 
@@ -1425,6 +1425,16 @@ body.light-mode .impact-info-name { color: #111; }
   
   // (Duplicate Contact Init removed as merged into loadSettingsFromFirestore)
 
+
+  // ── BANNER PERSISTENCE ──
+  window.closeBanner = () => {
+    document.getElementById('banner').style.display = 'none';
+    sessionStorage.setItem('banner_closed', 'true');
+  };
+  if (sessionStorage.getItem('banner_closed') === 'true') {
+    const b = document.getElementById('banner');
+    if (b) b.style.display = 'none';
+  }
 
   // ── NAV SCROLL ──
   window.addEventListener('scroll', () => {
