@@ -445,7 +445,7 @@
         else if(view === 'journey') renderList(view, '성공 연혁', ['period', 'title', 'subtitle', 'description']);
         else if(view === 'clients') renderList(view, '고객사', ['logo', 'name']);
         else if(view === 'contact_settings') renderContactSettings();
-        else if(view === 'impact_stories') renderList('impact_stories', '고객 성공 메시지', ['avatar', 'author', 'result']);
+        else if(view === 'impact_stories') renderList('impact_stories', '고객 성공 메시지', ['avatar', 'bg_image', 'author', 'result', 'quote']);
         else if(view === 'consulting') renderList('contacts', '문의 내역', ['company_name', 'email', 'service', 'message', 'created_at']);
         else if(view === 'placements') renderPlacements();
     };
@@ -634,13 +634,14 @@
             <div class="header-content"><div class="view-title"><h1>포트폴리오 총괄</h1><p>모든 데이터 필드가 완벽하게 복구되었습니다.</p></div><button class="btn" onclick="openEditModal('portfolio')"><i class="fa fa-plus"></i> 작업물 신규 등록</button></div>
             <div class="table-container">
                 <table>
-                    <thead><tr><th>Visual</th><th>제목 / 슬러그</th><th>카테고리</th><th>순서</th><th style="text-align:right">Action</th></tr></thead>
+                    <thead><tr><th>썸네일</th><th>히어로 배경</th><th>제목 / 슬러그</th><th>카테고리</th><th>순서</th><th style="text-align:right">Action</th></tr></thead>
                     <tbody>
                         ${items.map(it => `<tr>
                             <td><div class="thumb-cell">${isVideo(it.thumbnail)?`<video src="${getMediaSrc(it.thumbnail)}" muted></video>`:`<img src="${getMediaSrc(it.thumbnail)}">`}</div></td>
-                            <td><strong>${it.title}</strong><br><small style="color:var(--text-dim)">${it.slug}</small></td>
-                            <td>${it.category}</td>
-                            <td>${it.sort_order}</td>
+                            <td><div class="thumb-cell">${it.hero_image ? (isVideo(it.hero_image)?`<video src="${getMediaSrc(it.hero_image)}" muted></video>`:`<img src="${getMediaSrc(it.hero_image)}">`) : '<small style="opacity:0.2">None</small>'}</div></td>
+                            <td><strong>${it.title || 'Untitled'}</strong><br><small style="color:var(--text-dim)">${it.slug || 'no-slug'}</small></td>
+                            <td>${it.category || 'Standard'}</td>
+                            <td>${it.sort_order || 0}</td>
                             <td style="text-align:right"><button class="btn btn-s" onclick="editItem('portfolio','${it.id}')"><i class="fa fa-edit"></i></button><button class="btn btn-s btn-danger" onclick="deleteItem('portfolio','${it.id}')"><i class="fa fa-trash"></i></button></td>
                         </tr>`).join('')}
                     </tbody>
@@ -878,9 +879,15 @@
                 <div class="form-group"><label class="form-label">인용구 (Quote)</label><textarea name="quote" class="form-input" style="min-height:100px;" placeholder="예: 'THE 3 덕분에 매출이 3배 올랐어요!'" required>${data?.quote||''}</textarea></div>
                 <div class="form-group"><label class="form-label">작성자 (이름 및 직함)</label><input name="author" class="form-input" value="${data?.author||''}" placeholder="예: 일품각 장양꼬 사장님" required></div>
                 <div class="form-group"><label class="form-label">성과 뱃지 (Badge)</label><input name="result" class="form-input" value="${data?.result||''}" placeholder="예: 방문자 리뷰 1,000개 돌파" required></div>
-                <div class="form-group">
-                    <label class="form-label">프로필 사진 (Avatar)</label>
-                    ${renderUploadUI('avatar', 'impact', data?.avatar)}
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+                    <div class="form-group">
+                        <label class="form-label">프로필 사진 (Avatar)</label>
+                        ${renderUploadUI('avatar', 'impact', data?.avatar)}
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">카드 배경 이미지 (Background)</label>
+                        ${renderUploadUI('bg_image', 'impact', data?.bg_image)}
+                    </div>
                 </div>
                 <div class="form-group"><label class="form-label">정렬 순서</label><input name="sort_order" class="form-input" type="number" value="${data?.sort_order||0}"></div>
             `;
