@@ -635,7 +635,7 @@ body.light-mode .banner-btns .bb2 { color: #111; }
     z-index: 100 !important;
 }
 
-/* INTERACTIVE TITLE & REVEAL (THE FINAL MASTERPIECE) */
+/* INTERACTIVE TITLE & REVEAL (STABILIZED MASTERPIECE) */
 .hero-title-wrap { 
   position: relative; 
   display: flex !important; 
@@ -643,38 +643,38 @@ body.light-mode .banner-btns .bb2 { color: #111; }
   align-items: center;
   justify-content: center;
   cursor: pointer; 
-  z-index: 10; 
+  z-index: 20; 
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  min-height: 250px; /* 웅장한 높이 확보 */
+  min-height: 280px; /* 웅장한 높이 확보 */
   width: 100%;
   margin: 0 auto;
 }
 
-/* 기본 문구 스타일 */
+/* 기본 문구 스타일 (MAIN VIEW) */
 #hero-title { 
-  font-size: clamp(2.8rem, 9vw, 6.8rem); 
-  line-height: 1.2; 
+  font-size: clamp(2.5rem, 8.5vw, 6.5rem); 
+  line-height: 1.15; 
   font-weight: 950; 
   letter-spacing: -0.05em; 
   color: #fff;
-  opacity: 1; /* 기본값 보임 */
-  visibility: visible;
+  opacity: 1 !important; 
+  visibility: visible !important;
   transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1); 
   text-align: center;
   margin: 0;
   display: block;
-  z-index: 2;
+  z-index: 5; /* 텍스트가 위로! */
 }
 
-/* 로고 스타일 (기본은 숨김) */
+/* 로고 스타일 (HOVER VIEW) */
 #hero-hover-text {
   position: absolute; 
   top: 50%; 
   left: 50%; 
   width: 100%;
   transform: translate(-50%, -50%) scale(1.1);
-  opacity: 0; /* 기본값 숨김 */
-  visibility: hidden;
+  opacity: 0 !important; 
+  visibility: hidden !important;
   pointer-events: none;
   transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
   font-weight: 950; 
@@ -682,26 +682,28 @@ body.light-mode .banner-btns .bb2 { color: #111; }
   text-align: center; 
   line-height: 1;
   letter-spacing: -0.05em;
-  font-size: clamp(3rem, 10vw, 8.5rem); 
+  font-size: clamp(2.8rem, 10vw, 8rem); 
   filter: blur(20px);
-  text-shadow: 0 0 60px rgba(0, 102, 255, 0.6);
-  z-index: 1;
+  text-shadow: 0 0 80px rgba(0, 102, 255, 0.7);
+  z-index: 1; /* 로고는 뒤에서 대기 */
 }
 
-/* HOVER 및 ACTIVE 상태 - CSS 우선순위 확보 */
+/* HOVER 및 ACTIVE 상태 - CSS 정밀 조절 */
 .hero-title-wrap:hover #hero-title,
 .hero-title-wrap.active #hero-title { 
-  opacity: 0; 
+  opacity: 0 !important; 
+  visibility: hidden !important;
   transform: scale(0.95); 
-  filter: blur(20px); 
+  filter: blur(30px); 
 }
 
 .hero-title-wrap:hover #hero-hover-text,
 .hero-title-wrap.active #hero-hover-text { 
-  opacity: 1; 
-  visibility: visible;
+  opacity: 1 !important; 
+  visibility: visible !important;
   transform: translate(-50%, -50%) scale(1); 
   filter: blur(0px);
+  z-index: 10; /* 호버 시에만 앞으로! */
 }
 
 /* TYPOGRAPHY RHYTHM */
@@ -899,8 +901,8 @@ body.light-mode .impact-info-name { color: #111; }
     
     <div class="hero-title-wrap" id="main-click-title">
       <h1 id="hero-title">
-        장사하기도 바쁜 사장님,<br>
-        <span style="background: linear-gradient(to right, #fff 0%, #0066ff 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 25px rgba(0, 102, 255, 0.4));">브랜딩은 저희가</span> 할게요.
+        장사하기 바쁜 사장님,<br>
+        <span style="background: linear-gradient(to right, #fff 0%, #0066ff 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 25px rgba(0, 102, 255, 0.4)); font-weight: 950; letter-spacing: -0.05em;">브랜딩은 저희가</span> 할게요.
       </h1>
       <div id="hero-hover-text">
          THE <span style="color:#0066ff;">3</span> STUDIO
@@ -912,10 +914,11 @@ body.light-mode .impact-info-name { color: #111; }
        고객의 마음에 남는 차별화된 아이덴티티를 만듭니다.
     </p>
 
-    <!-- REFINED PILL BUTTON -->
+    <!-- REFINED PILL BUTTON (GLASS & SHIMMER) -->
     <div style="margin-top: 2rem;">
-      <a href="#contact" class="gallery-btn" style="padding: 1.2rem 3.8rem; font-size: 1.15rem; border-radius: 999px; background: linear-gradient(135deg, #007aff 0%, #0044cc 100%); border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 20px 50px rgba(0, 102, 255, 0.4); text-transform: none; font-weight: 800;">
-        👈 우리 가게도 바뀔 수 있을까? 무료 진단받기
+      <a href="#contact" class="gallery-btn">
+        우리 가게도 바뀔 수 있을까? 무료 진단받기
+        <i class="fa fa-arrow-right"></i>
       </a>
     </div>
 
@@ -1021,90 +1024,10 @@ body.light-mode .impact-info-name { color: #111; }
   <div class="impact-glow"></div>
   <div class="impact-inner fu">
     <div class="swiper impact-slider" id="impact-slider">
-      <div class="swiper-wrapper">
-        <!-- Slide 1: 한사발포차 -->
+      <div class="swiper-wrapper" id="impact-wrapper">
+        <!-- Dynamic slides will be injected here -->
         <div class="swiper-slide impact-slide">
-          <div class="impact-quote-icon">"</div>
-          <h2 class="impact-main-text">
-             "줄 서는 식당으로 소문나서 막막했는데, <span class="highlight">THE 3</span>의 브랜딩 이후 <br class="show-desktop">영등포에서 가장 힙한 플레이스가 되었어요."
-          </h2>
-          <div class="impact-profile">
-            <img src="https://images.unsplash.com/photo-1552058544-f2b08422138a?q=80&w=200&auto=format&fit=crop" alt="한사발포차" class="impact-avatar">
-            <div class="impact-info">
-              <p class="impact-info-name">한사발포차 최한사 사장님</p>
-              <p class="impact-info-result">네이버 플레이스 상위 1% 달성</p>
-            </div>
-          </div>
-        </div>
-        <!-- Slide 2: 태백우장수 -->
-        <div class="swiper-slide impact-slide">
-          <div class="impact-quote-icon">"</div>
-          <h2 class="impact-main-text">
-             "가족 외식 장소로 홍보가 안 돼서 힘들었지만, <br class="show-desktop"><span class="highlight">THE 3</span>와 함께한 뒤 당산동 최고의 고기 맛집으로 자리 잡았습니다."
-          </h2>
-          <div class="impact-profile">
-            <img src="https://images.unsplash.com/photo-1544168190-79c17527004f?q=80&w=200&auto=format&fit=crop" alt="태백우장수" class="impact-avatar">
-            <div class="impact-info">
-              <p class="impact-info-name">태백우장수 고태백 사장님</p>
-              <p class="impact-info-result">월 매출 3배 성장 달성</p>
-            </div>
-          </div>
-        </div>
-        <!-- Slide 3: 일품각 -->
-        <div class="swiper-slide impact-slide">
-          <div class="impact-quote-icon">"</div>
-          <h2 class="impact-main-text">
-             "당산역 원조의 자존심을 <span class="highlight">THE 3</span>가 다시 세워줬습니다. <br class="show-desktop">전통과 트렌드를 모두 잡은 완벽한 디자인의 승리입니다."
-          </h2>
-          <div class="impact-profile">
-            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=200&auto=format&fit=crop" alt="일품각" class="impact-avatar">
-            <div class="impact-info">
-              <p class="impact-info-name">일품각 장양꼬 사장님</p>
-              <p class="impact-info-result">지역 기반 검색 1위 점유</p>
-            </div>
-          </div>
-        </div>
-        <!-- Slide 4: 하와이조개 -->
-        <div class="swiper-slide impact-slide">
-          <div class="impact-quote-icon">"</div>
-          <h2 class="impact-main-text">
-             "무제한 해물라면의 가치를 <span class="highlight">THE 3</span>가 영상으로 증명해줬어요. <br class="show-desktop">이제 당산에서 조개구이 하면 저희부터 찾습니다."
-          </h2>
-          <div class="impact-profile">
-            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&auto=format&fit=crop" alt="하와이조개" class="impact-avatar">
-            <div class="impact-info">
-              <p class="impact-info-name">하와이조개 조하와 사장님</p>
-              <p class="impact-info-result">인스타그램 태그 수 2,000% 폭증</p>
-            </div>
-          </div>
-        </div>
-        <!-- Slide 5: 안동실비 -->
-        <div class="swiper-slide impact-slide">
-          <div class="impact-quote-icon">"</div>
-          <h2 class="impact-main-text">
-             "24시간 영업의 강점을 <span class="highlight">THE 3</span>가 정교하게 타겟팅해줬습니다. <br class="show-desktop">새벽에도 끊이지 않는 손님들로 즐거운 비명을 지릅니다."
-          </h2>
-          <div class="impact-profile">
-            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=200&auto=format&fit=crop" alt="안동실비" class="impact-avatar">
-            <div class="impact-info">
-              <p class="impact-info-name">안동실비 심안동 사장님</p>
-              <p class="impact-info-result">방문자 리뷰 1,000개 돌파</p>
-            </div>
-          </div>
-        </div>
-        <!-- Slide 6: 손정보쌈 -->
-        <div class="swiper-slide impact-slide">
-          <div class="impact-quote-icon">"</div>
-          <h2 class="impact-main-text">
-             "막걸리 쿠폰 전략 하나로 <span class="highlight">THE 3</span>가 상권 지도를 바꿨어요. <br class="show-desktop">가장 단순한 게 가장 강력한 전략임을 배우고 갑니다."
-          </h2>
-          <div class="impact-profile">
-            <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=200&auto=format&fit=crop" alt="손정보쌈" class="impact-avatar">
-            <div class="impact-info">
-              <p class="impact-info-name">손정보쌈 박보쌈 사장님</p>
-              <p class="impact-info-result">재방문율 40% 이상 기록</p>
-            </div>
-          </div>
+           <div style="padding:10rem; opacity:0.1;"><i class="fa fa-spinner fa-spin"></i></div>
         </div>
       </div>
       <!-- Pagination -->
@@ -1304,7 +1227,7 @@ body.light-mode .impact-info-name { color: #111; }
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script type="module">
-  import { db, doc, getDoc, setDoc, collection, getDocs, addDoc } from './js/firebase-init.js';
+  import { db, doc, getDoc, setDoc, collection, getDocs, addDoc, query, orderBy } from './js/firebase-init.js';
   
   // (Duplicate Contact Init removed as merged into loadSettingsFromFirestore)
 
@@ -2036,6 +1959,46 @@ body.light-mode .impact-info-name { color: #111; }
     } catch(err) { console.error(err); closePF(); }
   };
 
+  // ── IMPACT STORIES LOADING ──
+  (async function loadImpactStories() {
+    const wrapper = document.getElementById('impact-wrapper');
+    if(!wrapper) return;
+    try {
+        const qSnap = await getDocs(query(collection(db, 'impact_stories'), orderBy('sort_order', 'asc')));
+        if(!qSnap.empty) {
+            let html = '';
+            qSnap.forEach(d => {
+                const it = d.data();
+                const avatar = it.avatar || 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=200&auto=format&fit=crop';
+                html += `
+                    <div class="swiper-slide impact-slide">
+                      <div class="impact-quote-icon">"</div>
+                      <h2 class="impact-main-text">${it.quote}</h2>
+                      <div class="impact-profile">
+                        <img src="${avatar}" alt="${it.author}" class="impact-avatar">
+                        <div class="impact-info">
+                          <p class="impact-info-name">${it.author}</p>
+                          <p class="impact-info-result">${it.result}</p>
+                        </div>
+                      </div>
+                    </div>
+                `;
+            });
+            wrapper.innerHTML = html;
+            
+            // Initialize Swiper ONLY after content is loaded
+            new Swiper('#impact-slider', {
+                loop: true,
+                autoplay: { delay: 5000, disableOnInteraction: false },
+                pagination: { el: '.impact-pagination', clickable: true },
+                speed: 800,
+                effect: 'fade',
+                fadeEffect: { crossFade: true }
+            });
+        }
+    } catch(e) { console.error('Impact Load Error:', e); }
+  })();
+
   // ── CHATBOT ──
   const cwin=document.getElementById('chat-win');
   document.getElementById('chat-toggle').addEventListener('click',()=>cwin.classList.toggle('on'));
@@ -2119,15 +2082,7 @@ body.light-mode .impact-info-name { color: #111; }
 
 
 
-  // ── IMPACT SLIDER (Swiper) ──
-  new Swiper('#impact-slider', {
-    loop: true,
-    autoplay: { delay: 5000, disableOnInteraction: false },
-    pagination: { el: '.impact-pagination', clickable: true },
-    speed: 800,
-    effect: 'fade',
-    fadeEffect: { crossFade: true }
-  });
+  // (Removed static impact slider init)
 
   document.getElementById('contact-form')?.addEventListener('submit', async (e) => {
     e.preventDefault();

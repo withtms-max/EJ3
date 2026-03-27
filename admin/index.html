@@ -123,6 +123,7 @@
             <div class="nav-item" onclick="switchView('journey')"><i class="fa fa-route"></i> 성공 연혁</div>
             <div class="nav-item" onclick="switchView('clients')"><i class="fa fa-building"></i> 고객사</div>
             <div class="nav-item" onclick="switchView('contact_settings')"><i class="fa fa-address-book"></i> 문의하기 & 연락처 관리</div>
+            <div class="nav-item" onclick="switchView('impact_stories')"><i class="fa fa-quote-right"></i> 고객 성공 매시지</div>
             <div class="nav-item" onclick="switchView('consulting')"><i class="fa fa-envelope"></i> 문의 내역</div>
             <div style="margin:2rem 0 0.5rem 1.5rem; font-size:0.6rem; font-weight:900; color:rgba(255,255,255,0.3); letter-spacing:0.1em;">EDITOR</div>
             <div class="nav-item" onclick="switchView('placements')"><i class="fa fa-th-large"></i> 1:1 라이브 배치</div>
@@ -423,8 +424,9 @@
         else if(view === 'team') renderList(view, '팀 멤버', ['photo', 'name', 'role']);
         else if(view === 'journey') renderList(view, '성공 연혁', ['period', 'title', 'subtitle']);
         else if(view === 'clients') renderList(view, '고객사', ['logo', 'name']);
-        else if(view === 'consulting') renderList('contacts', '문의 내역', ['company_name', 'email', 'service', 'message', 'created_at']);
         else if(view === 'contact_settings') renderContactSettings();
+        else if(view === 'impact_stories') renderList('impact_stories', '고객 성공 메시지', ['avatar', 'author', 'result']);
+        else if(view === 'consulting') renderList('contacts', '문의 내역', ['company_name', 'email', 'service', 'message', 'created_at']);
         else if(view === 'placements') renderPlacements();
     };
 
@@ -597,7 +599,11 @@
         'label': '라벨',
         'slug': 'URL명',
         'image_path': '이미지',
-        'sort_order': '순서'
+        'sort_order': '순서',
+        'avatar': '사진',
+        'author': '작성자',
+        'quote': '내용',
+        'result': '성과/뱃지'
     };
 
     async function renderList(col, title, fields) {
@@ -621,7 +627,7 @@
                         <thead><tr>${fields.map(f => `<th>${labelMap[f] || f}</th>`).join('')}<th style="text-align:right">관리</th></tr></thead>
                         <tbody>
                             ${items.map(it => `<tr>${fields.map(f => {
-                                if(f==='photo'||f==='logo'||f==='image_path'||f==='thumbnail') return `<td><div class="thumb-cell">${isVideo(it[f])?`<video src="${getMediaSrc(it[f])}"></video>`:`<img src="${getMediaSrc(it[f])}">`}</div></td>`;
+                                if(f==='photo'||f==='logo'||f==='image_path'||f==='thumbnail'||f==='avatar') return `<td><div class="thumb-cell">${isVideo(it[f])?`<video src="${getMediaSrc(it[f])}"></video>`:`<img src="${getMediaSrc(it[f])}">`}</div></td>`;
                                 if(f==='created_at' && it[f]) return `<td>${it[f].split('T')[0]}</td>`;
                                 return `<td>${it[f] || '-'}</td>`;
                             }).join('')}<td style="text-align:right"><button class="btn btn-s" onclick="editItem('${col}','${it.id}')"><i class="fa fa-${col==='contacts'?'eye':'edit'}"></i></button><button class="btn btn-s btn-danger" onclick="deleteItem('${col}','${it.id}')"><i class="fa fa-trash"></i></button></td></tr>`).join('')}
@@ -793,8 +799,19 @@
                 <div class="form-group"><label class="form-label">이메일</label><input class="form-input" value="${data?.email||''}" readonly></div>
                 <div class="form-group"><label class="form-label">관심 서비스</label><input class="form-input" value="${data?.service||''}" readonly></div>
                 <div class="form-group"><label class="form-label">문의 내용</label><textarea class="form-input" style="min-height:150px;" readonly>${data?.message||''}</textarea></div>
-                <div class="form-group"><label class="form-label">문의 날짜</label><input class="form-input" value="${data?.created_at||''}" readonly></div>
+                 <div class="form-group"><label class="form-label">문의 날짜</label><input class="form-input" value="${data?.created_at||''}" readonly></div>
              `;
+        } else if(col === 'impact_stories') {
+            html = `
+                <div class="form-group"><label class="form-label">인용구 (Quote)</label><textarea name="quote" class="form-input" style="min-height:100px;" placeholder="예: 'THE 3 덕분에 매출이 3배 올랐어요!'" required>${data?.quote||''}</textarea></div>
+                <div class="form-group"><label class="form-label">작성자 (이름 및 직함)</label><input name="author" class="form-input" value="${data?.author||''}" placeholder="예: 일품각 장양꼬 사장님" required></div>
+                <div class="form-group"><label class="form-label">성과 뱃지 (Badge)</label><input name="result" class="form-input" value="${data?.result||''}" placeholder="예: 방문자 리뷰 1,000개 돌파" required></div>
+                <div class="form-group">
+                    <label class="form-label">프로필 사진 (Avatar)</label>
+                    ${renderUploadUI('avatar', 'impact', data?.avatar)}
+                </div>
+                <div class="form-group"><label class="form-label">정렬 순서</label><input name="sort_order" class="form-input" type="number" value="${data?.sort_order||0}"></div>
+            `;
         }
         document.getElementById('modal-content').innerHTML = html;
         
