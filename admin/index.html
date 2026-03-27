@@ -8,10 +8,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #000000; --bg-card: #0a0a0a; --accent: #0088ff;
+            --bg-dark: #000000; --bg-card: #0a0a0a; --accent: #0066ff; /* 브랜드 컬러 일치 (#0066ff) */
             --text-main: #ffffff; --text-dim: rgba(255,255,255,0.5);
             --border: rgba(255,255,255,0.08); --sidebar-w: 260px;
             --danger: #ff3b30; --success: #28cd41;
+            --glow: 0 0 20px rgba(0, 102, 255, 0.4);
         }
 
         * { margin:0; padding:0; box-sizing:border-box; }
@@ -113,8 +114,8 @@
     <aside class="sidebar">
         <div class="logo">THE <span>3</span> STUDIO</div>
         <nav class="nav-menu">
-            <div class="nav-item active" onclick="switchView('dashboard')"><i class="fa fa-home"></i> 대시보드 홈</div>
-            <div class="nav-item" onclick="switchView('global')"><i class="fa fa-globe"></i> 전역 설정 (테마)</div>
+            <div class="nav-item" onclick="window.open('../', '_blank')"><i class="fa fa-external-link"></i> 홈페이지 바로가기</div>
+            <div class="nav-item active" onclick="switchView('global')"><i class="fa fa-globe"></i> 전역 설정 (테마)</div>
             <div class="nav-item" onclick="switchView('hero')"><i class="fa fa-tv"></i> 히어로 섹션 마스터</div>
             <div class="nav-item" onclick="switchView('hero_slides')"><i class="fa fa-images"></i> 히어로 캐러셀</div>
             <div class="nav-item" onclick="switchView('stats')"><i class="fa fa-chart-bar"></i> 성과 수치 (Stats)</div>
@@ -464,28 +465,75 @@
         };
     }
 
-    // ───── 2. 히어로 섹션 마스터 (RESTORED ALL WRITINGS) ─────
+    // ───── 2. 히어로 섹션 마스터 (UPGRADED FOR MINIMAL LUXURY) ─────
     async function renderHeroSettings() {
         appView.innerHTML = '<div style="text-align:center; padding:10rem;"><i class="fa fa-spinner fa-spin"></i></div>';
         const s = await getDoc(doc(db, 'settings', 'hero'));
         const data = s.exists() ? s.data() : {};
         appView.innerHTML = `
-            <div class="header-content"><div class="view-title"><h1>히어로 섹션 편집</h1><p>메인의 모든 텍스트와 3D 배경을 관리합니다.</p></div></div>
+            <div class="header-content">
+                <div class="view-title">
+                    <h1>히어로 섹션 편집</h1>
+                    <p>메인 카피와 인터랙티브 요소를 관리합니다. <span style="color:var(--accent); font-weight:900;">(Brand Blue: #0066ff)</span></p>
+                </div>
+            </div>
+            
             <div class="table-container" style="padding:3rem;">
                 <form id="hero-form">
-                    <div class="form-group"><label class="form-label">Sub-title (Hi, We are 등)</label><input name="subtitle" class="form-input" value="${data.subtitle||''}"></div>
-                    <div class="form-group"><label class="form-label">Main Title (STUDIO 로고 등)</label><input name="title" class="form-input" value="${data.title||''}"></div>
-                    <div class="form-group"><label class="form-label">Description (중간 요약 문구)</label><textarea name="description" class="form-input">${data.description||''}</textarea></div>
-                    <div class="form-group"><label class="form-label">Long Description (하단 상세 정보)</label><textarea name="long_description" class="form-input" style="min-height:120px;">${data.long_description||''}</textarea></div>
-                    <div class="form-row">
-                        <div class="form-group"><label class="form-label">남은 상담 슬롯 (Slots Left)</label><input name="slots_left" class="form-input" value="${data.slots_left||''}"></div>
-                        <div class="form-group"><label class="form-label">배경 Spline 3D URL</label><input name="bg_url" class="form-input" value="${data.bg_url||''}"></div>
+                    <div style="background:rgba(0,102,255,0.05); padding:20px; border-radius:15px; margin-bottom:2rem; border:1px solid rgba(0,102,255,0.1);">
+                         <p style="font-size:0.75rem; color:var(--accent); font-weight:800; margin-bottom:5px;"><i class="fa fa-info-circle"></i> 디자인 가이드</p>
+                         <p style="font-size:0.7rem; color:var(--text-dim);">홈페이지의 핵심 포인트 컬러는 <b>#0066ff</b> 입니다. 텍스트 강조나 버튼 효과에 동일하게 적용됩니다.</p>
                     </div>
-                    <button type="submit" class="btn" style="width:100%;"><i class="fa fa-save"></i> 모든 텍스트 및 배경 저장</button>
+
+                    <div class="form-group">
+                        <label class="form-label">상단 보조 라벨 <span style="color:var(--accent)">(Small Color: #0066ff)</span></label>
+                        <input name="subtitle" class="form-input" value="${data.subtitle||''}" placeholder="예: The Premier Creative Agency">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">기본 메인 문구 <span style="color:#fff">(White: #ffffff)</span></label>
+                            <textarea name="main_copy" class="form-input" style="min-height:80px;" placeholder="예: 장사하기 바쁜 사장님, 브랜딩은 저희가 할게요.">${data.main_copy||''}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">호버 시 로고 문구 <span style="color:var(--accent)">(Logo Blue: #0066ff)</span></label>
+                            <input name="hover_logo" class="form-input" value="${data.hover_logo||'THE 3 STUDIO'}" placeholder="예: THE 3 STUDIO">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">중간 요약 설명 (Sub-description) <span style="color:rgba(255,255,255,0.4)">(Dimmed: #ffffff66)</span></label>
+                        <textarea name="description" class="form-input">${data.description||''}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">하단 CTA 버튼 텍스트 <span style="color:var(--accent)">(Button Accent)</span></label>
+                        <input name="cta_text" class="form-input" value="${data.cta_text||'우리 가게도 바뀔 수 있을까? 무료 진단받기'}" placeholder="예: 무료 진단받기 ->">
+                    </div>
+
+                    <div class="form-row" style="margin-top:2rem; padding-top:2rem; border-top:1px solid var(--border);">
+                        <div class="form-group">
+                            <label class="form-label">남은 상담 슬롯 (Slots Left)</label>
+                            <input name="slots_left" class="form-input" type="number" value="${data.slots_left||3}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">3D 배경 Spline URL</label>
+                            <input name="bg_url" class="form-input" value="${data.bg_url||''}">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn" style="width:100%; margin-top:1rem; box-shadow: var(--glow);">
+                        <i class="fa fa-save"></i> 변경된 모든 정보 서버에 저장
+                    </button>
                 </form>
             </div>
         `;
-        document.getElementById('hero-form').onsubmit = async (e) => { e.preventDefault(); await setDoc(doc(db, 'settings', 'hero'), Object.fromEntries(new FormData(e.target).entries())); alert('저장 성공!'); };
+        document.getElementById('hero-form').onsubmit = async (e) => { 
+            e.preventDefault(); 
+            const formData = Object.fromEntries(new FormData(e.target).entries());
+            await setDoc(doc(db, 'settings', 'hero'), formData); 
+            alert('히어로 섹션 설정이 명품 무드로 저장되었습니다! ✨🏙️'); 
+        };
     }
 
     // ───── 2-1. 연락처 정보 마스터 (NEW) ─────
@@ -881,7 +929,7 @@
         `;
     }
 
-    renderDashboard();
+    switchView('global');
 </script>
 </body>
 </html>

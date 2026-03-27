@@ -1582,6 +1582,35 @@ body.light-mode .impact-info-name { color: #111; }
           }
         } catch(e) { console.error('Firestore Placements Load Error:', e); }
 
+        async function fetchHeroData() {
+        try {
+            const s = await getDoc(doc(db, 'settings', 'hero'));
+            if(s.exists()){
+                const d = s.data();
+                if(d.subtitle) document.getElementById('hero-sub').innerText = d.subtitle;
+                // [NEW] 다이나믹 메인 카피 & 로고 연동
+                if(d.main_copy) {
+                  document.getElementById('the3-headline-main').innerHTML = d.main_copy.replace(/\n/g, '<br>');
+                }
+                if(d.hover_logo) {
+                   const logoEl = document.getElementById('the3-logo-hidden');
+                   const parts = d.hover_logo.split(' 3 ');
+                   if(parts.length === 2) {
+                       logoEl.innerHTML = `${parts[0]} <span style="color:#0066ff;">3</span> ${parts[1]}`;
+                   } else {
+                       logoEl.innerText = d.hover_logo;
+                   }
+                }
+                if(d.description) document.getElementById('hero-desc').innerText = d.description;
+                if(d.cta_text) {
+                    const ctaBtn = document.querySelector('.hero-cta-btn span');
+                    if(ctaBtn) ctaBtn.innerText = d.cta_text;
+                }
+                if(d.slots_left) document.getElementById('slots-count').innerText = d.slots_left;
+            }
+        } catch(e) { console.error('Hero Load Error:', e); }
+    }
+    fetchHeroData();
         // 갤러리 초기화 및 렌더링 (3D 갤러리 노출 설정된 항목만)
         initGallery(items.filter(it => it.show_in_gallery === '1'));
 
