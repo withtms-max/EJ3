@@ -242,13 +242,19 @@
         if (slugField) slugField.dataset.manual = 'true';
     };
 
-    // ──────────────── AUTH CHECK ────────────────
+    const appView = document.getElementById('app-view');
+    const modal = document.getElementById('modal');
+    const itemForm = document.getElementById('item-form');
+    // uploader는 전역 변수로 관리됨
+
     onAuthStateChanged(auth, (user) => {
         if (!user) {
-            // Redirect to login if not authenticated
-            if (window.location.pathname !== '/admin/login.html') {
-                location.assign('/admin/login.html');
-            }
+            if (window.location.pathname !== '/admin/login.html') location.assign('/admin/login.html');
+            return;
+        }
+        // 로그인이 확인되면 기본 대시보드로 이동
+        if (!appView.innerHTML || appView.innerHTML.includes('spinner')) {
+            switchView('dashboard');
         }
     });
 
@@ -258,10 +264,6 @@
             location.assign('/admin/login.html');
         }
     };
-
-    const appView = document.getElementById('app-view');
-    const modal = document.getElementById('modal');
-    const itemForm = document.getElementById('item-form');
 
     window.toggleExtraMenu = (btn) => {
         btn.classList.toggle('active');
@@ -839,8 +841,6 @@
                     <label class="switch-wrap"><input type="checkbox" name="disable_detail_click" value="1" hidden ${(data?.disable_detail_click==='1' || data?.disable_detail_click === 1)?'checked':''}> <div class="switch-box"></div> <span style="font-size:0.75rem; font-weight:700; color:#ff6b6b;">3D 클릭 비활성</span></label>
                 </div>
             `;
-            if(data?.card_size) document.querySelector('[name=card_size]').value = data.card_size;
-            if(data?.status) document.querySelector('[name=status]').value = data.status;
         } else if(col === 'stats') {
             html = `<div class="form-group"><label class="form-label">수치 제목</label><input name="label" class="form-input" value="${data?.label||''}"></div><div class="form-group"><label class="form-label">수치 (숫자/텍스트)</label><input name="value" class="form-input" value="${data?.value||''}"></div><div class="form-group"><label class="form-label">정렬 순서</label><input name="sort_order" class="form-input" value="${data?.sort_order||0}"></div>`;
         } else if(col === 'hero_slides') {
@@ -930,12 +930,9 @@
         const fd = new FormData(itemForm); 
         const o = Object.fromEntries(fd.entries()); 
 
-        // Important: Handle multi-image gallery
         if (col === 'portfolio') {
             const galleryImages = fd.getAll('images').filter(u => u && u.trim() !== '');
             o.images = galleryImages;
-        }
-        if(col==='portfolio') {
             o.show_in_gallery = fd.get('show_in_gallery') || '0';
             o.show_in_gallery_mobile = fd.get('show_in_gallery_mobile') || '0';
             o.show_in_list = fd.get('show_in_list') || '0';
