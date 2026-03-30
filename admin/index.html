@@ -452,7 +452,7 @@
         else if(view === 'hero') renderHeroSettings();
         else if(view === 'hero_slides') renderList('hero_slides', '히어로 캐러셀', ['image_path', 'sort_order']);
         else if(view === 'stats') renderStatsSettings();
-        else if(view === 'portfolio') renderPortfolio();
+        else if(view === 'portfolio') renderPortfolio('all');
         else if(view === 'team') renderList(view, '팀 멤버', ['photo', 'name', 'role']);
         else if(view === 'journey') renderList(view, '성공 연혁', ['period', 'title', 'subtitle', 'description']);
         else if(view === 'clients') renderList(view, '고객사', ['logo', 'name']);
@@ -637,30 +637,62 @@
         `;
     }
 
-    // ───── 4. 포트폴리오 (CRITICAL RESTORATION) ─────
-    async function renderPortfolio() {
+    // ───── 4. 포트폴리오 (FILTERED VIEW) ─────
+    window.renderPortfolio = async (filter = 'all') => {
         appView.innerHTML = '<div style="text-align:center; padding:10rem;"><i class="fa fa-spinner fa-spin"></i></div>';
-        const snap = await getDocs(query(collection(db, 'portfolio'), orderBy('sort_order', 'asc')));
-        const items = []; snap.forEach(d => items.push({...d.data(), id: d.id}));
-        appView.innerHTML = `
-            <div class="header-content"><div class="view-title"><h1>포트폴리오 총괄</h1><p>모든 데이터 필드가 완벽하게 복구되었습니다.</p></div><button class="btn" onclick="openEditModal('portfolio')"><i class="fa fa-plus"></i> 작업물 신규 등록</button></div>
-            <div class="table-container">
-                <table>
-                    <thead><tr><th>썸네일</th><th>히어로 배경</th><th>제목 / 슬러그</th><th>카테고리</th><th>순서</th><th style="text-align:right">Action</th></tr></thead>
-                    <tbody>
-                        ${items.map(it => `<tr>
-                            <td><div class="thumb-cell">${isVideo(it.thumbnail)?`<video src="${getMediaSrc(it.thumbnail)}" muted></video>`:`<img src="${getMediaSrc(it.thumbnail)}">`}</div></td>
-                            <td><div class="thumb-cell">${it.hero_image ? (isVideo(it.hero_image)?`<video src="${getMediaSrc(it.hero_image)}" muted></video>`:`<img src="${getMediaSrc(it.hero_image)}">`) : '<small style="opacity:0.2">None</small>'}</div></td>
-                            <td><strong>${it.title || 'Untitled'}</strong><br><small style="color:var(--text-dim)">${it.slug || 'no-slug'}</small></td>
-                            <td>${it.category || 'Standard'}</td>
-                            <td>${it.sort_order || 0}</td>
-                            <td style="text-align:right"><button class="btn btn-s" onclick="editItem('portfolio','${it.id}')"><i class="fa fa-edit"></i></button><button class="btn btn-s btn-danger" onclick="deleteItem('portfolio','${it.id}')"><i class="fa fa-trash"></i></button></td>
-                        </tr>`).join('')}
-                    </tbody>
-                </table>
-            </div>
-        `;
-    }
+        try {
+            const snap = await getDocs(query(collection(db, 'portfolio'), orderBy('sort_order', 'asc')));
+            let items = []; snap.forEach(d => items.push({...d.data(), id: d.id}));
+            
+            if(filter !== 'all') {
+                items = items.filter(it => it.category === filter);
+            }
+
+            const cats = [
+                { id: 'all', label: '전체보기' },
+                { id: 'branding', label: 'Branding Design' },
+                { id: 'consulting', label: 'Business Consulting' },
+                { id: 'video', label: 'Video Production' },
+                { id: 'integrated', label: 'Integrated Solution' }
+            ];
+
+            appView.innerHTML = `
+                <div class="header-content">
+                    <div class="view-title">
+                        <h1>포트폴리오 총괄</h1>
+                        <p>현재 <b>${filter === 'all' ? '전체' : cats.find(c=>c.id===filter)?.label}</b> 항목을 리스트업 중입니다.</p>
+                    </div>
+                    <button class="btn" onclick="openEditModal('portfolio')"><i class="fa fa-plus"></i> 작업물 신규 등록</button>
+                </div>
+
+                <div class="filter-bar" style="display:flex; gap:10px; margin-bottom:20px; overflow-x:auto; padding-bottom:10px;">
+                    ${cats.map(c => `
+                        <button class="btn ${filter === c.id ? '' : 'btn-outline'}" 
+                                style="white-space:nowrap; padding:8px 16px; font-size:0.7rem;" 
+                                onclick="renderPortfolio('${c.id}')">
+                            ${c.label}
+                        </button>
+                    `).join('')}
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead><tr><th>썸네일</th><th>히어로 배경</th><th>제목 / 슬러그</th><th>카테고리</th><th>순서</th><th style="text-align:right">Action</th></tr></thead>
+                        <tbody>
+                            ${items.length === 0 ? '<tr><td colspan="6" style="text-align:center; padding:5rem; opacity:0.3;">해당 카테고리에 데이터가 없습니다.</td></tr>' : items.map(it => `<tr>
+                                <td><div class="thumb-cell">${isVideo(it.thumbnail)?`<video src="${getMediaSrc(it.thumbnail)}" muted></video>`:`<img src="${getMediaSrc(it.thumbnail)}">`}</div></td>
+                                <td><div class="thumb-cell">${it.hero_image ? (isVideo(it.hero_image)?`<video src="${getMediaSrc(it.hero_image)}" muted></video>`:`<img src="${getMediaSrc(it.hero_image)}">`) : '<small style="opacity:0.2">None</small>'}</div></td>
+                                <td><strong>${it.title || 'Untitled'}</strong><br><small style="color:var(--text-dim)">${it.slug || 'no-slug'}</small></td>
+                                <td style="text-transform:capitalize;">${it.category || 'Standard'}</td>
+                                <td>${it.sort_order || 0}</td>
+                                <td style="text-align:right"><button class="btn btn-s" onclick="editItem('portfolio','${it.id}')"><i class="fa fa-edit"></i></button><button class="btn btn-s btn-danger" onclick="deleteItem('portfolio','${it.id}')"><i class="fa fa-trash"></i></button></td>
+                            </tr>`).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        } catch(e) { console.error(e); }
+    };
 
     // ── Table Label Mapping ──
     const labelMap = {
