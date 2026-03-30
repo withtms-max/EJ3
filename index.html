@@ -1659,18 +1659,40 @@ body.light-mode .impact-info-name { color: #111; }
       items.forEach((item, idx) => {
           let tx, ty, tz, rx, ry, rz;
           let sizeClass = item.card_size || 'normal';
-          let thumb = item.thumbnail ? item.thumbnail : null;
-          if (thumb && !thumb.startsWith('http')) {
+          
+          // ── THUMBNAIL LOGIC WITH YOUTUBE AUTO-DETECTION ──
+          let thumb = item.thumbnail || '';
+          const getYTID = (url) => url.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/|youtube\.com\/live\/)?([\w-]{11})/)?.[1];
+          
+          let ytId = getYTID(thumb);
+          // 만약 썸네일이 비어있다면 images 배열에서 첫 번째 유튜브 주소를 찾아봅니다.
+          if (!thumb && item.images && item.images.length) {
+              for (const img of item.images) {
+                  const src = (typeof img === 'string') ? img : (img.image_path || img.url || '');
+                  const id = getYTID(src);
+                  if (id) { ytId = id; break; }
+              }
+          }
+
+          if (ytId) {
+              thumb = `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`;
+          } else if (thumb && !thumb.startsWith('http')) {
               thumb = thumb.startsWith('/') ? thumb : '/' + thumb;
           }
+
           const isVid = isVideo(thumb);
           const catLabel = {branding:'Branding', consulting:'Consulting', video:'Video', integrated:'Integrated'}[item.category] || item.category || '';
           
           let mediaHtml = '';
-          if(isVid) {
+          if (isVid) {
              mediaHtml = `<video src="${thumb}" autoplay loop muted playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:20px;display:block;"></video>`;
-          } else if(thumb) {
-             mediaHtml = `<img src="${thumb}" alt="${item.title||''}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:20px;display:block;">`;
+          } else if (thumb) {
+             // 썸네일 이미지 (유튜브 자동 추출 포함)
+             const finalThumb = ytId ? `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg` : thumb;
+             mediaHtml = `<img src="${finalThumb}" alt="${item.title||''}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:20px;display:block;" onerror="this.onerror=null; if('${ytId}') this.src='https://img.youtube.com/vi/${ytId}/hqdefault.jpg';">`;
+          } else {
+             // 최종적으로 아무것도 없을 때의 플레이스홀더
+             mediaHtml = `<div style="position:absolute;inset:0;background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;border-radius:20px;"><i class="fa fa-image" style="font-size:2rem;color:rgba(255,255,255,0.1);"></i></div>`;
           }
 
           const cardHtml = `

@@ -523,28 +523,73 @@ body.light-mode .svc-chip { background: #f1f3f6; border-color: rgba(0,0,0,0.08);
             const cleanPath = (p) => (!p && p !== '') ? '' : ((!p.startsWith('http') && !p.startsWith('/')) ? '/' + p : p);
             const isVid = (p) => /\.(mp4|webm|mov|avi)$/i.test(p.split('?')[0].split('#')[0]);
 
-            const heroImg = item.hero_image || item.thumbnail;
-            if (heroImg) {
-                const hUri = cleanPath(heroImg);
-                if(isVid(hUri)) document.getElementById('hero-bg').innerHTML = `<video src="${hUri}" muted loop autoplay playsinline style="width:100%;height:100%;object-fit:cover;opacity:0.8;"></video>`;
-                else document.getElementById('hero-bg').style.backgroundImage = `url('${hUri}')`;
+            let hUri = item.hero_image || item.thumbnail || '';
+            const getYTID = (url) => url.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/|youtube\.com\/live\/)?([\w-]{11})/)?.[1];
+            
+            // Fallback for Hero Image/Thumbnail from Images Array
+            if (!hUri && item.images && item.images.length) {
+                for (const img of item.images) {
+                    const src = (typeof img === 'string') ? img : (img.image_path || img.url || '');
+                    if (getYTID(src)) { hUri = src; break; }
+                }
+            }
+
+            if (hUri) {
+                let finalUri = cleanPath(hUri);
+                const ytMatch = getYTID(finalUri);
+                if (ytMatch) finalUri = `https://img.youtube.com/vi/${ytMatch}/maxresdefault.jpg`;
+                
+                if(isVid(finalUri)) document.getElementById('hero-bg').innerHTML = `<video src="${finalUri}" muted loop autoplay playsinline style="width:100%;height:100%;object-fit:cover;opacity:0.8;"></video>`;
+                else document.getElementById('hero-bg').style.backgroundImage = `url('${finalUri}')`;
             }
 
             const swiperWrapper = document.getElementById('hero-swiper-wrapper');
-            let slideUrls = [];
-            if(item.thumbnail) slideUrls.push(item.thumbnail);
-            if(item.images) item.images.forEach(img => slideUrls.push(typeof img === 'string' ? img : (img.image_path || img.url)));
-            
-            if(slideUrls.length) {
-                swiperWrapper.innerHTML = [...new Set(slideUrls)].map(src => {
+            let sliderHTML = '';
+            let totalSlides = 0;
+
+            // Update item.thumbnail if we found a fallback to make Slider use it
+            if(!item.thumbnail && hUri) item.thumbnail = hUri;
+
+            // 1. First Slide: Thumbnail (Always Image)
+            if (item.thumbnail) {
+                const uri = cleanPath(item.thumbnail);
+                const ytMatch = uri.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/|youtube\.com\/live\/)?([\w-]{11})/);
+                if (ytMatch && ytMatch[1]) {
+                    sliderHTML += `<div class="swiper-slide"><img src="https://img.youtube.com/vi/${ytMatch[1]}/maxresdefault.jpg" alt="Video Thumbnail" onerror="this.src='https://img.youtube.com/vi/${ytMatch[1]}/hqdefault.jpg'"></div>`;
+                } else {
+                    sliderHTML += `<div class="swiper-slide"><img src="${uri}" alt=""></div>`;
+                }
+                totalSlides++;
+            }
+
+            // 2. Following slides from images array (Full Media Support)
+            if (item.images && item.images.length) {
+                item.images.forEach(img => {
+                    const src = (typeof img === 'string') ? img : (img.image_path || img.url);
+                    if (!src || src.trim() === '' || src === item.thumbnail) return; // Skip empty or already shown thumb
+                    
                     const uri = cleanPath(src);
-                    if(uri.includes('youtube.com') || uri.includes('youtu.be')) {
-                        const ytId = uri.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/|youtube\.com\/live\/)?([\w-]{11})/)?.[1];
-                        return `<div class="swiper-slide"><iframe class="yt-frame" src="https://www.youtube.com/embed/${ytId}?rel=0" allowfullscreen></iframe></div>`;
+                    const ytMatch = uri.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/|youtube\.com\/live\/)?([\w-]{11})/);
+                    
+                    if (ytMatch && ytMatch[1]) {
+                        sliderHTML += `<div class="swiper-slide"><iframe class="yt-frame" src="https://www.youtube.com/embed/${ytMatch[1]}?rel=0" allowfullscreen style="width:100%;height:100%;border:none;"></iframe></div>`;
+                    } else if (uri.includes('tv.naver.com/v/')) {
+                        const nId = uri.split('/v/')[1].split(/[?#]/)[0];
+                        sliderHTML += `<div class="swiper-slide"><iframe src="https://tv.naver.com/embed/${nId}" allowfullscreen style="width:100%;height:100%;border:none;"></iframe></div>`;
+                    } else {
+                        sliderHTML += `<div class="swiper-slide">${isVid(uri) ? `<video src="${uri}" muted loop autoplay playsinline style="width:100%;height:100%;object-fit:cover;"></video>` : `<img src="${uri}" alt="">`}</div>`;
                     }
-                    return `<div class="swiper-slide">${isVid(uri) ? `<video src="${uri}" muted loop autoplay playsinline controls></video>` : `<img src="${uri}" alt="">`}</div>`;
-                }).join('');
-                new Swiper(".mainSwiper", { pagination: { el: ".swiper-pagination", clickable: true }, navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" }, loop: slideUrls.length > 1 });
+                    totalSlides++;
+                });
+            }
+
+            if(totalSlides > 0) {
+                swiperWrapper.innerHTML = sliderHTML;
+                new Swiper(".mainSwiper", { 
+                    pagination: { el: ".swiper-pagination", clickable: true }, 
+                    navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" }, 
+                    loop: totalSlides > 1 
+                });
             }
 
             const setField = (id, wrapId, val) => { if(val) { document.getElementById(id).textContent = val; document.getElementById(wrapId).style.display = 'block'; } };
@@ -553,11 +598,44 @@ body.light-mode .svc-chip { background: #f1f3f6; border-color: rgba(0,0,0,0.08);
             setField('text-result', 'section-result', item.result);
 
             if (item.images && item.images.length) {
-                const grid = document.getElementById('image-grid'); grid.style.display = 'grid';
-                grid.innerHTML = item.images.map(img => {
-                    const iUri = cleanPath((typeof img === 'string') ? img : (img.image_path || img.url));
-                    return isVid(iUri) ? `<video src="${iUri}" muted loop autoplay playsinline style="width:100%;border-radius:1.5rem;border:1px solid var(--border);"></video>` : `<img src="${iUri}" style="width:100%;border-radius:1.5rem;border:1px solid var(--border);">`;
-                }).join('');
+                const grid = document.getElementById('image-grid'); 
+                const validImages = item.images.filter(img => {
+                    const src = (typeof img === 'string') ? img : (img.image_path || img.url);
+                    return !!src && src.trim() !== '';
+                });
+
+                if (validImages.length > 0) {
+                    grid.style.display = 'grid';
+                    grid.innerHTML = validImages.map(img => {
+                        const iUri = cleanPath((typeof img === 'string') ? img : (img.image_path || img.url));
+                        
+                        // YouTube Check
+                        const ytMatch = iUri.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/|youtube\.com\/live\/)?([\w-]{11})/);
+                        if (ytMatch && ytMatch[1]) {
+                            return `<iframe class="yt-frame" src="https://www.youtube.com/embed/${ytMatch[1]}?rel=0" allowfullscreen style="width:100%;aspect-ratio:16/9;border-radius:1.5rem;border:1px solid var(--border);"></iframe>`;
+                        }
+                        
+                        // Naver TV Check
+                        if (iUri.includes('tv.naver.com/v/')) {
+                            const nId = iUri.split('/v/')[1].split(/[?#]/)[0];
+                            return `<iframe src="https://tv.naver.com/embed/${nId}" allowfullscreen style="width:100%;aspect-ratio:16/9;border-radius:1.5rem;border:1px solid var(--border);"></iframe>`;
+                        }
+
+                        // Video File Check
+                        if (isVid(iUri)) {
+                            return `<video src="${iUri}" muted loop autoplay playsinline style="width:100%;border-radius:1.5rem;border:1px solid var(--border);"></video>`;
+                        }
+
+                        // Fallback: Check if it's likely an external link but not an image
+                        if (iUri.startsWith('http') && !/\.(jpg|jpeg|png|gif|webp|bmp|svg)$/i.test(iUri.split('?')[0])) {
+                            // If it's a link but not an image, don't show as <img> tag (avoid broken icon)
+                            return `<a href="${iUri}" target="_blank" style="display:flex;align-items:center;justify-content:center;height:100%;padding:2rem;background:rgba(255,255,255,0.05);border-radius:1.5rem;border:1px solid var(--border);color:var(--primary);text-decoration:none;font-weight:700;">기타 미디어 보기 <i class="fa fa-external-link" style="margin-left:10px;"></i></a>`;
+                        }
+
+                        // Default: Show as Image
+                        return `<img src="${iUri}" style="width:100%;border-radius:1.5rem;border:1px solid var(--border);">`;
+                    }).join('');
+                }
             }
         } catch (e) { console.error('Load Error:', e); }
     }
