@@ -1780,13 +1780,8 @@ body.light-mode .impact-info-name { color: #111; }
              el.style.transform = `translate3d(${t.x}px,${t.y}px,${t.z}px) rotateX(${t.rx}deg) rotateY(${t.ry}deg) rotateZ(${t.rz}deg)`;
           });
 
-          // [FIX] 복구: 카드 클릭 시 상세 모달 오픈 (단, 관리자 모드(#admin)일 때는 차단하여 편집 편의성 극대화)
+          // [FIX] 카드 클릭 시 상세 모달 오픈 (드래그하지 않았을 때만 작동)
           el.addEventListener('click', e => {
-            if (isAdmin) {
-                e.preventDefault();
-                e.stopPropagation();
-                return;
-            }
             if (!drag.hasMoved) {
               e.stopPropagation();
               // [NEW] 상세보기 클릭 비활성화 설정 체크
@@ -2234,13 +2229,23 @@ body.light-mode .impact-info-name { color: #111; }
       document.getElementById('pf-secs').style.gridTemplateColumns=`repeat(${vis||1},1fr)`;
       document.getElementById('pf-chips').innerHTML=(d.tags||'').split(',').filter(t=>t.trim()).map(t=>`<span class="pf-chip">${t.trim()}</span>`).join('');
       
-      // 슬라이드 구성 (경로 최적화)
-      const cleanPath = (p) => (!p.startsWith('http') && !p.startsWith('/')) ? '/' + p : p;
+      // 슬라이드 구성 (유튜브 자동 감지 포함)
+      const getYTID = (url) => url.match(/(?:https?:)?\/\/(?:www\.)?(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/|live\/)|youtu\.be\/)([\w-]{11})/)?.[1];
       const isVid = (p) => /\.(mp4|webm|mov|avi)$/i.test(p.split('?')[0]);
+      const cleanPath = (p) => (!p.startsWith('http') && !p.startsWith('/')) ? '/' + p : p;
       
       let slides = [];
-      if(d.thumbnail) slides.push({src: cleanPath(d.thumbnail), type: isVid(d.thumbnail) ? 'video' : 'image'});
-      if(d.images && d.images.length) slides.push(...d.images.map(i => ({ src: cleanPath(i.image_path), type: isVid(i.image_path) ? 'video' : 'image' })));
+      if(d.thumbnail) {
+          const ytId = getYTID(d.thumbnail);
+          slides.push({ src: cleanPath(d.thumbnail), type: ytId ? 'youtube' : (isVid(d.thumbnail)?'video':'image'), ytId });
+      }
+      if(d.images && d.images.length) {
+          d.images.forEach(i => {
+              const src = (typeof i === 'string') ? i : (i.image_path || i.url || '');
+              const ytId = getYTID(src);
+              slides.push({ src: cleanPath(src), type: ytId ? 'youtube' : (isVid(src)?'video':'image'), ytId });
+          });
+      }
 
       slideCount = slides.length; slideIdx = 0;
       const se=document.getElementById('pf-slides'),de=document.getElementById('pf-dots');
@@ -2252,6 +2257,9 @@ body.light-mode .impact-info-name { color: #111; }
       } else {
         se.style.transform='translateX(0)';
         se.innerHTML = slides.map(s => {
+          if(s.type === 'youtube') {
+            return `<iframe class="pf-slide" src="https://www.youtube.com/embed/${s.ytId}?autoplay=1&mute=1&loop=1&playlist=${s.ytId}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="width:100%;height:100%;object-fit:cover;"></iframe>`;
+          }
           if(s.type === 'video') {
             return `<video class="pf-slide" src="${s.src}" controls autoplay muted playsinline style="object-fit:contain;background:#000;"></video>`;
           }
