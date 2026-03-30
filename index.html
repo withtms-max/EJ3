@@ -1662,7 +1662,7 @@ body.light-mode .impact-info-name { color: #111; }
           
           // ── THUMBNAIL LOGIC WITH YOUTUBE AUTO-DETECTION ──
           let thumb = item.thumbnail || '';
-          const getYTID = (url) => url.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/|youtube\.com\/live\/)?([\w-]{11})/)?.[1];
+          const getYTID = (url) => url.match(/(?:https?:)?\/\/(?:www\.)?(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/|live\/)|youtu\.be\/)([\w-]{11})/)?.[1];
           
           let ytId = getYTID(thumb);
           // 만약 썸네일이 비어있다면 images 배열에서 첫 번째 유튜브 주소를 찾아봅니다.

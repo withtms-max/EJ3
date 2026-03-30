@@ -299,7 +299,7 @@ body.light-mode {
             let thumb = item.thumbnail || '';
             // 만약 썸네일이 비어있다면 images에서 유튜브 추출 시도
             if (!thumb && item.images && item.images.length) {
-                const getYTID = (url) => url.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/|youtube\.com\/live\/)?([\w-]{11})/)?.[1];
+                const getYTID = (url) => url.match(/(?:https?:)?\/\/(?:www\.)?(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/|live\/)|youtu\.be\/)([\w-]{11})/)?.[1];
                 for (const img of item.images) {
                     const src = (typeof img === 'string') ? img : (img.image_path || img.url || '');
                     if (getYTID(src)) { thumb = src; break; }
