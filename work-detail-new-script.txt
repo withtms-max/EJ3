@@ -1,0 +1,165 @@
+<script type="module">
+    import { db, collection, getDocs, getDoc, query, where, doc, addDoc } from './js/firebase-init.js';
+    const categoryLabel = { branding: 'Branding Design', consulting: 'Business Consulting', video: 'Video Production', integrated: 'Integrated Solution' };
+
+    // 1. Sync Contact Settings (Global)
+    async function initContactSettings() {
+        try {
+            const s = await getDoc(doc(db, 'settings', 'contact'));
+            if(s.exists()) {
+                const cs = s.data();
+                if(cs.email) {
+                    const cleanEmail = cs.email.replace(/asdasd.*/gi, '').trim();
+                    const eEl = document.getElementById('info-email'); 
+                    if(eEl){ eEl.innerText = cleanEmail; eEl.href = 'mailto:'+cleanEmail; }
+                }
+                if(cs.phone) {
+                    const pEl = document.getElementById('info-phone'); 
+                    if(pEl){ pEl.innerText = cs.phone; pEl.href = 'tel:'+cs.phone.replace(/[^0-9+]/g, ''); }
+                }
+                if(cs.location) {
+                    const lEl = document.getElementById('info-location'); 
+                    if(lEl){ lEl.innerText = cs.location; }
+                }
+                if(cs.services && Array.isArray(cs.services)) {
+                    const chipsWrap = document.getElementById('service-chips');
+                    if(chipsWrap) {
+                        chipsWrap.innerHTML = cs.services.map((svc, idx) => `
+                            <button type="button" class="svc-chip ${idx === 0 ? 'selected' : ''}" data-val="${svc}">${svc}</button>
+                        `).join('');
+                        if(cs.services.length > 0) {
+                            const selInp = document.getElementById('selected-service');
+                            if(selInp) selInp.value = cs.services[0];
+                        }
+                    }
+                }
+            }
+        } catch(e) { console.error("Contact Sync Fail:", e); }
+    }
+    initContactSettings();
+
+    // 2. Service Chips Click Event
+    document.getElementById('service-chips')?.addEventListener('click', function(e) {
+        const chip = e.target.closest('.svc-chip');
+        if (!chip) return;
+        document.querySelectorAll('.svc-chip').forEach(c => c.classList.remove('selected'));
+        chip.classList.add('selected');
+        const selInp = document.getElementById('selected-service');
+        if(selInp) selInp.value = chip.dataset.val;
+    });
+
+    // 3. Form Submission
+    document.getElementById('contact-form')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const service = document.getElementById('selected-service')?.value;
+        if (!service) { alert('관심 서비스를 선택해주세요.'); return; }
+        const btn = document.getElementById('submit-btn');
+        const originalText = btn.textContent;
+        btn.disabled = true; btn.textContent = '전송 중...';
+        try {
+            await addDoc(collection(db, 'contacts'), {
+                company_name: document.getElementById('f-company').value,
+                email: document.getElementById('f-email').value,
+                service: service,
+                message: document.getElementById('f-message').value,
+                status: 'new',
+                project_context: document.getElementById('case-title').textContent,
+                created_at: new Date().toISOString()
+            });
+            document.getElementById('contact-form-area').style.display = 'none';
+            document.getElementById('success-msg').style.display = 'block';
+        } catch (err) { 
+            alert('전송 중 오류가 발생했습니다: ' + err.message); 
+            btn.disabled = false; btn.textContent = originalText; 
+        }
+    });
+
+    // 4. Portfolio Detail Loading Logic
+    const params = new URLSearchParams(location.search);
+    const docId = params.get('id');
+    const slug = params.get('slug');
+
+    async function loadCase() {
+        if (!docId && !slug) { 
+            document.querySelector('.case-body').innerHTML = `<div style="padding:100px 20px; text-align:center; color:#fff;"><h2 style="font-size:2rem; margin-bottom:1rem;">파라미터 오류</h2><p style="opacity:0.6; margin-bottom:2rem;">접근하려는 작품 정보가 없습니다.</p><a href="work.html" style="color:#0066ff;">← 목록으로 돌아가기</a></div>`;
+            return; 
+        }
+        try {
+            let item = null;
+            if (docId) {
+                const docSnap = await getDoc(doc(db, 'portfolio', docId));
+                if (docSnap.exists()) item = { ...docSnap.data(), id: docSnap.id };
+            }
+            if (!item && slug) {
+                const qSnap = await getDocs(query(collection(db, 'portfolio'), where('slug', '==', slug)));
+                if (!qSnap.empty) item = { ...qSnap.docs[0].data(), id: qSnap.docs[0].id };
+                else {
+                    const dSnap = await getDoc(doc(db, 'portfolio', slug));
+                    if (dSnap.exists()) item = { ...dSnap.data(), id: dSnap.id };
+                }
+            }
+
+            if (!item) {
+                document.querySelector('.case-body').innerHTML = `<div style="padding:3rem; text-align:center; color:#fff;"><p style="font-size:1.5rem; margin-bottom:1rem;">데이터를 찾을 수 없습니다.</p><a href="work.html" style="color:#0088ff;">← 포트폴리오 목록으로</a></div>`;
+                return;
+            }
+
+            document.title = `THE 3 STUDIO | ${item.title}`;
+            document.querySelectorAll('#case-category, #s-category').forEach(el => el.textContent = categoryLabel[item.category] || item.category);
+            document.getElementById('case-title').textContent = item.title;
+            document.querySelectorAll('#case-client, #s-client').forEach(el => el.textContent = item.client || '-');
+            document.querySelectorAll('#case-year, #s-year').forEach(el => el.textContent = item.year || '-');
+            if(item.tags) document.getElementById('s-tags').textContent = item.tags;
+
+            const cleanPath = (p) => (!p && p !== '') ? '' : ((!p.startsWith('http') && !p.startsWith('/')) ? '/' + p : p);
+            const isVid = (p) => /\.(mp4|webm|mov|avi)$/i.test(p.split('?')[0].split('#')[0]);
+
+            const heroImg = item.hero_image || item.thumbnail;
+            if (heroImg) {
+                const hUri = cleanPath(heroImg);
+                if(isVid(hUri)) document.getElementById('hero-bg').innerHTML = `<video src="${hUri}" muted loop autoplay playsinline style="width:100%;height:100%;object-fit:cover;opacity:0.8;"></video>`;
+                else document.getElementById('hero-bg').style.backgroundImage = `url('${hUri}')`;
+            }
+
+            const swiperWrapper = document.getElementById('hero-swiper-wrapper');
+            let slideUrls = [];
+            if(item.thumbnail) slideUrls.push(item.thumbnail);
+            if(item.images) item.images.forEach(img => slideUrls.push(typeof img === 'string' ? img : (img.image_path || img.url)));
+            
+            if(slideUrls.length) {
+                swiperWrapper.innerHTML = [...new Set(slideUrls)].map(src => {
+                    const uri = cleanPath(src);
+                    if(uri.includes('youtube.com') || uri.includes('youtu.be')) {
+                        const ytId = uri.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/|youtube\.com\/live\/)?([\w-]{11})/)?.[1];
+                        return `<div class="swiper-slide"><iframe class="yt-frame" src="https://www.youtube.com/embed/${ytId}?rel=0" allowfullscreen></iframe></div>`;
+                    }
+                    return `<div class="swiper-slide">${isVid(uri) ? `<video src="${uri}" muted loop autoplay playsinline controls></video>` : `<img src="${uri}" alt="">`}</div>`;
+                }).join('');
+                new Swiper(".mainSwiper", { pagination: { el: ".swiper-pagination", clickable: true }, navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" }, loop: slideUrls.length > 1 });
+            }
+
+            const setField = (id, wrapId, val) => { if(val) { document.getElementById(id).textContent = val; document.getElementById(wrapId).style.display = 'block'; } };
+            setField('text-challenge', 'section-challenge', item.challenge);
+            setField('text-solution', 'section-solution', item.solution);
+            setField('text-result', 'section-result', item.result);
+
+            if (item.images && item.images.length) {
+                const grid = document.getElementById('image-grid'); grid.style.display = 'grid';
+                grid.innerHTML = item.images.map(img => {
+                    const iUri = cleanPath((typeof img === 'string') ? img : (img.image_path || img.url));
+                    return isVid(iUri) ? `<video src="${iUri}" muted loop autoplay playsinline style="width:100%;border-radius:1.5rem;border:1px solid var(--border);"></video>` : `<img src="${iUri}" style="width:100%;border-radius:1.5rem;border:1px solid var(--border);">`;
+                }).join('');
+            }
+        } catch (e) { console.error('Load Error:', e); }
+    }
+    loadCase();
+
+    // 5. Common UI Events
+    window.addEventListener('scroll', () => document.getElementById('navbar')?.classList.toggle('scrolled', window.scrollY > 50));
+    const toggleMobileMenu = () => { const m = document.getElementById('mobile-menu'); if(m){ m.classList.toggle('on'); document.body.style.overflow = m.classList.contains('on') ? 'hidden' : ''; } };
+    document.getElementById('nav-toggle')?.addEventListener('click', toggleMobileMenu);
+    document.getElementById('close-mobile')?.addEventListener('click', toggleMobileMenu);
+    document.querySelectorAll('.mobile-links a').forEach(l => l.addEventListener('click', toggleMobileMenu));
+    const io = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('vis'); } }), {threshold:.1});
+    document.querySelectorAll('.fu').forEach(el => io.observe(el));
+</script>

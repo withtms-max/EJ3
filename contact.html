@@ -270,10 +270,40 @@ body.light-mode .footer-copy { color: rgba(0,0,0,0.4) !important; }
         try {
             const s = await getDoc(doc(db, 'settings', 'contact'));
             if(s.exists()) {
-                const d = s.data();
-                const eEl = document.getElementById('info-email'); if(eEl){ eEl.innerText = d.email; eEl.href = 'mailto:'+d.email; }
-                const pEl = document.getElementById('info-phone'); if(pEl){ pEl.innerText = d.phone; pEl.href = 'tel:'+d.phone; }
-                const lEl = document.getElementById('info-location'); if(lEl){ lEl.innerText = d.location; }
+                const cs = s.data();
+                
+                // 1. Email Cleaning & Sync
+                if(cs.email) {
+                    const cleanEmail = cs.email.replace(/asdasd.*/gi, '').trim();
+                    const eEl = document.getElementById('info-email'); 
+                    if(eEl){ eEl.innerText = cleanEmail; eEl.href = 'mailto:'+cleanEmail; }
+                }
+                
+                // 2. Phone Sync
+                if(cs.phone) {
+                    const pEl = document.getElementById('info-phone'); 
+                    if(pEl){ pEl.innerText = cs.phone; pEl.href = 'tel:'+cs.phone.replace(/[^0-9+]/g, ''); }
+                }
+                
+                // 3. Location Sync
+                if(cs.location) {
+                    const lEl = document.getElementById('info-location'); 
+                    if(lEl){ lEl.innerText = cs.location; }
+                }
+
+                // 4. Dynamic Service Chips Sync
+                if(cs.services && Array.isArray(cs.services)) {
+                    const chipsWrap = document.getElementById('service-chips');
+                    if(chipsWrap) {
+                        chipsWrap.innerHTML = cs.services.map((svc, idx) => `
+                            <button type="button" class="svc-chip ${idx === 0 ? 'selected' : ''}" data-val="${svc}">${svc}</button>
+                        `).join('');
+                        if(cs.services.length > 0) {
+                            const selInp = document.getElementById('selected-service');
+                            if(selInp) selInp.value = cs.services[0];
+                        }
+                    }
+                }
             }
         } catch(e) { console.error("Contact Load Fail:", e); }
     }
@@ -287,12 +317,15 @@ body.light-mode .footer-copy { color: rgba(0,0,0,0.4) !important; }
     const io = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('vis'); } }), {threshold:.1});
     document.querySelectorAll('.fu').forEach(el => io.observe(el));
 
-    document.querySelectorAll('.svc-chip').forEach(chip => {
-        chip.addEventListener('click', function() {
-            document.querySelectorAll('.svc-chip').forEach(c => c.classList.remove('selected'));
-            this.classList.add('selected');
-            document.getElementById('selected-service').value = this.dataset.val;
-        });
+    // ── 1. SERVICE CHIPS CLICK EVENT (EVENT DELEGATION) ──
+    document.getElementById('service-chips')?.addEventListener('click', function(e) {
+        const chip = e.target.closest('.svc-chip');
+        if (!chip) return;
+        
+        document.querySelectorAll('.svc-chip').forEach(c => c.classList.remove('selected'));
+        chip.classList.add('selected');
+        const selInp = document.getElementById('selected-service');
+        if(selInp) selInp.value = chip.dataset.val;
     });
 
     document.getElementById('contact-form').addEventListener('submit', async (e) => {

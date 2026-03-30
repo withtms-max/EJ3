@@ -183,6 +183,48 @@ body.light-mode nav:not(.scrolled) .nav-links li a:hover, body.light-mode nav:no
 body.light-mode nav.scrolled { background: rgba(255,255,255,0.95) !important; box-shadow: 0 4px 20px rgba(0,0,0,0.05) !important; border-bottom-color: rgba(0,0,0,0.05) !important; }
 body.light-mode nav.scrolled .nav-logo { color: #111 !important; }
 body.light-mode nav.scrolled .nav-links li a { color: rgba(0,0,0,0.6) !important; }
+/* INTEGRATED CONTACT FORM SUPPORT */
+.contact-integrated-card { max-width: 1200px; margin: 6rem auto 4rem; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 3rem; display: grid; grid-template-columns: 1fr 1.5fr; overflow: hidden; }
+.contact-left-col { padding: 4rem; border-right: 1px solid var(--border); }
+.contact-right-col { padding: 4rem; background: rgba(255,255,255,0.01); }
+.contact-item { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2.5rem; text-align: left; }
+.contact-icon { width: 55px; height: 55px; background: rgba(0, 102, 255, 0.15); border: 1px solid rgba(0, 102, 255, 0.25); border-radius: 15px; display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 1.4rem; }
+.contact-item p { font-size: 0.8rem; color: rgba(255,255,255,0.4); margin: 0 0 0.2rem; }
+.contact-item a, .contact-item .val { color: #fff; text-decoration: none; font-weight: 700; font-size: 1.1rem; }
+.form-group { margin-bottom: 1.8rem; text-align: left; }
+.form-label { display: block; font-size: 0.85rem; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 1.2rem; }
+.c-input { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 1.2rem; color: #fff; outline: none; font-size: 1rem; transition: .2s; }
+.c-input:focus { border-color: var(--primary); background: rgba(0, 102, 255, 0.05); }
+.svc-chips { display: flex; gap: 0.7rem; flex-wrap: wrap; margin-bottom: 1rem; }
+.svc-chip { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.6); padding: 0.6rem 1.4rem; border-radius: 999px; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: 0.3s; }
+.svc-chip:hover { border-color: var(--primary); color: #fff; transform: translateY(-2px); }
+.svc-chip.selected { background: var(--primary) !important; color: #fff !important; border-color: var(--primary) !important; box-shadow: 0 10px 20px rgba(0,102,255,0.3); }
+.btn-submit { width: 100%; background: linear-gradient(135deg, #fff 0%, var(--primary) 100%); color: #000; border: none; padding: 1.4rem; border-radius: 999px; font-weight: 900; font-size: 1rem; cursor: pointer; transition: 0.3s; text-transform: uppercase; margin-top: 1rem; }
+#success-msg { text-align: center; display: none; padding: 4rem 0; }
+#success-msg i { font-size: 4rem; color: var(--primary); margin-bottom: 2rem; }
+
+/* LIGHT MODE SUPPORT - CONTACT FORM */
+body.light-mode .contact-integrated-card { background: #fff; border-color: rgba(0,0,0,0.06); box-shadow: 0 40px 100px rgba(0,0,0,0.05); }
+body.light-mode .contact-icon { background: #f1f3f6; border-color: rgba(0,102,255,0.15); }
+body.light-mode .contact-item a, body.light-mode .contact-item .val { color: #111; }
+body.light-mode .form-label { color: #111; }
+body.light-mode .c-input { background: #fdfdfe; border-color: rgba(0,0,0,0.12); color: #111; }
+body.light-mode .svc-chip { background: #f1f3f6; border-color: rgba(0,0,0,0.08); color: #666; }
+
+@media(max-width: 992px) { 
+    .contact-integrated-card { grid-template-columns: 1fr; border-radius: 2rem; margin: 4rem 1rem; } 
+    .contact-left-col { border-right: none; border-bottom: 1px solid var(--border); padding: 2.5rem 2rem; } 
+    .contact-right-col { padding: 2.5rem 2rem; }
+}
+
+@media(max-width: 768px) {
+    .contact-integrated-card { margin: 3rem 10px; border-radius: 1.5rem; }
+    .contact-left-col, .contact-right-col { padding: 2rem 1.5rem; }
+    .contact-item { gap: 1rem; margin-bottom: 1.5rem; }
+    .contact-icon { width: 45px; height: 45px; font-size: 1.1rem; }
+    .contact-item a, .contact-item .val { font-size: 1rem; word-break: break-all; }
+    .section-h2 { font-size: 1.8rem; }
+}
 </style>
 <script type="module" src="js/theme.js"></script>
 
@@ -253,7 +295,7 @@ body.light-mode nav.scrolled .nav-links li a { color: rgba(0,0,0,0.6) !important
 <div class="case-body">
     <div class="case-container">
         <div class="case-main">
-            <a href="javascript:history.back()" class="back-btn"><i class="fa fa-arrow-left"></i> 목록으로 돌아가기</a>
+            <a href="work.html" class="back-btn"><i class="fa fa-arrow-left"></i> 목록으로 돌아가기</a>
             
             <div id="section-challenge" style="display:none">
                 <h2 class="section-h2">The Challenge</h2>
@@ -290,8 +332,73 @@ body.light-mode nav.scrolled .nav-links li a { color: rgba(0,0,0,0.6) !important
                 <div class="side-label">Project Tags</div>
                 <div class="side-val" id="s-tags" style="font-weight: 500; font-size: 0.85rem; color: var(--text-dim);">-</div>
             </div>
-            <a href="contact.html" style="display: block; background: var(--primary); color: #fff; text-align: center; padding: 1.2rem; border-radius: 1rem; text-decoration: none; font-weight: 800; font-size: 0.9rem; margin-top: 2rem;">프로젝트 문의하기</a>
+            <h4 class="side-label">Next Step</h4>
+            <a href="#contact-section" style="display: block; background: var(--primary); color: #fff; text-align: center; padding: 1.2rem; border-radius: 1rem; text-decoration: none; font-weight: 800; font-size: 0.9rem; margin-top: 2rem;">프로젝트 문의하기</a>
         </aside>
+    </div>
+    
+    <!-- INTEGRATED CONTACT SECTION (SYNCED WITH INDEX) -->
+    <div id="contact-section" class="contact-integrated-card fu">
+        <!-- Left: Contact Info -->
+        <div class="contact-left-col">
+            <h2 class="section-h2" style="margin-bottom:1rem;">Ready to Start?</h2>
+            <p style="font-size: 1.05rem; color: var(--text-dim); line-height: 1.8; margin-bottom: 3rem; text-align:left;">각 분야의 전문가들이 비즈니스의 시작부터 끝까지 동행하겠습니다. 사소한 문의도 환영합니다.</p>
+            
+            <div class="contact-item">
+                <div class="contact-icon"><i class="fa fa-envelope"></i></div>
+                <div>
+                    <p>Email</p>
+                    <a href="mailto:hello@the3studio.com" id="info-email">hello@the3studio.com</a>
+                </div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-icon"><i class="fa fa-phone"></i></div>
+                <div>
+                    <p>Phone</p>
+                    <a href="tel:02-1234-5678" id="info-phone">+82 (0)2-1234-5678</a>
+                </div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-icon"><i class="fa fa-location-dot"></i></div>
+                <div>
+                    <p>Location</p>
+                    <span class="val" id="info-location">Seoul, Republic of Korea</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Form -->
+        <div class="contact-right-col">
+            <div id="contact-form-area">
+                <div class="form-group">
+                    <label class="form-label">관심 서비스</label>
+                    <div class="svc-chips" id="service-chips">
+                        <!-- Dynamic Chips Load Here -->
+                    </div>
+                    <input type="hidden" id="selected-service">
+                </div>
+                <form id="contact-form">
+                    <div class="form-group">
+                        <label class="form-label">회사 및 성함</label>
+                        <input type="text" id="f-company" class="c-input" placeholder="성함 혹은 회사명을 입력해주세요" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">이메일 / 연락처</label>
+                        <input type="text" id="f-email" class="c-input" placeholder="연락받으실 정보를 입력해주세요" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">메시지</label>
+                        <textarea id="f-message" class="c-input" rows="5" placeholder="프로젝트에 대해 자유롭게 설명해주세요" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit" id="submit-btn">프로젝트 문의하기</button>
+                </form>
+            </div>
+            <div id="success-msg">
+                <i class="fa fa-circle-check"></i>
+                <h2>문의가 전송되었습니다</h2>
+                <p style="color: var(--text-dim); margin-top: 1rem;">확인 즉시 연락드리겠습니다. 감사합니다.</p>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -301,188 +408,168 @@ body.light-mode nav.scrolled .nav-links li a { color: rgba(0,0,0,0.6) !important
 </footer>
 
 <script type="module">
-    import { db, collection, getDocs, getDoc, query, where, doc } from './js/firebase-init.js';
+    import { db, collection, getDocs, getDoc, query, where, doc, addDoc } from './js/firebase-init.js';
     const categoryLabel = { branding: 'Branding Design', consulting: 'Business Consulting', video: 'Video Production', integrated: 'Integrated Solution' };
 
-    // id= 또는 slug= 파라미터 모두 지원
+    // 1. Sync Contact Settings (Global)
+    async function initContactSettings() {
+        try {
+            const s = await getDoc(doc(db, 'settings', 'contact'));
+            if(s.exists()) {
+                const cs = s.data();
+                if(cs.email) {
+                    const cleanEmail = cs.email.replace(/asdasd.*/gi, '').trim();
+                    const eEl = document.getElementById('info-email'); 
+                    if(eEl){ eEl.innerText = cleanEmail; eEl.href = 'mailto:'+cleanEmail; }
+                }
+                if(cs.phone) {
+                    const pEl = document.getElementById('info-phone'); 
+                    if(pEl){ pEl.innerText = cs.phone; pEl.href = 'tel:'+cs.phone.replace(/[^0-9+]/g, ''); }
+                }
+                if(cs.location) {
+                    const lEl = document.getElementById('info-location'); 
+                    if(lEl){ lEl.innerText = cs.location; }
+                }
+                if(cs.services && Array.isArray(cs.services)) {
+                    const chipsWrap = document.getElementById('service-chips');
+                    if(chipsWrap) {
+                        chipsWrap.innerHTML = cs.services.map((svc, idx) => `
+                            <button type="button" class="svc-chip ${idx === 0 ? 'selected' : ''}" data-val="${svc}">${svc}</button>
+                        `).join('');
+                        if(cs.services.length > 0) {
+                            const selInp = document.getElementById('selected-service');
+                            if(selInp) selInp.value = cs.services[0];
+                        }
+                    }
+                }
+            }
+        } catch(e) { console.error("Contact Sync Fail:", e); }
+    }
+    initContactSettings();
+
+    // 2. Service Chips Click Event
+    document.getElementById('service-chips')?.addEventListener('click', function(e) {
+        const chip = e.target.closest('.svc-chip');
+        if (!chip) return;
+        document.querySelectorAll('.svc-chip').forEach(c => c.classList.remove('selected'));
+        chip.classList.add('selected');
+        const selInp = document.getElementById('selected-service');
+        if(selInp) selInp.value = chip.dataset.val;
+    });
+
+    // 3. Form Submission
+    document.getElementById('contact-form')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const service = document.getElementById('selected-service')?.value;
+        if (!service) { alert('관심 서비스를 선택해주세요.'); return; }
+        const btn = document.getElementById('submit-btn');
+        const originalText = btn.textContent;
+        btn.disabled = true; btn.textContent = '전송 중...';
+        try {
+            await addDoc(collection(db, 'contacts'), {
+                company_name: document.getElementById('f-company').value,
+                email: document.getElementById('f-email').value,
+                service: service,
+                message: document.getElementById('f-message').value,
+                status: 'new',
+                project_context: document.getElementById('case-title').textContent,
+                created_at: new Date().toISOString()
+            });
+            document.getElementById('contact-form-area').style.display = 'none';
+            document.getElementById('success-msg').style.display = 'block';
+        } catch (err) { 
+            alert('전송 중 오류가 발생했습니다: ' + err.message); 
+            btn.disabled = false; btn.textContent = originalText; 
+        }
+    });
+
+    // 4. Portfolio Detail Loading Logic
     const params = new URLSearchParams(location.search);
     const docId = params.get('id');
     const slug = params.get('slug');
 
     async function loadCase() {
-        console.log('WorkDetail Init:', { href: location.href, search: location.search, docId, slug });
-        
         if (!docId && !slug) { 
-            document.querySelector('.case-body').innerHTML = `
-                <div style="padding:100px 20px; text-align:center; color:#fff;">
-                    <h2 style="font-size:2rem; margin-bottom:1rem;">파라미터 오류</h2>
-                    <p style="opacity:0.6; margin-bottom:2rem;">주소에 접근하려는 작품 정보(slug/id)가 없습니다.</p>
-                    <a href="work.html" style="color:#0066ff;">← 목록으로 돌아가기</a>
-                </div>`;
+            document.querySelector('.case-body').innerHTML = `<div style="padding:100px 20px; text-align:center; color:#fff;"><h2 style="font-size:2rem; margin-bottom:1rem;">파라미터 오류</h2><p style="opacity:0.6; margin-bottom:2rem;">접근하려는 작품 정보가 없습니다.</p><a href="work.html" style="color:#0066ff;">← 목록으로 돌아가기</a></div>`;
             return; 
         }
         try {
             let item = null;
-
             if (docId) {
                 const docSnap = await getDoc(doc(db, 'portfolio', docId));
-                if (docSnap.exists()) {
-                    item = { ...docSnap.data(), id: docSnap.id };
-                }
+                if (docSnap.exists()) item = { ...docSnap.data(), id: docSnap.id };
             }
-
             if (!item && slug) {
-                const q = query(collection(db, 'portfolio'), where('slug', '==', slug));
-                const qSnap = await getDocs(q);
-                if (!qSnap.empty) {
-                    item = { ...qSnap.docs[0].data(), id: qSnap.docs[0].id };
-                } else {
-                    try {
-                        const docSnap = await getDoc(doc(db, 'portfolio', slug));
-                        if (docSnap.exists()) item = { ...docSnap.data(), id: docSnap.id };
-                    } catch(e) { console.warn('slug→id 조회 실패', e); }
+                const qSnap = await getDocs(query(collection(db, 'portfolio'), where('slug', '==', slug)));
+                if (!qSnap.empty) item = { ...qSnap.docs[0].data(), id: qSnap.docs[0].id };
+                else {
+                    const dSnap = await getDoc(doc(db, 'portfolio', slug));
+                    if (dSnap.exists()) item = { ...dSnap.data(), id: dSnap.id };
                 }
             }
 
             if (!item) {
-                console.warn('LoadCase failed for:', {docId, slug});
-                document.querySelector('.case-body').innerHTML = `
-                    <div style="padding:3rem; text-align:center; color:#fff;">
-                        <p style="font-size:1.5rem; margin-bottom:1rem;">데이터를 찾을 수 없습니다.</p>
-                        <p style="opacity:0.3; font-size:0.7rem; margin-bottom:2rem;">(ID: ${docId || '-'} / Slug: ${slug || '-'})</p>
-                        <a href="work.html" style="color:#0088ff; font-size:1rem;">← 포트폴리오 목록으로</a>
-                    </div>`;
+                document.querySelector('.case-body').innerHTML = `<div style="padding:3rem; text-align:center; color:#fff;"><p style="font-size:1.5rem; margin-bottom:1rem;">데이터를 찾을 수 없습니다.</p><a href="work.html" style="color:#0088ff;">← 포트폴리오 목록으로</a></div>`;
                 return;
             }
 
             document.title = `THE 3 STUDIO | ${item.title}`;
-            document.getElementById('case-category').textContent = categoryLabel[item.category] || item.category;
+            document.querySelectorAll('#case-category, #s-category').forEach(el => el.textContent = categoryLabel[item.category] || item.category);
             document.getElementById('case-title').textContent = item.title;
-            document.getElementById('case-client').textContent = item.client || '-';
-            document.getElementById('case-year').textContent = item.year || '-';
-            document.getElementById('s-category').textContent = categoryLabel[item.category] || item.category;
-            document.getElementById('s-client').textContent = item.client || '-';
-            document.getElementById('s-year').textContent = item.year || '-';
+            document.querySelectorAll('#case-client, #s-client').forEach(el => el.textContent = item.client || '-');
+            document.querySelectorAll('#case-year, #s-year').forEach(el => el.textContent = item.year || '-');
+            if(item.tags) document.getElementById('s-tags').textContent = item.tags;
 
-            const isVideo = (path) => {
-                if(!path) return false;
-                const clean = path.split('?')[0].split('#')[0];
-                return /\.(mp4|webm|mov|avi)$/i.test(clean);
-            };
+            const cleanPath = (p) => (!p && p !== '') ? '' : ((!p.startsWith('http') && !p.startsWith('/')) ? '/' + p : p);
+            const isVid = (p) => /\.(mp4|webm|mov|avi)$/i.test(p.split('?')[0].split('#')[0]);
 
-            const isYouTube = (url) => {
-                if(!url) return false;
-                return /(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([\w-]{11})/.test(url);
-            };
-
-            const getYouTubeId = (url) => {
-                const m = url.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/|youtube\.com\/live\/)?([\w-]{11})/);
-                return m ? m[1] : null;
-            };
-
-            const cleanPath = (p) => {
-                if(!p) return '';
-                return (!p.startsWith('http') && !p.startsWith('/')) ? '/' + p : p;
-            };
-
-            // Hero Background
             const heroImg = item.hero_image || item.thumbnail;
             if (heroImg) {
                 const hUri = cleanPath(heroImg);
-                if(isVideo(hUri)) {
-                    document.getElementById('hero-bg').innerHTML = `<video src="${hUri}" muted loop autoplay playsinline style="width:100%;height:100%;object-fit:cover;opacity:0.8;"></video>`;
-                    document.getElementById('hero-bg').style.backgroundImage = 'none';
-                } else {
-                    document.getElementById('hero-bg').style.backgroundImage = `url('${hUri}')`;
-                }
+                if(isVid(hUri)) document.getElementById('hero-bg').innerHTML = `<video src="${hUri}" muted loop autoplay playsinline style="width:100%;height:100%;object-fit:cover;opacity:0.8;"></video>`;
+                else document.getElementById('hero-bg').style.backgroundImage = `url('${hUri}')`;
             }
 
-            // Slider Construction
             const swiperWrapper = document.getElementById('hero-swiper-wrapper');
             let slideUrls = [];
             if(item.thumbnail) slideUrls.push(item.thumbnail);
-            if(item.images && item.images.length) {
-                item.images.forEach(img => {
-                    const u = (typeof img === 'string') ? img : (img.image_path || img.url);
-                    if(u && !slideUrls.includes(u)) slideUrls.push(u);
-                });
-            }
-
-            if(slideUrls.length > 0) {
-                swiperWrapper.innerHTML = slideUrls.map(src => {
+            if(item.images) item.images.forEach(img => slideUrls.push(typeof img === 'string' ? img : (img.image_path || img.url)));
+            
+            if(slideUrls.length) {
+                swiperWrapper.innerHTML = [...new Set(slideUrls)].map(src => {
                     const uri = cleanPath(src);
-                    const isYT = isYouTube(uri);
-                    const ytId = isYT ? getYouTubeId(uri) : null;
-                    return `
-                        <div class="swiper-slide">
-                            ${ isYT
-                                ? `<iframe class="yt-frame" src="https://www.youtube.com/embed/${ytId}?rel=0&modestbranding=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
-                                : isVideo(uri)
-                                    ? `<video src="${uri}" muted loop autoplay playsinline controls></video>`
-                                    : `<img src="${uri}" alt="${item.title}">`
-                            }
-                        </div>
-                    `;
+                    if(uri.includes('youtube.com') || uri.includes('youtu.be')) {
+                        const ytId = uri.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/|youtube\.com\/live\/)?([\w-]{11})/)?.[1];
+                        return `<div class="swiper-slide"><iframe class="yt-frame" src="https://www.youtube.com/embed/${ytId}?rel=0" allowfullscreen></iframe></div>`;
+                    }
+                    return `<div class="swiper-slide">${isVid(uri) ? `<video src="${uri}" muted loop autoplay playsinline controls></video>` : `<img src="${uri}" alt="">`}</div>`;
                 }).join('');
-
-                new Swiper(".mainSwiper", {
-                    pagination: { el: ".swiper-pagination", clickable: true },
-                    navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
-                    loop: slideUrls.length > 1,
-                    autoplay: false,
-                });
+                new Swiper(".mainSwiper", { pagination: { el: ".swiper-pagination", clickable: true }, navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" }, loop: slideUrls.length > 1 });
             }
 
-            // Text Fields
-            const setField = (id, wrapId, val) => {
-                if(val) {
-                    document.getElementById(id).textContent = val;
-                    document.getElementById(wrapId).style.display = 'block';
-                }
-            };
+            const setField = (id, wrapId, val) => { if(val) { document.getElementById(id).textContent = val; document.getElementById(wrapId).style.display = 'block'; } };
             setField('text-challenge', 'section-challenge', item.challenge);
             setField('text-solution', 'section-solution', item.solution);
             setField('text-result', 'section-result', item.result);
-            if(item.tags) document.getElementById('s-tags').textContent = item.tags;
 
-            // Optional: Image Grid
             if (item.images && item.images.length) {
-                const grid = document.getElementById('image-grid');
-                grid.style.display = 'grid';
+                const grid = document.getElementById('image-grid'); grid.style.display = 'grid';
                 grid.innerHTML = item.images.map(img => {
                     const iUri = cleanPath((typeof img === 'string') ? img : (img.image_path || img.url));
-                    if (!iUri) return '';
-                    if (isVideo(iUri)) {
-                        return `<video src="${iUri}" muted loop autoplay playsinline style="width:100%;border-radius:1.5rem;border:1px solid var(--border);"></video>`;
-                    } else {
-                        return `<img src="${iUri}" alt="${item.title}" style="width:100%;border-radius:1.5rem;border:1px solid var(--border);">`;
-                    }
+                    return isVid(iUri) ? `<video src="${iUri}" muted loop autoplay playsinline style="width:100%;border-radius:1.5rem;border:1px solid var(--border);"></video>` : `<img src="${iUri}" style="width:100%;border-radius:1.5rem;border:1px solid var(--border);">`;
                 }).join('');
             }
-        } catch (e) {
-            console.error('Core Logic Error:', e);
-        }
+        } catch (e) { console.error('Load Error:', e); }
     }
     loadCase();
 
-    window.addEventListener('scroll', () => {
-        const navbar = document.getElementById('navbar');
-        if (navbar) navbar.classList.toggle('scrolled', window.scrollY > 50);
-    });
-
-    // Mobile Menu Toggle Logic
-    const toggleMobileMenu = () => {
-        const menu = document.getElementById('mobile-menu');
-        if (menu) {
-            menu.classList.toggle('on');
-            document.body.style.overflow = menu.classList.contains('on') ? 'hidden' : '';
-        }
-    };
+    window.addEventListener('scroll', () => document.getElementById('navbar')?.classList.toggle('scrolled', window.scrollY > 50));
+    const toggleMobileMenu = () => { const m = document.getElementById('mobile-menu'); if(m){ m.classList.toggle('on'); document.body.style.overflow = m.classList.contains('on') ? 'hidden' : ''; } };
     document.getElementById('nav-toggle')?.addEventListener('click', toggleMobileMenu);
     document.getElementById('close-mobile')?.addEventListener('click', toggleMobileMenu);
-    document.querySelectorAll('.mobile-links a').forEach(link => {
-        link.addEventListener('click', toggleMobileMenu);
-    });
+    document.querySelectorAll('.mobile-links a').forEach(l => l.addEventListener('click', toggleMobileMenu));
+    const ioWrap = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('vis'); } }), {threshold:.1});
+    document.querySelectorAll('.fu').forEach(el => ioWrap.observe(el));
 </script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 </body>
