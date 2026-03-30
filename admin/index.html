@@ -833,11 +833,10 @@
                 <div class="form-group"><label class="form-label">Result</label><textarea name="result" class="form-input">${data?.result||''}</textarea></div>
                 
                 <div style="display:flex; flex-wrap:wrap; gap:20px; margin-top:20px; padding:15px; background:rgba(255,255,255,0.03); border-radius:12px;">
-                    <label class="switch-wrap"><input type="checkbox" name="is_featured" value="1" hidden ${(data?.is_featured==='1' || data?.is_featured===1)?'checked':''}> <div class="switch-box"></div> <span style="font-size:0.75rem; font-weight:700;">홈페이지 추천</span></label>
                     <label class="switch-wrap"><input type="checkbox" name="show_in_gallery" value="1" hidden ${(data?.show_in_gallery!=='0')?'checked':''}> <div class="switch-box"></div> <span style="font-size:0.75rem; font-weight:700;">3D 갤러리(PC)</span></label>
                     <label class="switch-wrap"><input type="checkbox" name="show_in_gallery_mobile" value="1" hidden ${(data?.show_in_gallery_mobile!=='0')?'checked':''}> <div class="switch-box"></div> <span style="font-size:0.75rem; font-weight:700; color:var(--accent);">3D 갤러리(모바일)</span></label>
                     <label class="switch-wrap"><input type="checkbox" name="show_in_list" value="1" hidden ${(data?.show_in_list!=='0')?'checked':''}> <div class="switch-box"></div> <span style="font-size:0.75rem; font-weight:700;">상세 리스트 노출</span></label>
-                    <label class="switch-wrap"><input type="checkbox" name="disable_detail_click" value="1" hidden ${(data?.disable_detail_click==='1')?'checked':''}> <div class="switch-box"></div> <span style="font-size:0.75rem; font-weight:700; color:#ff6b6b;">3D 클릭 비활성</span></label>
+                    <label class="switch-wrap"><input type="checkbox" name="disable_detail_click" value="1" hidden ${(data?.disable_detail_click==='1' || data?.disable_detail_click === 1)?'checked':''}> <div class="switch-box"></div> <span style="font-size:0.75rem; font-weight:700; color:#ff6b6b;">3D 클릭 비활성</span></label>
                 </div>
             `;
             if(data?.card_size) document.querySelector('[name=card_size]').value = data.card_size;
@@ -937,7 +936,6 @@
             o.images = galleryImages;
         }
         if(col==='portfolio') {
-            o.is_featured = fd.get('is_featured') || '0';
             o.show_in_gallery = fd.get('show_in_gallery') || '0';
             o.show_in_gallery_mobile = fd.get('show_in_gallery_mobile') || '0';
             o.show_in_list = fd.get('show_in_list') || '0';

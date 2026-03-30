@@ -1695,8 +1695,10 @@ body.light-mode .impact-info-name { color: #111; }
              mediaHtml = `<div style="position:absolute;inset:0;background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;border-radius:20px;"><i class="fa fa-image" style="font-size:2rem;color:rgba(255,255,255,0.1);"></i></div>`;
           }
 
+          const isClickDisabled = (item.disable_detail_click == '1' || item.disable_detail_click === 1 || item.disable_detail_click === true);
+
           const cardHtml = `
-            <div class="g-card size-${sizeClass}" id="gc${idx}">
+            <div class="g-card size-${sizeClass}" id="gc${idx}" style="${isClickDisabled ? 'cursor:default;' : ''}">
               <div class="g-card-inner" style="width:100%;height:100%;overflow:hidden;position:relative;">
                 ${mediaHtml}
               </div>
@@ -1788,7 +1790,7 @@ body.light-mode .impact-info-name { color: #111; }
             if (!drag.hasMoved) {
               e.stopPropagation();
               // [NEW] 상세보기 클릭 비활성화 설정 체크
-              if (String(item.disable_detail_click) === '1') return;
+              if (item.disable_detail_click == '1' || item.disable_detail_click === true || item.disable_detail_click === 1) return;
               openPortfolioDetail(item.slug || item.id);
             }
           });
