@@ -245,6 +245,7 @@
     const appView = document.getElementById('app-view');
     const modal = document.getElementById('modal');
     const itemForm = document.getElementById('item-form');
+    let currentPortfolioFilter = 'all'; // 포트폴리오 필터 상태 유지용
     // uploader는 전역 변수로 관리됨
 
     onAuthStateChanged(auth, (user) => {
@@ -639,6 +640,7 @@
 
     // ───── 4. 포트폴리오 (FILTERED VIEW) ─────
     window.renderPortfolio = async (filter = 'all') => {
+        currentPortfolioFilter = filter;
         appView.innerHTML = '<div style="text-align:center; padding:10rem;"><i class="fa fa-spinner fa-spin"></i></div>';
         try {
             const snap = await getDocs(query(collection(db, 'portfolio'), orderBy('sort_order', 'asc')));
@@ -953,7 +955,13 @@
     };
 
     window.editItem = async (col, id) => { const s = await getDoc(doc(db, col, id)); openEditModal(col, {...s.data(), id: s.id}); };
-    window.deleteItem = async (col, id) => { if(confirm('영구 삭제하시겠습니까?')) { await deleteDoc(doc(db, col, id)); switchView(col); } };
+    window.deleteItem = async (col, id) => { 
+        if(confirm('영구 삭제하시겠습니까?')) { 
+            await deleteDoc(doc(db, col, id)); 
+            if(col === 'portfolio') renderPortfolio(currentPortfolioFilter);
+            else switchView(col); 
+        } 
+    };
     window.closeModal = () => modal.style.display='none';
     itemForm.onsubmit = async (e) => {
         e.preventDefault(); 
@@ -974,7 +982,9 @@
             if(id) await updateDoc(doc(db, col, id), o); 
             else await setDoc(doc(collection(db, col)), o);
             alert('성공적으로 저장되었습니다! 😊');
-            closeModal(); switchView(col);
+            closeModal(); 
+            if(col === 'portfolio') renderPortfolio(currentPortfolioFilter);
+            else switchView(col);
         } catch(err) {
             alert('저장 중 오류가 발생했습니다: ' + err.message);
         }
