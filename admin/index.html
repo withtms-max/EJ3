@@ -97,8 +97,8 @@
         .gallery-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 15px; margin-top: 15px; }
         .gallery-item { position: relative; aspect-ratio: 1; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: #111; }
         .gallery-item img, .gallery-item video { width: 100%; height: 100%; object-fit: cover; }
-        .gallery-item .del-btn { position: absolute; top: 5px; right: 5px; background: rgba(255,59,48,0.9); color: #fff; width: 24px; height: 24px; border-radius: 50%; border: none; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; z-index: 10; }
-        .gallery-item .del-btn:hover { transform: scale(1.1); background: #ff3b30; }
+        .gallery-item .del-btn, .del-btn-mini { position: absolute; top: 5px; right: 5px; background: rgba(255,59,48,0.9); color: #fff; width: 24px; height: 24px; border-radius: 50%; border: none; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; z-index: 10; transition: 0.2s; }
+        .gallery-item .del-btn:hover, .del-btn-mini:hover { transform: scale(1.1); background: #ff3b30; }
         .add-gallery-btn { aspect-ratio: 1; border: 2px dashed var(--border); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; color: var(--text-dim); }
         .add-gallery-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(0,136,255,0.05); }
         .add-gallery-btn i { font-size: 1.5rem; margin-bottom: 5px; }
@@ -270,6 +270,13 @@
     const getMediaSrc = (path) => (path && path.startsWith('http')) ? path : (path ? '../' + path : '');
 
     // ───── UPLOAD HELPER ─────
+    window.clearUpload = (name) => {
+        const pathInput = document.getElementById('path-' + name);
+        if(pathInput) pathInput.value = '';
+        const prev = document.getElementById('uprev-' + name);
+        if(prev) prev.innerHTML = '<i class="fa fa-image" style="opacity:0.1"></i><div id="udel-' + name + '"></div>';
+    };
+
     window.triggerUpload = (targetField, targetType, callback = null, multiple = false) => {
         uploader.value = "";
         uploader.multiple = multiple;
@@ -319,6 +326,9 @@
                                         preview.innerHTML = isVideo(downloadURL) 
                                             ? `<video src="${downloadURL}" autoplay muted loop style="max-height:100%"></video>`
                                             : `<img src="${downloadURL}" style="max-height:100%">`;
+                                        // 딜리트 버튼 노출
+                                        const delWrap = document.getElementById('udel-' + targetField);
+                                        if(delWrap) delWrap.innerHTML = `<button type="button" class="del-btn-mini" onclick="window.clearUpload('${targetField}')">&times;</button>`;
                                     }
                                 }
                                 resolve();
@@ -712,9 +722,13 @@
     // ──────── ULTIMATE MODAL (RESTORING MEDIA ATTACH) ────────
     function renderUploadUI(name, type, value) {
         const previewHTML = value ? (isVideo(value) ? `<video src="${getMediaSrc(value)}" autoplay muted loop></video>` : `<img src="${getMediaSrc(value)}">`) : '<i class="fa fa-image" style="opacity:0.1"></i>';
+        const delBtn = value ? `<button type="button" class="del-btn-mini" onclick="window.clearUpload('${name}')">&times;</button>` : '';
         return `
             <div class="upload-row">
-                <div class="preview-pane" id="uprev-${name}">${previewHTML}</div>
+                <div class="preview-pane" id="uprev-${name}">
+                    ${previewHTML}
+                    <div id="udel-${name}">${delBtn}</div>
+                </div>
                 <div class="upload-box" id="ubox-${name}" onclick="triggerUpload('${name}', '${type}')">
                     <i class="fa fa-cloud-upload"></i>
                     <span>클릭하여 미디어 업로드</span>
