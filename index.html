@@ -1742,7 +1742,7 @@ body.light-mode .impact-info-name { color: #111; }
                 {x:  280 * sX, y: -220 * sY, z:-120, rx: 14, ry:-14, rz:  8},
                 {x: -420 * sX, y:  110 * sY, z:-60,  rx:-10, ry: 20, rz: -2},
                 {x:  140 * sX, y:   40 * sY, z: 180, rx: -4, ry:  6, rz: -4},
-                {x: -180 * sX, y:  260 * sY, z: 100, rx:-14, ry: 10, rz:  5},
+                {x: -180 * sX, y:  260 * sY, z: 100, rx:-14, ry: 10, rz: -5},
                 {x:  360 * sX, y:  180 * sY, z:-80,  rx:-12, ry:-20, rz:  2}
               ];
               tx = fixed[idx].x; ty = fixed[idx].y; tz = fixed[idx].z;
@@ -1802,92 +1802,73 @@ body.light-mode .impact-info-name { color: #111; }
       portfolioSnap.forEach(doc => {
         const data = doc.data();
         if(data.status !== 'Draft') {
-          // PC/모바일 환경에 따른 갤러리 노출 여부 체크
-          const showOnPC = data.show_in_gallery !== '0';
-          const showOnMobile = data.show_in_gallery_mobile !== '0';
-          
-          if (isM) {
-            if (showOnMobile) items.push({ ...data, id: doc.id });
-          } else {
-            if (showOnPC) items.push({ ...data, id: doc.id });
+          // PC/모바일 환경에 따른 갤러리 노출 여부 체크 (문자열, 숫자 모두 대응)
+          const isShow = isM ? (data.show_in_gallery_mobile !== '0' && data.show_in_gallery_mobile !== 0) : (data.show_in_gallery !== '0' && data.show_in_gallery !== 0);
+          if (isShow) {
+            items.push({ ...data, id: doc.id });
           }
         }
       });
 
-      if(items.length > 0) {
-        cachedPortfolioItems = items;
-        
-        // Firestore에서 영구 저장된 좌표(placements 컬렉션) 가져오기
-        try {
-          const snap = await getDoc(doc(db, 'placements', isM ? 'mobile' : 'pc'));
-          if (snap.exists()) {
-            const cloudData = snap.data().items || [];
-            items.forEach(it => {
-              const found = cloudData.find(c => String(c.id) === String(it.id));
-              if (found) {
-                if (isM) {
-                  it.gallery_mobile_x = found.x; it.gallery_mobile_y = found.y; it.gallery_mobile_z = found.z;
-                } else {
-                  it.gallery_x = found.x; it.gallery_y = found.y; it.gallery_z = found.z;
-                }
+      cachedPortfolioItems = items;
+      
+      // Firestore에서 영구 저장된 좌표(placements 컬렉션) 가져오기
+      try {
+        const snap = await getDoc(doc(db, 'placements', isM ? 'mobile' : 'pc'));
+        if (snap.exists()) {
+          const cloudData = snap.data().items || [];
+          items.forEach(it => {
+            const found = cloudData.find(c => String(c.id) === String(it.id));
+            if (found) {
+              if (isM) {
+                it.gallery_mobile_x = found.x; it.gallery_mobile_y = found.y; it.gallery_mobile_z = found.z;
+              } else {
+                it.gallery_x = found.x; it.gallery_y = found.y; it.gallery_z = found.z;
               }
-            });
-          }
-        } catch(e) { console.error('Firestore Placements Load Error:', e); }
-
-        async function fetchHeroData() {
-        try {
-            const s = await getDoc(doc(db, 'settings', 'hero'));
-            if(s.exists()){
-                const d = s.data();
-                if(d.subtitle) document.getElementById('hero-sub').innerText = d.subtitle;
-                // [NEW] 다이나믹 메인 카피 & 로고 연동
-                if(d.main_copy) {
-                  document.getElementById('the3-headline-main').innerHTML = d.main_copy.replace(/\n/g, '<br>');
-                }
-                if(d.hover_logo) {
-                   const logoEl = document.getElementById('the3-logo-hidden');
-                   const parts = d.hover_logo.split(' 3 ');
-                   if(parts.length === 2) {
-                       logoEl.innerHTML = `${parts[0]} <span style="color:#0066ff;">3</span> ${parts[1]}`;
-                   } else {
-                       logoEl.innerText = d.hover_logo;
-                   }
-                }
-                if(d.description) document.getElementById('hero-desc').innerText = d.description;
-                if(d.cta_text) {
-                    const ctaBtn = document.querySelector('.hero-cta-btn span');
-                    if(ctaBtn) ctaBtn.innerText = d.cta_text;
-                }
-                if(d.slots_left) document.getElementById('slots-count').innerText = d.slots_left;
             }
-        } catch(e) { console.error('Hero Load Error:', e); }
-    }
-    fetchHeroData();
-        // 갤러리 초기화 및 렌더링 (기기별 노출 설정 반영)
-        const galleryItems = items.filter(it => {
-          const sM = String(it.show_in_gallery_mobile || '');
-          const sP = String(it.show_in_gallery || '');
-          if (isM) {
-            if (sM === '1') return true;
-            if (sM === '0') return false;
-            return sP === '1';
-          }
-          return sP === '1';
-        });
-        initGallery(galleryItems);
-
-        // URL 파라미터(slug)가 있으면 해당 모달 자동 오픈
-        const urlParams = new URLSearchParams(window.location.search);
-        const slugVal = urlParams.get('slug');
-        if (slugVal) {
-          openPortfolioDetail(slugVal);
-          setTimeout(() => {
-            const gall = document.getElementById('gallery');
-            if(gall) gall.scrollIntoView({ behavior: 'smooth' });
-          }, 500);
+          });
         }
+      } catch(e) { console.error('Firestore Placements Load Error:', e); }
+
+      // 갤러리 초기화 (아이템이 0개여도 호출하여 화면 정리)
+      initGallery(items);
+
+      // 히어로 섹션 데이터 로드
+      async function fetchHeroData() {
+        try {
+          const s = await getDoc(doc(db, 'settings', 'hero'));
+          if(s.exists()){
+              const d = s.data();
+              if(d.subtitle) document.getElementById('hero-sub').innerText = d.subtitle;
+              if(d.main_copy) document.getElementById('the3-headline-main').innerHTML = d.main_copy.replace(/\n/g, '<br>');
+              if(d.hover_logo) {
+                 const logoEl = document.getElementById('the3-logo-hidden');
+                 const parts = d.hover_logo.split(' 3 ');
+                 if(parts.length === 2) logoEl.innerHTML = `${parts[0]} <span style="color:#0066ff;">3</span> ${parts[1]}`;
+                 else logoEl.innerText = d.hover_logo;
+              }
+              if(d.description) document.getElementById('hero-desc').innerText = d.description;
+              if(d.cta_text) {
+                  const ctaBtn = document.querySelector('.hero-cta-btn span');
+                  if(ctaBtn) ctaBtn.innerText = d.cta_text;
+              }
+              if(d.slots_left) document.getElementById('slots-count').innerText = d.slots_left;
+          }
+        } catch(e) { console.error('Hero Load Error:', e); }
       }
+      fetchHeroData();
+
+      // URL 파라미터(slug)가 있으면 해당 모달 자동 오픈
+      const urlParams = new URLSearchParams(window.location.search);
+      const slugVal = urlParams.get('slug');
+      if (slugVal) {
+        openPortfolioDetail(slugVal);
+        setTimeout(() => {
+          const gall = document.getElementById('gallery');
+          if(gall) gall.scrollIntoView({ behavior: 'smooth' });
+        }, 500);
+      }
+
     } catch (err) {
       console.error('Firestore Portfolio Load Error:', err);
     }
