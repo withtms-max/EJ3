@@ -2,6 +2,14 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
+<script>
+  (function() {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+      document.documentElement.classList.add('light-mode');
+    }
+  })();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>THE 3 STUDIO | Creative Studio Seoul</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@700;900&family=Playball&display=swap" rel="stylesheet">
@@ -615,171 +623,85 @@ body.light-mode .impact-main-text, body.light-mode .impact-info-name { color: #1
 }
 
 /* ──────────────────────────────────────────────────────────
-   LIGHT MODE OVERRIDES FOR INDEX.HTML (STRICT ISOLATION)
+   LIGHT MODE OVERRIDES FOR INDEX.HTML (WHITE & PINK-RED CONFIDENCE)
    ────────────────────────────────────────────────────────── */
-/* Premium Mesh Gradient Background for Light Mode */
-body.light-mode { 
-    background-color: #f8f9fa !important;
-    background-image: 
-        radial-gradient(at 0% 0%, rgba(0, 102, 255, 0.08) 0px, transparent 50%),
-        radial-gradient(at 100% 0%, rgba(140, 180, 255, 0.05) 0px, transparent 50%),
-        radial-gradient(at 100% 100%, rgba(0, 102, 255, 0.06) 0px, transparent 50%),
-        radial-gradient(at 0% 100%, rgba(180, 200, 255, 0.05) 0px, transparent 50%),
-        radial-gradient(at 50% 50%, rgba(255, 255, 255, 0.6) 0px, transparent 80%) !important;
-    background-attachment: fixed !important;
-    color: #000 !important; 
-    transition: background 0.5s ease-in-out !important;
+body.light-mode { background: #fff !important; color: #111 !important; --primary: #ff3c82 !important; }
+body.light-mode h1, body.light-mode h2, body.light-mode h3, body.light-mode h4, body.light-mode .sect-h1, body.light-mode .sect-h2, body.light-mode .sect-h3,
+body.light-mode .team-name, body.light-mode .j-sub, body.light-mode .pf-title, body.light-mode .pkg-item span { color: #111 !important; }
+
+/* NAV VISIBILITY FIX WITH PINK-RED ACCENT */
+body.light-mode nav { background: rgba(255,255,255,0.9) !important; border-bottom: 1px solid rgba(0,0,0,0.05) !important; }
+body.light-mode .nav-logo { color: #111 !important; }
+body.light-mode .nav-logo span { color: #ff3c82 !important; }
+body.light-mode .nav-links li a { color: #111 !important; font-weight: 800 !important; }
+body.light-mode .nav-links li a:hover, body.light-mode .nav-links li a.active { color: #ff3c82 !important; }
+body.light-mode .nav-cta { background: #ff3c82 !important; color: #fff !important; }
+
+body.light-mode .fan-hero { background: #fff !important; border-bottom-color: rgba(255,60,130,0.05) !important; }
+body.light-mode #the3-headline-main { 
+    background: linear-gradient(135deg, #111 0%, #111 40%, #ff3c82 100%) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    color: transparent !important;
+    display: inline-block !important;
+    line-height: 1.1 !important;
+    letter-spacing: -0.05em !important;
+    font-size: clamp(2.2rem, 5.5vw, 4.2rem) !important;
+    filter: none !important; /* 번짐 절대 사절! 칼날 같은 선명함 유지 */
 }
+body.light-mode .the3-accent { 
+    background: #ff3c82 !important; 
+    -webkit-background-clip: text !important; 
+    background-clip: text !important; 
+    -webkit-text-fill-color: transparent !important;
+    filter: none !important;
+}
+/* REMOVE BLUR-ANIMATION ON LIGHT MODE HOVER TO KEEP STATIC GLOW */
+body.light-mode .hero-title-wrap:hover #hero-title {
+    filter: drop-shadow(0 0 25px rgba(255,60,130,0.5)) !important;
+    transform: none !important;
+    opacity: 1 !important;
+}
+body.light-mode #hero-hover-text .h-accent { 
+    color: #ff3c82 !important; 
+    text-shadow: 0 0 30px rgba(255,60,130,0.5) !important; 
+}
+body.light-mode #hero-hover-text .h-sub {
+    color: rgba(0,0,0,0.3) !important;
+}
+body.light-mode #hero-desc { color: #444 !important; font-weight: 600 !important; }
+body.light-mode .gallery-btn { background: #111 !important; color: #fff !important; border-radius: 4px; }
+body.light-mode .gallery-btn:hover { background: #ff3c82 !important; box-shadow: 0 15px 30px rgba(255,60,130,0.2) !important; }
 
-body.light-mode h1, body.light-mode h2, body.light-mode h3, 
-body.light-mode .sect-h1, body.light-mode .sect-h2, body.light-mode .sect-h3,
-body.light-mode .team-name, body.light-mode .j-sub, body.light-mode .pf-title, body.light-mode .pkg-item span { color: #000 !important; }
-body.light-mode .nav-links a { color: #111 !important; font-weight: 600 !important; }
-
-body.light-mode .fan-hero { background: rgba(255,255,255,0.2) !important; border-bottom-color: rgba(0,0,0,0.05) !important; backdrop-filter: blur(10px); }
-body.light-mode #the3-headline-main { color: #111 !important; }
-body.light-mode .the3-accent { background: linear-gradient(to right, #0066ff 0%, #0044cc 100%) !important; -webkit-background-clip: text !important; background-clip: text !important; filter: drop-shadow(0 0 5px rgba(0,102,255,0.1)) !important; }
-body.light-mode #hero-desc { color: #222 !important; font-weight: 600 !important; opacity: 1 !important; }
-body.light-mode #hero-sub { color: #0066ff !important; opacity: 1 !important; font-weight: 800 !important; }
-body.light-mode .gallery-btn { background: linear-gradient(135deg, #111 0%, #0066ff 100%) !important; color: #fff !important; }
+body.light-mode .gallery-sect { background: #fff !important; }
+body.light-mode .gallery-stage { background: radial-gradient(circle at center, rgba(255, 60, 130, 0.03) 0%, #ffffff 80%) !important; }
+body.light-mode .gallery-header h2 { color: #111 !important; }
+body.light-mode .gallery-hint i { color: #ff3c82 !important; }
+body.light-mode .g-card { background: #fff !important; border-color: rgba(0,0,0,0.06) !important; box-shadow: 0 10px 30px rgba(255,60,130,0.05) !important; }
 
 body.light-mode .team-sect, body.light-mode .svc-sect, body.light-mode .journey-sect, body.light-mode .impact-sect, body.light-mode .contact-sect { 
-    background: rgba(255,255,255,0.3) !important; 
-    border-top-color: rgba(0,0,0,0.06) !important; 
-    backdrop-filter: blur(30px);
+    background: #fff !important; 
+    border-top-color: rgba(255,60,130,0.08) !important; 
 }
-
-body.light-mode .team-card { 
-    background: rgba(255,255,255,0.9) !important; 
-    border: 1px solid rgba(0,0,0,0.08) !important; 
-    box-shadow: 0 15px 45px rgba(0,0,0,0.1) !important; 
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
-    backdrop-filter: blur(10px);
+body.light-mode .team-card, body.light-mode .j-card, body.light-mode .impact-slide, body.light-mode .contact-card { 
+    background: #fff !important; border-color: rgba(0,0,0,0.08) !important; 
 }
-body.light-mode .team-card:hover { transform: translateY(-12px) scale(1.02) !important; box-shadow: 0 30px 60px rgba(0,0,0,0.15) !important; border-color: #0066ff !important; }
-body.light-mode .team-name { color: #000 !important; font-weight: 950 !important; }
-body.light-mode .team-role { color: #0055ff !important; font-weight: 900 !important; opacity: 1 !important; }
-body.light-mode .team-bio, body.light-mode .j-desc, body.light-mode .impact-quote, body.light-mode .c-info-desc, body.light-mode .pf-sec p, body.light-mode .svc-packages p, body.light-mode .svc-desc p { 
-    color: #333 !important; font-weight: 500 !important; opacity: 1 !important;
-}
-body.light-mode .team-bio ul li { color: #444 !important; font-weight: 600 !important; }
+body.light-mode .team-role, body.light-mode .j-title, body.light-mode .impact-main-text .highlight, body.light-mode .impact-info-result { color: #ff3c82 !important; }
 
-body.light-mode .j-card, body.light-mode .impact-slide, body.light-mode .contact-card { 
-    background: rgba(255,255,255,0.8) !important; 
-    border: 1px solid rgba(0,0,0,0.1) !important; 
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05) !important; 
-    backdrop-filter: blur(10px);
-}
-body.light-mode .impact-bg-img { opacity: 0.2 !important; filter: brightness(1.2) blur(3px) !important; }
+body.light-mode .footer-sect { background: #fff !important; border-top: 1px solid rgba(255,60,130,0.1) !important; }
+body.light-mode .footer-big { color: #111 !important; }
+body.light-mode .footer-big:hover { color: #ff3c82 !important; }
+body.light-mode #navbar.scrolled { background: rgba(255,255,255,0.98) !important; box-shadow: 0 4px 20px rgba(255,60,130,0.08) !important; }
 
-/* Service Packages White Mode Fix */
-body.light-mode .pkg-list { border-top-color: rgba(0,0,0,0.08) !important; }
-body.light-mode .pkg-item { border-bottom-color: rgba(0,0,0,0.08) !important; transition: background 0.3s ease !important; }
-body.light-mode .pkg-item:hover { background: rgba(0,0,0,0.02) !important; }
-body.light-mode .pkg-toggle { color: #000 !important; }
-body.light-mode .pkg-desc { color: #555 !important; font-weight: 400 !important; }
+body.light-mode .c-input:focus { border-color: #ff3c82 !important; }
+body.light-mode .svc-chip.selected { background: #ff3c82 !important; color: #fff !important; border-color: #ff3c82 !important; }
+body.light-mode .chat-toggle { background: #ff3c82 !important; box-shadow: 0 10px 25px rgba(255,60,130,0.3) !important; }
+body.light-mode .pf-tag, body.light-mode .pf-sec h4 { color: #ff3c82 !important; background: rgba(255,60,130,0.05); }
+body.light-mode .c-input { background: #fff !important; border-color: rgba(0,0,0,0.1) !important; color: #111 !important; }
+body.light-mode .svc-chip { background: #f1f3f6 !important; color: #666 !important; }
 
-body.light-mode .footer-sect { background: #f8f9fa !important; border-top-color: rgba(0,0,0,0.05) !important; }
-body.light-mode .footer-sect h2 { color: #111 !important; }
-body.light-mode .footer-sect p, body.light-mode .footer-copy { color: rgba(0,0,0,0.4) !important; }
-
-body.light-mode #navbar { background: rgba(255,255,255,0.8); border-bottom: 1px solid rgba(0,0,0,0.05); }
-body.light-mode .nav-logo { color: #111 !important; }
-body.light-mode .nav-links li a { color: rgba(0,0,0,0.6) !important; }
-body.light-mode .nav-links li a.active { color: #0066ff !important; }
-
-body.light-mode .c-input { background: #f9f9fb !important; border-color: rgba(0,0,0,0.1) !important; color: #000 !important; }
-body.light-mode .svc-chip { background: #f0f2f5 !important; color: #666 !important; }
-body.light-mode .svc-chip.selected { background: #0066ff !important; color: #fff !important; }
-
-body.light-mode .pf-backdrop { background: rgba(255,255,255,0.95); }
-body.light-mode .pf-box { background: #fff; border-color: rgba(0,0,0,0.1); }
-body.light-mode .pf-close-btn { color: #000; background: rgba(0,0,0,0.05); }
-
-body.light-mode .nav-links { 
-    mask-image: linear-gradient(to right, #000 70%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to right, #000 70%, transparent 100%);
-  }
-
-/* Gallery White Mode Overrides (Brand Blue Theme) */
-body.light-mode .gallery-sect { background: #fdfdfe !important; border-top-color: rgba(0,0,0,0.05) !important; border-bottom: 1px solid rgba(0,0,0,0.05) !important; }
-body.light-mode .gallery-stage { 
-    background: radial-gradient(circle at center, #FFFFFF 0%, #eef6ff 100%) !important; 
-    box-shadow: none !important; 
-}
-body.light-mode .g-card { 
-    background: rgba(255, 255, 255, 0.7) !important; 
-    backdrop-filter: blur(15px); 
-    -webkit-backdrop-filter: blur(15px); 
-    border: 1px solid rgba(0, 102, 255, 0.2) !important; 
-    box-shadow: 0 15px 45px rgba(0, 68, 255, 0.1) !important; 
-}
-body.light-mode .gh-h2 { color: #111 !important; }
-body.light-mode .gh-p { color: rgba(0, 0, 0, 0.6) !important; }
-body.light-mode .g-card-inner { border-radius: 12px !important; }
-
-/* Contact Info Light Mode Fix */
-.c-info-label { color: rgba(255, 255, 255, 0.4); }
-.c-info-val { color: #fff; }
-.c-info-desc { color: rgba(255, 255, 255, 0.4); }
-body.light-mode .c-info-label { color: rgba(0, 0, 0, 0.4) !important; }
-body.light-mode .c-info-val { color: #111 !important; }
-body.light-mode .c-info-desc { color: rgba(0, 0, 0, 0.5) !important; }
-body.light-mode .contact-sect h2 { color: #111 !important; }
-body.light-mode .c-label { color: #111 !important; }
-
-
-/* BASE (DARK) THEME REFINEMENTS - CONTACT FORM */
-.svc-chip { 
-    background: rgba(255,255,255,0.05); 
-    border: 1px solid rgba(255,255,255,0.1); 
-    color: rgba(255,255,255,0.6); 
-    border-radius: 999px; 
-    padding: 0.8rem 1.6rem; 
-    font-weight: 700; 
-    cursor: pointer; 
-    transition: 0.3s;
-    font-size: 0.9rem;
-}
-.svc-chip:hover { border-color: #007aff; color: #fff; transform: translateY(-2px); }
-.svc-chip.selected { 
-    background: #007aff !important; 
-    color: #fff !important; 
-    border-color: #007aff !important; 
-    box-shadow: 0 10px 20px rgba(0,122,255,0.3);
-}
-.c-input { 
-    background: rgba(255,255,255,0.03) !important; 
-    border: 1px solid rgba(255,255,255,0.12) !important; 
-    border-radius: 1.2rem !important; 
-    padding: 1.4rem !important; 
-    color: #fff !important; 
-    font-size: 1rem !important;
-    outline: none !important;
-    transition: 0.3s !important;
-}
-.c-input:focus { border-color: #007aff !important; background: rgba(255,255,255,0.06) !important; box-shadow: 0 0 15px rgba(0,102,255,0.1); }
-#submit-btn { 
-    border-radius: 999px !important; 
-    padding: 1.2rem 3rem !important; 
-    font-weight: 900 !important; 
-    background: linear-gradient(135deg, #007aff, #00c6ff) !important; 
-    color: #fff !important; 
-    box-shadow: 0 10px 40px rgba(0,122,255,0.3) !important; 
-    border: none !important;
-}
-body.light-mode .pf-dot.on { background: #0066ff; }
-
-body.light-mode .chat-win { background: #fff; border-color: rgba(0,0,0,0.1); }
-body.light-mode .chat-hd { background: #f8f9fa; border-bottom-color: rgba(0,0,0,0.05); }
-body.light-mode .chat-msgs { background: #fff; }
-body.light-mode .bot { background: #f0f0f0; color: #111; border-color: rgba(0,0,0,0.05); }
-body.light-mode .banner-btns .bb2 { color: #111; }
-
-/* PREMIUM GRADIENT BUTTONS */
-.nav-cta, #submit-btn, .pf-btn-main { background: linear-gradient(135deg, #0066ff 0%, #0099ff 100%) !important; box-shadow: 0 10px 30px rgba(0,102,255,0.4) !important; color: #fff !important; border: none !important; font-weight: 900 !important; }
-
-/* MOBILE MENU & RESPONSIVE FIXES */
+/* MOBILE MENU & RESPONSIVE FIXES (RESTORED) */
 .nav-toggle { display: none; background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; z-index: 1001; }
 .mobile-menu { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transform: translateY(-100%); transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1); opacity: 0; visibility: hidden; }
 .mobile-menu.on { transform: translateY(0); opacity: 1; visibility: visible; }
@@ -788,58 +710,20 @@ body.light-mode .banner-btns .bb2 { color: #111; }
 .mobile-menu.on .mobile-links li { opacity: 1; transform: translateY(0); transition-delay: calc(0.1s * var(--item-index)); }
 .mobile-links li a { color: #fff; font-size: 2.2rem; font-weight: 950; text-decoration: none; transition: 0.3s; letter-spacing: -0.05em; display: flex; align-items: baseline; gap: 1rem; }
 .mobile-links li a small { font-family: 'Outfit', sans-serif; font-size: 0.9rem; font-weight: 400; color: #0066ff; opacity: 0.8; }
-.mobile-links li a:active { color: #0066ff; }
 .close-mobile { position: absolute; top: 2rem; right: 2rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; width: 54px; height: 54px; border-radius: 50%; font-size: 1.8rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 
-@media(max-width: 992px) {
-  .contact-grid-wrap > div:last-child {
-    grid-template-columns: 1fr !important;
-    gap: 4rem !important;
-  }
+@media(max-width: 768px) {
+  .nav-links, .nav-cta { display: none !important; }
+  .nav-toggle { display: block !important; }
 }
 
-@media(max-width: 640px) {
-  nav { padding: 1rem 1.2rem; }
-  .nav-links { display: none !important; }
-  .nav-cta { display: none !important; }
-  .nav-toggle { display: flex !important; }
-  body.light-mode .nav-links li a { color: #111 !important; opacity: 1 !important; }
-  
-  .c-form-box { padding: 2.5rem !important; }
-}
+body.light-mode .mobile-menu { background: rgba(255,255,255,0.98); }
+body.light-mode .mobile-links li a { color: #111; }
+body.light-mode .close-mobile { color: #111; border-color: rgba(0,0,0,0.1); background: rgba(0,0,0,0.05); }
 
-
-/* (CLEANED UP BY MERGE) */
-
-/* CINEMATIC ATMOSPHERE (FINAL) */
-/* Combined style into line 46 for better theme control */
-.fan-hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    /* Rich blue atmospheric glow */
-    background: radial-gradient(circle at 80% 20%, rgba(0,102,255,0.1) 0%, transparent 40%),
-                radial-gradient(circle at 20% 80%, rgba(0,102,255,0.06) 0%, transparent 40%);
-    pointer-events: none;
-    z-index: 1;
-}
-
-/* HIGH-END GLASS CARDS (NO LONGER TUBAK!) */
-.fh-card {
-    background: rgba(255, 255, 255, 0.03) !important;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.15) !important;
-    border-radius: 30px !important; 
-    box-shadow: 0 40px 100px -15px rgba(0, 0, 0, 0.7) !important;
-    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease !important;
-}
-.fh-card:hover {
-    border-color: rgba(0, 102, 255, 0.6) !important;
-    box-shadow: 0 0 50px rgba(0, 102, 255, 0.3) !important;
-    transform: var(--fan-pos) translateY(-20px) scale(1.08) !important;
-    z-index: 100 !important;
-}
+/* REFINED INTERACTION */
+.fh-card { transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease !important; }
+body.light-mode .fh-card:hover { box-shadow: 0 40px 80px rgba(0,0,0,0.1) !important; }
 
 /* ── [THE3-ULTIMATE-HERO-FIX V2] ── */
 .the3-hero-wrap { 
@@ -1044,13 +928,10 @@ body.light-mode .impact-info-name { color: #111; }
 </head>
 <body id="home" class="loading">
 <script>
-  (function() {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'light') {
-      document.body.classList.add('light-mode');
-      document.documentElement.classList.add('light-mode');
-    }
-  })();
+  // 렌더링 시점에 body에도 클래스 추가
+  if (document.documentElement.classList.contains('light-mode')) {
+    document.body.classList.add('light-mode');
+  }
 </script>
 <div id="film-grain"></div>
 
@@ -1343,7 +1224,7 @@ body.light-mode .impact-info-name { color: #111; }
     </div>
 
     <div class="footer-copy" style="width:100%; max-width:1200px; padding-top:2rem; border-top:1px solid rgba(255,255,255,0.05); display:flex; justify-content:space-between; flex-wrap:wrap; gap:1.5rem; font-size:0.65rem; color:rgba(255,255,255,0.15); letter-spacing:0.1em; text-transform:uppercase; font-weight:700; word-break:break-all;">
-        <span>© 2026 THE 3 STUDIO. ALL RIGHTS RESERVED.</span>
+        <span>© 2026 THE 3 STUDIO. ALL RIGHTS RESERVED. | <a href="admin/index.html" style="color:rgba(255,255,255,0.1); text-decoration:none; transition:0.3s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='rgba(255,255,255,0.1)'">ADMIN</a></span>
         <span>SEOUL, SOUTH KOREA</span>
     </div>
 </footer>
@@ -1423,9 +1304,6 @@ body.light-mode .impact-info-name { color: #111; }
 <script type="module">
   import { db, doc, getDoc, setDoc, collection, getDocs, addDoc, query, orderBy } from './js/firebase-init.js';
   
-  // (Duplicate Contact Init removed as merged into loadSettingsFromFirestore)
-
-
   // ── BANNER PERSISTENCE ──
   window.closeBanner = () => {
     document.getElementById('banner').style.display = 'none';
@@ -1780,13 +1658,14 @@ body.light-mode .impact-info-name { color: #111; }
              el.style.transform = `translate3d(${t.x}px,${t.y}px,${t.z}px) rotateX(${t.rx}deg) rotateY(${t.ry}deg) rotateZ(${t.rz}deg)`;
           });
 
-          // [FIX] 카드 클릭 시 상세 모달 오픈 (드래그하지 않았을 때만 작동)
+          // [FIX] 카드 클릭 시 시네마틱 포트폴리오 페이지로 이동
           el.addEventListener('click', e => {
             if (!drag.hasMoved) {
               e.stopPropagation();
-              // [NEW] 상세보기 클릭 비활성화 설정 체크
               if (item.disable_detail_click == '1' || item.disable_detail_click === true || item.disable_detail_click === 1) return;
-              openPortfolioDetail(item.slug || item.id);
+              // 특정 카테고리로 필터링된 상태로 보내기 (선택 사항)
+              const cat = item.category || 'all';
+              window.location.href = `work.html?filter=${cat}`;
             }
           });
 
@@ -1923,9 +1802,12 @@ body.light-mode .impact-info-name { color: #111; }
             const fmt3 = (txt) => txt.replace(/3/g, '<span style="color:#0066ff; text-shadow: 0 0 40px rgba(0, 102, 255, 0.4); font-weight:900;">3</span>');
             
             const hSub = document.getElementById('hero-sub'); if(hSub && s.subtitle) hSub.innerHTML = fmt3(s.subtitle);
+            // [HARD FIX] 사장님의 선명한 두 줄을 위해 모든 비동기 덮어쓰기 영구 차단
+            /*
             const hTitle = document.getElementById('hero-title'); if(hTitle && s.title) hTitle.innerHTML = fmt3(s.title);
             const hDesc = document.getElementById('hero-desc'); if(hDesc && s.description) hDesc.innerHTML = fmt3(s.description);
             const hLong = document.getElementById('hero-long-desc'); if(hLong && s.long_description) hLong.innerHTML = fmt3(s.long_description);
+            */
             
             // Banner Slots
             if(s.slots_left) {
@@ -2041,9 +1923,10 @@ body.light-mode .impact-info-name { color: #111; }
                     }
                 }
                 
-                // [NEW] 상세보기 클릭 비활성화 설정 반영
-                const clickAction = (String(it.disable_detail_click) === '1') ? '' : `onclick="openPortfolioDetail('${it.slug || it.id}')"`;
-                const cursorStyle = (String(it.disable_detail_click) === '1') ? 'default' : 'pointer';
+                const itmId = item.slug || item.id;
+                const itmCat = item.category || 'all';
+                const clickAction = (String(item.disable_detail_click) === '1') ? '' : `onclick="location.href='work.html?filter=${itmCat}'"`;
+                const cursorStyle = (String(item.disable_detail_click) === '1') ? 'default' : 'pointer';
 
                 fanHTML += `<div class="fh-card ${classes[i] || 'fh-c3'}" ${clickAction} style="cursor:${cursorStyle};">
                     ${mediaHtml}
