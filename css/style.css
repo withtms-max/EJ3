@@ -150,7 +150,8 @@ body.light-mode .team-card {
 }
 
 body.light-mode .team-name { 
-  color: #111111 !important; 
+  color: #ffffff !important; 
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
 body.light-mode .team-role { 

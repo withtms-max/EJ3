@@ -8,11 +8,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #000000; --bg-card: #0a0a0a; --accent: #E63946; /* 브랜드 컬러 일치 (#E63946) */
-            --text-main: #ffffff; --text-dim: rgba(255,255,255,0.5);
+            --bg-dark: #0B1939; --bg-card: #12224A; --accent: #E63946; /* 브랜드 컬러 일치 (#E63946) */
+            --text-main: #ffffff; --text-dim: rgba(255,255,255,0.6);
             --border: rgba(255,255,255,0.08); --sidebar-w: 260px;
             --danger: #ff3b30; --success: #28cd41;
-            --glow: 0 0 20px rgba(230, 57, 70, 0.4);
+            --glow: 0 0 20px rgba(0, 102, 255, 0.4);
         }
 
         * { margin:0; padding:0; box-sizing:border-box; }
@@ -20,16 +20,16 @@
         .dashboard-layout { display: flex; height: 100vh; }
 
         /* Sidebar */
-        .sidebar { width: var(--sidebar-w); background: #000; border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 2rem 1rem; flex-shrink: 0; z-index: 1000; }
+        .sidebar { width: var(--sidebar-w); background: #081126; border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 2rem 1rem; flex-shrink: 0; z-index: 1000; }
         .logo { font-family: 'Outfit'; font-weight: 900; font-size: 1.4rem; color: #fff; margin-bottom: 2.5rem; padding: 0 1rem; }
         .logo span { color: var(--accent); }
         .nav-menu { flex: 1; overflow-y: auto; }
         .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; color: var(--text-dim); border-radius: 12px; transition: 0.3s; margin-bottom: 5px; cursor: pointer; font-size: 0.85rem; font-weight: 600; }
         .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.05); color: #fff; }
-        .nav-item.active { background: var(--accent); box-shadow: 0 10px 20px rgba(230,57,70, 0.2); }
+        .nav-item.active { background: var(--accent); box-shadow: 0 10px 20px rgba(0, 136, 255, 0.2); }
 
 /* Content Area */
-.main-content { flex: 1; display: flex; flex-direction: column; overflow-y: auto; background: #f8f9fa; }
+.main-content { flex: 1; display: flex; flex-direction: column; overflow-y: auto; background: var(--bg-dark); }
         .top-bar { height: 70px; display: flex; align-items: center; justify-content: flex-end; padding: 0 2rem; border-bottom: 1px solid var(--border); }
         .app-view { padding: 2.5rem; max-width: 1400px; margin: 0 auto; width: 100%; }
 
@@ -50,11 +50,11 @@
         .thumb-cell img, .thumb-cell video { width: 100%; height: 100%; object-fit: cover; }
 
         /* Forms & Modals */
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(15px); display: none; align-items: center; justify-content: center; z-index: 10000; }
-        .modal-box { background: #ffffff; border: 1px solid var(--border); border-radius: 30px; width: 100%; max-width: 750px; padding: 3rem; max-height: 90vh; overflow-y: auto; box-shadow: 0 30px 60px rgba(0,0,0,0.1); }
+        .modal { position: fixed; inset: 0; background: rgba(11,25,57,0.85); backdrop-filter: blur(15px); display: none; align-items: center; justify-content: center; z-index: 10000; }
+        .modal-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 30px; width: 100%; max-width: 750px; padding: 3rem; max-height: 90vh; overflow-y: auto; box-shadow: 0 30px 60px rgba(0,0,0,0.1); }
 .form-group { margin-bottom: 1.5rem; }
 .form-label { display: block; color: var(--text-dim); font-size: 0.65rem; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; }
-.form-input { width: 100%; background: #f8f9fa; border: 1px solid var(--border); border-radius: 12px; padding: 14px; color: #111; font-size: 0.9rem; }
+.form-input { width: 100%; background: #081126; border: 1px solid var(--border); border-radius: 12px; padding: 14px; color: var(--text-main); font-size: 0.9rem; }
 .form-input:focus { border-color: var(--accent); outline: none; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 textarea.form-input { min-height: 80px; }
@@ -68,9 +68,9 @@ textarea.form-input { min-height: 80px; }
 
         /* Stats Cards */
         .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat-card { background: var(--bg-card); padding: 25px; border-radius: 20px; border: 1px solid var(--border); box-shadow: var(--glow); }
-.stat-card label { display: block; font-size: 0.65rem; font-weight: 900; color: var(--text-dim); margin-bottom: 10px; }
-.stat-card input { width: 100%; background: transparent; border: none; font-size: 2rem; font-weight: 900; color: #111; margin-top: 5px; }
+.stat-card { background: var(--bg-card); padding: 25px; border-radius: 20px; border: 1px solid var(--border); }
+        .stat-card label { display: block; font-size: 0.65rem; font-weight: 900; color: var(--text-dim); margin-bottom: 10px; }
+        .stat-card input { width: 100%; background: transparent; border: none; font-size: 2rem; font-weight: 900; color: #fff; margin-top: 5px; }
         /* Upload & Preview System */
         .upload-row { display: flex; gap: 20px; align-items: start; margin-bottom: 20px; }
         .upload-box { 
@@ -79,11 +79,11 @@ textarea.form-input { min-height: 80px; }
             display: flex; flex-direction: column; align-items: center; justify-content: center; 
             cursor: pointer; transition: 0.3s; position: relative; gap: 10px;
         }
-        .upload-box:hover { border-color: var(--accent); background: rgba(230,57,70,0.05); }
+        .upload-box:hover { border-color: var(--accent); background: rgba(0,136,255,0.05); }
         .upload-box i { font-size: 2rem; color: var(--text-dim); }
         .upload-box span { font-size: 0.75rem; font-weight: 700; color: var(--text-dim); }
         .preview-pane { 
-            width: 120px; height: 120px; background: #111; border-radius: 12px; 
+            width: 120px; height: 120px; background: #081126; border-radius: 12px; 
             border: 1px solid var(--border); overflow: hidden; display: flex; align-items: center; justify-content: center;
             position: relative;
         }
@@ -95,22 +95,60 @@ textarea.form-input { min-height: 80px; }
 
         /* Portfolio Gallery UI */
         .gallery-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 15px; margin-top: 15px; }
-        .gallery-item { position: relative; aspect-ratio: 1; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: #111; }
+        .gallery-item { position: relative; aspect-ratio: 1; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: #081126; }
         .gallery-item img, .gallery-item video { width: 100%; height: 100%; object-fit: cover; }
         .gallery-item .del-btn, .del-btn-mini { position: absolute; top: 5px; right: 5px; background: rgba(255,59,48,0.9); color: #fff; width: 24px; height: 24px; border-radius: 50%; border: none; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; z-index: 10; transition: 0.2s; }
         .gallery-item .del-btn:hover, .del-btn-mini:hover { transform: scale(1.1); background: #ff3b30; }
         .add-gallery-btn { aspect-ratio: 1; border: 2px dashed var(--border); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; color: var(--text-dim); }
-        .add-gallery-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(230,57,70,0.05); }
+        .add-gallery-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(0,136,255,0.05); }
         .add-gallery-btn i { font-size: 1.5rem; margin-bottom: 5px; }
         .add-gallery-btn span { font-size: 0.7rem; font-weight: 700; }
 
         /* Drag & Drop Highlight */
-        .gallery-list.drag-over { border-color: var(--accent) !important; background: rgba(230,57,70,0.1) !important; border-style: solid !important; }
+        .gallery-list.drag-over { border-color: var(--accent) !important; background: rgba(0,136,255,0.1) !important; border-style: solid !important; }
         .nav-group-title { margin:1.5rem 0 0.5rem 1.5rem; font-size:0.6rem; font-weight:900; color:rgba(255,255,255,0.2); letter-spacing:0.1em; text-transform:uppercase; }
         .extra-menu { display:none; flex-direction:column; background: rgba(0,0,0,0.2); border-radius:10px; margin: 0 10px; padding: 5px 0; }
         .extra-menu.show { display:flex; }
         .nav-item.toggle-btn i.fa-chevron-down { font-size: 0.6rem; margin-left: auto; transition: 0.3s; }
         .nav-item.toggle-btn.active i.fa-chevron-down { transform: rotate(180deg); }
+
+        /* --- Light Mode for Admin Dashboard --- */
+        body.light-mode {
+            --bg-dark: #f4f6f8; 
+            --bg-card: #ffffff; 
+            --text-main: #111111; 
+            --text-dim: #6c757d;
+            --border: rgba(0, 0, 0, 0.08); 
+            --danger: #e03131; 
+            --success: #0ca678;
+        }
+        body.light-mode .sidebar { background: #ffffff; border-right: 1px solid var(--border); }
+        body.light-mode .logo { color: #111; }
+        body.light-mode .nav-item:hover, body.light-mode .nav-item.active { background: rgba(0,0,0,0.05); color: #111; }
+        body.light-mode .nav-item.active { background: var(--accent); color: #fff; box-shadow: 0 10px 20px rgba(0, 102, 255, 0.15); }
+        body.light-mode .main-content { background: var(--bg-dark); }
+        body.light-mode .table-container { box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+        body.light-mode th { background: rgba(0,0,0,0.02); color: #495057; }
+        body.light-mode .thumb-cell { background: #f8f9fa; }
+        body.light-mode .modal-box { background: #ffffff; box-shadow: 0 30px 60px rgba(0,0,0,0.1); }
+        body.light-mode .form-input { background: #ffffff; border-color: rgba(0,0,0,0.1); color: #111; }
+        body.light-mode .form-input:focus { border-color: var(--accent); }
+        body.light-mode .switch-box { background: #dee2e6; }
+        body.light-mode .switch-box::after { background: #adb5bd; }
+        body.light-mode input:checked + .switch-box { background: var(--accent); }
+        body.light-mode .stat-card { box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        body.light-mode .stat-card input { color: #111; }
+        body.light-mode .upload-box { background: #f8f9fa; }
+        body.light-mode .preview-pane { background: #f8f9fa; }
+        body.light-mode .gallery-item { background: #f8f9fa; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        body.light-mode .add-gallery-btn { background: #ffffff; }
+        body.light-mode .nav-group-title { color: rgba(0,0,0,0.4); }
+        body.light-mode .extra-menu { background: rgba(0,0,0,0.02); }
+        body.light-mode .btn-s { background: rgba(0,0,0,0.05); color: #111; }
+        body.light-mode .btn-s:hover { background: rgba(0,0,0,0.1); }
+        body.light-mode .btn-danger { color: var(--danger); background: rgba(224,49,49,0.1); }
+        body.light-mode .modal { background: rgba(255,255,255,0.85); backdrop-filter: blur(15px); }
+        body.light-mode #modal-title { color: #111; }
     </style>
 </head>
 <body>
@@ -175,6 +213,11 @@ textarea.form-input { min-height: 80px; }
 <input type="file" id="file-uploader" hidden accept="image/*,video/*" multiple>
 
 <script>
+    // Apply theme on load for dashboard
+    if (localStorage.getItem('theme') === 'light') {
+        document.body.classList.add('light-mode');
+    }
+    
     // 전역 변수로 uploader 정의 (모듈 내에서 접근 가능하도록)
     var uploader;
     document.addEventListener('DOMContentLoaded', () => {
@@ -254,6 +297,21 @@ textarea.form-input { min-height: 80px; }
             if (window.location.pathname !== '/admin/login.html') location.assign('/admin/login.html');
             return;
         }
+        
+        // Fetch DB theme state smoothly for dashboard sync
+        getDoc(doc(db, 'settings', 'global')).then(snap => {
+            if (snap.exists()) {
+                const theme = snap.data().theme || 'dark';
+                if (theme === 'light') {
+                    document.body.classList.add('light-mode');
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    document.body.classList.remove('light-mode');
+                    localStorage.setItem('theme', 'dark');
+                }
+            }
+        }).catch(err => console.error(err));
+
         // 로그인이 확인되면 기본 대시보드로 이동
         if (!appView.innerHTML || appView.innerHTML.includes('spinner')) {
             switchView('dashboard');
@@ -494,8 +552,18 @@ textarea.form-input { min-height: 80px; }
         const toggle = document.getElementById('theme-toggle');
         toggle.onchange = () => { document.getElementById('theme-text').innerText = toggle.checked ? '라이트 테마 (White)' : '다크 테마 (Black)'; };
         document.getElementById('save-global').onclick = async () => {
-            await setDoc(docRef, { theme: toggle.checked ? 'light' : 'dark' });
-            alert('테마 설정이 저장되었습니다. 모든 방문자에게 즉시 반영됩니다.');
+            const isLight = toggle.checked;
+            await setDoc(docRef, { theme: isLight ? 'light' : 'dark' });
+            
+            // 대시보드 화면에도 즉시 반영
+            if (isLight) {
+                document.body.classList.add('light-mode');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.body.classList.remove('light-mode');
+                localStorage.setItem('theme', 'dark');
+            }
+            alert('테마 설정이 저장되었습니다. 대시보드와 고객님 홈페이지 모두에 즉시 반영됩니다.');
         };
     }
 
@@ -508,13 +576,13 @@ textarea.form-input { min-height: 80px; }
             <div class="header-content">
                 <div class="view-title">
                     <h1>히어로 섹션 편집</h1>
-                    <p>메인 카피와 인터랙티브 요소를 관리합니다. <span style="color:var(--accent); font-weight:900;">(Brand Blue: var(--accent))</span></p>
+                    <p>메인 카피와 인터랙티브 요소를 관리합니다. <span style="color:var(--accent); font-weight:900;">(Brand Blue: #0066ff)</span></p>
                 </div>
             </div>
             
             <div class="table-container" style="padding:3rem;">
                 <form id="hero-form">
-                    <div style="background:rgba(230,57,70,0.05); padding:20px; border-radius:15px; margin-bottom:2rem; border:1px solid rgba(230,57,70,0.1);">
+                    <div style="background:rgba(0,102,255,0.05); padding:20px; border-radius:15px; margin-bottom:2rem; border:1px solid rgba(0,102,255,0.1);">
                          <p style="font-size:0.75rem; color:var(--accent); font-weight:800; margin-bottom:5px;"><i class="fa fa-info-circle"></i> 디자인 가이드</p>
                          <p style="font-size:0.7rem; color:var(--text-dim);">홈페이지의 핵심 포인트 컬러는 <b>var(--accent)</b> 입니다. 텍스트 강조나 버튼 효과에 동일하게 적용됩니다.</p>
                     </div>
@@ -1110,7 +1178,7 @@ textarea.form-input { min-height: 80px; }
                 
                 <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:1.5rem; width:100%; max-width:1000px;">
                     <!-- 1. LIVE PC -->
-                    <a href="/index.html#admin" target="_blank" class="btn" style="background:linear-gradient(135deg, var(--accent) 0%, #0044aa 100%); padding:25px; border-radius:15px; text-decoration:none; display:flex; flex-direction:column; align-items:center;">
+                    <a href="/index.html#admin" target="_blank" class="btn" style="background:linear-gradient(135deg, #0066ff 0%, #0044aa 100%); padding:25px; border-radius:15px; text-decoration:none; display:flex; flex-direction:column; align-items:center;">
                         <i class="fa-solid fa-desktop" style="font-size:2rem; margin-bottom:15px;"></i>
                         <span style="font-size:1.1rem; font-weight:900; margin-bottom:5px;">라이브 PC 에디터</span>
                         <span style="font-size:0.75rem; opacity:0.6;">데스크탑용 배치를 수정합니다</span>
