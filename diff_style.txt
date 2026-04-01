@@ -1,0 +1,30 @@
+﻿diff --git a/css/style.css b/css/style.css
+index bfa90f5..c283b30 100644
+--- a/css/style.css
++++ b/css/style.css
+@@ -1,16 +1,16 @@
+ :root {
+-  /* ?꾨━誘몄뾼 而щ윭 ?쒖뒪??(Premium Branded Studio 2026) */
+-  --primary: #0066ff;       /* Electric Blue */
+-  --luxury-point: #4791ff;  /* Light Blue Accent */
+-  --primary-soft: rgba(0, 102, 255, 0.1);
++  /* ?꾨━誘몄뾼 而щ윭 ?쒖뒪??(Premium Branded Studio 2026 - Navy/Red Theme) */
++  --primary: #E63946;       /* Red Accent */
++  --luxury-point: #FF4D5A;  /* Light Red Accent */
++  --primary-soft: rgba(230, 57, 70, 0.1);
+   
+-  --bg-main: #000000;       /* Perfect Black */
+-  --bg-soft: #0a0a0a;       /* Soft Black */
+-  --bg-card: #111111;       /* Elevated Surface */
++  --bg-main: #0B1939;       /* Trustworthy Navy Blue - 寃쎌풄??釉붾（ */
++  --bg-soft: #12224A;       /* Brighter Navy */
++  --bg-card: #182C5E;       /* Card Surface Blue */
+   
+   --text-primary: #FFFFFF;  /* High Contrast White */
+-  --text-secondary: rgba(255, 255, 255, 0.6); /* Dimmed White */
+-  --text-dimmed: rgba(255, 255, 255, 0.35);   
++  --text-secondary: rgba(255, 255, 255, 0.85); /* Dimmed White */
++  --text-dimmed: rgba(255, 255, 255, 0.5);   
+   
+   --border: rgba(255, 255, 255, 0.08);
+   --border-strong: rgba(255, 255, 255, 0.15);

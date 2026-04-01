@@ -1,189 +1,79 @@
+/* ==========================================================================
+   THEME ARCHITECTURE (Strict Isolation)
+   ========================================================================== */
+
 :root {
-  /* 프리미엄 컬러 시스템 (Premium Branded Studio 2026 - Navy/Red Theme) */
-  --primary: #E63946;       /* Red Accent */
-  --luxury-point: #FF4D5A;  /* Light Red Accent */
-  --primary-soft: rgba(230, 57, 70, 0.1);
-  
-  --bg-main: #0B1939;       /* Trustworthy Navy Blue - 경쾌한 블루 */
-  --bg-soft: #12224A;       /* Brighter Navy */
-  --bg-card: #182C5E;       /* Card Surface Blue */
-  
-  --text-primary: #FFFFFF;  /* High Contrast White */
-  --text-secondary: rgba(255, 255, 255, 0.85); /* Dimmed White */
-  --text-dimmed: rgba(255, 255, 255, 0.5);   
-  
-  --border: rgba(255, 255, 255, 0.08);
-  --border-strong: rgba(255, 255, 255, 0.15);
-  
-  --border-radius-lg: 38px; 
+  /* [PART 0] COMMON STRUCTURAL TOKENS (Shape, Timing, etc.) */
+  --border-radius-lg: 38px;
   --border-radius-md: 24px;
   --border-radius-sm: 16px;
-  --transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-  --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 10px 40px rgba(0, 0, 0, 0.6);
-  --shadow-hover: 0 20px 60px rgba(0, 102, 255, 0.25);
+  --transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);       
+  --primary: #E63946; 
 }
 
-/* Light Mode — 프리미엄 화이트 테마 */
+/* --------------------------------------------------------------------------
+   [PART 1] DARK THEME - THE3 NAVY/RED (Default Isle)
+   -------------------------------------------------------------------------- */
+body:not(.light-mode) {
+  /* [Source Variables for Dark Mode] */
+  --dark-bg-main: #0B1939;
+  --dark-bg-soft: #12224A;
+  --dark-bg-card: #182C5E;
+  --dark-text-primary: #FFFFFF;
+  --dark-text-secondary: rgba(255, 255, 255, 0.85);
+  --dark-text-dimmed: rgba(255, 255, 255, 0.5);
+  --dark-border: rgba(255, 255, 255, 0.08);
+  --dark-border-strong: rgba(255, 255, 255, 0.15);
+  --dark-shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.3);
+  --dark-shadow-md: 0 10px 40px rgba(0, 0, 0, 0.6);
+  --dark-shadow-hover: 0 20px 60px rgba(230, 57, 70, 0.25);
+
+  /* [Functional Mappings] */
+  --bg-main: var(--dark-bg-main);
+  --bg-soft: var(--dark-bg-soft);
+  --bg-card: var(--dark-bg-card);
+  --text-primary: var(--dark-text-primary);
+  --text-secondary: var(--dark-text-secondary);
+  --text-dimmed: var(--dark-text-dimmed);
+  --border: var(--dark-border);
+  --border-strong: var(--dark-border-strong);
+  --shadow-sm: var(--dark-shadow-sm);
+  --shadow-md: var(--dark-shadow-md);
+  --shadow-hover: var(--dark-shadow-hover);
+  --accent-glow: rgba(0, 102, 255, 0.25);
+}
+
+/* --------------------------------------------------------------------------
+   [PART 2] LIGHT THEME - THE3 WHITE/RED (Isolated Island) 
+   -------------------------------------------------------------------------- */
 body.light-mode {
-  --bg-main: #F8F9FA;       /* Very Light Gray */
-  --bg-soft: #FFFFFF;       /* Pure White */
-  --bg-card: #FFFFFF;
-  
-  --text-primary: #111111;  /* Deep Black */
-  --text-secondary: #495057; /* Slate Gray */
-  --text-dimmed: #ADB5BD;   
-  
-  --border: rgba(0, 0, 0, 0.08);
-  --border-strong: rgba(0, 0, 0, 0.15);
-  
-  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.08);
-  --shadow-hover: 0 15px 45px rgba(0, 102, 255, 0.12);
+  /* [Source Variables for Light Mode] */
+  --light-bg-main: #F8F9FA;
+  --light-bg-soft: #FFFFFF;
+  --light-bg-card: #FFFFFF;
+  --light-text-primary: #111111;
+  --light-text-secondary: #495057;
+  --light-text-dimmed: #ADB5BD;
+  --light-border: rgba(0, 0, 0, 0.08);
+  --light-border-strong: rgba(0, 0, 0, 0.15);
+  --light-shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --light-shadow-md: 0 10px 30px rgba(0, 0, 0, 0.08);
+  --light-shadow-hover: 0 15px 45px rgba(230, 57, 70, 0.12);   
+
+  /* [Functional Mappings] */
+  --bg-main: var(--light-bg-main);
+  --bg-soft: var(--light-bg-soft);
+  --bg-card: var(--light-bg-card);
+  --text-primary: var(--light-text-primary);
+  --text-secondary: var(--light-text-secondary);
+  --text-dimmed: var(--light-text-dimmed);
+  --border: var(--light-border);
+  --border-strong: var(--light-border-strong);
+  --shadow-sm: var(--light-shadow-sm);
+  --shadow-md: var(--light-shadow-md);
+  --shadow-hover: var(--light-shadow-hover);
+  --accent-glow: rgba(230, 57, 70, 0.1);
 }
-
-body.light-mode .navbar.scrolled {
-  background: rgba(255, 255, 255, 0.85);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-}
-
-body.light-mode .sujit-hero {
-  background: #FFFFFF;
-}
-
-body.light-mode .text-outline {
-  -webkit-text-stroke: 1.5px rgba(0, 0, 0, 0.2);
-}
-
-body.light-mode .portfolio-overlay {
-  background: linear-gradient(to top, rgba(255, 255, 255, 0.95) 0%, transparent 100%);
-}
-
-body.light-mode .portfolio-info h4 {
-  color: #111;
-}
-
-body.light-mode .portfolio-info p {
-  color: #495057;
-}
-
-body.light-mode .fh-card,
-body.light-mode .g-card-inner,
-body.light-mode .team-card,
-body.light-mode .j-card,
-body.light-mode .pf-box,
-body.light-mode .pf-sec,
-body.light-mode .chat-win,
-body.light-mode .svc-row {
-  background: #FFFFFF;
-  border-color: rgba(0, 0, 0, 0.06);
-  color: #111;
-}
-
-body.light-mode .j-period {
-  color: #868e96;
-}
-
-body.light-mode .j-title {
-  color: #0055dd;
-}
-
-body.light-mode .fh-desc,
-body.light-mode .team-bio,
-body.light-mode .j-desc,
-body.light-mode .pf-sec p,
-body.light-mode .gallery-header p,
-body.light-mode .svc-desc p {
-  color: #495057;
-}
-
-body.light-mode .gallery-stage {
-  background: radial-gradient(ellipse at center, #FFFFFF 0%, #F8F9FA 100%);
-  box-shadow: inset 0 0 200px rgba(0, 0, 0, 0.02);
-}
-
-body.light-mode .pf-backdrop {
-  background: rgba(255, 255, 255, 0.82);
-}
-
-/* GLOBAL LIGHT MODE FIXES - High Contrast & Visibility */
-body.light-mode h1, 
-body.light-mode h2, 
-body.light-mode h3, 
-body.light-mode .sect-h2,
-body.light-mode .hero-title,
-body.light-mode .work-title,
-body.light-mode .pf-title { 
-  color: #111111 !important; 
-}
-
-body.light-mode .sect-label { 
-  color: #0055dd !important; 
-  opacity: 1 !important; 
-  font-weight: 800 !important;
-}
-
-body.light-mode .highlight { 
-  color: #111111 !important; 
-  text-shadow: none !important; 
-}
-
-body.light-mode .footer-big { 
-  color: #111111 !important; 
-}
-
-body.light-mode .footer-sub { 
-  color: #495057 !important; 
-  font-weight: 700 !important; 
-}
-
-body.light-mode .footer-sect { 
-  background: #f8f9fa !important; 
-  border-top: 1px solid rgba(0, 0, 0, 0.05) !important; 
-}
-
-body.light-mode .team-card { 
-  background: #ffffff !important; 
-  border-color: rgba(0, 0, 0, 0.05) !important; 
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05) !important; 
-}
-
-body.light-mode .team-name { 
-  color: #ffffff !important; 
-  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-}
-
-body.light-mode .team-role { 
-  color: #0055dd !important; 
-  font-weight: 900 !important;
-}
-
-body.light-mode .pkg-item span { 
-  color: #111111 !important; 
-}
-
-body.light-mode .pkg-desc p { 
-  color: #495057 !important; 
-}
-
-body.light-mode .c-label,
-body.light-mode .form-label { 
-  color: #111111 !important; 
-  font-weight: 900 !important; 
-}
-
-body.light-mode .c-input { 
-  background: #ffffff !important; 
-  border: 1px solid rgba(0, 0, 0, 0.1) !important; 
-  color: #111111 !important; 
-}
-
-body.light-mode .c-input::placeholder { 
-  color: #adb5bd !important; 
-}
-
-
 * {
   margin: 0;
   padding: 0;
@@ -1448,3 +1338,37 @@ body.modal-open {
     gap: 3rem !important;
   }
 }
+
+/* ==========================================================================
+   [PART 3] WHITE THEME ISLAND (Total Isolation Zone)
+       ׸   ʽϴ.
+   ========================================================================== */
+
+body.light-mode .navbar.scrolled { background: rgba(255, 255, 255, 0.85); border-bottom: 1px solid rgba(0, 0, 0, 0.05); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); }
+body.light-mode .sujit-hero { background: #FFFFFF; }
+body.light-mode .text-outline { -webkit-text-stroke: 1.5px rgba(0, 0, 0, 0.2); }
+body.light-mode .portfolio-overlay { background: linear-gradient(to top, rgba(255, 255, 255, 0.95) 0%, transparent 100%); }
+body.light-mode .portfolio-info h4 { color: #111; }
+body.light-mode .portfolio-info p { color: #495057; }
+body.light-mode .fh-card, body.light-mode .g-card-inner, body.light-mode .team-card, body.light-mode .j-card, body.light-mode .pf-box, body.light-mode .pf-sec, body.light-mode .chat-win, body.light-mode .svc-row { background: #FFFFFF; border-color: rgba(0, 0, 0, 0.06); color: #111; }
+body.light-mode .j-period { color: #868e96; }
+body.light-mode .j-title { color: #E63946; }
+body.light-mode .fh-desc, body.light-mode .team-bio, body.light-mode .j-desc, body.light-mode .pf-sec p, body.light-mode .gallery-header p, body.light-mode .svc-desc p { color: #495057; }
+body.light-mode .gallery-stage { background: radial-gradient(ellipse at center, #FFFFFF 0%, #F8F9FA 100%); box-shadow: inset 0 0 200px rgba(0, 0, 0, 0.02); }
+body.light-mode .pf-backdrop { background: rgba(255, 255, 255, 0.82); }
+
+/* High Contrast Refinements */
+body.light-mode h1, body.light-mode h2, body.light-mode h3, body.light-mode .sect-h2, body.light-mode .hero-title, body.light-mode .work-title, body.light-mode .pf-title { color: #111111 !important; }
+body.light-mode .sect-label { color: #E63946 !important; opacity: 1 !important; font-weight: 800 !important; }
+body.light-mode .highlight { color: #111111 !important; text-shadow: none !important; }
+body.light-mode .footer-big { color: #111111 !important; }
+body.light-mode .footer-sub { color: #495057 !important; font-weight: 700 !important; }
+body.light-mode .footer-sect { background: #f8f9fa !important; border-top: 1px solid rgba(0, 0, 0, 0.05) !important; }
+body.light-mode .team-name { color: #111111 !important; }
+body.light-mode .team-role { color: #E63946 !important; }
+body.light-mode .pkg-item span { color: #111111 !important; }
+body.light-mode .pkg-desc p { color: #495057 !important; }
+body.light-mode .c-label, body.light-mode .form-label { color: #111111 !important; font-weight: 900 !important; }
+body.light-mode .c-input { background: #ffffff !important; border: 1px solid rgba(0, 0, 0, 0.1) !important; color: #111111 !important; }
+body.light-mode .c-input::placeholder { color: #adb5bd !important; }
+

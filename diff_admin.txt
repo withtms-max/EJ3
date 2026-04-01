@@ -1,0 +1,311 @@
+﻿diff --git a/admin/index.html b/admin/index.html
+index 9cf21fb..1703bec 100644
+--- a/admin/index.html
++++ b/admin/index.html
+@@ -8,11 +8,11 @@
+     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+     <style>
+         :root {
+-            --bg-dark: #000000; --bg-card: #0a0a0a; --accent: #0066ff; /* 釉뚮옖??而щ윭 ?쇱튂 (#0066ff) */
++            --bg-dark: #000000; --bg-card: #0a0a0a; --accent: #E63946; /* 釉뚮옖??而щ윭 ?쇱튂 (#E63946) */
+             --text-main: #ffffff; --text-dim: rgba(255,255,255,0.5);
+             --border: rgba(255,255,255,0.08); --sidebar-w: 260px;
+             --danger: #ff3b30; --success: #28cd41;
+-            --glow: 0 0 20px rgba(0, 102, 255, 0.4);
++            --glow: 0 0 20px rgba(230, 57, 70, 0.4);
+         }
+ 
+         * { margin:0; padding:0; box-sizing:border-box; }
+@@ -26,10 +26,10 @@
+         .nav-menu { flex: 1; overflow-y: auto; }
+         .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; color: var(--text-dim); border-radius: 12px; transition: 0.3s; margin-bottom: 5px; cursor: pointer; font-size: 0.85rem; font-weight: 600; }
+         .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.05); color: #fff; }
+-        .nav-item.active { background: var(--accent); box-shadow: 0 10px 20px rgba(0, 136, 255, 0.2); }
++        .nav-item.active { background: var(--accent); box-shadow: 0 10px 20px rgba(230,57,70, 0.2); }
+ 
+-        /* Content Area */
+-        .main-content { flex: 1; display: flex; flex-direction: column; overflow-y: auto; background: #050505; }
++/* Content Area */
++.main-content { flex: 1; display: flex; flex-direction: column; overflow-y: auto; background: #f8f9fa; }
+         .top-bar { height: 70px; display: flex; align-items: center; justify-content: flex-end; padding: 0 2rem; border-bottom: 1px solid var(--border); }
+         .app-view { padding: 2.5rem; max-width: 1400px; margin: 0 auto; width: 100%; }
+ 
+@@ -51,13 +51,13 @@
+ 
+         /* Forms & Modals */
+         .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(15px); display: none; align-items: center; justify-content: center; z-index: 10000; }
+-        .modal-box { background: #0a0a0a; border: 1px solid var(--border); border-radius: 30px; width: 100%; max-width: 750px; padding: 3rem; max-height: 90vh; overflow-y: auto; }
+-        .form-group { margin-bottom: 1.5rem; }
+-        .form-label { display: block; color: var(--text-dim); font-size: 0.65rem; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; }
+-        .form-input { width: 100%; background: #111; border: 1px solid var(--border); border-radius: 12px; padding: 14px; color: #fff; font-size: 0.9rem; }
+-        .form-input:focus { border-color: var(--accent); outline: none; }
+-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+-        textarea.form-input { min-height: 80px; }
++        .modal-box { background: #ffffff; border: 1px solid var(--border); border-radius: 30px; width: 100%; max-width: 750px; padding: 3rem; max-height: 90vh; overflow-y: auto; box-shadow: 0 30px 60px rgba(0,0,0,0.1); }
++.form-group { margin-bottom: 1.5rem; }
++.form-label { display: block; color: var(--text-dim); font-size: 0.65rem; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; }
++.form-input { width: 100%; background: #f8f9fa; border: 1px solid var(--border); border-radius: 12px; padding: 14px; color: #111; font-size: 0.9rem; }
++.form-input:focus { border-color: var(--accent); outline: none; }
++.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
++textarea.form-input { min-height: 80px; }
+ 
+         /* Toggle Switch */
+         .switch-wrap { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+@@ -68,9 +68,9 @@
+ 
+         /* Stats Cards */
+         .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+-        .stat-card { background: var(--bg-card); padding: 25px; border-radius: 20px; border: 1px solid var(--border); }
+-        .stat-card label { display: block; font-size: 0.65rem; font-weight: 900; color: var(--text-dim); margin-bottom: 10px; }
+-        .stat-card input { width: 100%; background: transparent; border: none; font-size: 2rem; font-weight: 900; color: #fff; margin-top: 5px; }
++.stat-card { background: var(--bg-card); padding: 25px; border-radius: 20px; border: 1px solid var(--border); box-shadow: var(--glow); }
++.stat-card label { display: block; font-size: 0.65rem; font-weight: 900; color: var(--text-dim); margin-bottom: 10px; }
++.stat-card input { width: 100%; background: transparent; border: none; font-size: 2rem; font-weight: 900; color: #111; margin-top: 5px; }
+         /* Upload & Preview System */
+         .upload-row { display: flex; gap: 20px; align-items: start; margin-bottom: 20px; }
+         .upload-box { 
+@@ -79,7 +79,7 @@
+             display: flex; flex-direction: column; align-items: center; justify-content: center; 
+             cursor: pointer; transition: 0.3s; position: relative; gap: 10px;
+         }
+-        .upload-box:hover { border-color: var(--accent); background: rgba(0,136,255,0.05); }
++        .upload-box:hover { border-color: var(--accent); background: rgba(230,57,70,0.05); }
+         .upload-box i { font-size: 2rem; color: var(--text-dim); }
+         .upload-box span { font-size: 0.75rem; font-weight: 700; color: var(--text-dim); }
+         .preview-pane { 
+@@ -100,12 +100,12 @@
+         .gallery-item .del-btn, .del-btn-mini { position: absolute; top: 5px; right: 5px; background: rgba(255,59,48,0.9); color: #fff; width: 24px; height: 24px; border-radius: 50%; border: none; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; z-index: 10; transition: 0.2s; }
+         .gallery-item .del-btn:hover, .del-btn-mini:hover { transform: scale(1.1); background: #ff3b30; }
+         .add-gallery-btn { aspect-ratio: 1; border: 2px dashed var(--border); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; color: var(--text-dim); }
+-        .add-gallery-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(0,136,255,0.05); }
++        .add-gallery-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(230,57,70,0.05); }
+         .add-gallery-btn i { font-size: 1.5rem; margin-bottom: 5px; }
+         .add-gallery-btn span { font-size: 0.7rem; font-weight: 700; }
+ 
+         /* Drag & Drop Highlight */
+-        .gallery-list.drag-over { border-color: var(--accent) !important; background: rgba(0,136,255,0.1) !important; border-style: solid !important; }
++        .gallery-list.drag-over { border-color: var(--accent) !important; background: rgba(230,57,70,0.1) !important; border-style: solid !important; }
+         .nav-group-title { margin:1.5rem 0 0.5rem 1.5rem; font-size:0.6rem; font-weight:900; color:rgba(255,255,255,0.2); letter-spacing:0.1em; text-transform:uppercase; }
+         .extra-menu { display:none; flex-direction:column; background: rgba(0,0,0,0.2); border-radius:10px; margin: 0 10px; padding: 5px 0; }
+         .extra-menu.show { display:flex; }
+@@ -138,6 +138,7 @@
+             </div>
+             <div class="extra-menu" id="extra-menu">
+                 <div class="nav-item" onclick="switchView('hero_slides')"><i class="fa fa-images"></i> ?덉뼱濡?罹먮윭?</div>
++                <div class="nav-item" onclick="switchView('portfolio_hero')"><i class="fa fa-palette"></i> ?ы듃?대━???덉뼱濡??ㅼ젙</div>
+                 <div class="nav-item" onclick="switchView('stats')"><i class="fa fa-chart-bar"></i> ?깃낵 ?섏튂 (Stats)</div>
+                 <div class="nav-item" onclick="switchView('clients')"><i class="fa fa-building"></i> 怨좉컼??愿由?/div>
+                 <div class="nav-item" onclick="switchView('placements')"><i class="fa fa-th-large"></i> 1:1 ?쇱씠釉?諛곗튂</div>
+@@ -458,6 +459,7 @@
+         else if(view === 'journey') renderList(view, '?깃났 ?고쁺', ['period', 'title', 'subtitle', 'description']);
+         else if(view === 'clients') renderList(view, '怨좉컼??, ['logo', 'name']);
+         else if(view === 'contact_settings') renderContactSettings();
++        else if(view === 'portfolio_hero') renderPortfolioHeroSettings();
+         else if(view === 'impact_stories') renderList('impact_stories', '怨좉컼 ?깃났 硫붿떆吏', ['avatar', 'bg_image', 'author', 'result', 'quote']);
+         else if(view === 'consulting') renderList('contacts', '臾몄쓽 ?댁뿭', ['company_name', 'email', 'service', 'message', 'created_at']);
+         else if(view === 'placements') renderPlacements();
+@@ -506,36 +508,36 @@
+             <div class="header-content">
+                 <div class="view-title">
+                     <h1>?덉뼱濡??뱀뀡 ?몄쭛</h1>
+-                    <p>硫붿씤 移댄뵾? ?명꽣?숉떚釉??붿냼瑜?愿由ы빀?덈떎. <span style="color:var(--accent); font-weight:900;">(Brand Blue: #0066ff)</span></p>
++                    <p>硫붿씤 移댄뵾? ?명꽣?숉떚釉??붿냼瑜?愿由ы빀?덈떎. <span style="color:var(--accent); font-weight:900;">(Brand Blue: var(--accent))</span></p>
+                 </div>
+             </div>
+             
+             <div class="table-container" style="padding:3rem;">
+                 <form id="hero-form">
+-                    <div style="background:rgba(0,102,255,0.05); padding:20px; border-radius:15px; margin-bottom:2rem; border:1px solid rgba(0,102,255,0.1);">
++                    <div style="background:rgba(230,57,70,0.05); padding:20px; border-radius:15px; margin-bottom:2rem; border:1px solid rgba(230,57,70,0.1);">
+                          <p style="font-size:0.75rem; color:var(--accent); font-weight:800; margin-bottom:5px;"><i class="fa fa-info-circle"></i> ?붿옄??媛?대뱶</p>
+-                         <p style="font-size:0.7rem; color:var(--text-dim);">?덊럹?댁????듭떖 ?ъ씤??而щ윭??<b>#0066ff</b> ?낅땲?? ?띿뒪??媛뺤“??踰꾪듉 ?④낵???숈씪?섍쾶 ?곸슜?⑸땲??</p>
++                         <p style="font-size:0.7rem; color:var(--text-dim);">?덊럹?댁????듭떖 ?ъ씤??而щ윭??<b>var(--accent)</b> ?낅땲?? ?띿뒪??媛뺤“??踰꾪듉 ?④낵???숈씪?섍쾶 ?곸슜?⑸땲??</p>
+                     </div>
+ 
+                     <div class="form-group">
+-                        <label class="form-label">?곷떒 蹂댁“ ?쇰꺼 <span style="color:var(--accent)">(Small Color: #0066ff)</span></label>
++                        <label class="form-label">?곷떒 蹂댁“ ?쇰꺼 <span style="color:var(--accent)">(Small Color: var(--accent))</span></label>
+                         <input name="subtitle" class="form-input" value="${data.subtitle||''}" placeholder="?? The Premier Creative Agency">
+                     </div>
+ 
+                     <div class="form-row">
+                         <div class="form-group">
+                             <label class="form-label">湲곕낯 硫붿씤 臾멸뎄 <span style="color:#fff">(White: #ffffff)</span></label>
+-                            <textarea name="main_copy" class="form-input" style="min-height:80px;" placeholder="?? ?μ궗?섍린 諛붿걶 ?ъ옣?? 釉뚮옖?⑹? ??ш? ?좉쾶??">${data.main_copy||''}</textarea>
++                            <textarea name="main_copy" class="form-input" style="min-height:80px;" placeholder="?? ?μ궗??諛붿걶??\n肄섑뀗痢좉퉴吏 怨좊??섏떆?섏슂?">${data.main_copy||''}</textarea>
+                         </div>
+                         <div class="form-group">
+-                            <label class="form-label">?몃쾭 ??濡쒓퀬 臾멸뎄 <span style="color:var(--accent)">(Logo Blue: #0066ff)</span></label>
++                            <label class="form-label">?몃쾭 ??濡쒓퀬 臾멸뎄 <span style="color:var(--accent)">(Logo Blue: var(--accent))</span></label>
+                             <input name="hover_logo" class="form-input" value="${data.hover_logo||'THE 3 STUDIO'}" placeholder="?? THE 3 STUDIO">
+                         </div>
+                     </div>
+ 
+                     <div class="form-group">
+                         <label class="form-label">以묎컙 ?붿빟 ?ㅻ챸 (Sub-description) <span style="color:rgba(255,255,255,0.4)">(Dimmed: #ffffff66)</span></label>
+-                        <textarea name="description" class="form-input">${data.description||''}</textarea>
++                        <textarea name="description" class="form-input" placeholder="?? 留ㅼ텧 ?곸듅? 肄섑뀗痢좉? 寃곗젙?⑸땲??..">${data.description||''}</textarea>
+                     </div>
+ 
+                     <div class="form-group">
+@@ -638,7 +640,107 @@
+         `;
+     }
+ 
+-    // ????? 4. ?ы듃?대━??(FILTERED VIEW) ?????
++    // ????? 4-1. ?ы듃?대━???덉뼱濡??쒕꽕留덊떛 ?ㅼ젙 (NEW) ?????
++    async function renderPortfolioHeroSettings() {
++        appView.innerHTML = '<div style="text-align:center; padding:10rem;"><i class="fa fa-spinner fa-spin"></i></div>';
++        const cats = [
++            { id: 'all', label: '?꾩껜 (Default)' },
++            { id: 'calligraphy', label: '1> 罹섎━洹몃씪???곹샇?붿옄?? },
++            { id: 'video', label: '2> ?덈릺???곸긽留뚮뱾湲? },
++            { id: 'storyboard', label: '3> ?곕━留ㅼ옣 ?ㅽ넗由щ낫?? },
++            { id: 'photo', label: '4> ??媛寃??ъ쭊珥ъ쁺' },
++            { id: 'character', label: '5> 媛寃?罹먮┃?곕쭔?ㅺ린' }
++        ];
++
++        try {
++            const snap = await getDoc(doc(db, 'settings', 'portfolio_hero'));
++            const fullData = snap.exists() ? snap.data().themes || {} : {};
++
++            appView.innerHTML = `
++                <div class="header-content"><h1>?ы듃?대━???덉뼱濡??ㅼ젙</h1><p>移댄뀒怨좊━蹂??쒕꽕留덊떛 諛곌꼍怨??꾩슜 臾멸뎄瑜?愿由ы빀?덈떎.</p></div>
++                <div style="display:grid; grid-template-columns: 320px 1fr; gap:30px;">
++                    <div class="table-container" style="padding:1rem; height:fit-content;">
++                        ${cats.map(c => `
++                            <div class="nav-item ${c.id==='all'?'active':''}" onclick="selectHeroTab('${c.id}', this)" style="margin-bottom:5px;">
++                                ${c.label}
++                            </div>
++                        `).join('')}
++                    </div>
++                    <div id="hero-setup-pane" class="table-container" style="padding:3rem;">
++                        <!-- Tab Content Loaded via selectHeroTab -->
++                    </div>
++                </div>
++            `;
++            
++            window.selectHeroTab = (catId, btn) => {
++                const pane = document.getElementById('hero-setup-pane');
++                
++                // ?쒓? 異붿쿇?쒕┛ 媛??硫뗭쭊 湲곕낯 臾몄븞??(?꾨━??
++                const defaultThemes = {
++                    all: { label: 'Selected Works', title: '?뺣룄???깃낵濡?利앸챸?섎뒗<br><span style="background:linear-gradient(to right, #fff, #0066ff); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">?ы듃?대━??/span>', desc: '媛??꾨줈?앺듃???⑥닚???묒뾽臾쇱쓣 ?섏뼱, 釉뚮옖?쒖쓽 ?깆옣??寃ъ씤?섎뒗 媛뺣젰???꾧뎄?낅땲??', img: 'https://images.unsplash.com/photo-1544256718-3bcf237f3974?q=80&w=2071' },
++                    calligraphy: { label: '01 / Branding Face', title: '?몄긽?????섎굹肉먯씤<br>釉뚮옖?쒖쓽 ?쇨뎬', desc: '?μ씤???꾩튂濡?釉뚮옖?쒖쓽 ?곹샎???댁븘 ?낅낫?곸씤 泥レ씤?곸쓣 ?ㅺ퀎?⑸땲??', img: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=2070' },
++                    video: { label: '02 / Performance Reel', title: '留ㅼ텧濡?利됱떆 吏곴껐?섎뒗<br>?곸긽 留덉???, desc: '??1珥?留뚯뿉 怨좉컼???뺣쭩??嫄대뱶由щ뒗 ??컻?곸씤 ?쒓컖???뚭눼?μ쓣 寃쏀뿕?섏꽭??', img: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2071' },
++                    storyboard: { label: '03 / Strategic Story', title: '?깃났???꾪빐 移섎??섍쾶<br>?ㅺ퀎??湲고쉷', desc: '?⑥닚??洹몃┝???꾨땶, 鍮꾩쫰?덉뒪 ?깆옣???꾪븳 媛???꾨꼍???쒕굹由ъ삤瑜??묒꽦?⑸땲??', img: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2070' },
++                    photo: { label: '04 / Visual Essence', title: '媛???붾젮?섍쾶 湲곕줉?섎뒗<br>釉뚮옖?쒖쓽 ?쒓컙', desc: '援щ룄? 梨꾧킅, 李곕굹???쒓컙???듯빐 ?쒗뭹怨??쒕퉬?ㅼ쓽 媛移섎? ?곸썝?쇰줈 湲곕줉?⑸땲??', img: 'https://images.unsplash.com/photo-1452587925148-ce544e77e70d?q=80&w=2074' },
++                    character: { label: '05 / Brand Persona', title: '臾댄븳???뺤옣??媛?ν븳<br>釉뚮옖???섎Ⅴ?뚮굹', desc: '怨좉컼怨?移쒓뎄媛 ?섎뒗 罹먮┃?곕? ?듯빐 ?낆옄?곸씤 ?멸퀎愿怨?媛뺣젰???щ뜡??援ъ텞?⑸땲??', img: 'https://images.unsplash.com/photo-1560415741-604ce35144b6?q=80&w=2070' }
++                };
++
++                const data = fullData[catId] || defaultThemes[catId] || defaultThemes.all;
++                
++                // UI Toggle
++                const siblings = btn.parentElement.querySelectorAll('.nav-item');
++                siblings.forEach(s => s.classList.remove('active'));
++                btn.classList.add('active');
++
++                pane.innerHTML = `
++                    <h2 style="font-family:'Outfit'; font-weight:900; margin-bottom:2rem; color:var(--accent);">${cats.find(c=>c.id===catId).label} ?뚮쭏 ?곸꽭 ?ㅼ젙</h2>
++                    <form id="p-hero-form">
++                        <input type="hidden" name="catId" value="${catId}">
++                        <div class="form-group">
++                            <label class="form-label">?곷떒 ?쇰꺼 (e.g. 01 / Branding Face)</label>
++                            <input name="label" class="form-input" value="${data.label||''}">
++                        </div>
++                        <div class="form-group">
++                            <label class="form-label">?????댄? (HTML 媛??</label>
++                            <textarea name="title" class="form-input" style="min-height:100px;">${data.title||''}</textarea>
++                        </div>
++                        <div class="form-group">
++                            <label class="form-label">?ㅻ챸 臾멸뎄 (Description)</label>
++                            <textarea name="desc" class="form-input">${data.desc||''}</textarea>
++                        </div>
++                        <div class="form-group">
++                            <label class="form-label">?쒕꽕留덊떛 諛곌꼍 ?대?吏 (?먮뒗 ?곸긽)</label>
++                            ${renderUploadUI('bg_img', 'themes', data.img)}
++                        </div>
++                        <button type="submit" class="btn" style="width:100%; margin-top:2rem;"><i class="fa fa-save"></i> ${catId} ?뚮쭏 ?ㅼ젙 ???/button>
++                    </form>
++                `;
++
++                document.getElementById('p-hero-form').onsubmit = async (e) => {
++                    e.preventDefault();
++                    const fd = new FormData(e.target);
++                    const edited = Object.fromEntries(fd.entries());
++                    const finalImg = document.getElementById('path-bg_img').value;
++                    
++                    fullData[catId] = { 
++                        label: edited.label, 
++                        title: edited.title, 
++                        desc: edited.desc, 
++                        img: finalImg 
++                    };
++
++                    await setDoc(doc(db, 'settings', 'portfolio_hero'), { themes: fullData });
++                    alert(`${catId} ?뚮쭏???쒕꽕留덊떛 ?ㅼ젙????λ릺?덉뒿?덈떎! ?렗??);
++                };
++            };
++
++            // First Tab Active
++            window.selectHeroTab('all', appView.querySelector('.nav-item.active'));
++
++        } catch (err) { alert(err.message); }
++    }
++
++    // ????? 4-2. ?ы듃?대━??(FILTERED VIEW) ?????
+     window.renderPortfolio = async (filter = 'all') => {
+         currentPortfolioFilter = filter;
+         appView.innerHTML = '<div style="text-align:center; padding:10rem;"><i class="fa fa-spinner fa-spin"></i></div>';
+@@ -652,10 +754,11 @@
+ 
+             const cats = [
+                 { id: 'all', label: '?꾩껜蹂닿린' },
+-                { id: 'branding', label: 'Branding Design' },
+-                { id: 'consulting', label: 'Business Consulting' },
+-                { id: 'video', label: 'Video Production' },
+-                { id: 'integrated', label: 'Integrated Solution' }
++                { id: 'calligraphy', label: '1> 罹섎━洹몃씪???곹샇?붿옄?? },
++                { id: 'video', label: '2> ?덈릺???곸긽留뚮뱾湲? },
++                { id: 'storyboard', label: '3> ?곕━留ㅼ옣 ?ㅽ넗由щ낫?? },
++                { id: 'photo', label: '4> ??媛寃??ъ쭊珥ъ쁺' },
++                { id: 'character', label: '5> 媛寃?罹먮┃?곕쭔?ㅺ린' }
+             ];
+ 
+             appView.innerHTML = `
+@@ -821,12 +924,13 @@
+                 </div>
+                 <div class="form-row">
+                     <div class="form-group">
+-                        <label class="form-label">移댄뀒怨좊━</label>
+-                        <select name="category" class="form-input">
+-                            <option value="branding" ${data?.category==='branding'?'selected':''}>Branding Design</option>
+-                            <option value="consulting" ${data?.category==='consulting'?'selected':''}>Business Consulting</option>
+-                            <option value="video" ${data?.category==='video'?'selected':''}>Video Production</option>
+-                            <option value="integrated" ${data?.category==='integrated'?'selected':''}>Integrated Solution</option>
++                        <label class="form-label">移댄뀒怨좊━ (?꾨Ц 遺꾩빞)</label>
++                        <select name="category" class="form-input" required>
++                            <option value="calligraphy" ${data?.category==='calligraphy'?'selected':''}>1> 罹섎━洹몃씪???곹샇?붿옄??/option>
++                            <option value="video" ${data?.category==='video'?'selected':''}>2> ?덈릺???곸긽留뚮뱾湲?/option>
++                            <option value="storyboard" ${data?.category==='storyboard'?'selected':''}>3> ?곕━留ㅼ옣 ?ㅽ넗由щ낫??/option>
++                            <option value="photo" ${data?.category==='photo'?'selected':''}>4> ??媛寃??ъ쭊珥ъ쁺</option>
++                            <option value="character" ${data?.category==='character'?'selected':''}>5> 媛寃?罹먮┃?곕쭔?ㅺ린</option>
+                         </select>
+                     </div>
+                     <div class="form-group">
+@@ -1000,13 +1104,13 @@
+                 </div>
+             </div>
+             <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:60vh; text-align:center; background:#0a0a0a; border-radius:30px; border:1px solid #1a1a1a; margin-top:2rem; padding: 4rem 2rem;">
+-                <div style="font-size:5rem; color:#0066ff; margin-bottom:2rem;"><i class="fa-solid fa-layer-group"></i></div>
++                <div style="font-size:5rem; color:var(--accent); margin-bottom:2rem;"><i class="fa-solid fa-layer-group"></i></div>
+                 <h2 style="font-family:'Outfit'; font-size:2.5rem; font-weight:900; color:#fff; margin-bottom:1rem;">?먮뵒???묒냽 紐⑤뱶 ?좏깮</h2>
+                 <p style="color:rgba(255,255,255,0.4); max-width:600px; margin-bottom:3.5rem; line-height:1.7;">?몄쭛?섍퀬 ?띠? ?섍꼍??留욎떠 ?먮뵒?곕? ?댁뼱二쇱꽭??<br>媛???뺥솗??諛곗튂瑜??꾪빐 <b>[諛섏쓳??紐⑤컮??</b> 紐⑤뱶 ?ъ슜 ??<b>F12</b> ??議곗옉??沅뚯옣?⑸땲??</p>
+                 
+                 <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:1.5rem; width:100%; max-width:1000px;">
+                     <!-- 1. LIVE PC -->
+-                    <a href="/index.html#admin" target="_blank" class="btn" style="background:linear-gradient(135deg, #0066ff 0%, #0044aa 100%); padding:25px; border-radius:15px; text-decoration:none; display:flex; flex-direction:column; align-items:center;">
++                    <a href="/index.html#admin" target="_blank" class="btn" style="background:linear-gradient(135deg, var(--accent) 0%, #0044aa 100%); padding:25px; border-radius:15px; text-decoration:none; display:flex; flex-direction:column; align-items:center;">
+                         <i class="fa-solid fa-desktop" style="font-size:2rem; margin-bottom:15px;"></i>
+                         <span style="font-size:1.1rem; font-weight:900; margin-bottom:5px;">?쇱씠釉?PC ?먮뵒??/span>
+                         <span style="font-size:0.75rem; opacity:0.6;">?곗뒪?ы깙??諛곗튂瑜??섏젙?⑸땲??/span>
