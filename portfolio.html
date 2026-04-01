@@ -4,126 +4,173 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE3 Studio | Portfolio — 선정 작업물</title>
-    <meta name="description" content="THE3 Studio의 포트폴리오 - 비즈니스 컨설팅, 브랜딩 디자인, 영상 제작 분야의 최고 결과물">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css?v=20260309_1">
-    <!-- FontAwesome -->
+    <title>PORTFOLIO | THE 3 STUDIO — 압도적 성과</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --p: #0066ff; --bg: #000; --card-bg: #0d0d0d; }
+        * { margin:0; padding:0; box-sizing:border-box; -webkit-font-smoothing:antialiased; }
+        body { background: var(--bg); color: #fff; font-family: 'Pretendard', sans-serif; overflow-x: hidden; }
+
+        /* Navigation Header */
+        nav { position: fixed; top:0; width:100%; z-index:2000; padding:1.5rem 3rem; display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.85); backdrop-filter:blur(20px); border-bottom:1px solid rgba(255,255,255,0.05); }
+        .nav-logo { font-size:1.4rem; font-weight:900; color:#fff; text-decoration:none; text-transform:uppercase; letter-spacing:-0.05em; }
+        .nav-logo span { color: var(--p); }
+        .nav-menu { display:flex; gap:2rem; list-style:none; }
+        .nav-menu a { color:rgba(255,255,255,0.7); text-decoration:none; font-size:0.85rem; font-weight:700; }
+        .nav-cta { background:var(--p); color:#fff; padding:0.7rem 1.8rem; border-radius:99px; text-decoration:none; font-weight:800; font-size:0.85rem; box-shadow:0 10px 20px rgba(0,102,255,0.2); }
+
+        /* Hero Wrapper (Identical to Screenshot) */
+        .pf-header { padding: 12rem 2rem 5rem; text-align: center; }
+        .pf-label { color: var(--p); font-size: 0.85rem; font-weight: 900; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 2rem; display: block; }
+        .h-main { font-size: clamp(2.5rem, 6vw, 4.8rem); font-weight: 900; line-height: 1.1; letter-spacing: -0.04em; margin-bottom: 1.5rem; }
+        .h-sub { color: rgba(255,255,255,0.4); font-size: 1.1rem; line-height: 1.8; max-width: 800px; margin: 0 auto; word-break: keep-all; letter-spacing: 0.05em; font-weight: 500; }
+
+        /* Filter Tabs (Identical to Screenshot) */
+        .filter-section { padding: 3rem 0; }
+        .tabs-container { display: flex; justify-content: center; gap: 0.8rem; flex-wrap: wrap; max-width: 1300px; margin: 0 auto; padding: 0 1rem; }
+        .tab-btn { padding: 1.2rem 2.8rem; border-radius: 99px; border: 1px solid rgba(255,255,255,0.1); background: #0a0a0a; color: rgba(255,255,255,0.5); font-weight: 800; font-size: 1rem; cursor: pointer; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .tab-btn:hover { border-color: rgba(255,255,255,0.2); color: #fff; }
+        .tab-btn.active { background: linear-gradient(135deg, #74b3ff 0%, #0066ff 100%); color: #fff; border-color: transparent; box-shadow: 0 15px 40px rgba(0,102,255,0.4); }
+
+        /* Sort Options */
+        .sort-wrap { display: flex; justify-content: center; gap: 1rem; margin-top: 2rem; }
+        .sort-btn { background: transparent; border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.5); padding: 0.7rem 1.6rem; border-radius: 99px; font-size: 0.85rem; font-weight: 800; cursor: pointer; transition: 0.3s; }
+        .sort-btn.active { border-color: var(--p); color: var(--p); background: rgba(0,102,255,0.08); }
+
+        /* Archive Grid (Identical to Screenshot) */
+        .grid-section { max-width: 1400px; margin: 0 auto; padding: 6rem 2rem 12rem; }
+        .pf-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 3rem; }
+        
+        .card { background: var(--card-bg); border-radius: 2.5rem; overflow: hidden; border: 1px solid rgba(255,255,255,0.06); transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); cursor: pointer; height: 100%; display: flex; flex-direction: column; }
+        .card:hover { transform: translateY(-16px); border-color: var(--p); box-shadow: 0 50px 100px rgba(0,0,0,0.8); }
+        
+        .thumb { position: relative; width: 100%; aspect-ratio: 16/10; overflow: hidden; background: #000; }
+        .thumb img, .thumb video { width: 100%; height: 100%; object-fit: cover; transition: 1s cubic-bezier(0.16, 1, 0.3, 1); }
+        .card:hover .thumb img { transform: scale(1.1); }
+        
+        .play-overlay { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.25); opacity:0; transition:0.4s; }
+        .card:hover .play-overlay { opacity:1; }
+        .play-ico { width: 64px; height: 64px; background: #fff; color:#000; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.2rem; box-shadow:0 15px 40px rgba(0,0,0,0.5); transform:scale(0.85); transition:0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .card:hover .play-ico { transform:scale(1); }
+
+        .info { padding: 3.5rem; flex-grow: 1; display:flex; flex-direction:column; justify-content:center; }
+        .tag { font-size: 0.75rem; color: var(--p); font-weight: 900; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1.2rem; display: block; }
+        .title { font-size: 1.6rem; font-weight: 900; line-height: 1.35; color: #fff; margin-bottom: 1rem; word-break: keep-all; }
+        .year { font-size: 0.95rem; color: rgba(255,255,255,0.2); font-weight: 700; }
+
+        @media (max-width: 768px) {
+            nav { padding: 1.2rem 1.5rem; }
+            .pf-header { padding: 8rem 1.5rem 2rem; }
+            .grid-section { padding: 3rem 1.5rem; }
+            .pf-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .tabs-container { justify-content: flex-start; overflow-x: auto; padding-bottom: 1rem; }
+        }
+    </style>
 </head>
 
 <body>
-    <!-- Navbar -->
-    <nav class="navbar sub-navbar">
-        <div class="container nav-content">
-            <a href="index.html" class="logo text-logo-wrapper" style="display: flex; align-items: center;">
-                <span class="text-logo-metallic nav-size">THE <span class="num">3</span> STUDIO</span>
-            </a>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="services.html">Services</a></li>
-                <li><a href="portfolio.html" class="active">Portfolio</a></li>
-                <li><a href="process.html">Process</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-        </div>
+    <nav>
+        <a href="index.html" class="nav-logo">THE <span>3</span> STUDIO</a>
+        <ul class="nav-menu">
+            <li><a href="index.html">홈</a></li>
+            <li><a href="portfolio.html" style="color:#fff;">포트폴리오</a></li>
+            <li><a href="index.html#team">전문가 서비스</a></li>
+            <li><a href="index.html#journey">스토리</a></li>
+        </ul>
+        <a href="index.html#contact" class="nav-cta">문의하기</a>
     </nav>
 
-    <!-- Hero Banner -->
-    <header class="hero services-hero">
-        <div class="orb-container">
-            <div class="orb-wrapper orb-wrapper-1">
-                <div class="orb orb-1"></div>
-            </div>
-            <div class="orb-wrapper orb-wrapper-2">
-                <div class="orb orb-2"></div>
-            </div>
-            <div class="orb-wrapper orb-wrapper-3">
-                <div class="orb orb-3"></div>
-            </div>
-        </div>
-        <div class="hero-content fade-up">
-            <h1 class="hero-title text-logo-wrapper" style="margin-bottom: 24px;">
-                <span class="text-logo-metallic hero-size">THE <span class="num">3</span> STUDIO</span>
-            </h1>
-            <p class="hero-subtitle">Portfolio</p>
-            <p class="hero-desc">각 분야 최고 전문가들이 완성한<br>최고의 결과물</p>
-        </div>
+    <header class="pf-header">
+        <span class="pf-label">SELECTED WORKS</span>
+        <h1 class="h-main">압도적 성과로 증명하는<br><span style="background:linear-gradient(to right, #fff 0%, #0066ff 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">포트폴리오</span></h1>
+        <p class="h-sub">각 프로젝트는 단순한 작업물을 넘어, 브랜드의 성장을 견인하는 강력한 도구입니다.</p>
     </header>
 
-    <!-- Main Portfolio Carousel -->
-    <section id="main-portfolio" class="portfolio section">
-        <div class="container">
-            <div class="section-header fade-up">
-                <h2>SELECTED WORKS</h2>
-                <p>각 분야 최고 전문가들이 완성한 최고의 결과물</p>
-            </div>
-
-            <div class="portfolio-slider fade-up">
-                <div class="portfolio-track">
-                    <!-- Slide 1 -->
-                    <div class="portfolio-slide">
-                        <img src="assets/images/portfolio/portfolio1.jpg" alt="Portfolio 1">
-                        <div class="slide-info">
-                            <h4>Global Brand Identity</h4>
-                            <p>Branding Design</p>
-                        </div>
-                    </div>
-                    <!-- Slide 2 -->
-                    <div class="portfolio-slide">
-                        <img src="assets/images/portfolio/portfolio2.jpg" alt="Portfolio 2">
-                        <div class="slide-info">
-                            <h4>Tech Startup Growth</h4>
-                            <p>Business Consulting</p>
-                        </div>
-                    </div>
-                    <!-- Slide 3 -->
-                    <div class="portfolio-slide">
-                        <img src="assets/images/portfolio/portfolio3.jpg" alt="Portfolio 3">
-                        <div class="slide-info">
-                            <h4>Luxury Automotive CF</h4>
-                            <p>Video Production</p>
-                        </div>
-                    </div>
-                </div>
-
-                <button class="slider-btn prev-btn"><i class="fa-solid fa-chevron-left"></i></button>
-                <button class="slider-btn next-btn"><i class="fa-solid fa-chevron-right"></i></button>
-                <div class="slider-dots"></div>
-            </div>
+    <div class="filter-section">
+        <div class="tabs-container">
+            <button class="tab-btn active" data-cat="all">All</button>
+            <button class="tab-btn" data-cat="calligraphy">캘리그라피 상호디자인</button>
+            <button class="tab-btn" data-cat="video">내가게 돈되는 영상만들기</button>
+            <button class="tab-btn" data-cat="storyboard">우리매장 스토리보드</button>
+            <button class="tab-btn" data-cat="photo">내가게의 사진촬영</button>
+            <button class="tab-btn" data-cat="character">내가게의 캐릭터만들기</button>
         </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <a href="index.html" class="logo text-logo-wrapper"
-                        style="display: inline-block; margin-bottom: 8px;">
-                        <span class="text-logo-metallic footer-size">THE <span class="num">3</span> STUDIO</span>
-                    </a>
-                    <p style="margin-top: 16px;">Business Consulting · Branding Design · Video Production</p>
-                </div>
-                <div class="footer-links-wrap">
-                    <h4 style="color: white; margin-bottom: 16px;">Quick Links</h4>
-                    <div class="footer-links">
-                        <a href="index.html">Home</a>
-                        <a href="services.html">Services</a>
-                        <a href="portfolio.html">Portfolio</a>
-                        <a href="process.html">Process</a>
-                        <a href="contact.html">Contact</a>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                &copy; 2026 THE3 studio. All rights reserved.
-            </div>
+        <div class="sort-wrap">
+            <button class="sort-btn active">최신순</button>
+            <button class="sort-btn">연도별</button>
         </div>
+    </div>
+
+    <main class="grid-section">
+        <div class="pf-grid" id="pf-grid">
+            <!-- Dynamic Injection -->
+             <div style="grid-column: 1/-1; text-align: center; padding: 10rem; opacity: 0.1;"><i class="fa fa-spinner fa-spin fa-4x"></i></div>
+        </div>
+    </main>
+
+    <footer style="padding:10rem 2rem 5rem; text-align:center; border-top:1px solid rgba(255,255,255,0.05);">
+        <p style="font-size:0.7rem; color:rgba(255,255,255,0.15); letter-spacing:0.2em; text-transform:uppercase; font-weight:800;">© 2026 THE 3 STUDIO. ALL RIGHTS RESERVED.</p>
     </footer>
 
-    <!-- Scripts -->
-    <script src="js/main.js?v=20260305_7"></script>
-</body>
+    <script type="module">
+        import { db, collection, getDocs, query, orderBy } from './js/firebase-init.js';
 
+        const grid = document.getElementById('pf-grid');
+        const tabBtns = document.querySelectorAll('.tab-btn');
+
+        async function loadWorks(filter = 'all') {
+            try {
+                grid.style.opacity = '0.3';
+                const q = query(collection(db, "portfolio"), orderBy("sort_order", "asc"));
+                const snap = await getDocs(q);
+                
+                grid.innerHTML = '';
+                let count = 0;
+
+                snap.forEach((doc) => {
+                    const it = doc.data();
+                    if (filter !== 'all' && it.category !== filter) return;
+                    count++;
+
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    const isVid = (url) => (url && /\.(mp4|webm|mov|avi)$/i.test(url.split('?')[0].split('#')[0]));
+                    const mediaHtml = isVid(it.thumbnail)
+                        ? `<video src="${it.thumbnail}" muted loop autoplay playsinline></video>`
+                        : `<img src="${it.thumbnail || 'https://via.placeholder.com/800x500'}" alt="${it.title}">`;
+
+                    card.innerHTML = `
+                        <div class="thumb">
+                            ${mediaHtml}
+                            <div class="play-overlay">
+                                <div class="play-ico"><i class="fa fa-play"></i></div>
+                            </div>
+                        </div>
+                        <div class="info">
+                            <span class="tag">${it.categoryName || it.category}</span>
+                            <h3 class="title">${it.title}</h3>
+                            <p class="year">${it.year || '2026'}</p>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+                
+                if (count === 0) grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 10rem; opacity: 0.2;">"${filter}" 카테고리에 데이터가 없습니다.</div>`;
+                grid.style.opacity = '1';
+
+            } catch (err) { console.error(err); }
+        }
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                loadWorks(btn.dataset.cat);
+            });
+        });
+
+        loadWorks();
+    </script>
+</body>
 </html>

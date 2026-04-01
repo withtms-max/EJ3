@@ -28,8 +28,8 @@
         .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.05); color: #fff; }
         .nav-item.active { background: var(--accent); box-shadow: 0 10px 20px rgba(230,57,70, 0.2); }
 
-        /* Content Area */
-        .main-content { flex: 1; display: flex; flex-direction: column; overflow-y: auto; background: #050505; }
+/* Content Area */
+.main-content { flex: 1; display: flex; flex-direction: column; overflow-y: auto; background: #f8f9fa; }
         .top-bar { height: 70px; display: flex; align-items: center; justify-content: flex-end; padding: 0 2rem; border-bottom: 1px solid var(--border); }
         .app-view { padding: 2.5rem; max-width: 1400px; margin: 0 auto; width: 100%; }
 
@@ -51,13 +51,13 @@
 
         /* Forms & Modals */
         .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(15px); display: none; align-items: center; justify-content: center; z-index: 10000; }
-        .modal-box { background: #0a0a0a; border: 1px solid var(--border); border-radius: 30px; width: 100%; max-width: 750px; padding: 3rem; max-height: 90vh; overflow-y: auto; }
-        .form-group { margin-bottom: 1.5rem; }
-        .form-label { display: block; color: var(--text-dim); font-size: 0.65rem; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; }
-        .form-input { width: 100%; background: #111; border: 1px solid var(--border); border-radius: 12px; padding: 14px; color: #fff; font-size: 0.9rem; }
-        .form-input:focus { border-color: var(--accent); outline: none; }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-        textarea.form-input { min-height: 80px; }
+        .modal-box { background: #ffffff; border: 1px solid var(--border); border-radius: 30px; width: 100%; max-width: 750px; padding: 3rem; max-height: 90vh; overflow-y: auto; box-shadow: 0 30px 60px rgba(0,0,0,0.1); }
+.form-group { margin-bottom: 1.5rem; }
+.form-label { display: block; color: var(--text-dim); font-size: 0.65rem; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; }
+.form-input { width: 100%; background: #f8f9fa; border: 1px solid var(--border); border-radius: 12px; padding: 14px; color: #111; font-size: 0.9rem; }
+.form-input:focus { border-color: var(--accent); outline: none; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+textarea.form-input { min-height: 80px; }
 
         /* Toggle Switch */
         .switch-wrap { display: flex; align-items: center; gap: 10px; cursor: pointer; }
@@ -68,9 +68,9 @@
 
         /* Stats Cards */
         .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-        .stat-card { background: var(--bg-card); padding: 25px; border-radius: 20px; border: 1px solid var(--border); }
-        .stat-card label { display: block; font-size: 0.65rem; font-weight: 900; color: var(--text-dim); margin-bottom: 10px; }
-        .stat-card input { width: 100%; background: transparent; border: none; font-size: 2rem; font-weight: 900; color: #fff; margin-top: 5px; }
+.stat-card { background: var(--bg-card); padding: 25px; border-radius: 20px; border: 1px solid var(--border); box-shadow: var(--glow); }
+.stat-card label { display: block; font-size: 0.65rem; font-weight: 900; color: var(--text-dim); margin-bottom: 10px; }
+.stat-card input { width: 100%; background: transparent; border: none; font-size: 2rem; font-weight: 900; color: #111; margin-top: 5px; }
         /* Upload & Preview System */
         .upload-row { display: flex; gap: 20px; align-items: start; margin-bottom: 20px; }
         .upload-box { 
@@ -138,6 +138,7 @@
             </div>
             <div class="extra-menu" id="extra-menu">
                 <div class="nav-item" onclick="switchView('hero_slides')"><i class="fa fa-images"></i> 히어로 캐러셀</div>
+                <div class="nav-item" onclick="switchView('portfolio_hero')"><i class="fa fa-palette"></i> 포트폴리오 히어로 설정</div>
                 <div class="nav-item" onclick="switchView('stats')"><i class="fa fa-chart-bar"></i> 성과 수치 (Stats)</div>
                 <div class="nav-item" onclick="switchView('clients')"><i class="fa fa-building"></i> 고객사 관리</div>
                 <div class="nav-item" onclick="switchView('placements')"><i class="fa fa-th-large"></i> 1:1 라이브 배치</div>
@@ -458,6 +459,7 @@
         else if(view === 'journey') renderList(view, '성공 연혁', ['period', 'title', 'subtitle', 'description']);
         else if(view === 'clients') renderList(view, '고객사', ['logo', 'name']);
         else if(view === 'contact_settings') renderContactSettings();
+        else if(view === 'portfolio_hero') renderPortfolioHeroSettings();
         else if(view === 'impact_stories') renderList('impact_stories', '고객 성공 메시지', ['avatar', 'bg_image', 'author', 'result', 'quote']);
         else if(view === 'consulting') renderList('contacts', '문의 내역', ['company_name', 'email', 'service', 'message', 'created_at']);
         else if(view === 'placements') renderPlacements();
@@ -638,7 +640,107 @@
         `;
     }
 
-    // ───── 4. 포트폴리오 (FILTERED VIEW) ─────
+    // ───── 4-1. 포트폴리오 히어로 시네마틱 설정 (NEW) ─────
+    async function renderPortfolioHeroSettings() {
+        appView.innerHTML = '<div style="text-align:center; padding:10rem;"><i class="fa fa-spinner fa-spin"></i></div>';
+        const cats = [
+            { id: 'all', label: '전체 (Default)' },
+            { id: 'calligraphy', label: '1> 캘리그라피 상호디자인' },
+            { id: 'video', label: '2> 돈되는 영상만들기' },
+            { id: 'storyboard', label: '3> 우리매장 스토리보드' },
+            { id: 'photo', label: '4> 내 가게 사진촬영' },
+            { id: 'character', label: '5> 가게 캐릭터만들기' }
+        ];
+
+        try {
+            const snap = await getDoc(doc(db, 'settings', 'portfolio_hero'));
+            const fullData = snap.exists() ? snap.data().themes || {} : {};
+
+            appView.innerHTML = `
+                <div class="header-content"><h1>포트폴리오 히어로 설정</h1><p>카테고리별 시네마틱 배경과 전용 문구를 관리합니다.</p></div>
+                <div style="display:grid; grid-template-columns: 320px 1fr; gap:30px;">
+                    <div class="table-container" style="padding:1rem; height:fit-content;">
+                        ${cats.map(c => `
+                            <div class="nav-item ${c.id==='all'?'active':''}" onclick="selectHeroTab('${c.id}', this)" style="margin-bottom:5px;">
+                                ${c.label}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div id="hero-setup-pane" class="table-container" style="padding:3rem;">
+                        <!-- Tab Content Loaded via selectHeroTab -->
+                    </div>
+                </div>
+            `;
+            
+            window.selectHeroTab = (catId, btn) => {
+                const pane = document.getElementById('hero-setup-pane');
+                
+                // 제가 추천드린 가장 멋진 기본 문안들 (프리셋)
+                const defaultThemes = {
+                    all: { label: 'Selected Works', title: '압도적 성과로 증명하는<br><span style="background:linear-gradient(to right, #fff, #0066ff); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">포트폴리오</span>', desc: '각 프로젝트는 단순한 작업물을 넘어, 브랜드의 성장을 견인하는 강력한 도구입니다.', img: 'https://images.unsplash.com/photo-1544256718-3bcf237f3974?q=80&w=2071' },
+                    calligraphy: { label: '01 / Branding Face', title: '세상에 단 하나뿐인<br>브랜드의 얼굴', desc: '장인의 필치로 브랜드의 영혼을 담아 독보적인 첫인상을 설계합니다.', img: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=2070' },
+                    video: { label: '02 / Performance Reel', title: '매출로 즉시 직결되는<br>영상 마케팅', desc: '단 1초 만에 고객의 욕망을 건드리는 폭발적인 시각적 파괴력을 경험하세요.', img: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2071' },
+                    storyboard: { label: '03 / Strategic Story', title: '성공을 위해 치밀하게<br>설계된 기획', desc: '단순한 그림이 아닌, 비즈니스 성장을 위한 가장 완벽한 시나리오를 작성합니다.', img: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2070' },
+                    photo: { label: '04 / Visual Essence', title: '가장 화려하게 기록되는<br>브랜드의 순간', desc: '구도와 채광, 찰나의 순간을 통해 제품과 서비스의 가치를 영원으로 기록합니다.', img: 'https://images.unsplash.com/photo-1452587925148-ce544e77e70d?q=80&w=2074' },
+                    character: { label: '05 / Brand Persona', title: '무한한 확장이 가능한<br>브랜드 페르소나', desc: '고객과 친구가 되는 캐릭터를 통해 독자적인 세계관과 강력한 팬덤을 구축합니다.', img: 'https://images.unsplash.com/photo-1560415741-604ce35144b6?q=80&w=2070' }
+                };
+
+                const data = fullData[catId] || defaultThemes[catId] || defaultThemes.all;
+                
+                // UI Toggle
+                const siblings = btn.parentElement.querySelectorAll('.nav-item');
+                siblings.forEach(s => s.classList.remove('active'));
+                btn.classList.add('active');
+
+                pane.innerHTML = `
+                    <h2 style="font-family:'Outfit'; font-weight:900; margin-bottom:2rem; color:var(--accent);">${cats.find(c=>c.id===catId).label} 테마 상세 설정</h2>
+                    <form id="p-hero-form">
+                        <input type="hidden" name="catId" value="${catId}">
+                        <div class="form-group">
+                            <label class="form-label">상단 라벨 (e.g. 01 / Branding Face)</label>
+                            <input name="label" class="form-input" value="${data.label||''}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">대형 타이틀 (HTML 가능)</label>
+                            <textarea name="title" class="form-input" style="min-height:100px;">${data.title||''}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">설명 문구 (Description)</label>
+                            <textarea name="desc" class="form-input">${data.desc||''}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">시네마틱 배경 이미지 (또는 영상)</label>
+                            ${renderUploadUI('bg_img', 'themes', data.img)}
+                        </div>
+                        <button type="submit" class="btn" style="width:100%; margin-top:2rem;"><i class="fa fa-save"></i> ${catId} 테마 설정 저장</button>
+                    </form>
+                `;
+
+                document.getElementById('p-hero-form').onsubmit = async (e) => {
+                    e.preventDefault();
+                    const fd = new FormData(e.target);
+                    const edited = Object.fromEntries(fd.entries());
+                    const finalImg = document.getElementById('path-bg_img').value;
+                    
+                    fullData[catId] = { 
+                        label: edited.label, 
+                        title: edited.title, 
+                        desc: edited.desc, 
+                        img: finalImg 
+                    };
+
+                    await setDoc(doc(db, 'settings', 'portfolio_hero'), { themes: fullData });
+                    alert(`${catId} 테마의 시네마틱 설정이 저장되었습니다! 🎬✨`);
+                };
+            };
+
+            // First Tab Active
+            window.selectHeroTab('all', appView.querySelector('.nav-item.active'));
+
+        } catch (err) { alert(err.message); }
+    }
+
+    // ───── 4-2. 포트폴리오 (FILTERED VIEW) ─────
     window.renderPortfolio = async (filter = 'all') => {
         currentPortfolioFilter = filter;
         appView.innerHTML = '<div style="text-align:center; padding:10rem;"><i class="fa fa-spinner fa-spin"></i></div>';
@@ -652,10 +754,11 @@
 
             const cats = [
                 { id: 'all', label: '전체보기' },
-                { id: 'branding', label: 'Branding Design' },
-                { id: 'consulting', label: 'Business Consulting' },
-                { id: 'video', label: 'Video Production' },
-                { id: 'integrated', label: 'Integrated Solution' }
+                { id: 'calligraphy', label: '1> 캘리그라피 상호디자인' },
+                { id: 'video', label: '2> 돈되는 영상만들기' },
+                { id: 'storyboard', label: '3> 우리매장 스토리보드' },
+                { id: 'photo', label: '4> 내 가게 사진촬영' },
+                { id: 'character', label: '5> 가게 캐릭터만들기' }
             ];
 
             appView.innerHTML = `
@@ -821,12 +924,13 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label class="form-label">카테고리</label>
-                        <select name="category" class="form-input">
-                            <option value="branding" ${data?.category==='branding'?'selected':''}>Branding Design</option>
-                            <option value="consulting" ${data?.category==='consulting'?'selected':''}>Business Consulting</option>
-                            <option value="video" ${data?.category==='video'?'selected':''}>Video Production</option>
-                            <option value="integrated" ${data?.category==='integrated'?'selected':''}>Integrated Solution</option>
+                        <label class="form-label">카테고리 (전문 분야)</label>
+                        <select name="category" class="form-input" required>
+                            <option value="calligraphy" ${data?.category==='calligraphy'?'selected':''}>1> 캘리그라피 상호디자인</option>
+                            <option value="video" ${data?.category==='video'?'selected':''}>2> 돈되는 영상만들기</option>
+                            <option value="storyboard" ${data?.category==='storyboard'?'selected':''}>3> 우리매장 스토리보드</option>
+                            <option value="photo" ${data?.category==='photo'?'selected':''}>4> 내 가게 사진촬영</option>
+                            <option value="character" ${data?.category==='character'?'selected':''}>5> 가게 캐릭터만들기</option>
                         </select>
                     </div>
                     <div class="form-group">

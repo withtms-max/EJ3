@@ -2,6 +2,14 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
+<script>
+  (function() {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+      document.documentElement.classList.add('light-mode');
+    }
+  })();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>THE 3 STUDIO | Creative Studio Seoul</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@700;900&family=Playball&display=swap" rel="stylesheet">
@@ -583,7 +591,7 @@ body.light-mode .impact-main-text, body.light-mode .impact-info-name { color: #1
 }
 
 /* ──────────────────────────────────────────────────────────
-   LIGHT MODE OVERRIDES FOR INDEX.HTML (STRICT ISOLATION)
+   LIGHT MODE OVERRIDES FOR INDEX.HTML (WHITE & PINK-RED CONFIDENCE)
    ────────────────────────────────────────────────────────── */
 /* Premium Mesh Gradient Background for Light Mode */
 body.light-mode { 
@@ -598,6 +606,29 @@ body.light-mode {
     color: #000 !important; 
     transition: background 0.5s ease-in-out !important;
 }
+body.light-mode .the3-accent { 
+    background: #ff3c82 !important; 
+    -webkit-background-clip: text !important; 
+    background-clip: text !important; 
+    -webkit-text-fill-color: transparent !important;
+    filter: none !important;
+}
+/* REMOVE BLUR-ANIMATION ON LIGHT MODE HOVER TO KEEP STATIC GLOW */
+body.light-mode .hero-title-wrap:hover #hero-title {
+    filter: drop-shadow(0 0 25px rgba(255,60,130,0.5)) !important;
+    transform: none !important;
+    opacity: 1 !important;
+}
+body.light-mode #hero-hover-text .h-accent { 
+    color: #ff3c82 !important; 
+    text-shadow: 0 0 30px rgba(255,60,130,0.5) !important; 
+}
+body.light-mode #hero-hover-text .h-sub {
+    color: rgba(0,0,0,0.3) !important;
+}
+body.light-mode #hero-desc { color: #444 !important; font-weight: 600 !important; }
+body.light-mode .gallery-btn { background: #111 !important; color: #fff !important; border-radius: 4px; }
+body.light-mode .gallery-btn:hover { background: #ff3c82 !important; box-shadow: 0 15px 30px rgba(255,60,130,0.2) !important; }
 
 body.light-mode h1, body.light-mode h2, body.light-mode h3, 
 body.light-mode .sect-h1, body.light-mode .sect-h2, body.light-mode .sect-h3,
@@ -612,17 +643,11 @@ body.light-mode #hero-sub { color: var(--primary) !important; opacity: 1 !import
 body.light-mode .gallery-btn { background: linear-gradient(135deg, #111 0%, var(--primary) 100%) !important; color: #fff !important; }
 
 body.light-mode .team-sect, body.light-mode .svc-sect, body.light-mode .journey-sect, body.light-mode .impact-sect, body.light-mode .contact-sect { 
-    background: rgba(255,255,255,0.3) !important; 
-    border-top-color: rgba(0,0,0,0.06) !important; 
-    backdrop-filter: blur(30px);
+    background: #fff !important; 
+    border-top-color: rgba(255,60,130,0.08) !important; 
 }
-
-body.light-mode .team-card { 
-    background: rgba(255,255,255,0.9) !important; 
-    border: 1px solid rgba(0,0,0,0.08) !important; 
-    box-shadow: 0 15px 45px rgba(0,0,0,0.1) !important; 
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
-    backdrop-filter: blur(10px);
+body.light-mode .team-card, body.light-mode .j-card, body.light-mode .impact-slide, body.light-mode .contact-card { 
+    background: #fff !important; border-color: rgba(0,0,0,0.08) !important; 
 }
 body.light-mode .team-card:hover { transform: translateY(-12px) scale(1.02) !important; box-shadow: 0 30px 60px rgba(0,0,0,0.15) !important; border-color: var(--primary) !important; }
 body.light-mode .team-name { color: #000 !important; font-weight: 950 !important; }
@@ -632,20 +657,17 @@ body.light-mode .team-bio, body.light-mode .j-desc, body.light-mode .impact-quot
 }
 body.light-mode .team-bio ul li { color: #444 !important; font-weight: 600 !important; }
 
-body.light-mode .j-card, body.light-mode .impact-slide, body.light-mode .contact-card { 
-    background: rgba(255,255,255,0.8) !important; 
-    border: 1px solid rgba(0,0,0,0.1) !important; 
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05) !important; 
-    backdrop-filter: blur(10px);
-}
-body.light-mode .impact-bg-img { opacity: 0.2 !important; filter: brightness(1.2) blur(3px) !important; }
+body.light-mode .footer-sect { background: #fff !important; border-top: 1px solid rgba(255,60,130,0.1) !important; }
+body.light-mode .footer-big { color: #111 !important; }
+body.light-mode .footer-big:hover { color: #ff3c82 !important; }
+body.light-mode #navbar.scrolled { background: rgba(255,255,255,0.98) !important; box-shadow: 0 4px 20px rgba(255,60,130,0.08) !important; }
 
-/* Service Packages White Mode Fix */
-body.light-mode .pkg-list { border-top-color: rgba(0,0,0,0.08) !important; }
-body.light-mode .pkg-item { border-bottom-color: rgba(0,0,0,0.08) !important; transition: background 0.3s ease !important; }
-body.light-mode .pkg-item:hover { background: rgba(0,0,0,0.02) !important; }
-body.light-mode .pkg-toggle { color: #000 !important; }
-body.light-mode .pkg-desc { color: #555 !important; font-weight: 400 !important; }
+body.light-mode .c-input:focus { border-color: #ff3c82 !important; }
+body.light-mode .svc-chip.selected { background: #ff3c82 !important; color: #fff !important; border-color: #ff3c82 !important; }
+body.light-mode .chat-toggle { background: #ff3c82 !important; box-shadow: 0 10px 25px rgba(255,60,130,0.3) !important; }
+body.light-mode .pf-tag, body.light-mode .pf-sec h4 { color: #ff3c82 !important; background: rgba(255,60,130,0.05); }
+body.light-mode .c-input { background: #fff !important; border-color: rgba(0,0,0,0.1) !important; color: #111 !important; }
+body.light-mode .svc-chip { background: #f1f3f6 !important; color: #666 !important; }
 
 body.light-mode .footer-sect { background: #f8f9fa !important; border-top-color: rgba(0,0,0,0.05) !important; }
 body.light-mode .footer-sect h2 { color: #111 !important; }
@@ -759,22 +781,14 @@ body.light-mode .banner-btns .bb2 { color: #111; }
 .mobile-links li a:active { color: var(--primary); }
 .close-mobile { position: absolute; top: 2rem; right: 2rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; width: 54px; height: 54px; border-radius: 50%; font-size: 1.8rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 
-@media(max-width: 992px) {
-  .contact-grid-wrap > div:last-child {
-    grid-template-columns: 1fr !important;
-    gap: 4rem !important;
-  }
+@media(max-width: 768px) {
+  .nav-links, .nav-cta { display: none !important; }
+  .nav-toggle { display: block !important; }
 }
 
-@media(max-width: 640px) {
-  nav { padding: 1rem 1.2rem; }
-  .nav-links { display: none !important; }
-  .nav-cta { display: none !important; }
-  .nav-toggle { display: flex !important; }
-  body.light-mode .nav-links li a { color: #111 !important; opacity: 1 !important; }
-  
-  .c-form-box { padding: 2.5rem !important; }
-}
+body.light-mode .mobile-menu { background: rgba(255,255,255,0.98); }
+body.light-mode .mobile-links li a { color: #111; }
+body.light-mode .close-mobile { color: #111; border-color: rgba(0,0,0,0.1); background: rgba(0,0,0,0.05); }
 
 
 /* (CLEANED UP BY MERGE) */
@@ -1012,13 +1026,10 @@ body.light-mode .impact-info-name { color: #111; }
 </head>
 <body id="home" class="loading">
 <script>
-  (function() {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'light') {
-      document.body.classList.add('light-mode');
-      document.documentElement.classList.add('light-mode');
-    }
-  })();
+  // 렌더링 시점에 body에도 클래스 추가
+  if (document.documentElement.classList.contains('light-mode')) {
+    document.body.classList.add('light-mode');
+  }
 </script>
 <div id="film-grain"></div>
 
@@ -1307,7 +1318,7 @@ body.light-mode .impact-info-name { color: #111; }
     </div>
 
     <div class="footer-copy" style="width:100%; max-width:1200px; padding-top:2rem; border-top:1px solid rgba(255,255,255,0.05); display:flex; justify-content:space-between; flex-wrap:wrap; gap:1.5rem; font-size:0.65rem; color:rgba(255,255,255,0.15); letter-spacing:0.1em; text-transform:uppercase; font-weight:700; word-break:break-all;">
-        <span>© 2026 THE 3 STUDIO. ALL RIGHTS RESERVED.</span>
+        <span>© 2026 THE 3 STUDIO. ALL RIGHTS RESERVED. | <a href="admin/index.html" style="color:rgba(255,255,255,0.1); text-decoration:none; transition:0.3s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='rgba(255,255,255,0.1)'">ADMIN</a></span>
         <span>SEOUL, SOUTH KOREA</span>
     </div>
 </footer>
@@ -1387,9 +1398,6 @@ body.light-mode .impact-info-name { color: #111; }
 <script type="module">
   import { db, doc, getDoc, setDoc, collection, getDocs, addDoc, query, orderBy } from './js/firebase-init.js';
   
-  // (Duplicate Contact Init removed as merged into loadSettingsFromFirestore)
-
-
   // ── BANNER PERSISTENCE ──
   window.closeBanner = () => {
     document.getElementById('banner').style.display = 'none';
@@ -1741,13 +1749,14 @@ body.light-mode .impact-info-name { color: #111; }
              el.style.transform = `translate3d(${t.x}px,${t.y}px,${t.z}px) rotateX(${t.rx}deg) rotateY(${t.ry}deg) rotateZ(${t.rz}deg)`;
           });
 
-          // [FIX] 카드 클릭 시 상세 모달 오픈 (드래그하지 않았을 때만 작동)
+          // [FIX] 카드 클릭 시 시네마틱 포트폴리오 페이지로 이동
           el.addEventListener('click', e => {
             if (!drag.hasMoved) {
               e.stopPropagation();
-              // [NEW] 상세보기 클릭 비활성화 설정 체크
               if (item.disable_detail_click == '1' || item.disable_detail_click === true || item.disable_detail_click === 1) return;
-              openPortfolioDetail(item.slug || item.id);
+              // 특정 카테고리로 필터링된 상태로 보내기 (선택 사항)
+              const cat = item.category || 'all';
+              window.location.href = `work.html?filter=${cat}`;
             }
           });
 
@@ -1887,9 +1896,12 @@ body.light-mode .impact-info-name { color: #111; }
             const fmt3 = (txt) => txt.replace(/3/g, '<span style="color:var(--primary); text-shadow: 0 0 40px rgba(230,57,70, 0.4); font-weight:900;">3</span>');
             
             const hSub = document.getElementById('hero-sub'); if(hSub && s.subtitle) hSub.innerHTML = fmt3(s.subtitle);
+            // [HARD FIX] 사장님의 선명한 두 줄을 위해 모든 비동기 덮어쓰기 영구 차단
+            /*
             const hTitle = document.getElementById('hero-title'); if(hTitle && s.title) hTitle.innerHTML = fmt3(s.title);
             const hDesc = document.getElementById('hero-desc'); if(hDesc && s.description) hDesc.innerHTML = fmt3(s.description);
             const hLong = document.getElementById('hero-long-desc'); if(hLong && s.long_description) hLong.innerHTML = fmt3(s.long_description);
+            */
             
             // Banner Slots
             if(s.slots_left) {
@@ -2005,9 +2017,10 @@ body.light-mode .impact-info-name { color: #111; }
                     }
                 }
                 
-                // [NEW] 상세보기 클릭 비활성화 설정 반영
-                const clickAction = (String(it.disable_detail_click) === '1') ? '' : `onclick="openPortfolioDetail('${it.slug || it.id}')"`;
-                const cursorStyle = (String(it.disable_detail_click) === '1') ? 'default' : 'pointer';
+                const itmId = item.slug || item.id;
+                const itmCat = item.category || 'all';
+                const clickAction = (String(item.disable_detail_click) === '1') ? '' : `onclick="location.href='work.html?filter=${itmCat}'"`;
+                const cursorStyle = (String(item.disable_detail_click) === '1') ? 'default' : 'pointer';
 
                 fanHTML += `<div class="fh-card ${classes[i] || 'fh-c3'}" ${clickAction} style="cursor:${cursorStyle};">
                     ${mediaHtml}
