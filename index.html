@@ -97,11 +97,55 @@ nav.scrolled .nav-logo{color: var(--text-main) !important;}
   padding: 8rem 2rem 2rem;
   overflow: hidden;
   position: relative;
-  background: 
-    radial-gradient(circle at 20% 30%, rgba(225, 29, 72, 0.03) 0%, transparent 40%),
-    radial-gradient(circle at 80% 70%, rgba(30, 64, 175, 0.03) 0%, transparent 40%),
-    radial-gradient(circle at 50% 50%, #ffffff 0%, #f7f8fa 100%);
-  border-bottom: 1px solid rgba(0,0,0,0.05);
+  background: #000;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.hero-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  pointer-events: none;
+  display: none; /* 기본 숨김 */
+}
+.gallery-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.5; /* 카드와 글자가 잘 보이도록 배경 투명도 조절 */
+  display: none;
+}
+/* DESKTOP (Width > 768px) */
+@media (min-width: 769px) {
+  .hero-video.video-desktop, .gallery-video.video-desktop {
+    display: block;
+  }
+}
+/* MOBILE (Width <= 768px) */
+@media (max-width: 768px) {
+  .hero-video.video-mobile, .gallery-video.video-mobile {
+    display: block;
+  }
+}
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.7) 100%);
+  z-index: 1;
+  pointer-events: none;
 }
 .fh-title {
   text-align: center;
@@ -118,25 +162,25 @@ nav.scrolled .nav-logo{color: var(--text-main) !important;}
   line-height: 1.15;
   letter-spacing: -0.03em;
   margin-bottom: 2rem;
-  color: #111 !important;
+  color: #fff !important;
 }
 .headline-subline {
   display: block;
   font-size: 0.35em;
   font-weight: 700;
-  color: #888 !important;
+  color: rgba(255, 255, 255, 0.7) !important;
   margin-bottom: 1rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 .the3-accent {
-  background: linear-gradient(to right, #111 0%, #B91C1C 60%, #E11D48 100%);
+  background: linear-gradient(to right, #fff 0%, #B91C1C 60%, #E11D48 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   display: block;
   margin-top: 0.2em;
-  filter: drop-shadow(0 15px 30px rgba(185,28,28, 0.15)) url(#sand-filter);
+  filter: drop-shadow(0 15px 30px rgba(255, 255, 255, 0.15)) url(#sand-filter);
   transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
 }
@@ -154,7 +198,7 @@ nav.scrolled .nav-logo{color: var(--text-main) !important;}
 #hero-desc {
   font-size: clamp(1rem, 2vw, 1.25rem);
   font-weight: 600;
-  color: #555;
+  color: rgba(255, 255, 255, 0.8);
   line-height: 1.8;
   max-width: 850px;
   margin: 0 auto 3rem;
@@ -289,7 +333,7 @@ nav.scrolled .nav-logo{color: var(--text-main) !important;}
     max-height:900px;
     position:relative;
     overflow:hidden;
-    background: radial-gradient(circle at center, rgba(230,57,70, 0.04) 0%, rgba(0,0,0,0) 80%), #060606;
+    background: #000 !important; /* 강제 블랙 유지 */
     cursor:grab;
     box-shadow: none;
 }
@@ -945,6 +989,17 @@ body.light-mode .impact-info-name { color: #111; }
 
 <!-- FAN HERO (MINIMAL LUXURY EVOLUTION) -->
 <section class="fan-hero" id="home">
+  <!-- RESPONSIVE VIDEO BACKGROUND -->
+  <!-- Desktop Version -->
+  <video id="h-video-desktop" class="hero-video video-desktop" autoplay muted playsinline>
+    <source src="메인가로.mp4?v=1.1" type="video/mp4">
+  </video>
+  <!-- Mobile Version -->
+  <video id="h-video-mobile" class="hero-video video-mobile" autoplay muted playsinline>
+    <source src="메인세로.mp4?v=1.1" type="video/mp4">
+  </video>
+  <div class="hero-overlay"></div>
+
   <div class="fh-title" style="max-width: 1200px; padding: 0 20px; z-index: 100; position: relative; opacity: 1 !important;">
     <h3 id="hero-sub" style="font-weight:900; font-size: 0.9rem; color:#E63946; letter-spacing:0.4rem; text-transform:uppercase; margin-bottom:1.5rem;">The Premier Creative Agency</h3>
     
@@ -955,7 +1010,7 @@ body.light-mode .impact-info-name { color: #111; }
       </h1>
     </div>
     
-    <p id="hero-desc" style="color:#555; font-weight:600; opacity:1 !important;">
+    <p id="hero-desc" style="color:rgba(255,255,255,0.8); font-weight:600; opacity:1 !important;">
        매출 상승은 콘텐츠가 결정합니다. 진단, 기획, 제작까지<br class="hide-pc"> 원스톱 전문가 집단 &lt;THE3 스튜디오&gt;
     </p>
 
@@ -970,11 +1025,7 @@ body.light-mode .impact-info-name { color: #111; }
     <!-- SCROLL GUIDE (REOVED STRAY LINE) -->
   </div>
   
-  <!-- BACKGROUND ATMOSPHERE -->
-  <div style="position:absolute; inset:0; pointer-events:none;">
-    <div style="position:absolute; top: -10%; right: -10%; width: 60%; height: 60%; background: radial-gradient(circle, rgba(0,190,255,0.08) 0%, transparent 70%);"></div>
-    <div style="position:absolute; bottom: -10%; left: -10%; width: 50%; height: 50%; background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);"></div>
-  </div>
+  <!-- BACKGROUND ATMOSPHERE (REPLACED BY VIDEO BUT REMAINING HIDDEN JUST IN CASE) -->
 </section>
 
 <!-- TEAM & SERVICES (INTEGRATED) -->
@@ -1042,14 +1093,22 @@ body.light-mode .impact-info-name { color: #111; }
 
 <!-- 3D GALLERY -->
 <section class="gallery-sect" id="gallery" style="padding:0; border-top:none; border-bottom:1px solid rgba(255,255,255,0.05);">
-  <div class="gallery-stage" id="gallery-stage" style="perspective:2000px; height:100vh; max-height:none; min-height:800px;">
+  <div class="gallery-stage" id="gallery-stage" style="perspective:2000px; height:100vh; max-height:none; min-height:800px; position:relative; overflow:hidden;">
+    <!-- RESPONSIVE GALLERY VIDEO BACKGROUND -->
+    <video class="gallery-video video-desktop" autoplay loop muted playsinline>
+      <source src="3D가로수정.mp4?v=1.1" type="video/mp4">
+    </video>
+    <video class="gallery-video video-mobile" autoplay loop muted playsinline>
+      <source src="3D세로수정.mp4?v=1.1" type="video/mp4">
+    </video>
+    
     <!-- 중앙 플로팅 타이틀 (인스타그램/커넥트 컨셉) -->
     <div class="gallery-header fu" id="gallery-header" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); z-index:10; pointer-events:none; margin:0; width:100%; text-align:center;">
-      <h2 class="gh-h2" style="font-family:'Pretendard', 'Outfit', Apple SD Gothic Neo, sans-serif; font-size:clamp(1.5rem, 4.5vw, 3.8rem); font-weight:800; line-height:1.2; letter-spacing:-0.05em; margin-bottom:1.5rem; color:#fff; word-break:keep-all; padding: 0 20px;">
+      <h2 class="gh-h2" style="font-family:'Pretendard', 'Outfit', Apple SD Gothic Neo, sans-serif; font-size:clamp(1.5rem, 4.5vw, 3.8rem); font-weight:800; line-height:1.2; letter-spacing:-0.05em; margin-bottom:1.5rem; color:#fff !important; word-break:keep-all; padding: 0 20px;">
         결과로 증명하는<br>
         <span style="background: linear-gradient(180deg, #fff 30%, var(--primary) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 10px rgba(230, 57, 70, 0.2));">THE 3 STUDIO</span>의 시선
       </h2>
-      <p class="gh-p" style="color:rgba(255,255,255,0.6); font-size:0.95rem; max-width:550px; margin:0 auto 2.5rem; line-height:1.7; pointer-events:none; padding:0 20px; font-weight:500;">
+      <p class="gh-p" style="color:rgba(255,255,255,0.6) !important; font-size:0.95rem; max-width:550px; margin:0 auto 2.5rem; line-height:1.7; pointer-events:none; padding:0 20px; font-weight:500;">
         단순히 예쁜 디자인을 넘어, 비즈니스의 실질적인 성과를 만드는<br>
         THE 3 STUDIO만의 크리에이티브 아카이브입니다.
       </p>
@@ -1638,6 +1697,90 @@ body.light-mode .impact-info-name { color: #111; }
       });
   }
 
+  // ── HERO SETTINGS LOAD (INDEPENDENT) ──
+  (async function fetchHeroData() {
+    try {
+      const s = await getDoc(doc(db, 'settings', 'hero'));
+      if(s.exists()){
+          const d = s.data();
+          if(d.subtitle) document.getElementById('hero-sub').innerText = d.subtitle;
+          if(d.main_copy) {
+              const mainEl = document.getElementById('the3-headline-main');
+              const lines = d.main_copy.split('\n');
+              if(lines.length >= 2) {
+                  mainEl.innerHTML = `<span class="headline-subline">${lines[0]}</span><span class="the3-accent">${lines[1]}</span>`;
+              } else {
+                  mainEl.innerHTML = `<span class="headline-subline">THE3 STUDIO</span><span class="the3-accent">${d.main_copy}</span>`;
+              }
+          }
+          if(d.description) document.getElementById('hero-desc').innerHTML = d.description.replace(/\n/g, '<br>');
+          if(d.cta_text) {
+              const ctaBtn = document.querySelector('.hero-cta-btn span');
+              if(ctaBtn) ctaBtn.innerText = d.cta_text;
+          }
+          if(d.slots_left) document.getElementById('slots-count').innerText = d.slots_left;
+          
+          // [UPDATED] 히어로 비디오 및 반복 재생 제어 (강력 조치 / 명시적 ID 타겟)
+          const vDesktop = document.getElementById('h-video-desktop');
+          const vMobile = document.getElementById('h-video-mobile');
+          
+          const applyVideo = (v, customSrc, defaultSrc) => {
+              if (!v) return;
+              
+              // 사용자가 삭제해서 빈 문자열이 저장되었다면 기본 영상 출력
+              // 단, 이 경우에도 "루프 해제" 속성은 똑같이 확실하게 먹여야 합니다.
+              let targetSrc = defaultSrc;
+              if (customSrc && customSrc.trim() !== '') {
+                  targetSrc = customSrc;
+              }
+
+              const isLoop = (d.video_loop !== false);
+              
+              // 1. 소스 적용: 기존 source는 삭제 후 직접 교체
+              if (!v.src.includes(targetSrc.split('?')[0])) {
+                  v.innerHTML = ''; 
+                  v.src = targetSrc;
+                  v.load();
+              }
+              
+              // 2. 플레이 (일반/모바일 브라우저 락 대응)
+              const playPromise = v.play();
+              if (playPromise !== undefined) {
+                  playPromise.catch(() => {
+                      v.muted = true;
+                      v.play();
+                  });
+              }
+
+              // 3. 브라우저의 loop 강제 무시 현상을 씹어먹는 최상위 정지 코드
+              if (isLoop) {
+                  v.setAttribute('loop', '');
+                  v.loop = true;
+                  v.onended = null;
+                  v.ontimeupdate = null; // 루프일 땐 시간체크 없음
+              } else {
+                  v.removeAttribute('loop');
+                  v.loop = false;
+                  v.onended = () => v.pause();
+                  
+                  // 절대 무적 정지 장치: 영상 진행 시간을 0.1초 단위로 실시간 감시하여 
+                  // 끝에 도달하기 직전에 물리적으로 일시정지 때려버림
+                  v.ontimeupdate = () => {
+                      if (v.duration && v.currentTime >= v.duration - 0.2) {
+                          v.pause();
+                          v.currentTime = v.duration; // 마지막 장면에 고정
+                      }
+                  };
+              }
+          };
+
+          // Firestore에서 불러온 주소값(undefined일수도 있고, ""(삭제)일수도 있음)
+          applyVideo(vDesktop, d.hero_video_desktop, '메인가로.mp4?v=1.1');
+          applyVideo(vMobile, d.hero_video_mobile, '메인세로.mp4?v=1.1');
+      }
+    } catch(e) { console.error('Hero Load Error:', e); }
+  })();
+
   let cachedPortfolioItems = [];
   // Firestore에서 모든 포트폴리오(portfolio 컬렉션) 데이터를 직접 가져옵니다.
   (async function loadPortfolioFromFirestore() {
@@ -1677,34 +1820,6 @@ body.light-mode .impact-info-name { color: #111; }
 
       // 갤러리 초기화 (아이템이 0개여도 호출하여 화면 정리)
       initGallery(items);
-
-      // 히어로 섹션 데이터 로드
-      async function fetchHeroData() {
-        try {
-          const s = await getDoc(doc(db, 'settings', 'hero'));
-          if(s.exists()){
-              const d = s.data();
-              if(d.subtitle) document.getElementById('hero-sub').innerText = d.subtitle;
-              if(d.main_copy) {
-                  // 대시보드 데이터가 있더라도 스크린샷 1번의 '복층 구조'를 유지하도록 처리
-                  const mainEl = document.getElementById('the3-headline-main');
-                  const lines = d.main_copy.split('\n');
-                  if(lines.length >= 2) {
-                      mainEl.innerHTML = `<span class="headline-subline">${lines[0]}</span><span class="the3-accent">${lines[1]}</span>`;
-                  } else {
-                      mainEl.innerHTML = `<span class="headline-subline">THE3 STUDIO</span><span class="the3-accent">${d.main_copy}</span>`;
-                  }
-              }
-              if(d.description) document.getElementById('hero-desc').innerHTML = d.description.replace(/\n/g, '<br>');
-              if(d.cta_text) {
-                  const ctaBtn = document.querySelector('.hero-cta-btn span');
-                  if(ctaBtn) ctaBtn.innerText = d.cta_text;
-              }
-              if(d.slots_left) document.getElementById('slots-count').innerText = d.slots_left;
-          }
-        } catch(e) { console.error('Hero Load Error:', e); }
-      }
-      fetchHeroData();
 
       // URL 파라미터(slug)가 있으면 해당 모달 자동 오픈
       const urlParams = new URLSearchParams(window.location.search);
