@@ -1747,8 +1747,11 @@ body.light-mode .impact-info-name { color: #111; }
               v.setAttribute('playsinline', '');
               v.setAttribute('webkit-playsinline', '');
 
-              // onended 초기화 (이전 멈춤 로직 잔재 제거)
-              v.onended = null;
+              // 0.01초 딜레이 삭제를 위한 강제 리플레이 트리거 (심폐소생술)
+              v.onended = function() {
+                  this.currentTime = 0;
+                  this.play();
+              };
 
               // 2. 소스 강제 교체 및 로드
               v.removeAttribute('src');
@@ -1759,7 +1762,6 @@ body.light-mode .impact-info-name { color: #111; }
               setTimeout(() => {
                   v.play().catch(err => {
                       console.warn('Playback deferred error:', v.id, err);
-                      // 실패 시 무음 강제 후 재시도
                       v.muted = true;
                       v.play().catch(e => {});
                   });
