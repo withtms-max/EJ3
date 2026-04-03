@@ -1751,8 +1751,8 @@ body.light-mode .impact-info-name { color: #111; }
               v.onended = null;
 
               // 2. 소스 강제 교체 및 로드
-              v.innerHTML = ''; 
-              v.src = targetSrc;
+              v.removeAttribute('src');
+              v.innerHTML = `<source src="${targetSrc}" type="video/mp4">`; 
               v.load();
               
               // 3. 재생 (약간의 시간차를 두어 브라우저가 로딩을 시작한 뒤 실행)
