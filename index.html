@@ -1747,10 +1747,12 @@ body.light-mode .impact-info-name { color: #111; }
               v.setAttribute('playsinline', '');
               v.setAttribute('webkit-playsinline', '');
 
-              // 0.01초 딜레이 삭제를 위한 강제 리플레이 트리거 (심폐소생술)
-              v.onended = function() {
-                  this.currentTime = 0;
-                  this.play();
+              // 0.5초 선제적 리플레이 (딜레이 0초 실현을 위한 트릭)
+              v.ontimeupdate = function() {
+                  if (this.duration > 0.5 && this.currentTime >= (this.duration - 0.5)) {
+                      this.currentTime = 0;
+                      this.play();
+                  }
               };
 
               // 2. 소스 강제 교체 및 로드
