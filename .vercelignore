@@ -8,9 +8,6 @@ Copy*Animation*
 *.py
 *.zip
 *.rar
-*.mp4
-*.mov
-*.avi
 .git/
 .vscode/
 node_modules/
