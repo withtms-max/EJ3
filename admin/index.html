@@ -645,8 +645,12 @@
         document.getElementById('hero-form').onsubmit = async (e) => { 
             e.preventDefault(); 
             const formData = Object.fromEntries(new FormData(e.target).entries());
-            // Checkbox value needs to be boolean handled manually if using Object.fromEntries
-            formData.video_loop = e.target.video_loop.checked;
+            
+            // 수동으로 업로드된 비디오 URL 수집 (renderUploadUI에서 생성한 hidden input id 활용)
+            formData.hero_video_desktop = document.getElementById('path-hero_video_desktop') ? document.getElementById('path-hero_video_desktop').value : '';
+            formData.hero_video_mobile = document.getElementById('path-hero_video_mobile') ? document.getElementById('path-hero_video_mobile').value : '';
+            formData.gallery_video_desktop = document.getElementById('path-gallery_video_desktop') ? document.getElementById('path-gallery_video_desktop').value : '';
+            formData.gallery_video_mobile = document.getElementById('path-gallery_video_mobile') ? document.getElementById('path-gallery_video_mobile').value : '';
             
             await setDoc(doc(db, 'settings', 'hero'), formData); 
             alert('히어로 섹션 설정이 명품 무드로 저장되었습니다! ✨🏙️'); 
