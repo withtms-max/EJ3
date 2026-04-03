@@ -608,12 +608,23 @@
 
                     <div class="form-row" style="margin-top:2rem; padding-top:2rem; border-top:1px solid var(--border);">
                         <div class="form-group">
-                            <label class="form-label">메인 시네마틱 영상 (데스크탑 / 가로)</label>
+                            <label class="form-label">메인 히어로 시네마틱 (데스크탑)</label>
                             ${renderUploadUI('hero_video_desktop', 'hero', data.hero_video_desktop)}
                         </div>
                         <div class="form-group">
-                            <label class="form-label">메인 시네마틱 영상 (모바일 / 세로)</label>
+                            <label class="form-label">메인 히어로 시네마틱 (모바일)</label>
                             ${renderUploadUI('hero_video_mobile', 'hero', data.hero_video_mobile)}
+                        </div>
+                    </div>
+
+                    <div class="form-row" style="margin-top:1rem; padding-top:1rem; border-top:1px solid rgba(255,255,255,0.05);">
+                        <div class="form-group">
+                            <label class="form-label">3D 갤러리 배경 시네마틱 (데스크탑)</label>
+                            ${renderUploadUI('gallery_video_desktop', 'hero', data.gallery_video_desktop)}
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">3D 갤러리 배경 시네마틱 (모바일)</label>
+                            ${renderUploadUI('gallery_video_mobile', 'hero', data.gallery_video_mobile)}
                         </div>
                     </div>
 

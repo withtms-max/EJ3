@@ -1095,10 +1095,10 @@ body.light-mode .impact-info-name { color: #111; }
 <section class="gallery-sect" id="gallery" style="padding:0; border-top:none; border-bottom:1px solid rgba(255,255,255,0.05);">
   <div class="gallery-stage" id="gallery-stage" style="perspective:2000px; height:100vh; max-height:none; min-height:800px; position:relative; overflow:hidden;">
     <!-- RESPONSIVE GALLERY VIDEO BACKGROUND -->
-    <video class="gallery-video video-desktop" autoplay loop muted playsinline>
+    <video id="g-video-desktop" class="gallery-video video-desktop" autoplay loop muted playsinline>
       <source src="3D가로수정.mp4?v=1.1" type="video/mp4">
     </video>
-    <video class="gallery-video video-mobile" autoplay loop muted playsinline>
+    <video id="g-video-mobile" class="gallery-video video-mobile" autoplay loop muted playsinline>
       <source src="3D세로수정.mp4?v=1.1" type="video/mp4">
     </video>
     
@@ -1720,15 +1720,15 @@ body.light-mode .impact-info-name { color: #111; }
           }
           if(d.slots_left) document.getElementById('slots-count').innerText = d.slots_left;
           
-          // [UPDATED] 히어로 비디오 및 반복 재생 제어 (강력 조치 / 명시적 ID 타겟)
-          const vDesktop = document.getElementById('h-video-desktop');
-          const vMobile = document.getElementById('h-video-mobile');
+          // [UPDATED] 히어로 및 갤러리 영상 연동 (파이어베이스 주소 1순위)
+          const vHeroPC = document.getElementById('h-video-desktop');
+          const vHeroMB = document.getElementById('h-video-mobile');
+          const vGallPC = document.getElementById('g-video-desktop');
+          const vGallMB = document.getElementById('g-video-mobile');
           
           const applyVideo = (v, customSrc, defaultSrc) => {
               if (!v) return;
               
-              // 사용자가 삭제해서 빈 문자열이 저장되었다면 기본 영상 출력
-              // 단, 이 경우에도 "루프 해제" 속성은 똑같이 확실하게 먹여야 합니다.
               let targetSrc = defaultSrc;
               if (customSrc && customSrc.trim() !== '') {
                   targetSrc = customSrc;
@@ -1737,7 +1737,8 @@ body.light-mode .impact-info-name { color: #111; }
               const isLoop = (d.video_loop !== false);
               
               // 1. 소스 적용: 기존 source는 삭제 후 직접 교체
-              if (!v.src.includes(targetSrc.split('?')[0])) {
+              const cleanTarget = targetSrc.split('?')[0];
+              if (!v.src.includes(cleanTarget)) {
                   v.innerHTML = ''; 
                   v.src = targetSrc;
                   v.load();
@@ -1748,35 +1749,28 @@ body.light-mode .impact-info-name { color: #111; }
               if (playPromise !== undefined) {
                   playPromise.catch(() => {
                       v.muted = true;
-                      v.play();
+                      v.play().catch(e => console.warn('Autoplay blocked:', e));
                   });
               }
 
-              // 3. 브라우저의 loop 강제 무시 현상을 씹어먹는 최상위 정지 코드
+              // 3. 루프 제어
               if (isLoop) {
                   v.setAttribute('loop', '');
                   v.loop = true;
-                  v.onended = null;
-                  v.ontimeupdate = null; // 루프일 땐 시간체크 없음
               } else {
                   v.removeAttribute('loop');
                   v.loop = false;
                   v.onended = () => v.pause();
-                  
-                  // 절대 무적 정지 장치: 영상 진행 시간을 0.1초 단위로 실시간 감시하여 
-                  // 끝에 도달하기 직전에 물리적으로 일시정지 때려버림
-                  v.ontimeupdate = () => {
-                      if (v.duration && v.currentTime >= v.duration - 0.2) {
-                          v.pause();
-                          v.currentTime = v.duration; // 마지막 장면에 고정
-                      }
-                  };
               }
           };
 
-          // Firestore에서 불러온 주소값(undefined일수도 있고, ""(삭제)일수도 있음)
-          applyVideo(vDesktop, d.hero_video_desktop, '메인가로.mp4?v=1.1');
-          applyVideo(vMobile, d.hero_video_mobile, '메인세로.mp4?v=1.1');
+          // 히어로 섹션 영상 적용
+          applyVideo(vHeroPC, d.hero_video_desktop, '메인가로.mp4?v=1.1');
+          applyVideo(vHeroMB, d.hero_video_mobile, '메인세로.mp4?v=1.1');
+          
+          // 3D 갤러리 배경 영상 적용
+          applyVideo(vGallPC, d.gallery_video_desktop, '3D가로수정.mp4?v=1.1');
+          applyVideo(vGallMB, d.gallery_video_mobile, '3D세로수정.mp4?v=1.1');
       }
     } catch(e) { console.error('Hero Load Error:', e); }
   })();
