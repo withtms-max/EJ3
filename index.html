@@ -1736,24 +1736,16 @@ body.light-mode .impact-info-name { color: #111; }
 
               const isLoop = (d.video_loop !== false);
               
-              // 1. 소스 적용: 기존 source는 삭제 후 직접 교체
-              const cleanTarget = targetSrc.split('?')[0];
-              if (!v.src.includes(cleanTarget)) {
-                  v.innerHTML = ''; 
-                  v.src = targetSrc;
-                  v.load();
-              }
+              // [핵심 조치] 기존에 박혀있는 <source> 태그들 제거 (브라우저 혼동 방지)
+              v.innerHTML = ''; 
               
-              // 2. 플레이 (일반/모바일 브라우저 락 대응)
-              const playPromise = v.play();
-              if (playPromise !== undefined) {
-                  playPromise.catch(() => {
-                      v.muted = true;
-                      v.play().catch(e => console.warn('Autoplay blocked:', e));
-                  });
-              }
-
-              // 3. 루프 제어
+              // 중요 속성 강제 (자동 재생 필수 조건)
+              v.muted = true;
+              v.setAttribute('muted', '');
+              v.setAttribute('playsinline', '');
+              v.setAttribute('webkit-playsinline', '');
+              v.setAttribute('autoplay', '');
+              
               if (isLoop) {
                   v.setAttribute('loop', '');
                   v.loop = true;
@@ -1761,6 +1753,25 @@ body.light-mode .impact-info-name { color: #111; }
                   v.removeAttribute('loop');
                   v.loop = false;
                   v.onended = () => v.pause();
+              }
+
+              // 소스 변경 및 로드
+              if (v.src !== targetSrc) {
+                  v.src = targetSrc;
+                  v.load();
+                  
+                  // 재생 시도 (Promise 대응)
+                  const attemptPlay = () => {
+                      v.play().catch(err => {
+                          console.warn('Video play deferred:', v.id, err);
+                          // 사용자 상호작용 후 재생되도록 대기하거나 무음 재생 재시도
+                          v.muted = true;
+                          v.play().catch(() => {});
+                      });
+                  };
+                  
+                  // 약간의 지연 후 재생 시도 (DOM 로딩 완료 보장)
+                  setTimeout(attemptPlay, 100);
               }
           };
 
