@@ -1718,7 +1718,10 @@ body.light-mode .impact-info-name { color: #111; }
               const ctaBtn = document.querySelector('.hero-cta-btn span');
               if(ctaBtn) ctaBtn.innerText = d.cta_text;
           }
-          if(d.slots_left) document.getElementById('slots-count').innerText = d.slots_left;
+          if(d.slots_left) {
+              const slotsCount = document.getElementById('slots-count');
+              if (slotsCount) slotsCount.innerText = d.slots_left;
+          }
           
           // [UPDATED] 히어로 및 갤러리 영상 연동 (파이어베이스 주소 1순위)
           const vHeroPC = document.getElementById('h-video-desktop');
