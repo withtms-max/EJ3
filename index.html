@@ -1734,30 +1734,21 @@ body.light-mode .impact-info-name { color: #111; }
                   targetSrc = customSrc;
               }
 
-              const isLoop = (d.video_loop !== false);
-              
               // 1. 강제 설정 (속성 초기화)
               v.muted = true;
               v.autoplay = true;
+              v.loop = true;
               v.setAttribute('muted', '');
               v.setAttribute('autoplay', '');
+              v.setAttribute('loop', '');
               v.setAttribute('playsinline', '');
               v.setAttribute('webkit-playsinline', '');
-              
-              if (isLoop) {
-                  v.loop = true;
-                  v.setAttribute('loop', '');
-              } else {
-                  v.loop = false;
-                  v.removeAttribute('loop');
-                  v.onended = () => {
-                      v.pause();
-                      v.currentTime = v.duration; // 마지막 프레임 고정
-                  };
-              }
 
-              // 2. 소스 강제 교체 및 로드 (중복 체크 제거 - 무조건 다시 읽기)
-              v.innerHTML = ''; // 기존 <source> 태그 완전 제거
+              // onended 초기화 (이전 멈춤 로직 잔재 제거)
+              v.onended = null;
+
+              // 2. 소스 강제 교체 및 로드
+              v.innerHTML = ''; 
               v.src = targetSrc;
               v.load();
               
