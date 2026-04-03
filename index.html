@@ -1747,27 +1747,25 @@ body.light-mode .impact-info-name { color: #111; }
               v.setAttribute('playsinline', '');
               v.setAttribute('webkit-playsinline', '');
 
-              // 0.5초 선제적 리플레이 (딜레이 0초 실현을 위한 트릭)
-              v.ontimeupdate = function() {
-                  if (this.duration > 0.5 && this.currentTime >= (this.duration - 0.5)) {
-                      this.currentTime = 0;
-                      this.play();
-                  }
-              };
+              // 끊김(렉) 방지를 위해 복잡한 리플레이 트릭을 제거하고 순수 브라우저 루프에 맡깁니다.
+              v.ontimeupdate = null;
+              v.onended = null;
 
-              // 2. 소스 강제 교체 및 로드
-              v.removeAttribute('src');
-              v.innerHTML = `<source src="${targetSrc}" type="video/mp4">`; 
-              v.load();
-              
-              // 3. 재생 (약간의 시간차를 두어 브라우저가 로딩을 시작한 뒤 실행)
-              setTimeout(() => {
-                  v.play().catch(err => {
-                      console.warn('Playback deferred error:', v.id, err);
-                      v.muted = true;
-                      v.play().catch(e => {});
-                  });
-              }, 150);
+              // 현재 돌고 있는 소스와 다를 때만 새로 로드 (렉 유발 방지)
+              const newSourceHTML = `<source src="${targetSrc}" type="video/mp4">`;
+              if (v.innerHTML !== newSourceHTML) {
+                  v.removeAttribute('src'); 
+                  v.innerHTML = newSourceHTML; 
+                  v.load();
+                  
+                  setTimeout(() => {
+                      v.play().catch(err => {
+                          console.warn('Playback deferred error:', v.id, err);
+                          v.muted = true;
+                          v.play().catch(e => {});
+                      });
+                  }, 150);
+              }
           };
 
           // 히어로 섹션 및 갤러리 영상 강제 로컬(버셀) 적용 (파이어베이스 무시, 고화질 유지)
