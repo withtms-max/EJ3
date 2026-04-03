@@ -1766,13 +1766,12 @@ body.light-mode .impact-info-name { color: #111; }
               }, 150);
           };
 
-          // 히어로 섹션 영상 적용
-          applyVideo(vHeroPC, d.hero_video_desktop, 'hero-desktop.mp4?v=1.2');
-          applyVideo(vHeroMB, d.hero_video_mobile, 'hero-mobile.mp4?v=1.2');
+          // 히어로 섹션 및 갤러리 영상 강제 로컬(버셀) 적용 (파이어베이스 무시, 고화질 유지)
+          applyVideo(vHeroPC, null, 'hero-desktop.mp4?v=1.2');
+          applyVideo(vHeroMB, null, 'hero-mobile.mp4?v=1.2');
           
-          // 3D 갤러리 배경 영상 적용
-          applyVideo(vGallPC, d.gallery_video_desktop, 'gallery-desktop.mp4?v=1.2');
-          applyVideo(vGallMB, d.gallery_video_mobile, 'gallery-mobile.mp4?v=1.2');
+          applyVideo(vGallPC, null, 'gallery-desktop.mp4?v=1.2');
+          applyVideo(vGallMB, null, 'gallery-mobile.mp4?v=1.2');
       }
     } catch(e) { console.error('Hero Load Error:', e); }
   })();
