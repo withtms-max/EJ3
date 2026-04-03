@@ -1736,43 +1736,40 @@ body.light-mode .impact-info-name { color: #111; }
 
               const isLoop = (d.video_loop !== false);
               
-              // [핵심 조치] 기존에 박혀있는 <source> 태그들 제거 (브라우저 혼동 방지)
-              v.innerHTML = ''; 
-              
-              // 중요 속성 강제 (자동 재생 필수 조건)
+              // 1. 강제 설정 (속성 초기화)
               v.muted = true;
+              v.autoplay = true;
               v.setAttribute('muted', '');
+              v.setAttribute('autoplay', '');
               v.setAttribute('playsinline', '');
               v.setAttribute('webkit-playsinline', '');
-              v.setAttribute('autoplay', '');
               
               if (isLoop) {
-                  v.setAttribute('loop', '');
                   v.loop = true;
+                  v.setAttribute('loop', '');
               } else {
-                  v.removeAttribute('loop');
                   v.loop = false;
-                  v.onended = () => v.pause();
+                  v.removeAttribute('loop');
+                  v.onended = () => {
+                      v.pause();
+                      v.currentTime = v.duration; // 마지막 프레임 고정
+                  };
               }
 
-              // 소스 변경 및 로드
-              if (v.src !== targetSrc) {
-                  v.src = targetSrc;
-                  v.load();
-                  
-                  // 재생 시도 (Promise 대응)
-                  const attemptPlay = () => {
-                      v.play().catch(err => {
-                          console.warn('Video play deferred:', v.id, err);
-                          // 사용자 상호작용 후 재생되도록 대기하거나 무음 재생 재시도
-                          v.muted = true;
-                          v.play().catch(() => {});
-                      });
-                  };
-                  
-                  // 약간의 지연 후 재생 시도 (DOM 로딩 완료 보장)
-                  setTimeout(attemptPlay, 100);
-              }
+              // 2. 소스 강제 교체 및 로드 (중복 체크 제거 - 무조건 다시 읽기)
+              v.innerHTML = ''; // 기존 <source> 태그 완전 제거
+              v.src = targetSrc;
+              v.load();
+              
+              // 3. 재생 (약간의 시간차를 두어 브라우저가 로딩을 시작한 뒤 실행)
+              setTimeout(() => {
+                  v.play().catch(err => {
+                      console.warn('Playback deferred error:', v.id, err);
+                      // 실패 시 무음 강제 후 재시도
+                      v.muted = true;
+                      v.play().catch(e => {});
+                  });
+              }, 150);
           };
 
           // 히어로 섹션 영상 적용
