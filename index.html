@@ -47,12 +47,12 @@ html{scroll-behavior:smooth;}
 body{
   background: var(--bg-main);
   color: var(--text-main);
-  font-family: 'Pretendard JP Variable', 'Pretendard Variable', 'Pretendard', 'Inter', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+  font-family: 'Pretendard Variable', 'Pretendard', 'Inter', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
   overflow-x:hidden;
   word-break:keep-all;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
   transition: background 0.5s ease;
 }
 h1, h2, h3, h4, .sect-h2, .j-sub, .pf-title, .pkg-item span, .pkg-toggle { color: inherit; }
@@ -153,6 +153,11 @@ nav.scrolled .nav-logo{color: var(--text-main) !important;}
   padding: 0 20px;
   z-index: 100;
   position: relative;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.fh-title:hover {
+  opacity: 0.1 !important;
+  transform: scale(1.02);
 }
 #the3-headline-main {
   display: block;
@@ -174,26 +179,53 @@ nav.scrolled .nav-logo{color: var(--text-main) !important;}
   text-transform: uppercase;
 }
 .the3-accent {
-  background: linear-gradient(to right, #fff 0%, #B91C1C 60%, #E11D48 100%);
+  background: linear-gradient(135deg, #fff 0%, #E63946 50%, #8b0000 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   display: block;
-  margin-top: 0.2em;
-  filter: drop-shadow(0 15px 30px rgba(255, 255, 255, 0.15)) url(#sand-filter);
-  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  cursor: pointer;
+  margin-top: 0.25em;
+  filter: drop-shadow(0 15px 35px rgba(230, 57, 70, 0.45));
+  font-weight: 900;
+  transition: opacity 0.8s ease;
 }
-.fh-title:hover .the3-accent {
-  transform: scale(1.05) translateY(-5px);
-  filter: drop-shadow(0 20px 45px rgba(225,29,72, 0.4));
-  letter-spacing: 0px;
-}
-.fh-title:hover #the3-headline-main {
-  transform: translateY(-5px);
-}
-#the3-headline-main {
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+@media (max-width: 768px) {
+  .fh-title {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 2rem !important; /* Force space between overlapping elements */
+    padding-top: 15vh !important;
+    transform: none !important;
+  }
+  #the3-headline-main, #hero-sub, #hero-desc, #hero-cta-wrapper, .the3-hero-wrap {
+    position: static !important;
+    transform: none !important;
+    margin: 0 !important;
+    width: 100% !important;
+    opacity: 1 !important; /* Fail-safe visibility */
+  }
+  #the3-headline-main {
+    font-size: 2.2rem !important;
+    line-height: 1.2 !important;
+  }
+  #hero-sub {
+    font-size: 0.75rem !important;
+    letter-spacing: 0.2rem !important;
+    margin-bottom: -1rem !important; /* Tighten gap specifically for sub */
+  }
+  #hero-desc {
+    font-size: 0.95rem !important;
+    line-height: 1.6 !important;
+    max-width: 330px !important;
+    margin: 0 auto !important;
+    color: rgba(255,255,255,0.7) !important;
+  }
+  .gallery-btn {
+    padding: 1.2rem 2.8rem !important;
+    font-size: 1rem !important;
+  }
 }
 #hero-desc {
   font-size: clamp(1rem, 2vw, 1.25rem);
@@ -1001,21 +1033,20 @@ body.light-mode .impact-info-name { color: #111; }
   <div class="hero-overlay"></div>
 
   <div class="fh-title" style="max-width: 1200px; padding: 0 20px; z-index: 100; position: relative; opacity: 1 !important;">
-    <h3 id="hero-sub" style="font-weight:900; font-size: 0.9rem; color:#E63946; letter-spacing:0.4rem; text-transform:uppercase; margin-bottom:1.5rem;">The Premier Creative Agency</h3>
+    <h3 id="hero-sub" style="font-weight:900; font-size: 0.9rem; color:#E63946; letter-spacing:0.4rem; text-transform:uppercase; margin-bottom:1.5rem; text-align:center;">The Premier Creative Agency</h3>
     
-    <div class="the3-hero-wrap">
-      <h1 id="the3-headline-main">
-        <span class="headline-subline">장사도 바쁜데,</span>
-        <span class="the3-accent">콘텐츠까지 고민하시나요?</span>
+    <div class="the3-hero-wrap" style="width: 100%; max-width: 1200px; margin: 0 auto; text-align:center;">
+      <h1 id="the3-headline-main" style="margin-bottom: 2rem; color:#fff;">
+        <span id="hero-subline" class="headline-subline" style="margin-bottom: 1rem; display:block;">장사도 바쁜데,</span>
+        <span id="hero-accent" class="the3-accent" style="display:block;">콘텐츠까지 고민하시나요?</span>
       </h1>
     </div>
     
-    <p id="hero-desc" style="color:rgba(255,255,255,0.8); font-weight:600; opacity:1 !important;">
+    <p id="hero-desc" style="color:rgba(255,255,255,0.8); font-weight:600; margin-bottom: 3rem; text-align:center;">
        매출 상승은 콘텐츠가 결정합니다. 진단, 기획, 제작까지<br class="hide-pc"> 원스톱 전문가 집단 &lt;THE3 스튜디오&gt;
     </p>
 
-    <!-- REFINED PILL BUTTON (GLASS & SHIMMER) -->
-    <div style="margin-top: 2rem;">
+    <div id="hero-cta-wrapper" style="text-align:center;">
       <a href="#contact" class="gallery-btn">
         우리 가게도 바뀔 수 있을까? 무료 진단받기
         <i class="fa fa-arrow-right"></i>
@@ -1704,14 +1735,11 @@ body.light-mode .impact-info-name { color: #111; }
       if(s.exists()){
           const d = s.data();
           if(d.subtitle) document.getElementById('hero-sub').innerText = d.subtitle;
-          if(d.main_copy) {
+          if(d.main_copy || d.accent_copy) {
               const mainEl = document.getElementById('the3-headline-main');
-              const lines = d.main_copy.split('\n');
-              if(lines.length >= 2) {
-                  mainEl.innerHTML = `<span class="headline-subline">${lines[0]}</span><span class="the3-accent">${lines[1]}</span>`;
-              } else {
-                  mainEl.innerHTML = `<span class="headline-subline">THE3 STUDIO</span><span class="the3-accent">${d.main_copy}</span>`;
-              }
+              const whiteText = d.main_copy || '';
+              const redText = d.accent_copy || '';
+              mainEl.innerHTML = `<span class="headline-subline">${whiteText}</span><span class="the3-accent">${redText}</span>`;
           }
           if(d.description) document.getElementById('hero-desc').innerHTML = d.description.replace(/\n/g, '<br>');
           if(d.cta_text) {
@@ -1721,6 +1749,40 @@ body.light-mode .impact-info-name { color: #111; }
           if(d.slots_left) {
               const slotsCount = document.getElementById('slots-count');
               if (slotsCount) slotsCount.innerText = d.slots_left;
+          }
+
+          // [REFINED] 5채널 독립 레이아웃 튜너 적용 (PC/모바일 분리)
+          const isMobile = window.innerWidth <= 768;
+          const suffix = isMobile ? '_mobile' : '_pc';
+          
+          const applyOffset = (id, key) => {
+              const el = document.getElementById(id);
+              if (el) {
+                  // 신버전 필드(suffix) 먼저 확인, 없으면 구버전 필드 사용
+                  const val = d[key + suffix] !== undefined ? d[key + suffix] : d[key];
+                  el.style.transform = `translateY(${val || 0}px)`;
+              }
+          };
+
+          // 1. 최상단 보조 라벨
+          applyOffset('hero-sub', 'off_label');
+          // 2. 상단 보조 문구
+          applyOffset('hero-subline', 'off_subline');
+          // 3. 메인 타이틀 전체 래퍼 (강조 문구 포함)
+          applyOffset('the3-headline-main', 'off_main');
+          // 4. 중간 요약 설명
+          applyOffset('hero-desc', 'off_desc');
+          // 5. 하단 CTA 버튼
+          applyOffset('hero-cta-wrapper', 'off_cta');
+
+          // 전체 투명도 및 스케일 (마스터 채널)
+          const fhTitle = document.querySelector('.fh-title');
+          if (fhTitle) {
+              const textScale = (d.text_scale || 100) / 100;
+              const textOpacity = (d.text_opacity || 100) / 100;
+              fhTitle.style.opacity = textOpacity;
+              fhTitle.style.scale = textScale;
+              fhTitle.style.transition = 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
           }
           
           // [UPDATED] 히어로 및 갤러리 영상 연동 (파이어베이스 주소 1순위)
@@ -1752,7 +1814,8 @@ body.light-mode .impact-info-name { color: #111; }
               v.onended = null;
 
               // 현재 돌고 있는 소스와 다를 때만 새로 로드 (렉 유발 방지)
-              const newSourceHTML = `<source src="${targetSrc}" type="video/mp4">`;
+              const videoType = targetSrc.toLowerCase().endsWith('.webm') ? 'video/webm' : 'video/mp4';
+              const newSourceHTML = `<source src="${targetSrc}" type="${videoType}">`;
               if (v.innerHTML !== newSourceHTML) {
                   v.removeAttribute('src'); 
                   v.innerHTML = newSourceHTML; 
@@ -1769,11 +1832,11 @@ body.light-mode .impact-info-name { color: #111; }
           };
 
           // 히어로 섹션 및 갤러리 영상 강제 로컬(버셀) 적용 (파이어베이스 무시, 고화질 유지)
-          applyVideo(vHeroPC, null, 'hero-desktop.mp4?v=1.2');
-          applyVideo(vHeroMB, null, 'hero-mobile.mp4?v=1.2');
+          applyVideo(vHeroPC, null, 'hero-desktop.webm?v=1.3');
+          applyVideo(vHeroMB, null, 'hero-mobile.webm?v=1.3');
           
-          applyVideo(vGallPC, null, 'gallery-desktop.mp4?v=1.2');
-          applyVideo(vGallMB, null, 'gallery-mobile.mp4?v=1.2');
+          applyVideo(vGallPC, null, 'gallery-desktop.webm?v=1.3');
+          applyVideo(vGallMB, null, 'gallery-mobile.webm?v=1.3');
       }
     } catch(e) { console.error('Hero Load Error:', e); }
   })();
@@ -2420,6 +2483,57 @@ body.light-mode .impact-info-name { color: #111; }
           // 현재는 심플하게 자동 순환하도록 구현합니다.
       }
   }
+
+  // ── PREMIUM TYPEWRITER REVEAL (RE-SYNCED) ──
+  const startTypewriter = (textData) => {
+    const sub = document.getElementById('hero-subline');
+    const acc = document.getElementById('hero-accent');
+    const desc = document.getElementById('hero-desc');
+    const cta = document.getElementById('hero-cta-wrapper');
+    
+    if(!sub || !acc) return;
+    
+    const subText = textData.main_copy || "장사도 바쁜데,";
+    const accText = textData.accent_copy || "콘텐츠까지 고민하시나요?";
+    
+    // Initial State
+    gsap.set([sub, acc, desc, cta], { opacity: 0, visibility: 'visible' });
+    sub.innerHTML = ''; acc.innerHTML = '';
+    
+    const tl = gsap.timeline({ defaults: { ease: "none" } });
+    
+    tl.to(sub, { opacity: 1, duration: 0.05 })
+      .to(sub, {
+        duration: subText.length * 0.08,
+        text: subText,
+        onUpdate: () => { sub.innerHTML += '<span class="type-cursor"></span>'; if(sub.querySelector('.type-cursor')) sub.lastChild.remove(); }
+      })
+      .to(acc, { opacity: 1, duration: 0.05 }, "+=0.1")
+      .to(acc, {
+        duration: accText.length * 0.1,
+        text: accText
+      })
+      .to([desc, cta], { opacity: 1, y: 0, duration: 0.8, stagger: 0.2, ease: "power2.out" }, "-=0.2");
+  };
+
+  // Video Responsive Guard
+  const checkVideoSource = () => {
+    const isMob = window.innerWidth <= 768;
+    const vD = document.getElementById('h-video-desktop');
+    const vM = document.getElementById('h-video-mobile');
+    if(isMob) { vD?.pause(); vM?.play(); } else { vM?.pause(); vD?.play(); }
+  };
+
+  db.collection('settings').doc('hero').get().then(doc => {
+    if (doc.exists()) {
+      const data = doc.data();
+      startTypewriter(data);
+      if(window.applyOffset) applyOffset(data);
+    }
+  });
+
+  window.addEventListener('resize', checkVideoSource);
+  window.addEventListener('load', checkVideoSource);
 
   // Finish Loading Animation Trigger
   window.addEventListener('load', () => {

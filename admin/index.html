@@ -184,6 +184,21 @@
     </main>
 </div>
 
+<!-- [NEW] Live Layout Editing Layer -->
+<div id="live-layer" style="display:none; position:fixed; inset:0; z-index:99999; background:rgba(0,0,0,0.95); backdrop-filter:blur(25px);">
+    <div style="position:absolute; top:20px; left:50%; transform:translateX(-50%); display:flex; gap:10px; z-index:100000; background:rgba(255,255,255,0.1); padding:10px 20px; border-radius:99px; border:1px solid rgba(255,255,255,0.2);">
+        <span style="color:#fff; font-weight:900; font-size:0.8rem; display:flex; align-items:center; gap:8px;"><i class="fa fa-mouse-pointer" style="color:var(--accent);"></i> 영역을 잡고 자유롭게 이동하세요</span>
+        <button onclick="saveLiveLayout()" class="btn btn-s" style="background:var(--accent); color:#fff; padding:6px 15px;">배치 확정 & 저장</button>
+        <button onclick="document.getElementById('live-layer').style.display='none'" class="btn btn-s" style="background:rgba(255,255,255,0.1); color:#fff; padding:6px 15px;">취소</button>
+    </div>
+    <div id="live-preview-container" style="width:100%; height:100%; position:relative; overflow:hidden;"></div>
+    <style>
+        .draggable { transition: outline 0.2s, background 0.2s; }
+        .draggable:hover { outline: 2px dashed var(--accent); background:rgba(230,57,70,0.1); }
+        .draggable.dragging { opacity:0.5; outline: 2px solid #fff !important; pointer-events: none; }
+    </style>
+</div>
+
 <!-- Modal -->
 <div class="modal" id="modal">
     <div class="modal-box">
@@ -587,12 +602,12 @@
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label class="form-label">기본 메인 문구 <span style="color:#fff">(White: #ffffff)</span></label>
-                            <textarea name="main_copy" class="form-input" style="min-height:80px;" placeholder="예: 장사도 바쁜데,\n콘텐츠까지 고민하시나요?">${data.main_copy||''}</textarea>
+                            <label class="form-label">메인 기본 문구 (흰색) <span style="color:#fff">(White: #ffffff)</span></label>
+                            <input name="main_copy" class="form-input" value="${data.main_copy||''}" placeholder="예: 장사도 바쁜데,">
                         </div>
                         <div class="form-group">
-                            <label class="form-label">호버 시 로고 문구 <span style="color:var(--accent)">(Logo Blue: var(--accent))</span></label>
-                            <input name="hover_logo" class="form-input" value="${data.hover_logo||'THE 3 STUDIO'}" placeholder="예: THE 3 STUDIO">
+                            <label class="form-label">강조 포인트 문구 (빨간색+크게) <span style="color:#E63946">(Red: #E63946)</span></label>
+                            <input name="accent_copy" class="form-input" value="${data.accent_copy||''}" placeholder="예: 콘텐츠까지 고민하시나요?">
                         </div>
                     </div>
 
@@ -604,6 +619,13 @@
                     <div class="form-group">
                         <label class="form-label">하단 CTA 버튼 텍스트 <span style="color:var(--accent)">(Button Accent)</span></label>
                         <input name="cta_text" class="form-input" value="${data.cta_text||'우리 가게도 바뀔 수 있을까? 무료 진단받기'}" placeholder="예: 무료 진단받기 ->">
+                    </div>
+
+                    <div style="background:rgba(255,255,255,0.03); padding:20px; border-radius:20px; border:1px solid var(--border); margin: 2rem 0; text-align:center;">
+                        <p style="font-size:0.75rem; color:var(--accent); font-weight:900; margin-bottom:1rem;"><i class="fa fa-mouse-pointer"></i> 히어로 레이아웃 1:1 라이브 편집</p>
+                        <button type="button" class="btn" style="width:100%; box-shadow:0 0 40px rgba(0,114,255,0.2);" onclick="openLiveLayoutEditor()">
+                             1:1 라이브 배치 모드 시작 (드래그 지원)
+                        </button>
                     </div>
 
                     <div class="form-row" style="margin-top:2rem; padding-top:2rem; border-top:1px solid var(--border);">
@@ -1223,6 +1245,142 @@
     }
 
     switchView('global');
+
+    // ───── 1:1 LIVE LAYOUT EDITOR ─────
+    // ───── 1:1 LIVE LAYOUT EDITOR (DUAL PC/MOBILE) ─────
+    let currentMode = 'pc'; // 'pc' or 'mobile'
+
+    window.openLiveLayoutEditor = async () => {
+        const liveLayer = document.getElementById('live-layer');
+        const container = document.getElementById('live-preview-container');
+        liveLayer.style.display = 'block';
+        container.innerHTML = '<div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:#fff;"><i class="fa fa-spinner fa-spin"></i> 마스터 룸 연결 중...</div>';
+
+        const s = await getDoc(doc(db, 'settings', 'hero'));
+        const d = s.exists() ? s.data() : {};
+        
+        const renderEditor = (mode) => {
+            currentMode = mode;
+            const suffix = '_' + mode;
+            const isMob = mode === 'mobile';
+            
+            container.innerHTML = `
+                <!-- [MODE SWITCHER] -->
+                <div style="position:absolute; top:80px; left:50%; transform:translateX(-50%); display:flex; gap:10px; z-index:100001; background:rgba(0,0,0,0.5); padding:5px; border-radius:15px; border:1px solid rgba(255,255,255,0.1);">
+                    <button onclick="openLiveLayoutEditorMode('pc')" class="btn btn-s" style="background:${!isMob ? 'var(--accent)' : 'transparent'}; border:none;">🖥️ PC 배치</button>
+                    <button onclick="openLiveLayoutEditorMode('mobile')" class="btn btn-s" style="background:${isMob ? 'var(--accent)' : 'transparent'}; border:none;">📱 모바일 배치</button>
+                </div>
+
+                <!-- [SIMULATOR FRAME] -->
+                <div id="sim-frame" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:${isMob ? '390px' : '100%'}; height:${isMob ? '844px' : '100vh'}; box-shadow:0 0 100px rgba(0,0,0,0.8); border:${isMob ? '10px solid #222' : 'none'}; border-radius:${isMob ? '40px' : '0'}; overflow:hidden; background:#000; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);">
+                    
+                    <!-- BACKGROUND VIDEO & LOGO -->
+                    <div style="position:absolute; inset:0;">
+                        <!-- ACTUAL UPLOADED VIDEO LINK (Sync with Form Inputs) -->
+                        <video id="editor-video-bg" src="${isMob ? (document.getElementById('path-hero_video_mobile')?.value || d.hero_video_mobile || '../hero-mobile.mp4') : (document.getElementById('path-hero_video_desktop')?.value || d.hero_video_desktop || '../hero-desktop.mp4')}" autoplay muted loop style="width:100%; height:100%; object-fit:cover; opacity:0.5; pointer-events:none;"></video>
+                        
+                        <!-- HIGH SCALE LOGO SYNC (Mirroring Actual Site) -->
+                        <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); color:rgba(255,255,255,0.06); font-size:${isMob?'60vw':'75vw'}; font-weight:950; letter-spacing:-0.05em; pointer-events:none; white-space:nowrap; text-align:center; filter:blur(2px);">THE 3</div>
+                    </div>
+
+                    <!-- [NAV BAR SIMULATOR] Mirror site spacing -->
+                    <div style="position:absolute; top:0; left:0; width:100%; height:80px; background:linear-gradient(to bottom, rgba(0,0,0,0.5), transparent); z-index:5;"></div>
+
+                    <!-- DRAGGABLE CANVAS - EXACT 1:1 MIRROR -->
+                    <div id="editor-cinematic-wrap" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; z-index:20; padding:0 20px;">
+                        
+                        <!-- 1. hero-sub -->
+                        <div class="draggable" data-id="hero-sub" data-key="off_label${suffix}" 
+                             style="transform:translateY(${d['off_label'+suffix]||0}px); color:#E63946; font-weight:900; letter-spacing:0.4rem; padding:10px 5px; cursor:move; font-size:0.9rem; text-transform:uppercase; margin-bottom:1.5rem; text-shadow:0 2px 8px rgba(0,0,0,0.8); user-select:none;">
+                             ${document.querySelector('[name="subtitle"]')?.value || d.subtitle || 'THE PREMIER CREATIVE AGENCY'}
+                        </div>
+                        
+                        <!-- 2+3. Headline Group - EXACT same structure as index.html -->
+                        <div style="width:100%; max-width:${isMob?'390px':'1200px'}; margin-bottom:2rem;">
+                            <h1 style="display:block; margin:0; padding:0; font-family:'Pretendard',sans-serif; font-size:clamp(2.2rem, 6vw, 4.5rem); font-weight:800; line-height:1.15; letter-spacing:-0.03em; color:#fff;">
+                                <!-- hero-subline (= 0.35em of parent like live site) -->
+                                <div class="draggable" data-id="hero-subline" data-key="off_subline${suffix}" 
+                                     style="transform:translateY(${d['off_subline'+suffix]||0}px); font-size:0.35em; font-weight:700; color:rgba(255,255,255,0.85); letter-spacing:0.1em; margin-bottom:1rem; display:block; cursor:move; padding:5px; user-select:none; text-shadow:0 2px 8px rgba(0,0,0,0.8);">
+                                     ${document.querySelector('[name="main_copy"]')?.value || d.main_copy || '장사도 바쁜데,'}
+                                </div>
+                                <!-- the3-headline-main accent -->
+                                <div class="draggable" data-id="the3-headline-main" data-key="off_main${suffix}" 
+                                     style="transform:translateY(${d['off_main'+suffix]||0}px); display:block; cursor:move; padding:5px; user-select:none; word-break:keep-all;">
+                                     <span style="background:linear-gradient(135deg,#fff 0%,#E63946 50%,#8b0000 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">
+                                        ${document.querySelector('[name="accent_copy"]')?.value || d.accent_copy || '콘텐츠까지 고민하시나요?'}
+                                     </span>
+                                </div>
+                            </h1>
+                        </div>
+
+                        <!-- 4. hero-desc -->
+                        <div class="draggable" data-id="hero-desc" data-key="off_desc${suffix}" 
+                             style="transform:translateY(${d['off_desc'+suffix]||0}px); color:rgba(255,255,255,0.9); font-size:clamp(1rem,2vw,1.25rem); max-width:${isMob?'340px':'850px'}; padding:10px 5px; cursor:move; line-height:1.8; word-break:keep-all; font-weight:600; margin-bottom:3rem; text-shadow:0 2px 8px rgba(0,0,0,0.8); user-select:none;">
+                             ${document.querySelector('[name="description"]')?.value || d.description || ''}
+                        </div>
+
+                        <!-- 5. hero-cta-wrapper -->
+                        <div class="draggable" data-id="hero-cta-wrapper" data-key="off_cta${suffix}" 
+                             style="transform:translateY(${d['off_cta${suffix}']||0}px); padding:1.4rem 3.5rem; background:#E63946; border-radius:99px; color:#fff; font-weight:800; cursor:move; font-size:1.1rem; box-shadow:0 10px 30px rgba(0,0,0,0.5); white-space:nowrap; display:inline-block; width:fit-content; border:2px solid rgba(255,255,255,0.3); user-select:none;">
+                             ${document.querySelector('[name="cta_text"]')?.value || d.cta_text || '우리 가게도 바뀔 수 있을까? 무료 진단받기'} <i class="fa fa-arrow-right" style="margin-left:10px;"></i>
+                        </div>
+                    </div>
+
+                    <!-- BG Logo -->
+                    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:rgba(255,255,255,0.04); font-size:60vw; font-weight:950; letter-spacing:-0.05em; pointer-events:none; white-space:nowrap; z-index:1;">THE 3</div>
+                </div>
+            `;
+
+            const draggables = container.querySelectorAll('.draggable');
+            draggables.forEach(el => {
+                let sy, sv;
+                el.onmousedown = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    el.classList.add('dragging');
+                    sy = e.clientY;
+                    const matches = el.style.transform.match(/translateY\((.+)px\)/);
+                    sv = matches ? parseFloat(matches[1]) : 0;
+                    
+                    const move = (me) => { el.style.transform = `translateY(${sv + me.clientY - sy}px)`; };
+                    const up = () => {
+                        el.classList.remove('dragging');
+                        window.removeEventListener('mousemove', move);
+                        window.removeEventListener('mouseup', up);
+                    };
+                    window.addEventListener('mousemove', move);
+                    window.addEventListener('mouseup', up);
+                };
+            });
+        };
+
+        renderEditor('pc');
+        window.openLiveLayoutEditorMode = (mode) => renderEditor(mode);
+    };
+
+    window.saveLiveLayout = async () => {
+        const container = document.getElementById('live-preview-container');
+        const draggables = container.querySelectorAll('.draggable');
+        const updates = {};
+        
+        draggables.forEach(el => {
+            const key = el.dataset.key;
+            const matches = el.style.transform.match(/translateY\((.+)px\)/);
+            updates[key] = matches ? parseFloat(matches[1]) : 0;
+        });
+
+        try {
+            await updateDoc(doc(db, 'settings', 'hero'), updates);
+            alert(`${currentMode.toUpperCase()} 배치가 성공적으로 저장되었습니다!`);
+            if(confirm('다른 모드도 편집하시겠습니까? "취소"를 누르면 에디터가 닫힙니다.')) {
+                // Keep open
+            } else {
+                document.getElementById('live-layer').style.display = 'none';
+            }
+        } catch(e) {
+            alert('저장 중 오류 발생: ' + e.message);
+        }
+    };
 </script>
 </body>
 </html>

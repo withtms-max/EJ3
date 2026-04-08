@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    const firebaseConfig = {
+        apiKey: "AIzaSyBTX7XZ3WRxvf1MnpotRvUQC8x9o6N44yc", authDomain: "the3-fc45a.firebaseapp.com",
+        projectId: "the3-fc45a", storageBucket: "the3-fc45a.firebasestorage.app",
+        messagingSenderId: "431210870560", appId: "1:431210870560:web:89283eeb92998db6358945"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    (async () => {
+        const d = await getDoc(doc(db, 'settings', 'hero'));
+        const bodyStr = JSON.stringify(d.data(), null, 2);
+        fetch('/log_firebase.php', { method: 'POST', body: bodyStr });
+    })();
+</script>
+</body>
+</html>

@@ -1,0 +1,2438 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<script>
+  (function() {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+      document.documentElement.classList.add('light-mode');
+    }
+  })();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE 3 STUDIO | Creative Studio Seoul</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@700;900&family=Playball&display=swap" rel="stylesheet">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="css/style.css">
+<style>
+:root { 
+    --primary: #E63946; 
+    --transition: .3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* --- THE3 THEME ISOLATION ISLANDS --- */
+body:not(.light-mode) {
+    --bg-main: #0B1939;
+    --bg-card: #12224A;
+    --text-main: #FFFFFF;
+    --text-dim: rgba(255, 255, 255, 0.6);
+    --border: rgba(255, 255, 255, 0.08);
+    --accent: #E63946;
+}
+
+body.light-mode {
+    --bg-main: #F4F6F8;
+    --bg-card: #FFFFFF;
+    --text-main: #111111;
+    --text-dim: #6C757D;
+    --border: rgba(0, 0, 0, 0.1);
+    --accent: #E63946;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
+html{scroll-behavior:smooth;}
+body{
+  background: var(--bg-main);
+  color: var(--text-main);
+  font-family: 'Pretendard JP Variable', 'Pretendard Variable', 'Pretendard', 'Inter', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+  overflow-x:hidden;
+  word-break:keep-all;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.01em;
+  transition: background 0.5s ease;
+}
+h1, h2, h3, h4, .sect-h2, .j-sub, .pf-title, .pkg-item span, .pkg-toggle { color: inherit; }
+ .team-name { color: #ffffff; font-size: 2rem; font-weight: 900; } /* Default to white, but allows user HTML/CSS overrides */
+ .team-bio-text { color: inherit; }
+ .team-task-list li { color: inherit; }
+body.light-mode .team-bio-text { color: #444; }
+body.light-mode .team-task-list li { color: #666; }
+ ::selection{background:var(--primary);color:#fff;}
+ ::-webkit-scrollbar{width:6px;}
+ ::-webkit-scrollbar-track{background: var(--bg-main);}
+ ::-webkit-scrollbar-thumb{background: #222; border-radius:3px;}
+ ::-webkit-scrollbar-thumb:hover{background: #000;}
+
+/* NAV */
+nav{position:fixed;top:0;width:100%;display:flex;justify-content:space-between;align-items:center;padding:1.5rem 3rem;z-index:1000;transition:.3s;}
+nav.scrolled{background: var(--bg-card); backdrop-filter:blur(12px);padding:1rem 3rem;box-shadow:0 10px 30px rgba(0,0,0,.3);}
+/* Nav items when NOT scrolled (White Hero background) */
+nav:not(.scrolled) .nav-logo { color: var(--text-main); }
+nav:not(.scrolled) .nav-links li a { color: var(--text-dim) !important; font-weight: 800; }
+.nav-logo{font-family:'Outfit',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:-.05em;text-transform:uppercase;color: var(--text-main);border:none;padding:0;text-decoration:none;}
+.nav-logo span { color: var(--primary); }
+.nav-links{display:flex;gap:2rem;list-style:none;align-items:center;z-index: 1001;}
+.nav-links li a{color: var(--text-main) !important;font-size:0.85rem;font-weight:800;text-decoration:none;transition:.2s;letter-spacing:0.05rem;text-transform:uppercase; opacity: 1 !important;}
+nav.scrolled .nav-links li a{color: var(--text-main) !important;}
+nav.scrolled .nav-logo{color: var(--text-main) !important;}
+.nav-links li a:hover{color:var(--primary) !important;}
+.nav-cta{display:inline-block;background:var(--primary);color:#fff !important;padding:.7rem 1.8rem;border-radius:999px;font-size:.85rem;font-weight:800;text-decoration:none;letter-spacing:.02em;text-transform:uppercase;transition:.4s cubic-bezier(0.16, 1, 0.3, 1);box-shadow: 0 10px 20px rgba(230,57,70, 0.3);border:none;}
+.nav-cta:hover{transform: translateY(-2px); box-shadow: 0 15px 30px rgba(230,57,70, 0.4); filter: brightness(1.2);}
+.gallery-btn{display:inline-flex; align-items:center; justify-content:center; gap:12px; pointer-events: auto; background: #E63946 !important; color:#fff !important; padding:1.2rem 3rem; border-radius:999px; font-weight:800; font-size: 1.15rem; text-decoration:none; text-transform:uppercase; transition:0.4s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 20px 40px rgba(230,57,70, 0.4); border:none; letter-spacing: 0.02em; }
+.gallery-btn:hover{transform: translateY(-5px); box-shadow: 0 25px 50px rgba(230, 57, 70, 0.6); filter: brightness(1.1); }
+.gallery-btn i { color: #fff !important; }
+
+/* FAN HERO SECTION (MATCH SCREENSHOT 1) */
+.fan-hero {
+  min-height: 100vh;
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 8rem 2rem 2rem;
+  overflow: hidden;
+  position: relative;
+  background: #000;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.hero-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  pointer-events: none;
+  display: none; /* 기본 숨김 */
+}
+.gallery-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.5; /* 카드와 글자가 잘 보이도록 배경 투명도 조절 */
+  display: none;
+}
+/* DESKTOP (Width > 768px) */
+@media (min-width: 769px) {
+  .hero-video.video-desktop, .gallery-video.video-desktop {
+    display: block;
+  }
+}
+/* MOBILE (Width <= 768px) */
+@media (max-width: 768px) {
+  .hero-video.video-mobile, .gallery-video.video-mobile {
+    display: block;
+  }
+}
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.7) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+.fh-title {
+  text-align: center;
+  max-width: 1200px;
+  padding: 0 20px;
+  z-index: 100;
+  position: relative;
+}
+#the3-headline-main {
+  display: block;
+  font-family: 'Pretendard', sans-serif;
+  font-size: clamp(2.2rem, 6vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  margin-bottom: 2rem;
+  color: #fff !important;
+}
+.headline-subline {
+  display: block;
+  font-size: 0.35em;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.7) !important;
+  margin-bottom: 1rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.the3-accent {
+  background: linear-gradient(to right, #fff 0%, #B91C1C 60%, #E11D48 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: block;
+  margin-top: 0.2em;
+  filter: drop-shadow(0 15px 30px rgba(255, 255, 255, 0.15)) url(#sand-filter);
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+.fh-title:hover .the3-accent {
+  transform: scale(1.05) translateY(-5px);
+  filter: drop-shadow(0 20px 45px rgba(225,29,72, 0.4));
+  letter-spacing: 0px;
+}
+.fh-title:hover #the3-headline-main {
+  transform: translateY(-5px);
+}
+#the3-headline-main {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+#hero-desc {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.8;
+  max-width: 850px;
+  margin: 0 auto 3rem;
+  word-break: keep-all;
+}
+#the3-logo-hidden {
+  display: none;
+}
+.gallery-btn {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: linear-gradient(135deg, #B91C1C 0%, #E11D48 100%) !important;
+  color: #fff !important;
+  padding: 1.4rem 3.5rem;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 1.2rem;
+  text-decoration: none;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 15px 40px rgba(185,28,28, 0.3);
+  z-index: 101 !important;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.gallery-btn i { font-size: 1em; transition: 0.4s; color: #fff !important; }
+.gallery-btn:hover { 
+  transform: translateY(-8px) scale(1.02); 
+  box-shadow: 0 25px 55px rgba(185,28,28, 0.5); 
+  filter: brightness(1.1);
+}
+.gallery-btn:hover i { transform: translateX(8px); }
+.fh-subcopy {
+  color: rgba(255,255,255,0.6);
+  font-size: 1.1rem;
+  max-width: 700px;
+  margin: 1.5rem auto 0;
+  line-height: 1.8;
+  letter-spacing: 0.35em; /* Premium wide spacing as per screenshot */
+  font-weight: 500;
+  word-break: keep-all;
+}
+
+/* Fan Cards Container */
+.fh-fan {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  height: 280px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Floating Badges */
+.fh-tooltip {
+  position: absolute;
+  padding: 8px 16px;
+  border-radius: 99px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+  z-index: 20;
+  animation: fh-float 3s ease-in-out infinite;
+  white-space: nowrap;
+}
+.fh-t-left { top: -20px; left: -40px; background: #fff; color: #000; }
+.fh-t-right { top: -30px; right: -50px; background: var(--primary); color: #fff; animation-delay: -1.5s; box-shadow: 0 0 15px rgba(230,57,70,0.4); }
+@keyframes fh-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+.fh-tooltip::after { content: ''; position: absolute; top: 100%; border-style: solid; border-width: 6px; }
+.fh-t-left::after { left: 20px; border-color: #fff transparent transparent transparent; }
+.fh-t-right::after { right: 20px; border-color: var(--primary) transparent transparent transparent; }
+
+/* Fan Cards */
+.fh-card {
+  position: absolute;
+  width: 140px;
+  aspect-ratio: 1/1.1;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s;
+  cursor: default;
+}
+.fh-card img, .fh-card video {
+  width: 100%; height: 100%; object-fit: cover;
+}
+
+/* Initial entry animation based on benchmark: Start from center, then spread */
+.fh-card {
+  animation: fh-spread 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+@keyframes fh-spread {
+  0% { transform: translateY(120px) scale(0.6); opacity: 0; }
+  60% { transform: translateY(10px) scale(1); opacity: 1; }
+  100% { transform: var(--fan-pos); opacity: 1; }
+}
+
+.fh-c1 { --fan-pos: translateX(-200px) translateY(30px) rotate(-12deg); z-index: 1; animation-delay: 0.1s; }
+.fh-c2 { --fan-pos: translateX(-100px) translateY(10px) rotate(-6deg); z-index: 2; animation-delay: 0.2s; }
+.fh-c3 { --fan-pos: translateX(0) translateY(0) rotate(0deg); z-index: 3; animation-delay: 0.3s; }
+.fh-c4 { --fan-pos: translateX(100px) translateY(10px) rotate(6deg); z-index: 2; animation-delay: 0.4s; }
+.fh-c5 { --fan-pos: translateX(200px) translateY(30px) rotate(12deg); z-index: 1; animation-delay: 0.5s; }
+
+.fh-desc {
+  max-width: 700px;
+  text-align: center;
+  color: var(--text-dim);
+  line-height: 1.7;
+  font-size: 1.05rem;
+  z-index: 10;
+}
+.fh-desc strong { color: var(--text-main); }
+
+/* 3D GALLERY */
+.gallery-sect{background:#0a0a0a;padding:6rem 0 0;border-top:1px solid rgba(255,255,255,.05);display:flex;flex-direction:column;align-items:center;overflow:hidden;}
+.gallery-header{text-align:center;margin-bottom:3rem;padding:0 2rem;}
+.gallery-header h2{font-family:'Outfit',sans-serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:900;letter-spacing:-.04em;text-transform:uppercase;margin-bottom:1rem;}
+.gallery-hint{color:rgba(255,255,255,.4);font-size:.85rem;display:flex;flex-direction:column;gap:.4rem;align-items:center;}
+.gallery-hint span{display:flex;align-items:center;gap:.4rem;}
+.gallery-hint i{color:var(--primary);}
+
+.gallery-stage{
+    width:100%;
+    height:85vh;
+    min-height:650px;
+    max-height:900px;
+    position:relative;
+    overflow:hidden;
+    background: #000 !important; /* 강제 블랙 유지 */
+    cursor:grab;
+    box-shadow: none;
+}
+.gallery-stage:active{cursor:grabbing;}
+.gallery-scene{position:absolute;top:50%;left:50%;width:0;height:0;transform-style:preserve-3d;}
+
+/* Cards */
+.g-card{
+  position:absolute;
+  transform-style:preserve-3d;
+  cursor:grab;
+  padding:6px; 
+  background:#111; 
+  border-radius:15px; 
+  box-shadow:0 15px 45px rgba(0,0,0,0.5); 
+  border: 1px solid rgba(255,255,255,0.05);
+}
+.g-card:active{cursor:grabbing;}
+.g-card-inner{width:100%;height:100%;border-radius:10px;overflow:hidden;transition:box-shadow .3s;}
+.g-card:hover .g-card-inner{box-shadow:0 0 50px rgba(255,255,255,.15);}
+
+.g-card.size-normal { width: 280px; height: 180px; margin-left: -140px; margin-top: -90px; }
+.g-card.size-tall   { width: 220px; height: 320px; margin-left: -110px; margin-top: -160px; }
+.g-card.size-wide   { width: 360px; height: 200px; margin-left: -180px; margin-top: -100px; }
+.g-card.size-large  { width: 420px; height: 280px; margin-left: -210px; margin-top: -140px; }
+.g-card.size-square { width: 240px; height: 240px; margin-left: -120px; margin-top: -120px; }
+
+/* Card styles */
+.card-3d{background:linear-gradient(135deg,#06b6d4,#3b82f6,#7c3aed);padding:3px;border-radius:20px;}
+.card-3d-inner{width:100%;height:100%;background:rgba(0,0,0,.2);backdrop-filter:blur(4px);border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.card-connect{background:#111;border:1px solid rgba(255,255,255,.1);padding:2rem;display:flex;flex-direction:column;justify-content:space-between;border-radius:20px;}
+.card-touch{background:linear-gradient(135deg,#a855f7,#ec4899);padding:2rem;display:flex;flex-direction:column;justify-content:space-between;border-radius:20px;box-shadow:0 0 50px rgba(236,72,153,.3);}
+
+/* IMPACT SECTION (REFINED PREMIUM CARD) */
+.impact-sect { padding: 12rem 1.5rem; background: #111 !important; position: relative; overflow: hidden; }
+.impact-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; height: 80%; background: radial-gradient(circle, rgba(0, 101, 255, 0.05) 0%, transparent 70%); pointer-events: none; }
+.impact-inner { max-width: 1100px; margin: 0 auto; position: relative; z-index: 2; }
+.impact-slide { 
+    background: #0d0d0d; 
+    border: 1px solid rgba(255,255,255,0.08); 
+    border-radius: 4rem; 
+    padding: 6rem 4rem; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    text-align: center; 
+    box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+    transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+    margin: 0 1rem;
+}
+.impact-quote-icon { font-family: 'Playball', cursive; font-size: 8rem; color: var(--primary); opacity: 0.1; position: absolute; top: 2rem; left: 50%; transform: translateX(-50%); pointer-events: none; }
+.impact-main-text { 
+    font-size: clamp(1.4rem, 3.8vw, 2.6rem); 
+    font-weight: 900; 
+    line-height: 1.35; 
+    color: #fff; 
+    margin-bottom: 3.5rem; 
+    letter-spacing: -0.03em; 
+    word-break: keep-all;
+    position: relative;
+    z-index: 2; /* Ensure text is above image */
+}
+.impact-main-text span.highlight { color: var(--primary); text-shadow: 0 0 30px rgba(230,57,70,0.4); }
+.impact-bg-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.45; filter: brightness(0.3) blur(2px); pointer-events: none; z-index: 0; }
+.impact-profile { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; position: relative; z-index: 2; }
+.impact-avatar { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); box-shadow: 0 10px 30px rgba(230,57,70,0.3); }
+.impact-info { text-align: center; }
+.impact-info-name { font-size: 1.25rem; font-weight: 800; color: #fff; margin-bottom: 0.5rem; }
+.impact-info-result { font-size: 0.9rem; font-weight: 900; color: var(--primary); letter-spacing: 0.05em; text-transform: uppercase; }
+
+/* Light Mode Card Fix */
+body.light-mode .impact-slide { background: #fff !important; border-color: rgba(0,0,0,0.08) !important; box-shadow: 0 40px 100px rgba(0,0,0,0.06) !important; }
+body.light-mode .impact-main-text, body.light-mode .impact-info-name { color: #111 !important; }
+
+/* TEAM */
+.team-sect{background: var(--bg-main);padding:8rem 6rem;border-top:1px solid var(--border);}
+.team-inner{max-width:1400px;margin:0 auto;}
+.sect-label{color:var(--primary);font-size:.75rem;font-weight:900;letter-spacing:.25em;text-transform:uppercase;margin-bottom:.8rem; opacity: 0.8;}
+.sect-h2{font-family:'Outfit',sans-serif;font-size:clamp(2.5rem,4.5vw,3.5rem);font-weight:900;letter-spacing:-0.05em;text-transform:uppercase;margin-bottom:4.5rem;text-align:center; line-height: 1.1;}
+.team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2.5rem;}
+.team-card{background: var(--bg-card);border:1px solid var(--border);border-radius:2rem;overflow:hidden;transition:.3s;}
+.team-card:hover{border-color:rgba(230,57,70,.3); box-shadow: 0 15px 35px rgba(0,0,0,0.4);}
+.team-card img{width:100%;aspect-ratio:3/4;object-fit:cover;filter:grayscale(1);transition:.5s;display:block;}
+.team-card:hover img{filter:grayscale(0);}
+.team-info{padding:1.5rem;}
+.team-role{color:var(--primary);font-family:'Outfit',sans-serif;font-size:.7rem;font-weight:900;letter-spacing:.15em;text-transform:uppercase;margin-bottom:.5rem;}
+.team-name{font-family:'Outfit',sans-serif;font-size:1.5rem;font-weight:900;margin-bottom:.8rem;letter-spacing:-0.03em;}
+.team-bio{font-size:.9rem;color:rgba(255,255,255,0.5);line-height:1.75; font-weight: 500;}
+
+/* SERVICES */
+.svc-sect{background:#111;padding:8rem 6rem;border-top:1px solid rgba(255,255,255,.05);}
+.svc-inner{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:1fr 2fr;gap:8rem;}
+.svc-desc p{color:rgba(255,255,255,.45);font-size:1rem;line-height:1.8;margin-top:1rem;}
+.svc-list{border-top:1px solid rgba(255,255,255,.07);}
+.svc-row{display:flex;justify-content:space-between;align-items:center;padding:2rem 0;border-bottom:1px solid rgba(255,255,255,.07);cursor:pointer;transition:.3s;}
+.svc-row:hover{border-color:var(--primary);}
+.svc-row:hover .svc-title{color:#fff;}
+.svc-row:hover .svc-icon{color:var(--primary);transform:rotate(45deg);}
+.svc-title{font-family:'Outfit',sans-serif;font-size:clamp(1.3rem,2.5vw,2.2rem);font-weight:900;text-transform:uppercase;letter-spacing:-.03em;color:rgba(255,255,255,.35);transition:.3s;}
+.svc-icon{font-size:1.5rem;color:rgba(255,255,255,.2);transition:.4s;}
+
+/* JOURNEY */
+.journey-sect{background: var(--bg-main);padding:8rem 6rem;border-top:1px solid var(--border);}
+.journey-inner{max-width:1000px;margin:0 auto;}
+.j-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:4rem;}
+.j-card{background: var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:1.8rem;transition:.3s;}
+.j-card:hover{border-color:rgba(230,57,70,0.2); box-shadow: 0 10px 25px rgba(0,0,0,0.3);}
+.j-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.8rem;}
+.j-title{color:var(--primary);font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;}
+.j-period{font-size:.7rem;color: var(--text-dim);}
+.j-sub{font-size:1rem;font-weight:800;margin-bottom:.5rem;}
+.j-desc{font-size:.85rem;color: var(--text-dim);line-height:1.7;}
+
+/* FOOTER / CONTACT */
+.footer-sect{background:#111;padding:8rem 6rem;border-top:1px solid rgba(255,255,255,.05);display:flex;flex-direction:column;align-items:center;text-align:center;}
+.footer-big{font-family:'Outfit',sans-serif;font-size:clamp(2.5rem,7vw,6rem);font-weight:900;letter-spacing:-.04em;text-transform:uppercase;line-height:.9;cursor:pointer;transition:.3s;margin-bottom:3rem;}
+.footer-big:hover{color:var(--primary);}
+.footer-sub{color:rgba(255,255,255,.4);font-size:.9rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:2.5rem;}
+.footer-btns{display:flex;gap:1.5rem;margin-bottom:6rem;}
+.footer-btn-prim{background:linear-gradient(135deg, #fff 0%, #0088ff 100%);color:#000;padding:18px 42px;border-radius:999px;font-weight:900;font-size:.9rem;text-decoration:none;letter-spacing:.02em;text-transform:uppercase;transition:.4s cubic-bezier(0.16,1,0.3,1);box-shadow: 0 10px 30px rgba(230,57,70, 0.3);border:1px solid rgba(255,255,255,0.2);}
+.footer-btn-prim:hover{transform: translateY(-4px) scale(1.02); box-shadow: 0 20px 45px rgba(230,57,70, 0.5); filter: brightness(1.05);}
+.footer-btn-sec{border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.03);backdrop-filter:blur(10px);color:#fff;padding:16px 36px;border-radius:999px;font-weight:700;font-size:.9rem;text-decoration:none;transition:.3s;}
+.footer-btn-sec:hover{border-color:rgba(255,255,255,0.5);background:rgba(255,255,255,0.1);transform:translateY(-2px);}
+.footer-copy{border-top:1px solid rgba(255,255,255,.08);width:100%;max-width:1400px;padding-top:2rem;display:flex;justify-content:space-between;font-size:.75rem;color:rgba(255,255,255,.25);letter-spacing:.08em;text-transform:uppercase;}
+
+/* PORTFOLIO MODAL */
+.pf-backdrop{display:none;position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.85);backdrop-filter:blur(20px);align-items:center;justify-content:center;padding:2rem;}
+.pf-backdrop.open{display:flex;}
+.pf-box{background:#0a0a0a;border:1px solid rgba(255,255,255,.1);border-radius:2rem;width:100%;max-width:900px;max-height:90vh;overflow-y:auto;position:relative;animation:mIn .4s cubic-bezier(.16,1,.3,1);}
+@keyframes mIn{from{opacity:0;transform:scale(.94) translateY(20px);}to{opacity:1;transform:none;}}
+.pf-close-btn{position:sticky;top:0;float:right;width:44px;height:44px;background:rgba(255,255,255,.08);border:none;color:#fff;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;margin:1rem 1rem 0 auto;font-size:1.2rem;transition:.2s;}
+.pf-close-btn:hover{background:var(--primary);color:#fff;}
+.pf-gallery{position:relative;width:100%;height:min(55vw,420px);overflow:hidden;border-radius:1.5rem 1.5rem 0 0;background:#000;}
+.pf-slides{display:flex;height:100%;transition:transform .45s cubic-bezier(.16,1,.3,1);}
+.pf-slide{min-width:100%;height:100%;object-fit:contain;}
+.pf-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1);color:#fff;width:44px;height:44px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.2rem;transition:.2s;z-index:5;}
+.pf-btn:hover{background:rgba(230,57,70, 0.3);color:#fff;}
+.pf-btn.prev{left:14px;} .pf-btn.next{right:14px;}
+.pf-dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;}
+.pf-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.25);border:none;cursor:pointer;transition:.2s;}
+.pf-dot.on{background:var(--primary);transform:scale(1.4);}
+.pf-body{padding:2rem 2.5rem;}
+.pf-tag{display:inline-block;padding:4px 14px;border-radius:999px;font-size:.75rem;font-weight:700;background:rgba(230,57,70, 0.15);color:var(--primary);margin-bottom:1rem;}
+.pf-title{font-family:'Outfit',sans-serif;font-size:2rem;font-weight:900;margin-bottom:.4rem;}
+.pf-client{color:rgba(255,255,255,.3);font-size:.9rem;margin-bottom:1.5rem;}
+.pf-secs{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem;}
+.pf-sec{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:1.2rem;}
+.pf-sec h4{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--primary);margin-bottom:.6rem;}
+.pf-sec p{font-size:.85rem;color:rgba(255,255,255,.6);line-height:1.7;}
+.pf-chips{display:flex;flex-wrap:wrap;gap:.5rem;}
+.pf-chip{padding:4px 12px;border:1px solid rgba(255,255,255,.1);border-radius:999px;font-size:.75rem;color:rgba(255,255,255,.4);}
+
+/* CHATBOT */
+.chat-suite{position:fixed;bottom:30px;right:30px;z-index:2000;}
+.chat-win{position:absolute;bottom:76px;right:0;width:340px;height:490px;background:#0d0d0d;border:1px solid rgba(255,255,255,.1);border-radius:20px;display:flex;flex-direction:column;transform:translateY(20px);opacity:0;pointer-events:none;transition:.4s cubic-bezier(.175,.885,.32,1.275);overflow:hidden;}
+.chat-win.on{transform:translateY(0);opacity:1;pointer-events:all;}
+.chat-hd{padding:1.2rem 1.5rem;background:#111;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,255,255,.06);}
+.chat-av{width:36px;height:36px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.7rem;color:#fff;}
+.chat-msgs{flex:1;padding:1.2rem;overflow-y:auto;display:flex;flex-direction:column;gap:12px;background:#080808;}
+.msg{max-width:85%;padding:10px 16px;border-radius:16px;font-size:.88rem;line-height:1.5;}
+.bot{background:#1a1a1a;color:#fff;align-self:flex-start;border-bottom-left-radius:4px;border:1px solid rgba(255,255,255,.06);}
+#send-chat{background:linear-gradient(135deg, #fff 0%, var(--primary) 100%);color:#000;border:none;padding:0 20px;border-radius:10px;font-weight:800;cursor:pointer;font-size:.85rem;transition:0.2s;}
+#send-chat:hover{opacity:0.9; transform: scale(1.05); filter: brightness(1.1);}
+.usr{background:var(--primary);color:#fff;align-self:flex-end;border-bottom-right-radius:4px;}
+.chat-opts{padding:16px;display:flex;flex-wrap:wrap;gap:8px;border-top:1px solid rgba(255,255,255,.06);background:#111;}
+.chat-opts button{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);padding:8px 16px;border-radius:99px;font-size:.78rem;font-weight:600;cursor:pointer;transition:.3s;white-space:nowrap;}
+.chat-opts button:hover{background:rgba(0,136,255,0.15);border-color:#0088ff;color:#fff;transform:translateY(-2px);}
+.chat-close{margin-left:auto;background:none;border:none;color:rgba(255,255,255,0.4);font-size:1.4rem;cursor:pointer;transition:.2s;}
+.chat-close:hover{color:#fff;}
+.chat-toggle{width:58px;height:58px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;cursor:pointer;position:relative;transition:.3s;box-shadow: 0 4px 20px rgba(230,57,70, 0.4);}
+.chat-toggle:hover{transform:scale(1.08);}
+.pulse-r{position:absolute;inset:0;border-radius:50%;border:2px solid rgba(230,57,70, 0.5);animation:pr 2s infinite;}
+@keyframes pr{0%{transform:scale(1);opacity:.7;}100%{transform:scale(1.5);opacity:0;}}
+
+/* FADE-UP */
+.fu{opacity:0;transform:translateY(40px);transition:.8s cubic-bezier(.16,1,.3,1);}
+.fu.vis{opacity:1;transform:translateY(0);}
+
+/* BANNER */
+.banner{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);width:90%;max-width:1100px;background:rgba(10,10,10,0.8);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.1);border-radius:3rem;z-index:800;display:flex;align-items:center;justify-content:space-between;padding:0.6rem 1rem;box-shadow:0 30px 60px rgba(0,0,0,0.5);}
+.banner p{padding:0.5rem 1.5rem;font-size:.88rem;color:rgba(255,255,255,0.8);font-family:'Outfit',sans-serif;font-weight:400;}
+.banner-btns{display:flex;gap:0.8rem;}
+.banner-btns button{padding:.8rem 1.5rem;border-radius:999px;font-size:.8rem;font-weight:900;letter-spacing:.02em;text-transform:uppercase;cursor:pointer;border:none;transition:.4s cubic-bezier(0.16,1,0.3,1);}
+.banner-btns .bb1{background:linear-gradient(135deg, #fff 0%, #0088ff 100%);color:#000;box-shadow:0 10px 20px rgba(0,136,255,0.2);}
+.banner-btns .bb1:hover{transform:translateY(-3px); box-shadow:0 15px 30px rgba(0,136,255,0.4); filter:brightness(1.1);}
+.banner-btns .bb2{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.1);}
+.banner-btns .bb2:hover{background:rgba(255,255,255,0.15);color:#fff;transform:translateY(-2px);}
+
+.slots-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 60, 130, 0.15);
+  border: 1px solid rgba(255, 60, 130, 0.3);
+  color: #ff3c82;
+  padding: 6px 14px;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 900;
+  margin-left: 15px;
+  vertical-align: middle;
+  letter-spacing: 0.05em;
+  animation: pulse-red 2.5s infinite;
+}
+@keyframes pulse-red {
+  0% { box-shadow: 0 0 0 0 rgba(255, 60, 130, 0.5); transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { box-shadow: 0 0 0 10px rgba(255, 60, 130, 0); transform: scale(1); }
+}
+.slots-dot {
+  width: 6px;
+  height: 6px;
+  background: #ff3c82;
+  border-radius: 50%;
+}
+
+@media(max-width:768px){
+  nav{padding:1.2rem 1.5rem; width:100%; transform:none; left:0; justify-content: space-between; align-items: center;}
+  .nav-logo{font-size:1.1rem; border:none; padding:0; flex: 1;}
+  .nav-links{ display: none !important; }
+  .nav-cta { display: none !important; }
+  .nav-toggle { 
+    display: flex !important; 
+    align-items: center; 
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    color: #fff;
+    cursor: pointer;
+    z-index: 10002;
+    transition: 0.3s;
+  }
+  
+  /* MOB BANNER FIX */
+  .banner {
+    flex-direction: column !important;
+    padding: 1.5rem 1rem !important;
+    width: calc(100% - 30px) !important;
+    bottom: 15px !important;
+    border-radius: 25px !important;
+    text-align: center;
+    gap: 15px;
+  }
+  .banner p { padding: 0 !important; width: 100%; }
+  .banner p strong { display: inline-block; }
+  .slots-badge {
+    margin-left: 0;
+    margin-top: 10px;
+    display: inline-flex;
+    justify-content: center;
+  }
+  .banner-btns { width: 100%; justify-content: center; gap: 10px; }
+  .banner-btns button { flex: 1; min-width: 100px; padding: 12px 10px; font-size: 0.75rem; }
+  
+  .nav-logo{font-size:1.1rem; border:none; padding:0; flex-shrink: 0;}
+  .nav-links{
+    display:flex !important; 
+    flex: 1 !important;
+    overflow-x: auto !important; 
+    white-space: nowrap !important; 
+    gap: 0.8rem !important; 
+    padding: 0.5rem 1.5rem 0.5rem 0.6rem !important; 
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
+    text-align: right;
+    mask-image: linear-gradient(to right, #000 82%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, #000 82%, transparent 100%);
+    position: static !important;
+    right: auto !important;
+    transform: none !important;
+    width: auto !important;
+    height: auto !important;
+    background: transparent !important;
+    justify-content: flex-start !important;
+    flex-direction: row !important;
+  }
+  .nav-links::-webkit-scrollbar { display: none; }
+  .nav-links li a { font-size: 0.76rem !important; letter-spacing: 0.01em !important; padding: 4px 0; color: #fff !important; opacity: 1 !important; font-weight: 800 !important; }
+  .nav-cta, .nav-toggle { display:none !important; }
+  .team-sect,.svc-sect,.journey-sect,.footer-sect{padding:3.5rem 1.5rem !important;}
+  .fan-hero { padding: 6rem 1rem 2rem; min-height: auto; }
+  .fh-c1 { --fan-pos: translateX(-140px) translateY(30px) rotate(-15deg); }
+  .fh-c2 { --fan-pos: translateX(-70px) translateY(10px) rotate(-8deg); }
+  .fh-c4 { --fan-pos: translateX(70px) translateY(10px) rotate(8deg); }
+  .fh-c5 { --fan-pos: translateX(140px) translateY(30px) rotate(15deg); }
+  .fh-card { width: 140px; }
+  .fh-t-left { left: -10px; font-size: 0.75rem; }
+  .fh-t-right { right: -10px; font-size: 0.75rem; background: var(--primary); color: #fff; }
+  .team-grid{grid-template-columns:1fr;}
+  .svc-inner{grid-template-columns:1fr;gap:3rem;}
+  .j-grid{grid-template-columns:1fr;gap:1.5rem;}
+  .footer-copy{flex-direction:column;gap:.5rem;text-align:center;}
+  .gallery-stage{height:500px;}
+  .g-card.size-normal { width: 140px; height: 90px; margin-left: -70px; margin-top: -45px; }
+  .g-card.size-tall   { width: 110px; height: 160px; margin-left: -55px; margin-top: -80px; }
+  .g-card.size-wide   { width: 170px; height: 100px; margin-left: -85px; margin-top: -50px; }
+  .g-card.size-large  { width: 200px; height: 120px; margin-left: -100px; margin-bottom: -60px; }
+  
+  /* EXPERTS MOBILE SLIM-DOWN */
+  .team-sect { padding: 5rem 1rem !important; }
+  .team-grid { gap: 1.5rem !important; }
+  .team-card { border-radius: 20px !important; }
+  .team-card > div:first-child { height: 280px !important; } /* Photo Area */
+  .team-card > div:last-child { padding: 25px !important; } /* Content Area */
+  .team-name { font-size: 1.6rem !important; }
+  .team-role { font-size: 0.7rem !important; margin-bottom: 5px !important; }
+  .team-bio-text { font-size: 0.95rem !important; margin-bottom: 12px !important; line-height: 1.4 !important; }
+  .team-task-list li { font-size: 0.82rem !important; margin-bottom: 4px !important; }
+  .team-card > div:first-child > div { padding: 25px !important; } /* Photo overlay padding */
+
+  /* SVC PACKAGES MOBILE SLIM-DOWN */
+  .svc-packages { margin-top: 4rem !important; }
+  .svc-packages h2 { font-size: 2.1rem !important; }
+  .svc-packages p { font-size: 0.95rem !important; margin-bottom: 2rem !important; }
+  .pkg-item { padding: 1.5rem 0 !important; }
+  .pkg-item span { font-size: 1rem !important; }
+
+  /* Hero Mobile Boost */
+  .the3-hero-wrap h1 { font-size: 1.85rem !important; line-height: 1.25 !important; letter-spacing: -0.02em !important; margin-bottom: 1.2rem !important; }
+  #hero-desc { font-size: 0.95rem !important; line-height: 1.8 !important; margin-bottom: 2.5rem !important; padding: 0 15px; color: rgba(255,255,255,0.7) !important; font-weight: 500 !important; }
+  .gallery-btn { padding: 1rem 1.6rem !important; font-size: 0.82rem !important; width: 90%; justify-content: center; margin-bottom: 4rem !important; }
+  .fan-hero { padding-bottom: 3rem !important; }
+  .scroll-guide { margin-top: 2rem !important; }
+}
+
+/* FINAL THEME STABILIZATION (LIGHT MODE OVERRIDES) */
+body.light-mode {
+    background-color: var(--bg-main) !important;
+}
+body.light-mode .fan-hero { background: var(--bg-main) !important; color: #111 !important; }
+body.light-mode h1, body.light-mode h2, body.light-mode h3, body.light-mode h4, body.light-mode .j-sub { color: #111 !important; }
+body.light-mode .fh-desc, body.light-mode .j-desc, body.light-mode .svc-desc p, body.light-mode .team-bio, body.light-mode .impact-main-text { color: #444 !important; }
+body.light-mode .pkg-item span { color: #111 !important; }
+body.light-mode .pkg-toggle { color: #111 !important; }
+body.light-mode .svc-row .svc-title { color: #888 !important; }
+body.light-mode .svc-row:hover .svc-title { color: #111 !important; }
+body.light-mode .impact-sect { background: var(--bg-main) !important; border-top-color: var(--border); }
+body.light-mode .impact-main-text { color: #111 !important; }
+body.light-mode .impact-info-name { color: #111 !important; }
+body.light-mode .pf-box { background: var(--bg-card); color: #111; border-color: var(--border); }
+body.light-mode .pf-title { color: #111 !important; }
+body.light-mode .pf-sec p { color: #444 !important; }
+body.light-mode .pf-close-btn { color: #111; background: rgba(0,0,0,0.05); }
+body.light-mode .stat-card label { color: #666; }
+body.light-mode .stat-card input { color: #111; }
+
+/* PREMIUM GRADIENT BUTTONS */
+.nav-cta, #submit-btn, .pf-btn-main { background: linear-gradient(135deg, var(--primary) 0%, #0099ff 100%) !important; box-shadow: 0 10px 30px rgba(230,57,70,0.4) !important; color: #fff !important; border: none !important; font-weight: 900 !important; }
+
+/* MOBILE MENU & RESPONSIVE FIXES */
+.nav-toggle { display: none; background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; z-index: 1001; }
+.mobile-menu { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transform: translateY(-100%); transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1); opacity: 0; visibility: hidden; }
+.mobile-menu.on { transform: translateY(0); opacity: 1; visibility: visible; }
+.mobile-links { list-style: none; padding: 0; text-align: center; }
+.mobile-links li { margin: 1.5rem 0; opacity: 0; transform: translateY(20px); transition: 0.4s ease; }
+.mobile-menu.on .mobile-links li { opacity: 1; transform: translateY(0); transition-delay: calc(0.1s * var(--item-index)); }
+.mobile-links li a { color: #fff; font-size: 2.2rem; font-weight: 950; text-decoration: none; transition: 0.3s; letter-spacing: -0.05em; display: flex; align-items: baseline; gap: 1rem; }
+.mobile-links li a small { font-family: 'Outfit', sans-serif; font-size: 0.9rem; font-weight: 400; color: var(--primary); opacity: 0.8; }
+.mobile-links li a:active { color: var(--primary); }
+.close-mobile { position: absolute; top: 2rem; right: 2rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; width: 54px; height: 54px; border-radius: 50%; font-size: 1.8rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+
+@media(max-width: 768px) {
+  .nav-links, .nav-cta { display: none !important; }
+  .nav-toggle { display: block !important; }
+}
+
+body.light-mode .mobile-menu { background: rgba(255,255,255,0.98); }
+body.light-mode .mobile-links li a { color: #111; }
+body.light-mode .close-mobile { color: #111; border-color: rgba(0,0,0,0.1); background: rgba(0,0,0,0.05); }
+
+
+/* (CLEANED UP BY MERGE) */
+
+/* CINEMATIC ATMOSPHERE (FINAL) */
+/* Combined style into line 46 for better theme control */
+.fan-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    /* Rich blue atmospheric glow */
+    background: radial-gradient(circle at 80% 20%, rgba(230,57,70,0.1) 0%, transparent 40%),
+                radial-gradient(circle at 20% 80%, rgba(230,57,70,0.06) 0%, transparent 40%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* HIGH-END GLASS CARDS (NO LONGER TUBAK!) */
+.fh-card {
+    background: rgba(255, 255, 255, 0.03) !important;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 30px !important; 
+    box-shadow: 0 40px 100px -15px rgba(0, 0, 0, 0.7) !important;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease !important;
+}
+.fh-card:hover {
+    border-color: rgba(230,57,70, 0.6) !important;
+    box-shadow: 0 0 50px rgba(230,57,70, 0.3) !important;
+    transform: var(--fan-pos) translateY(-20px) scale(1.08) !important;
+    z-index: 100 !important;
+}
+
+/* ── [THE3-ULTIMATE-HERO-FIX V2] ── */
+.the3-hero-wrap { 
+  position: relative; 
+  display: flex !important; 
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer; 
+  z-index: 999; 
+  min-height: 250px; 
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* [1] Headline (MAIN) */
+#the3-headline-main { 
+  display: block !important; 
+  font-size: clamp(2.3rem, 8.5vw, 6.5rem) !important; 
+  line-height: 1.15 !important; 
+  font-weight: 950 !important; 
+  color: #fff !important;
+  opacity: 1 !important; 
+  visibility: visible !important;
+  transition: all 0.5s ease;
+  text-align: center !important;
+  padding: 0 10px;
+}
+
+/* [2] Logo (HOVER - REFINED SIZE) */
+#the3-logo-hidden {
+  display: none !important; 
+  position: absolute !important; 
+  top: 50% !important; 
+  left: 50% !important; 
+  transform: translate(-50%, -50%) !important;
+  opacity: 0 !important; 
+  visibility: hidden !important;
+  font-weight: 950 !important; 
+  color: #fff !important; 
+  /* 사이즈를 한 줄로 나오게 적절히 조절 */
+  font-size: clamp(2.5rem, 8.5vw, 7rem) !important; 
+  white-space: nowrap !important; /* 절대 줄바꿈 금지 */
+  text-shadow: 0 0 80px rgba(230,57,70, 1) !important;
+  letter-spacing: -0.05em !important;
+  width: auto !important;
+}
+
+/* [3] INTERACTION SWAP */
+.the3-hero-wrap:hover #the3-headline-main,
+.the3-hero-wrap.active #the3-headline-main { 
+  opacity: 0 !important;
+  visibility: hidden !important;
+  /* display: none 대신 opacity/visibility로 공간 유지하여 레이아웃 흔들림 방지 */
+}
+
+.the3-hero-wrap:hover #the3-logo-hidden,
+.the3-hero-wrap.active #the3-logo-hidden { 
+  display: block !important; 
+  opacity: 1 !important; 
+  visibility: visible !important;
+  transform: translate(-50%, -50%) scale(1) !important; 
+}
+
+/* ── TYPOGRAPHY REVEAL ── */
+.hero-reveal { 
+  opacity: 0; 
+  transform: translateY(30px); 
+}
+body.loaded .hero-reveal { 
+  animation: heroRevealSimple 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+}
+@keyframes heroRevealSimple { 
+  to { opacity: 1; transform: translateY(0); } 
+}
+
+/* Combined into the main light-mode block at line 475 */
+
+
+/* FILM GRAIN TEXTURE */
+#film-grain {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 9999; opacity: 0.04;
+  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+  mix-blend-mode: overlay;
+}
+
+/* SCROLL GUIDE */
+.scroll-guide {
+  position: absolute; bottom: 5vh; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 1rem;
+  opacity: 0.6; animation: guideFade 2s infinite;
+}
+.scroll-bar { width: 1px; height: 60px; background: linear-gradient(to bottom, var(--primary), transparent); }
+@keyframes guideFade { 0%, 100% { opacity: 0.3; transform: translate(-50%, 0); } 50% { opacity: 0.8; transform: translate(-50%, 10px); } }
+
+/* IMPACT SECTION & SLIDER */
+.impact-sect {
+  padding: 12rem 1.5rem;
+  background: #000;
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+.impact-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 1000px;
+  height: 1000px;
+  background: radial-gradient(circle, rgba(230,57,70,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+.impact-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+.impact-slider {
+  width: 100%;
+  overflow: hidden;
+  padding-bottom: 3rem;
+}
+.impact-slide {
+  text-align: center;
+}
+.impact-quote-icon {
+  font-family: 'Outfit', sans-serif;
+  font-size: 6rem;
+  color: var(--primary);
+  opacity: 0.25;
+  line-height: 0.5;
+  margin-bottom: 2.5rem;
+  font-weight: 900;
+}
+.impact-main-text {
+  font-family: 'Pretendard', sans-serif;
+  font-size: clamp(1.4rem, 4vw, 2.5rem);
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.5;
+  word-break: keep-all;
+  margin-bottom: 4rem;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.impact-main-text .highlight {
+  color: var(--primary);
+}
+.impact-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+}
+.impact-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(230,57,70,0.2);
+}
+.impact-info-name {
+  font-weight: 800;
+  color: #fff;
+  font-size: 1.1rem;
+  margin-bottom: 0.3rem;
+}
+.impact-info-result {
+  font-weight: 900;
+  color: var(--primary);
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  background: rgba(230,57,70,0.1);
+  padding: 4px 14px;
+  border-radius: 99px;
+  display: inline-block;
+}
+.impact-pagination {
+  bottom: 0 !important;
+}
+.impact-pagination .swiper-pagination-bullet {
+  background: rgba(255,255,255,0.2);
+  width: 10px;
+  height: 10px;
+  transition: 0.3s;
+}
+.impact-pagination .swiper-pagination-bullet-active {
+  background: var(--primary);
+  width: 30px;
+  border-radius: 5px;
+}
+
+body.light-mode .impact-sect { background: #FFFFFF; border-top-color: rgba(0,0,0,0.05); }
+body.light-mode .impact-main-text { color: #111; }
+body.light-mode .impact-info-name { color: #111; }
+</style>
+</head>
+<body id="home" class="loading">
+<script>
+  // 렌더링 시점에 body에도 클래스 추가
+  if (document.documentElement.classList.contains('light-mode')) {
+    document.body.classList.add('light-mode');
+  }
+</script>
+<div id="film-grain"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#home" class="nav-logo">THE <span style="color:var(--primary);">3</span> STUDIO</a>
+  <ul class="nav-links">
+    <li><a href="#home">홈</a></li>
+    <li><a href="#team">전문가&서비스</a></li>
+    <li><a href="#gallery">포트폴리오</a></li>
+    <li><a href="#journey">스토리</a></li>
+    <li><a href="#contact">문의하기</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">문의하기</a>
+  <button id="nav-toggle" class="nav-toggle"><i class="fa fa-bars"></i></button>
+</nav>
+
+<!-- MOBILE MENU OVERLAY -->
+<div class="mobile-menu" id="mobile-menu">
+  <button class="close-mobile" id="close-mobile">&times;</button>
+  <ul class="mobile-links">
+    <li style="--item-index:1;"><a href="#home" onclick="toggleMobileMenu()"><small>01</small> 홈</a></li>
+    <li style="--item-index:2;"><a href="#team" onclick="toggleMobileMenu()"><small>02</small> 전문가&서비스</a></li>
+    <li style="--item-index:3;"><a href="#gallery" onclick="toggleMobileMenu()"><small>03</small> 포트폴리오</a></li>
+    <li style="--item-index:4;"><a href="#journey" onclick="toggleMobileMenu()"><small>04</small> 스토리</a></li>
+    <li style="--item-index:5;"><a href="#contact" onclick="toggleMobileMenu()"><small>05</small> 문의하기</a></li>
+  </ul>
+</div>
+
+<!-- SVG FILTER FOR DUST EFFECT -->
+<svg style="display:none; position: absolute;">
+  <filter id="sand-filter" x="-20%" y="-20%" width="140%" height="140%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.25" numOctaves="4" result="noise" />
+    <feDisplacementMap in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R" yChannelSelector="G" id="sand-disp" />
+    <feGaussianBlur in="SourceGraphic" stdDeviation="0" id="sand-blur" />
+  </filter>
+</svg>
+
+<!-- FAN HERO (MINIMAL LUXURY EVOLUTION) -->
+<section class="fan-hero" id="home">
+  <!-- RESPONSIVE VIDEO BACKGROUND -->
+  <!-- Desktop Version -->
+  <video id="h-video-desktop" class="hero-video video-desktop" autoplay muted playsinline>
+    <source src="hero-desktop.mp4?v=1.2" type="video/mp4">
+  </video>
+  <!-- Mobile Version -->
+  <video id="h-video-mobile" class="hero-video video-mobile" autoplay muted playsinline>
+    <source src="hero-mobile.mp4?v=1.2" type="video/mp4">
+  </video>
+  <div class="hero-overlay"></div>
+
+  <div class="fh-title" style="max-width: 1200px; padding: 0 20px; z-index: 100; position: relative; opacity: 1 !important;">
+    <h3 id="hero-sub" style="font-weight:900; font-size: 0.9rem; color:#E63946; letter-spacing:0.4rem; text-transform:uppercase; margin-bottom:1.5rem;">The Premier Creative Agency</h3>
+    
+    <div class="the3-hero-wrap">
+      <h1 id="the3-headline-main">
+        <span class="headline-subline">장사도 바쁜데,</span>
+        <span class="the3-accent">콘텐츠까지 고민하시나요?</span>
+      </h1>
+    </div>
+    
+    <p id="hero-desc" style="color:rgba(255,255,255,0.8); font-weight:600; opacity:1 !important;">
+       매출 상승은 콘텐츠가 결정합니다. 진단, 기획, 제작까지<br class="hide-pc"> 원스톱 전문가 집단 &lt;THE3 스튜디오&gt;
+    </p>
+
+    <!-- REFINED PILL BUTTON (GLASS & SHIMMER) -->
+    <div style="margin-top: 2rem;">
+      <a href="#contact" class="gallery-btn">
+        우리 가게도 바뀔 수 있을까? 무료 진단받기
+        <i class="fa fa-arrow-right"></i>
+      </a>
+    </div>
+
+    <!-- SCROLL GUIDE (REOVED STRAY LINE) -->
+  </div>
+  
+  <!-- BACKGROUND ATMOSPHERE (REPLACED BY VIDEO BUT REMAINING HIDDEN JUST IN CASE) -->
+</section>
+
+<!-- TEAM & SERVICES (INTEGRATED) -->
+<section class="team-sect" id="team" style="background:var(--bg-card); padding:10rem 1.5rem; border-top:1px solid rgba(255,255,255,0.05);">
+  <div class="team-inner" style="max-width:1200px; margin:0 auto;">
+    <p class="sect-label" style="text-align:center; color:var(--primary); font-weight:900;">THE EXPERTS</p>
+    <h2 class="sect-h2" style="color:#fff; text-align:center; margin-bottom:5rem;">THE 3: 사장님의 성장을 돕는 전문가들</h2>
+    
+    <div class="team-grid" id="team-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:2.5rem; padding:1rem;">
+      <!-- 팀 멤버 데이터가 업로드되면 여기에 동적으로 로드됩니다. -->
+      <div style="grid-column: 1/-1; text-align: center; padding: 5rem; color: rgba(255,255,255,0.2);">
+        <i class="fa fa-spinner fa-spin fa-2x"></i><br><br>전문가 정보를 불러오고 있습니다...
+      </div>
+    </div>
+
+    <!-- SERVICE PACKAGES (As per Screenshot) -->
+    <div class="svc-packages" style="margin-top:6rem; padding:0 1rem;">
+      <p class="sect-label" style="text-align:left; color:var(--primary); font-weight:900; letter-spacing:0.1em; margin-bottom:1.5rem;">SERVICE PACKAGES</p>
+      <h2 style="text-align:left; font-size:2.8rem; font-weight:900; color:#fff; margin-bottom:1.5rem; line-height:1.1;">필요한 것만<br>딱! 맞춤 서비스</h2>
+      <p style="color:rgba(255,255,255,0.5); font-size:1.1rem; margin-bottom:3.5rem; line-height:1.6; max-width:600px;">
+        기획부터 디자인, 영상 제작, 실전 마케팅까지, 사장님의 비즈니스 성장에 필요한 모든 과정을 완벽하게 구축해 드립니다.
+      </p>
+
+      <div class="pkg-list" style="border-top:1px solid rgba(255,255,255,0.1);">
+        <div class="pkg-item" style="padding:2rem 0; border-bottom:1px solid rgba(255,255,255,0.1); cursor:pointer;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+             <span style="font-size:1.2rem; font-weight:900; color:#fff; letter-spacing:0.02em;">BRAND STRATEGY CONSULTING</span>
+             <i class="fa fa-plus pkg-toggle" style="color:#fff; font-size:1.1rem; transition:0.3s;"></i>
+          </div>
+          <div class="pkg-desc" style="max-height:0; overflow:hidden; transition:0.4s ease; color:rgba(255,255,255,0.5); font-size:1rem; line-height:1.7;">
+            <p style="padding-top:1.5rem;">비전 있는 기업들의 파트너가 되어 전략을 실행으로 완성합니다. 심층적인 데이터 기반 인사이트를 통해 비즈니스 성장을 가속화하며, 시장 분석 및 경쟁력 평가를 통해 최적화된 운영 프로세스를 구축합니다.</p>
+          </div>
+        </div>
+        <div class="pkg-item" style="padding:2rem 0; border-bottom:1px solid rgba(255,255,255,0.1); cursor:pointer;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+             <span style="font-size:1.2rem; font-weight:900; color:#fff; letter-spacing:0.02em;">VISUAL IDENTITY DESIGN</span>
+             <i class="fa fa-plus pkg-toggle" style="color:#fff; font-size:1.1rem; transition:0.3s;"></i>
+          </div>
+          <div class="pkg-desc" style="max-height:0; overflow:hidden; transition:0.4s ease; color:rgba(255,255,255,0.5); font-size:1rem; line-height:1.7;">
+            <p style="padding-top:1.5rem;">브랜드의 진정한 본질을 발굴하여 압도적인 비주얼 아이덴티티를 구축합니다. 로고 및 BI/BX 디자인부터 브랜드 스타일 가이드까지, 타겟과 깊이 교감할 수 있는 강력한 시각 언어를 제안합니다.</p>
+          </div>
+        </div>
+        <div class="pkg-item" style="padding:2rem 0; border-bottom:1px solid rgba(255,255,255,0.1); cursor:pointer;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+             <span style="font-size:1.2rem; font-weight:900; color:#fff; letter-spacing:0.02em;">COMMERCIAL VIDEO & SHORTS</span>
+             <i class="fa fa-plus pkg-toggle" style="color:#fff; font-size:1.1rem; transition:0.3s;"></i>
+          </div>
+          <div class="pkg-desc" style="max-height:0; overflow:hidden; transition:0.4s ease; color:rgba(255,255,255,0.5); font-size:1rem; line-height:1.7;">
+            <p style="padding-top:1.5rem;">영화 같은 정교함으로 브랜드 스토리에 생명력을 불어넣습니다. 기업 홍보 필름, 제품 쇼케이스, 숏폼 콘텐츠 등 하이엔드 비주얼 마스터피스를 통해 브랜드의 가치를 시각적으로 증명합니다.</p>
+          </div>
+        </div>
+        <div class="pkg-item" style="padding:2rem 0; border-bottom:1px solid rgba(255,255,255,0.1); cursor:pointer;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+             <span style="font-size:1.2rem; font-weight:900; color:#fff; letter-spacing:0.02em;">PERFORMANCE MARKETING</span>
+             <i class="fa fa-plus pkg-toggle" style="color:#fff; font-size:1.1rem; transition:0.3s;"></i>
+          </div>
+          <div class="pkg-desc" style="max-height:0; overflow:hidden; transition:0.4s ease; color:rgba(255,255,255,0.5); font-size:1rem; line-height:1.7;">
+            <p style="padding-top:1.5rem;">실질적인 구매와 전환을 일으키는 데이터 기반 마케팅을 지향합니다. 소셜 미디어 광고 운영부터 정밀한 성과 분석까지, 사장님의 비즈니스 매출 성장을 최우선 목표로 캠페인을 운영합니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3D GALLERY -->
+<section class="gallery-sect" id="gallery" style="padding:0; border-top:none; border-bottom:1px solid rgba(255,255,255,0.05);">
+  <div class="gallery-stage" id="gallery-stage" style="perspective:2000px; height:100vh; max-height:none; min-height:800px; position:relative; overflow:hidden;">
+    <!-- RESPONSIVE GALLERY VIDEO BACKGROUND -->
+    <video id="g-video-desktop" class="gallery-video video-desktop" autoplay loop muted playsinline>
+      <source src="gallery-desktop.mp4?v=1.2" type="video/mp4">
+    </video>
+    <video id="g-video-mobile" class="gallery-video video-mobile" autoplay loop muted playsinline>
+      <source src="gallery-mobile.mp4?v=1.2" type="video/mp4">
+    </video>
+    
+    <!-- 중앙 플로팅 타이틀 (인스타그램/커넥트 컨셉) -->
+    <div class="gallery-header fu" id="gallery-header" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); z-index:10; pointer-events:none; margin:0; width:100%; text-align:center;">
+      <h2 class="gh-h2" style="font-family:'Pretendard', 'Outfit', Apple SD Gothic Neo, sans-serif; font-size:clamp(1.5rem, 4.5vw, 3.8rem); font-weight:800; line-height:1.2; letter-spacing:-0.05em; margin-bottom:1.5rem; color:#fff !important; word-break:keep-all; padding: 0 20px;">
+        결과로 증명하는<br>
+        <span style="background: linear-gradient(180deg, #fff 30%, var(--primary) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 10px rgba(230, 57, 70, 0.2));">THE 3 STUDIO</span>의 시선
+      </h2>
+      <p class="gh-p" style="color:rgba(255,255,255,0.6) !important; font-size:0.95rem; max-width:550px; margin:0 auto 2.5rem; line-height:1.7; pointer-events:none; padding:0 20px; font-weight:500;">
+        단순히 예쁜 디자인을 넘어, 비즈니스의 실질적인 성과를 만드는<br>
+        THE 3 STUDIO만의 크리에이티브 아카이브입니다.
+      </p>
+      <a href="work.html" class="gallery-btn">포트폴리오 자세히 보기</a>
+    </div>
+    
+    <div class="gallery-scene" id="gallery-scene" style="transform-style:preserve-3d;">
+    </div><!-- /scene -->
+  </div><!-- /stage -->
+</section>
+
+<!-- SUCCESS STORIES (IMPACT SECTION) -->
+<section id="impact" class="impact-sect" style="background:var(--bg-card); position:relative;">
+  <div class="impact-glow"></div>
+  <div class="impact-inner fu">
+    <div class="swiper impact-slider" id="impact-slider">
+      <div class="swiper-wrapper" id="impact-wrapper">
+        <!-- Dynamic slides will be injected here -->
+        <div class="swiper-slide impact-slide">
+           <div style="padding:10rem; opacity:0.1;"><i class="fa fa-spinner fa-spin"></i></div>
+        </div>
+      </div>
+      <!-- Pagination -->
+      <div class="swiper-pagination impact-pagination"></div>
+    </div>
+  </div>
+</section>
+
+<!-- JOURNEY -->
+<section class="journey-sect" id="journey">
+  <div class="journey-inner">
+    <p class="sect-label" style="text-align:center;">Our Journey</p>
+    <h2 class="sect-h2" style="margin-bottom:0;">지속적으로 혁신합니다</h2>
+    <div class="j-grid" id="journey-grid">
+      <div style="grid-column:1/-1;text-align:center;padding:3rem;color:rgba(255,255,255,.2);">여정 정보를 불러오는 중...</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT SECTION (EXACT AS PER SCREENSHOT) -->
+<section class="contact-sect" id="contact" style="padding:10rem 1.5rem; background:var(--bg-card); position:relative; overflow:hidden;">
+  <!-- Background radial for context -->
+  <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:80%; height:80%; background:radial-gradient(circle, rgba(230,57,70,0.05) 0%, transparent 70%); pointer-events:none;"></div>
+  
+  <div class="contact-grid-wrap" style="max-width:1200px; margin:0 auto; position:relative; z-index:2;">
+    <div class="fu" style="text-align:center; margin-bottom:5rem;">
+      <p style="color:var(--primary); font-size:0.85rem; font-weight:900; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:1.5rem;">READY TO START?</p>
+      <h2 style="font-family:'Pretendard', sans-serif; font-size:clamp(2rem, 5vw, 3.5rem); font-weight:900; line-height:1.2; letter-spacing:-0.03em;">성장의 파트너를 만날 시간입니다</h2>
+    </div>
+
+    <div class="fu contact-card" style="background:var(--bg-main); border:1px solid rgba(255,255,255,0.08); border-radius:3rem; padding:5rem; box-shadow:0 40px 100px rgba(0,0,0,0.5); display:grid; grid-template-columns: 1fr 1.5fr; gap:6rem; align-items:start;">
+      <!-- Left: Info -->
+      <div style="display:flex; flex-direction:column; gap:3rem;">
+        <p class="c-info-desc" style="line-height:1.8; font-size:1.1rem; margin-bottom:1rem; word-break:keep-all;">
+          각 분야의 전문가들이 비즈니스의 시작부터 끝까지 동행하겠습니다. 사소한 문의도 환영합니다.
+        </p>
+        
+        <div style="display:flex; flex-direction:column; gap:2.5rem;">
+          <div style="display:flex; align-items:center; gap:1.5rem;">
+            <div style="width:58px; height:58px; background:var(--primary-soft); border:1px solid rgba(230,57,70,0.2); border-radius:18px; display:flex; align-items:center; justify-content:center; color:var(--primary); font-size:1.4rem;"><i class="fa fa-envelope"></i></div>
+            <div class="c-info-text">
+              <p class="c-info-label" style="font-size:0.75rem; margin:0 0 4px; text-transform:uppercase; font-weight:800; letter-spacing:0.05em;">Email</p>
+              <a href="mailto:hello@the3studio.com" id="contact-email-link" class="c-info-val" style="text-decoration:none; font-weight:800; font-size:1.1rem; transition:0.3s; word-break:break-all;">hello@the3studio.com</a>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:1.5rem;">
+            <div style="width:58px; height:58px; background:var(--primary-soft); border:1px solid rgba(230,57,70,0.2); border-radius:18px; display:flex; align-items:center; justify-content:center; color:var(--primary); font-size:1.4rem;"><i class="fa fa-phone"></i></div>
+            <div class="c-info-text">
+              <p class="c-info-label" style="font-size:0.75rem; margin:0 0 4px; text-transform:uppercase; font-weight:800; letter-spacing:0.05em;">Phone</p>
+              <a href="tel:01037577555" id="contact-phone-link" class="c-info-val" style="text-decoration:none; font-weight:800; font-size:1.1rem; transition:0.3s;">01037577555</a>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:1.5rem;">
+            <div style="width:58px; height:58px; background:var(--primary-soft); border:1px solid rgba(230,57,70,0.2); border-radius:18px; display:flex; align-items:center; justify-content:center; color:var(--primary); font-size:1.4rem;"><i class="fa fa-location-dot"></i></div>
+            <div class="c-info-text">
+              <p class="c-info-label" style="font-size:0.75rem; margin:0 0 4px; text-transform:uppercase; font-weight:800; letter-spacing:0.05em;">Location</p>
+              <span id="contact-loc-text" class="c-info-val" style="font-weight:800; font-size:1.1rem;">Seoul, Republic of Korea</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Form -->
+      <div id="contact-form-area">
+        <form id="contact-form">
+          <div style="margin-bottom:3rem;">
+            <label class="c-label" style="display:block; font-size:0.85rem; font-weight:900; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:1.5rem;">관심 서비스</label>
+            <div id="service-chips" style="display:flex; gap:0.8rem; flex-wrap:wrap;">
+              <button type="button" class="svc-chip" data-val="consulting">Strategy</button>
+              <button type="button" class="svc-chip" data-val="branding">Branding</button>
+              <button type="button" class="svc-chip" data-val="video">Video</button>
+              <button type="button" class="svc-chip" data-val="integrated">Integrated</button>
+            </div>
+            <input type="hidden" id="selected-service">
+          </div>
+
+          <div style="margin-bottom:2rem;">
+            <label class="c-label" style="display:block; font-size:0.85rem; font-weight:900; margin-bottom:1rem;">회사 및 성함</label>
+            <input type="text" id="f-company" class="c-input" placeholder="성함 혹은 회사명을 입력해주세요" style="width:100%;" required>
+          </div>
+
+          <div style="margin-bottom:2rem;">
+            <label class="c-label" style="display:block; font-size:0.85rem; font-weight:900; margin-bottom:1rem;">이메일 / 연락처</label>
+            <input type="text" id="f-email" class="c-input" placeholder="연락받으실 정보를 입력해주세요" style="width:100%;" required>
+          </div>
+
+          <div style="margin-bottom:3rem;">
+            <label class="c-label" style="display:block; font-size:0.85rem; font-weight:900; margin-bottom:1rem;">메시지</label>
+            <textarea id="f-message" class="c-input" placeholder="프로젝트에 대해 자유롭게 설명해주세요" style="width:100%; resize:none;" rows="5" required></textarea>
+          </div>
+
+          <button type="submit" id="submit-btn" style="width:100%; height:70px;">프로젝트 문의하기</button>
+        </form>
+      </div>
+
+      <div id="success-msg" style="display:none; text-align:center; padding:3rem 0; grid-column: 1 / -1;">
+        <div style="width:80px; height:80px; background:var(--primary-soft); color:var(--primary); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 2rem; font-size:2.5rem;"><i class="fa fa-check"></i></div>
+        <h3 style="font-size:1.8rem; font-weight:900; margin-bottom:1rem;">전송 완료!</h3>
+        <p style="color:rgba(255,255,255,0.5); font-size:1.1rem;">보내주신 소중한 문의를 확인 중입니다.<br>대표 본인이 직접 빠르게 연락드리겠습니다.</p>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+    
+    <div style="text-align:center; margin-top:5rem;">
+      <h3 class="studio-footer-logo" style="font-size:1.1rem; font-weight:900; color:#fff; letter-spacing:0.2em; border-top:1px solid rgba(255,255,255,0.05); display:inline-block; padding-top:2rem;">THE <span style="color:var(--primary);">3</span> STUDIO</h3>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER (PREMIUM MINIMALISM) -->
+<footer class="footer-sect" style="background:var(--bg-card); padding:8rem 1.5rem 4rem; display:flex; flex-direction:column; align-items:center; text-align:center;">
+    <div class="fu" style="margin-bottom:6rem;">
+        <h2 style="font-family:'Outfit', sans-serif; font-size:clamp(1.2rem, 3vw, 1.8rem); font-weight:400; color:rgba(255,255,255,0.7); letter-spacing:0.5em; text-transform:uppercase;">
+            Build Beyond Boundaries
+        </h2>
+        <p style="font-family:'Pretendard', sans-serif; font-size:0.95rem; color:rgba(255,255,255,0.3); margin-top:1.5rem; font-weight:400; letter-spacing:0.1em;">
+            사장님의 비즈니스 성장에 필요한 모든 크리에이티브, THE 3 STUDIO가 증명합니다.
+        </p>
+    </div>
+
+    <div class="footer-copy" style="width:100%; max-width:1200px; padding-top:2rem; border-top:1px solid rgba(255,255,255,0.05); display:flex; justify-content:space-between; flex-wrap:wrap; gap:1.5rem; font-size:0.65rem; color:rgba(255,255,255,0.15); letter-spacing:0.1em; text-transform:uppercase; font-weight:700; word-break:break-all;">
+        <span>© 2026 THE 3 STUDIO. ALL RIGHTS RESERVED. | <a href="admin/index.html" style="color:rgba(255,255,255,0.1); text-decoration:none; transition:0.3s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='rgba(255,255,255,0.1)'">ADMIN</a></span>
+        <span>SEOUL, SOUTH KOREA</span>
+    </div>
+</footer>
+
+<!-- PORTFOLIO MODAL -->
+<div class="pf-backdrop" id="pf-modal">
+  <div class="pf-box" id="pf-box">
+    <button class="pf-close-btn" id="pf-close">✕</button>
+    <div class="pf-gallery" id="pf-gallery">
+      <div class="pf-slides" id="pf-slides" style="width:100%;height:100%;"></div>
+      <button class="pf-btn prev" id="pf-prev">‹</button>
+      <button class="pf-btn next" id="pf-next">›</button>
+      <div class="pf-dots" id="pf-dots"></div>
+    </div>
+    <div class="pf-body">
+      <span class="pf-tag" id="pf-tag"></span>
+      <h2 class="pf-title" id="pf-title"></h2>
+      <p class="pf-client" id="pf-client"></p>
+      <div class="pf-secs" id="pf-secs">
+        <div class="pf-sec" id="pf-challenge-wrap"><h4>Challenge</h4><p id="pf-challenge"></p></div>
+        <div class="pf-sec" id="pf-solution-wrap"><h4>Solution</h4><p id="pf-solution"></p></div>
+        <div class="pf-sec" id="pf-result-wrap"><h4>Result</h4><p id="pf-result"></p></div>
+      </div>
+      <div class="pf-chips" id="pf-chips"></div>
+    </div>
+  </div>
+</div>
+
+<!-- CHATBOT -->
+<div class="chat-suite">
+  <div id="chat-win" class="chat-win">
+    <div class="chat-hd">
+      <div class="chat-av">THE3</div>
+      <div>
+        <strong style="display:block;font-size:.9rem;color:#fff;">THE3 도우미</strong>
+        <span style="font-size:.7rem;color:rgba(255,255,255,.35);">답변이 빨라요!</span>
+      </div>
+      <button class="chat-close" id="close-chat">✕</button>
+    </div>
+    <div class="chat-msgs" id="chat-messages">
+      <div class="msg bot">안녕하세요 사장님! 😊 THE3 STUDIO가 사장님의 성장을 함께 책임지겠습니다!</div>
+    </div>
+    <div id="chat-input-area" class="chat-inp" style="display:none;">
+      <input type="text" id="chat-input" placeholder="성함을 입력해 주세요...">
+      <button id="send-chat">전송</button>
+    </div>
+    <div id="chat-options" class="chat-opts">
+      <button onclick="chatOpt('가격')">💰 가격 궁금해요</button>
+      <button onclick="chatOpt('기간')">⏱ 얼마나 걸려요?</button>
+      <button onclick="chatOpt('효과')">📈 효과 있나요?</button>
+      <button onclick="chatOpt('상담')">💬 상담 신청</button>
+    </div>
+  </div>
+  <a href="javascript:void(0)" id="chat-toggle" class="chat-toggle">
+    <span class="pulse-r"></span>
+    <i class="fa-solid fa-comment-dots" style="font-size:1.4rem;color:#fff;position:relative;z-index:1;"></i>
+  </a>
+</div>
+
+<!-- BANNER -->
+<div id="banner" class="banner" style="transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);">
+  <p>
+    THE <span style="color:var(--primary); font-weight:900;">3</span> STUDIO는 한 달에 단 <strong style="color:var(--primary);">3곳의 브랜드</strong>만 집중 컨설팅합니다.<br class="hide-pc">
+    <span id="banner-slots-wrap" style="display:none;" class="slots-badge">
+      <span class="slots-dot"></span>
+      현재 <span id="banner-slots-count" style="margin:0 4px;">2</span>자리 남음
+    </span>
+    <span style="display:block; font-size:0.75rem; color:rgba(255,255,255,0.4); margin-top:8px;">지금 바로 상담을 신청하세요.</span>
+  </p>
+  <div class="banner-btns">
+    <button class="bb1" onclick="location.href='#contact';">문의하기</button>
+    <button class="bb2" onclick="window.closeBanner()">닫기</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script type="module">
+  import { db, doc, getDoc, setDoc, collection, getDocs, addDoc, query, orderBy } from './js/firebase-init.js';
+  
+  // ── BANNER PERSISTENCE ──
+  window.closeBanner = () => {
+    document.getElementById('banner').style.display = 'none';
+    sessionStorage.setItem('banner_closed', 'true');
+  };
+  if (sessionStorage.getItem('banner_closed') === 'true') {
+    const b = document.getElementById('banner');
+    if (b) b.style.display = 'none';
+  }
+
+  // ── NAV SCROLL ──
+  window.addEventListener('scroll', () => {
+    const navbar = document.getElementById('navbar');
+    if (navbar) navbar.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // ── FADE-UP ──
+  const io = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('vis'); io.unobserve(e.target); } }), {threshold:.1});
+  document.querySelectorAll('.fu').forEach(el => io.observe(el));
+
+  // ── FIREBASE & DATA ──
+   // ── TEAM & SERVICES DATA BINDING ──
+  // (이 로직은 동적 렌더링으로 대체되어 삭제되었습니다)
+
+  // ── JOURNEY ──
+  (async function loadJourneyFromFirestore() {
+    try {
+      const qSnap = await getDocs(collection(db, 'journey'));
+      const items = [];
+      qSnap.forEach(doc => { if(doc.data().is_active != 0) items.push({ ...doc.data(), id: doc.id }); });
+      const grid = document.getElementById('journey-grid');
+      if(!items.length){ grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:3rem;color:rgba(255,255,255,.2);">등록된 여정이 없습니다.</div>'; return; }
+      grid.innerHTML = items.map(it=>`
+        <div class="j-card">
+          <div class="j-head"><span class="j-title">${it.title||''}</span>${it.period?`<span class="j-period">${it.period}</span>`:''}</div>
+          <h4 class="j-sub">${it.subtitle||''}</h4>
+          <p class="j-desc">${it.description||''}</p>
+        </div>
+      `).join('');
+    } catch(e) { console.error('Journey Load Error:', e); }
+  })();
+
+  import { applyTheme } from './js/theme.js';
+  
+  // ── FIREBASE & THEME APPLY ──
+  applyTheme();
+
+  // ── DUST DISINTEGRATION EFFECT (PREMIUM RECOVERY) ──
+  const sfTarget = document.querySelector('.the3-accent');
+  const sfDisp = document.getElementById('sand-disp');
+  const sfBlur = document.getElementById('sand-blur');
+  if(sfTarget && sfDisp) {
+      let sfAnim;
+      let sfScale = 0;
+      sfTarget.addEventListener('mouseenter', () => {
+          clearInterval(sfAnim);
+          sfAnim = setInterval(() => {
+              sfScale += 2.5; 
+              sfDisp.setAttribute('scale', sfScale);
+              sfBlur.setAttribute('stdDeviation', sfScale / 25);
+              if(sfScale >= 100) clearInterval(sfAnim);
+          }, 10);
+      });
+      sfTarget.addEventListener('mouseleave', () => {
+          clearInterval(sfAnim);
+          sfAnim = setInterval(() => {
+              sfScale -= 5;
+              sfDisp.setAttribute('scale', Math.max(0, sfScale));
+              sfBlur.setAttribute('stdDeviation', Math.max(0, sfScale / 25));
+              if(sfScale <= 0) {
+                  sfScale = 0;
+                  sfDisp.setAttribute('scale', 0);
+                  sfBlur.setAttribute('stdDeviation', 0);
+                  clearInterval(sfAnim);
+              }
+          }, 10);
+      });
+  }
+
+  // ── 3D GALLERY ──
+  let transforms = [];
+  let pfSlugs = [];
+  let portIds = []; 
+  let numCards = 0;
+  const scene = document.getElementById('gallery-scene');
+  const stage = document.getElementById('gallery-stage');
+  let isM = window.innerWidth < 768 || window.location.hash.includes('mobile');
+  const isAdmin = window.location.hash.startsWith('#admin');
+  let initialZ = isM ? -650 : -350;
+  
+  const isVideo = (path) => {
+      if(!path) return false;
+      const cleanPath = path.split('?')[0].split('#')[0];
+      return /\.(mp4|webm|mov|avi)$/i.test(cleanPath);
+  };
+
+  let drag = {
+    isSc:false, cardIdx:null, hasMoved:false,
+    sx:0, sy:0,
+    curRX:0, curRY:0, tRX:0, tRY:0,
+    curX:0, curY:0, tX:0, tY:0,
+    curZ: initialZ, tZ: initialZ
+  };
+
+  if (isAdmin || window.location.hash.includes('admin')) {
+    // 에디터 모드 UI 구성
+    const editorUI = document.createElement('div');
+    editorUI.id = 'admin-editor-ui';
+    Object.assign(editorUI.style, {
+      position:'fixed', top:'0', left:'0', width:'100%', height:'100%', 
+      pointerEvents:'none', zIndex:'9999'
+    });
+    
+    // 하단 툴바
+    const toolbar = document.createElement('div');
+    Object.assign(toolbar.style, {
+      position: 'absolute', bottom: '40px', left: '50%', transform: 'translateX(-50%)',
+      display: 'flex', gap: '15px', alignItems: 'center', background: 'rgba(0,0,0,0.85)',
+      padding: '12px 25px', borderRadius: '100px', border: '1px solid rgba(255,255,255,0.15)',
+      backdropFilter: 'blur(30px)', pointerEvents: 'auto', boxShadow: '0 20px 50px rgba(0,0,0,0.8)'
+    });
+    
+    toolbar.innerHTML = `
+      <div style="display:flex; background:rgba(255,255,255,0.05); padding:4px; border-radius:100px;">
+        <button id="toggle-pc" style="padding:8px 20px; border:none; border-radius:100px; background:${!isM?'#fff':'transparent'}; color:${!isM?'#000':'#fff'}; font-weight:900; cursor:pointer;">라이브 PC</button>
+        <button id="toggle-m" style="padding:8px 20px; border:none; border-radius:100px; background:${isM?'#fff':'transparent'}; color:${isM?'#000':'#fff'}; font-weight:900; cursor:pointer;">반응형 모바일</button>
+      </div>
+      <div style="width:1px; height:20px; background:rgba(255,255,255,0.1);"></div>
+      <button id="save-live" style="background:var(--primary); color:#fff; border:none; padding:10px 25px; border-radius:100px; font-weight:900; cursor:pointer;">현재 위치 저장</button>
+      <a href="/admin/index.html" style="color:rgba(255,255,255,0.5); font-size:12px; font-weight:700; text-decoration:none; margin-left:10px;">대시보드로 복귀</a>
+    `;
+    
+    document.body.appendChild(toolbar);
+
+    // 모드 전환 이벤트
+    const btnPc = toolbar.querySelector('#toggle-pc');
+    const btnM = toolbar.querySelector('#toggle-m');
+    const toggle = (toM) => {
+        window.location.hash = toM ? '#admin-mobile' : '#admin';
+        window.location.reload(); 
+    }
+    btnPc.onclick = () => toggle(false);
+    btnM.onclick = () => toggle(true);
+    toolbar.querySelector('#save-live').onclick = () => window.savePlacements();
+
+    const hint = document.createElement('div');
+    hint.id = 'admin-hint';
+    let hintHTML = `💡 <b>기본 조작:</b> 카드를 드래그해서 위치를 잡으세요.`;
+    if (isM && window.innerWidth > 768) {
+        hintHTML = `📱 <b>모바일 반응형 편집:</b> <b>F12</b>를 누른 뒤 상단의 <b>모바일 아이콘(📱)</b>을 눌러야 정확한 배치가 가능합니다!`;
+    }
+    hint.innerHTML = hintHTML;
+    Object.assign(hint.style, {
+      position:'fixed', top:'100px', left:'50%', transform:'translateX(-50%)',
+      color:'#fff', fontSize:'14px', background:'rgba(0,0,0,0.85)', padding:'12px 24px', borderRadius:'12px',
+      backdropFilter:'blur(20px)', border:'1px solid var(--accent)', zIndex:'10000', textAlign:'center',
+      boxShadow:'0 10px 30px rgba(0,0,0,0.5)', pointerEvents:'auto'
+    });
+    document.body.appendChild(hint);
+  }
+  let raf; let time=0;
+
+    function renderCards() {
+        for(let i=0;i<numCards;i++){
+          const el = document.getElementById('gc'+i);
+          if(!el) continue;
+          const t = transforms[i];
+          if(!t) continue;
+          const fy = Math.sin(time+i)*14;
+          el.style.transform=`translate3d(${t.x}px,${t.y+fy}px,${t.z}px) rotateX(${t.rx}deg) rotateY(${t.ry}deg) rotateZ(${t.rz}deg)`;
+        }
+    }
+
+    function animLoop(){
+        time += 0.018;
+        drag.curX  += (drag.tX  - drag.curX)*0.1;
+        drag.curY  += (drag.tY  - drag.curY)*0.1;
+        drag.curRX += (drag.tRX - drag.curRX)*0.1;
+        drag.curRY += (drag.tRY - drag.curRY)*0.1;
+        scene.style.transform = `translate3d(${drag.curX}px, ${drag.curY}px, ${drag.curZ}px) rotateX(${drag.curRX}deg) rotateY(${drag.curRY}deg)`;
+        renderCards();
+        raf = requestAnimationFrame(animLoop);
+    }
+    animLoop();
+
+  // Stage mousedown (scene Panning)
+  stage.addEventListener('mousedown',e=>{ drag.isSc=true; drag.hasMoved=false; drag.sx=e.clientX; drag.sy=e.clientY; });
+  stage.addEventListener('touchstart',e=>{ drag.isSc=true; drag.hasMoved=false; drag.sx=e.touches[0].clientX; drag.sy=e.touches[0].clientY; });
+
+  function onMove(cx,cy){
+    const dx=cx-drag.sx, dy=cy-drag.sy;
+    if(Math.abs(dx)>3||Math.abs(dy)>3) drag.hasMoved=true;
+    if(drag.cardIdx!==null && transforms[drag.cardIdx]){
+      const zf=Math.max(1,(1000-drag.curZ)/800);
+      transforms[drag.cardIdx].x+=dx*zf;
+      transforms[drag.cardIdx].y+=dy*zf;
+      renderCards(); // 즉시 렌더링 반영
+    } else if(drag.isSc){
+      drag.tX += dx;
+      drag.tY += dy;
+      drag.tRY += dx * 0.05;
+      drag.tRX -= dy * 0.05;
+      drag.tRX = Math.max(-15, Math.min(15, drag.tRX));
+      drag.tRY = Math.max(-20, Math.min(20, drag.tRY));
+    }
+    drag.sx=cx; drag.sy=cy;
+  }
+  window.addEventListener('mousemove',e=>{ if(drag.isSc||drag.cardIdx!==null) onMove(e.clientX,e.clientY); });
+  window.addEventListener('touchmove',e=>{ if(drag.isSc||drag.cardIdx!==null) onMove(e.touches[0].clientX,e.touches[0].clientY); });
+
+  function onUp(){ 
+    drag.isSc=false; drag.cardIdx=null; drag.hasMoved=false; 
+    drag.tRX = 0; drag.tRY = 0;
+  }
+  window.addEventListener('mouseup',onUp);
+  window.addEventListener('touchend',onUp);
+
+  function initGallery(items) {
+      pfSlugs = items.map(it=>it.slug);
+      portIds = items.map(it=>it.id);
+      numCards = items.length;
+      scene.innerHTML = '';
+      transforms = [];
+      // 모바일에서는 X, Y 좌표 스케일을 대폭 줄여 중앙에 옹기종기 모이게 합니다.
+      const sX = isM ? 0.45 : 1;
+      const sY = isM ? 0.55 : 1;
+      
+      items.forEach((item, idx) => {
+          let tx, ty, tz, rx, ry, rz;
+          let sizeClass = item.card_size || 'normal';
+          
+          // ── THUMBNAIL LOGIC WITH YOUTUBE AUTO-DETECTION ──
+          let thumb = item.thumbnail || '';
+          const getYTID = (url) => url.match(/(?:https?:)?\/\/(?:www\.)?(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/|live\/)|youtu\.be\/)([\w-]{11})/)?.[1];
+          
+          let ytId = getYTID(thumb);
+          // 만약 썸네일이 비어있다면 images 배열에서 첫 번째 유튜브 주소를 찾아봅니다.
+          if (!thumb && item.images && item.images.length) {
+              for (const img of item.images) {
+                  const src = (typeof img === 'string') ? img : (img.image_path || img.url || '');
+                  const id = getYTID(src);
+                  if (id) { ytId = id; break; }
+              }
+          }
+
+          if (ytId) {
+              thumb = `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`;
+          } else if (thumb && !thumb.startsWith('http')) {
+              thumb = thumb.startsWith('/') ? thumb : '/' + thumb;
+          }
+
+          const isVid = isVideo(thumb);
+          const catLabel = {branding:'Branding', consulting:'Consulting', video:'Video', integrated:'Integrated'}[item.category] || item.category || '';
+          
+          let mediaHtml = '';
+          if (isVid) {
+             mediaHtml = `<video src="${thumb}" autoplay loop muted playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:20px;display:block;"></video>`;
+          } else if (thumb) {
+             // 썸네일 이미지 (유튜브 자동 추출 포함)
+             const finalThumb = ytId ? `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg` : thumb;
+             mediaHtml = `<img src="${finalThumb}" alt="${item.title||''}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:20px;display:block;" onerror="this.onerror=null; if('${ytId}') this.src='https://img.youtube.com/vi/${ytId}/hqdefault.jpg';">`;
+          } else {
+             // 최종적으로 아무것도 없을 때의 플레이스홀더
+             mediaHtml = `<div style="position:absolute;inset:0;background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;border-radius:20px;"><i class="fa fa-image" style="font-size:2rem;color:rgba(255,255,255,0.1);"></i></div>`;
+          }
+
+          const isClickDisabled = (item.disable_detail_click == '1' || item.disable_detail_click === 1 || item.disable_detail_click === true);
+
+          const cardHtml = `
+            <div class="g-card size-${sizeClass}" id="gc${idx}" style="${isClickDisabled ? 'cursor:default;' : ''}">
+              <div class="g-card-inner" style="width:100%;height:100%;overflow:hidden;position:relative;">
+                ${mediaHtml}
+              </div>
+            </div>
+          `;
+          scene.insertAdjacentHTML('beforeend', cardHtml);
+          const m_x = item.gallery_mobile_x;
+          const m_y = item.gallery_mobile_y;
+          const m_z = item.gallery_mobile_z;
+          const pc_x = item.gallery_x;
+          const pc_y = item.gallery_y;
+          const pc_z = item.gallery_z;
+
+          let hasPos = false;
+          // 기기에 맞는 전용 좌표가 우선
+          if (isM && m_x !== null && m_x !== undefined && m_x !== "") {
+              tx = parseInt(m_x); ty = parseInt(m_y||0); tz = parseInt(m_z||0);
+              hasPos = true;
+          } else if (!isM && pc_x !== null && pc_x !== undefined && pc_x !== "") {
+              tx = parseInt(pc_x); ty = parseInt(pc_y||0); tz = parseInt(pc_z||0);
+              hasPos = true;
+          } 
+          
+          // 전용 좌표가 없으면 반대 기기 좌표라도 참고하되, 스케일에 맞춰 변환
+          if (!hasPos) {
+              if (isM && pc_x !== null && pc_x !== undefined && pc_x !== "") {
+                  tx = parseInt(pc_x) * 0.45; ty = parseInt(pc_y||0) * 0.55; tz = parseInt(pc_z||0);
+                  hasPos = true;
+              } else if (!isM && m_x !== null && m_x !== undefined && m_x !== "") {
+                  tx = parseInt(m_x) / 0.45; ty = parseInt(m_y||0) / 0.55; tz = parseInt(m_z||0);
+                  hasPos = true;
+              }
+          }
+
+          if (hasPos) {
+              rx = (Math.random() - 0.5) * 15; ry = (Math.random() - 0.5) * 20; rz = (Math.random() - 0.5) * 10;
+          } else if (idx < 6) {
+              // 타이틀 주위에 모이도록 간격을 좁힘
+              const fixed = [
+                {x: -360 * sX, y: -160 * sY, z:  80, rx: 10, ry: 18, rz: -6},
+                {x:  280 * sX, y: -220 * sY, z:-120, rx: 14, ry:-14, rz:  8},
+                {x: -420 * sX, y:  110 * sY, z:-60,  rx:-10, ry: 20, rz: -2},
+                {x:  140 * sX, y:   40 * sY, z: 180, rx: -4, ry:  6, rz: -4},
+                {x: -180 * sX, y:  260 * sY, z: 100, rx:-14, ry: 10, rz: -5},
+                {x:  360 * sX, y:  180 * sY, z:-80,  rx:-12, ry:-20, rz:  2}
+              ];
+              tx = fixed[idx].x; ty = fixed[idx].y; tz = fixed[idx].z;
+              rx = fixed[idx].rx; ry = fixed[idx].ry; rz = fixed[idx].rz;
+          } else {
+              const angle = Math.random() * Math.PI * 2;
+              // 중심 타이틀 근처로 밀집(radius 축소)
+              const radius = (isM ? 150 : 250) + Math.random() * (isM ? 300 : 450);
+              tx = Math.cos(angle) * radius * sX;
+              ty = Math.sin(angle) * radius * sY;
+              tz = (Math.random() - 0.5) * 500;
+                            rx = (Math.random() - 0.5) * 30;
+              ry = (Math.random() - 0.5) * 40;
+              rz = (Math.random() - 0.5) * 20;
+          }
+          transforms.push({x:tx, y:ty, z:tz, rx, ry, rz});
+      });
+      
+      items.forEach((item, idx) => {
+          const el = document.getElementById('gc'+idx);
+          if(!el) return;
+          el.addEventListener('mousedown',e=>{
+            e.stopPropagation(); drag.cardIdx=idx; drag.hasMoved=false;
+            drag.sx=e.clientX; drag.sy=e.clientY;
+          });
+          el.addEventListener('touchstart',e=>{
+            e.stopPropagation(); drag.cardIdx=idx; drag.hasMoved=false;
+            drag.sx=e.touches[0].clientX; drag.sy=e.touches[0].clientY;
+          },{ passive: true });
+          
+          el.style.transition = 'transform 0.3s ease';
+          el.addEventListener('mouseenter', () => { if(drag.cardIdx===null) el.style.transform += ' scale(1.05)'; });
+          el.addEventListener('mouseleave', () => { 
+             const t = transforms[idx];
+             el.style.transform = `translate3d(${t.x}px,${t.y}px,${t.z}px) rotateX(${t.rx}deg) rotateY(${t.ry}deg) rotateZ(${t.rz}deg)`;
+          });
+
+          // [FIX] 카드 클릭 시 시네마틱 포트폴리오 페이지로 이동
+          el.addEventListener('click', e => {
+            if (!drag.hasMoved) {
+              e.stopPropagation();
+              if (item.disable_detail_click == '1' || item.disable_detail_click === true || item.disable_detail_click === 1) return;
+              // 특정 카테고리로 필터링된 상태로 보내기 (선택 사항)
+              const cat = item.category || 'all';
+              window.location.href = `work.html?filter=${cat}`;
+            }
+          });
+
+      });
+  }
+
+  // ── HERO SETTINGS LOAD (INDEPENDENT) ──
+  (async function fetchHeroData() {
+    try {
+      const s = await getDoc(doc(db, 'settings', 'hero'));
+      if(s.exists()){
+          const d = s.data();
+          if(d.subtitle) document.getElementById('hero-sub').innerText = d.subtitle;
+          if(d.main_copy) {
+              const mainEl = document.getElementById('the3-headline-main');
+              const lines = d.main_copy.split('\n');
+              if(lines.length >= 2) {
+                  mainEl.innerHTML = `<span class="headline-subline">${lines[0]}</span><span class="the3-accent">${lines[1]}</span>`;
+              } else {
+                  mainEl.innerHTML = `<span class="headline-subline">THE3 STUDIO</span><span class="the3-accent">${d.main_copy}</span>`;
+              }
+          }
+          if(d.description) document.getElementById('hero-desc').innerHTML = d.description.replace(/\n/g, '<br>');
+          if(d.cta_text) {
+              const ctaBtn = document.querySelector('.hero-cta-btn span');
+              if(ctaBtn) ctaBtn.innerText = d.cta_text;
+          }
+          if(d.slots_left) document.getElementById('slots-count').innerText = d.slots_left;
+          
+          // [UPDATED] 히어로 및 갤러리 영상 연동 (파이어베이스 주소 1순위)
+          const vHeroPC = document.getElementById('h-video-desktop');
+          const vHeroMB = document.getElementById('h-video-mobile');
+          const vGallPC = document.getElementById('g-video-desktop');
+          const vGallMB = document.getElementById('g-video-mobile');
+          
+          const applyVideo = (v, customSrc, defaultSrc) => {
+              if (!v) return;
+              
+              let targetSrc = defaultSrc;
+              if (customSrc && customSrc.trim() !== '') {
+                  targetSrc = customSrc;
+              }
+
+              const isLoop = (d.video_loop !== false);
+              
+              // 1. 강제 설정 (속성 초기화)
+              v.muted = true;
+              v.autoplay = true;
+              v.setAttribute('muted', '');
+              v.setAttribute('autoplay', '');
+              v.setAttribute('playsinline', '');
+              v.setAttribute('webkit-playsinline', '');
+              
+              if (isLoop) {
+                  v.loop = true;
+                  v.setAttribute('loop', '');
+              } else {
+                  v.loop = false;
+                  v.removeAttribute('loop');
+                  v.onended = () => {
+                      v.pause();
+                      v.currentTime = v.duration; // 마지막 프레임 고정
+                  };
+              }
+
+              // 2. 소스 강제 교체 및 로드 (중복 체크 제거 - 무조건 다시 읽기)
+              v.innerHTML = ''; // 기존 <source> 태그 완전 제거
+              v.src = targetSrc;
+              v.load();
+              
+              // 3. 재생 (약간의 시간차를 두어 브라우저가 로딩을 시작한 뒤 실행)
+              setTimeout(() => {
+                  v.play().catch(err => {
+                      console.warn('Playback deferred error:', v.id, err);
+                      // 실패 시 무음 강제 후 재시도
+                      v.muted = true;
+                      v.play().catch(e => {});
+                  });
+              }, 150);
+          };
+
+          // 히어로 섹션 영상 적용
+          applyVideo(vHeroPC, d.hero_video_desktop, 'hero-desktop.mp4?v=1.2');
+          applyVideo(vHeroMB, d.hero_video_mobile, 'hero-mobile.mp4?v=1.2');
+          
+          // 3D 갤러리 배경 영상 적용
+          applyVideo(vGallPC, d.gallery_video_desktop, 'gallery-desktop.mp4?v=1.2');
+          applyVideo(vGallMB, d.gallery_video_mobile, 'gallery-mobile.mp4?v=1.2');
+      }
+    } catch(e) { console.error('Hero Load Error:', e); }
+  })();
+
+  let cachedPortfolioItems = [];
+  // Firestore에서 모든 포트폴리오(portfolio 컬렉션) 데이터를 직접 가져옵니다.
+  (async function loadPortfolioFromFirestore() {
+    try {
+      const portfolioSnap = await getDocs(collection(db, 'portfolio'));
+      let items = [];
+      portfolioSnap.forEach(doc => {
+        const data = doc.data();
+        if(data.status !== 'Draft') {
+          // PC/모바일 환경에 따른 갤러리 노출 여부 체크 (문자열, 숫자 모두 대응)
+          const isShow = isM ? (data.show_in_gallery_mobile !== '0' && data.show_in_gallery_mobile !== 0) : (data.show_in_gallery !== '0' && data.show_in_gallery !== 0);
+          if (isShow) {
+            items.push({ ...data, id: doc.id });
+          }
+        }
+      });
+
+      cachedPortfolioItems = items;
+      
+      // Firestore에서 영구 저장된 좌표(placements 컬렉션) 가져오기
+      try {
+        const snap = await getDoc(doc(db, 'placements', isM ? 'mobile' : 'pc'));
+        if (snap.exists()) {
+          const cloudData = snap.data().items || [];
+          items.forEach(it => {
+            const found = cloudData.find(c => String(c.id) === String(it.id));
+            if (found) {
+              if (isM) {
+                it.gallery_mobile_x = found.x; it.gallery_mobile_y = found.y; it.gallery_mobile_z = found.z;
+              } else {
+                it.gallery_x = found.x; it.gallery_y = found.y; it.gallery_z = found.z;
+              }
+            }
+          });
+        }
+      } catch(e) { console.error('Firestore Placements Load Error:', e); }
+
+      // 갤러리 초기화 (아이템이 0개여도 호출하여 화면 정리)
+      initGallery(items);
+
+      // URL 파라미터(slug)가 있으면 해당 모달 자동 오픈
+      const urlParams = new URLSearchParams(window.location.search);
+      const slugVal = urlParams.get('slug');
+      if (slugVal) {
+        openPortfolioDetail(slugVal);
+        setTimeout(() => {
+          const gall = document.getElementById('gallery');
+          if(gall) gall.scrollIntoView({ behavior: 'smooth' });
+        }, 500);
+      }
+
+    } catch (err) {
+      console.error('Firestore Portfolio Load Error:', err);
+    }
+  })();
+
+  // ── SAVE PLACEMENTS TO FIRESTORE (최종 통합 모듈) ──
+  window.savePlacements = async function() {
+    if (!transforms.length || !portIds.length) {
+        alert('저장할 카드 데이터가 아직 로드되지 않았습니다.');
+        return;
+    }
+    
+    const btn = document.getElementById('save-live');
+    const oldText = btn ? (btn.innerText || btn.textContent) : '현재 위치 저장';
+    if(btn) { btn.innerText = '📡 저장 중...'; btn.disabled = true; }
+
+    try {
+        // [FIX] 현재 화면에 표시된(portIds) 카드들의 좌표(transforms)만 추출하여 매칭
+        const dataToSave = portIds.map((id, idx) => {
+            const t = transforms[idx];
+            if (!t) return null;
+            return {
+                id: id,
+                x: Math.round(t.x),
+                y: Math.round(t.y),
+                z: Math.round(t.z)
+            };
+        }).filter(Boolean);
+
+        await setDoc(doc(db, 'placements', isM ? 'mobile' : 'pc'), {
+            items: dataToSave,
+            updatedAt: new Date().toISOString()
+        });
+        
+        if(btn) { btn.innerText = '✅ 저장되었습니다!'; btn.disabled = false; }
+        console.log('Saved placements for', isM ? 'mobile' : 'pc', dataToSave);
+        setTimeout(() => { if(btn) btn.innerText = oldText; }, 2000);
+    } catch(e) {
+        console.error('Save Placements Error:', e);
+        if(btn) { btn.innerText = '❌ 저장 실패'; btn.disabled = false; }
+        alert('저장 중 오류가 발생했습니다: ' + e.message);
+        setTimeout(() => { if(btn) btn.innerText = oldText; }, 2000);
+    }
+  };
+
+  // Hero Settings & Dynamic Text
+  (async function loadSettingsFromFirestore() {
+    try {
+        const snap = await getDoc(doc(db, 'settings', 'hero'));
+        if (snap.exists()) {
+            const s = snap.data();
+            const fmt3 = (txt) => txt.replace(/3/g, '<span style="color:var(--primary); text-shadow: 0 0 40px rgba(230,57,70, 0.4); font-weight:900;">3</span>');
+            
+            const hSub = document.getElementById('hero-sub'); if(hSub && s.subtitle) hSub.innerHTML = fmt3(s.subtitle);
+            // [HARD FIX] 사장님의 선명한 두 줄을 위해 모든 비동기 덮어쓰기 영구 차단
+            /*
+            const hTitle = document.getElementById('hero-title'); if(hTitle && s.title) hTitle.innerHTML = fmt3(s.title);
+            const hDesc = document.getElementById('hero-desc'); if(hDesc && s.description) hDesc.innerHTML = fmt3(s.description);
+            const hLong = document.getElementById('hero-long-desc'); if(hLong && s.long_description) hLong.innerHTML = fmt3(s.long_description);
+            */
+            
+            // Banner Slots
+            if(s.slots_left) {
+                const wrap = document.getElementById('banner-slots-wrap');
+                const count = document.getElementById('banner-slots-count');
+                if(wrap && count) {
+                    count.innerText = s.slots_left;
+                    wrap.style.display = 'inline-flex';
+                }
+            }
+        }
+
+        // Contact Settings
+        const cSnap = await getDoc(doc(db, 'settings', 'contact'));
+        if (cSnap.exists()) {
+            const cs = cSnap.data();
+            if(cs.email) {
+                const cleanEmail = cs.email.replace(/asdasd.*/gi, '').trim();
+                const el = document.getElementById('contact-email-link');
+                const fe = document.getElementById('footer-email-btn');
+                const infoE = document.getElementById('info-email');
+                if(el) { el.href = `mailto:${cleanEmail}`; el.innerText = cleanEmail; }
+                if(fe) { fe.href = `mailto:${cleanEmail}`; }
+                if(infoE) { infoE.href = `mailto:${cleanEmail}`; infoE.innerText = cleanEmail; }
+            }
+            if(cs.phone) {
+                const pl = document.getElementById('contact-phone-link');
+                const infoP = document.getElementById('info-phone');
+                if(pl) { pl.href = `tel:${cs.phone.replace(/[^0-9+]/g, '')}`; pl.innerText = cs.phone; }
+                if(infoP) { infoP.href = `tel:${cs.phone.replace(/[^0-9+]/g, '')}`; infoP.innerText = cs.phone; }
+            }
+            if(cs.location) {
+                const lo = document.getElementById('contact-loc-text');
+                const infoL = document.getElementById('info-location');
+                if(lo) lo.innerText = cs.location;
+                if(infoL) infoL.innerText = cs.location;
+            }
+            
+            // Dynamic Service Chips
+            if(cs.services && Array.isArray(cs.services)) {
+                const chipsWrap = document.getElementById('service-chips');
+                if(chipsWrap) {
+                    chipsWrap.innerHTML = cs.services.map((svc, idx) => `
+                        <button type="button" class="svc-chip ${idx === 0 ? 'selected' : ''}" data-val="${svc}">${svc}</button>
+                    `).join('');
+                    if(cs.services.length > 0) {
+                        const selInp = document.getElementById('selected-service');
+                        if(selInp) selInp.value = cs.services[0];
+                    }
+                }
+            }
+        }
+    } catch(e) { console.error('Settings Load Error:', e); }
+  })();
+
+  // Hero Fan Section Render
+  (async function loadHeroFromFirestore() {
+    const heroFan = document.getElementById('hero-fan');
+    if(!heroFan) return;
+    try {
+        const qSnap = await getDocs(collection(db, 'hero_slides'));
+        let heroItems = [];
+        qSnap.forEach(doc => { heroItems.push({ ...doc.data(), id: doc.id }); });
+        
+        // Sort by sort_order
+        heroItems.sort((a,b) => (parseInt(a.sort_order)||0) - (parseInt(b.sort_order)||0));
+        
+        // 1. 수동 등록한 히어로 슬라이드(hero_slides) 가져오기
+        let displayItems = [];
+        if(heroItems && heroItems.length > 0) {
+            displayItems = heroItems
+                .filter(h => h.image_path) // 경로가 있는 것만
+                .map(h => ({ thumbnail: h.image_path, title: 'Hero', slug: h.slug || '', sort: parseInt(h.sort_order)||0 }));
+        }
+
+        // 2. 만약 히어로 슬라이드가 없거나 부족하면 '홈페이지 추천' 포트폴리오로 채우기
+        if(displayItems.length < 5) {
+            let pSource = cachedPortfolioItems;
+            if (pSource.length === 0) {
+                const pSnap = await getDocs(collection(db, 'portfolio'));
+                pSnap.forEach(d => { if(d.data().status !== 'Draft') pSource.push({ ...d.data(), id: d.id }); });
+            }
+            const featured = pSource.filter(it => String(it.is_featured) === '1' && it.thumbnail);
+            const extra = featured.map(it => ({ thumbnail: it.thumbnail, title: it.title, slug: it.slug, sort: 999 }));
+            
+            // 기존 수동 슬라이드와 병합 (중복 방지는 간단하게 처리)
+            displayItems = [...displayItems, ...extra];
+        }
+
+        // 3. 그래도 없으면 전체 포트폴리오에서 가져오기
+        if(displayItems.length === 0) {
+            displayItems = cachedPortfolioItems.slice(0, 5).map(it => ({ thumbnail: it.thumbnail, title: it.title, slug: it.slug }));
+        }
+
+        if(displayItems && displayItems.length > 0) {
+            let fanHTML = '';
+            const classes = ['fh-c1', 'fh-c2', 'fh-c3', 'fh-c4', 'fh-c5'];
+            const limit = Math.min(displayItems.length, 5);
+
+            for(let i=0; i<limit; i++) {
+                const item = displayItems[i];
+                let thumb = item.thumbnail;
+                if(thumb && !thumb.startsWith('http') && !thumb.startsWith('/')) {
+                    thumb = '/' + thumb;
+                }
+                
+                let mediaHtml = '';
+                if(thumb) {
+                    if(isVideo(thumb)) {
+                        mediaHtml = `<video src="${thumb}" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;"></video>`;
+                    } else {
+                        mediaHtml = `<img src="${thumb}" alt="Hero" style="width:100%;height:100%;object-fit:cover;">`;
+                    }
+                }
+                
+                const itmId = item.slug || item.id;
+                const itmCat = item.category || 'all';
+                const clickAction = (String(item.disable_detail_click) === '1') ? '' : `onclick="location.href='work.html?filter=${itmCat}'"`;
+                const cursorStyle = (String(item.disable_detail_click) === '1') ? 'default' : 'pointer';
+
+                fanHTML += `<div class="fh-card ${classes[i] || 'fh-c3'}" ${clickAction} style="cursor:${cursorStyle};">
+                    ${mediaHtml}
+                </div>`;
+            }
+            heroFan.innerHTML = fanHTML;
+        }
+    } catch(e) { console.error('Hero Load Error:', e); }
+  })();
+  
+  // Team Section Render (Firebase 동기화)
+  (async function loadTeamFromFirestore() {
+    const teamGrid = document.getElementById('team-grid');
+    if(!teamGrid) return;
+    try {
+        const qSnap = await getDocs(collection(db, 'team'));
+        let teamHTML = '';
+        const items = [];
+        qSnap.forEach(d => items.push({...d.data(), id: d.id}));
+        
+        // 정렬 순서가 있다면 적용 (sort_order 필드 가정)
+        items.sort((a,b) => (parseInt(a.sort_order)||0) - (parseInt(b.sort_order)||0));
+
+        if(items.length > 0) {
+            items.forEach(it => {
+                let photo = it.photo || 'https://via.placeholder.com/450x600';
+                if(photo && !photo.startsWith('http') && !photo.startsWith('/')) { photo = '/' + photo; }
+
+                // 역할별 맞춤형 업무 리스트 구성 (데이터베이스 필드 우선, 없으면 기본값)
+                let tasks = '';
+                if(it.tasks && it.tasks.trim()) {
+                    tasks = it.tasks.split('\n').filter(t => t.trim()).map(t => 
+                        `<li><i class="fa fa-circle" style="color:#007aff; font-size:6px; margin-right:10px;"></i> ${t.trim()}</li>`
+                    ).join('');
+                } else {
+                    const role = (it.role || '').toLowerCase();
+                    if(role.includes('planning') || role.includes('strategy') || role.includes('consulting')) {
+                        tasks = `<li><i class="fa fa-circle" style="color:#007aff; font-size:6px; margin-right:10px;"></i> 전략적 비즈니스 컨설팅</li>
+                                 <li><i class="fa fa-circle" style="color:#007aff; font-size:6px; margin-right:10px;"></i> 시장 분석 및 경쟁력 평가</li>
+                                 <li><i class="fa fa-circle" style="color:#007aff; font-size:6px; margin-right:10px;"></i> 운영 프로세스 최적화</li>`;
+                    } else if(role.includes('design') || role.includes('branding') || role.includes('director')) {
+                        tasks = `<li><i class="fa fa-circle" style="color:#007aff; font-size:6px; margin-right:10px;"></i> 로고 및 BI/BX 디자인</li>
+                                 <li><i class="fa fa-circle" style="color:#007aff; font-size:6px; margin-right:10px;"></i> 비주얼 메시지 전략 수립</li>
+                                 <li><i class="fa fa-circle" style="color:#007aff; font-size:6px; margin-right:10px;"></i> 브랜드 스타일 가이드 개발</li>`;
+                    } else if(role.includes('video') || role.includes('motion') || role.includes('producer')) {
+                        tasks = `<li><i class="fa fa-circle" style="color:#007aff; font-size:6px; margin-right:10px;"></i> 1초 만에 시선을 잡는 영상 연출</li>
+                                 <li><i class="fa fa-circle" style="color:#007aff; font-size:6px; margin-right:10px;"></i> 기업 홍보 및 브랜드 필름 제작</li>
+                                 <li><i class="fa fa-circle" style="color:#007aff; font-size:6px; margin-right:10px;"></i> 숏폼 및 바이럴 콘텐츠 최적화</li>`;
+                    } else {
+                        tasks = `<li><i class="fa fa-circle" style="color:#007aff; font-size:6px; margin-right:10px;"></i> 사장님 맞춤형 실전 솔루션</li>
+                                 <li><i class="fa fa-circle" style="color:#007aff; font-size:6px; margin-right:10px;"></i> 비즈니스 성장 가속화</li>
+                                 <li><i class="fa fa-circle" style="color:#007aff; font-size:6px; margin-right:10px;"></i> 압도적인 제작 퀄리티</li>`;
+                    }
+                }
+
+                teamHTML += `
+                  <div class="team-card" style="background:var(--bg-card); border:1px solid var(--border); border-radius:30px; overflow:hidden; box-shadow:0 30px 60px rgba(0,0,0,0.15); transition:0.4s;">
+                    <div style="position:relative; height:450px; overflow:hidden;">
+                      <img src="${photo}" style="width:100%; height:100%; object-fit:cover; transition: 0.8s ease-out;">
+                      <div style="position:absolute; bottom:0; left:0; width:100%; padding:40px; background:linear-gradient(transparent, rgba(0,0,0,0.9));">
+                        <p class="team-role" style="color:#007aff; font-size:0.8rem; font-weight:900; letter-spacing:0.15em; margin-bottom:10px; text-transform:uppercase;">${it.role || 'EXPERTS'}</p>
+                        <h3 class="team-name" style="color:#fff; font-size:2rem; font-weight:900;">${it.name || 'Master'}</h3>
+                      </div>
+                    </div>
+                    <div style="padding:40px;">
+                      <p class="team-bio-text" style="font-size:1.1rem; font-weight:700; margin-bottom:20px; line-height:1.4;">
+                        ${it.bio || '"비즈니스의 성장을 위해 행동하는 전문가입니다."'}
+                      </p>
+                      <ul class="team-task-list" style="list-style:none; padding:0; margin:0;">
+                         ${tasks}
+                      </ul>
+                    </div>
+                  </div>
+                `;
+            });
+            teamGrid.innerHTML = teamHTML;
+            
+            // Re-apply fade-up observation for dynamic elements
+            if(io) {
+                document.querySelectorAll('#team-grid .team-card').forEach(el => io.observe(el));
+            }
+        }
+    } catch(e) { console.error('Team Load Error:', e); }
+  })();
+
+  // ── SERVICE PACKAGE TOGGLE ──
+  document.addEventListener('click', e => {
+      const item = e.target.closest('.pkg-item');
+      if (item) {
+          const desc = item.querySelector('.pkg-desc');
+          const toggle = item.querySelector('.pkg-toggle');
+          const isOpen = desc.style.maxHeight !== '0px' && desc.style.maxHeight !== '';
+          
+          document.querySelectorAll('.pkg-desc').forEach(d => d.style.maxHeight = '0px');
+          document.querySelectorAll('.pkg-toggle').forEach(t => t.style.transform = 'rotate(0deg)');
+          
+          if (!isOpen) {
+              desc.style.maxHeight = desc.scrollHeight + 'px';
+              toggle.style.transform = 'rotate(45deg)';
+          }
+      }
+  });
+
+  window.addEventListener('resize', () => {
+    const newIsM = window.innerWidth < 768 || window.location.hash.includes('mobile');
+    if (newIsM !== isM) {
+        isM = newIsM;
+        initialZ = isM ? -900 : -350;
+        drag.tZ = initialZ;
+        if (cachedPortfolioItems.length > 0) initGallery(cachedPortfolioItems);
+    }
+  });
+
+  // ── PORTFOLIO MODAL (API) ──
+  let slideIdx=0, slideCount=0;
+  window.pfGoSlide = function(n){
+    // 현재 동영상 정지
+    document.querySelectorAll('#pf-slides video').forEach(v => v.pause());
+    slideIdx=(n+slideCount)%slideCount;
+    document.getElementById('pf-slides').style.transform=`translateX(-${slideIdx*100}%)`;
+    document.querySelectorAll('.pf-dot').forEach((d,i)=>d.classList.toggle('on',i===slideIdx));
+    // 이동한 슬라이드가 동영상이면 자동재생
+    const cur = document.querySelectorAll('#pf-slides video, #pf-slides img')[slideIdx];
+    if(cur && cur.tagName==='VIDEO') cur.play().catch(()=>{});
+  };
+  document.getElementById('pf-prev')?.addEventListener('click',()=>pfGoSlide(slideIdx-1));
+  document.getElementById('pf-next')?.addEventListener('click',()=>pfGoSlide(slideIdx+1));
+  document.getElementById('pf-close')?.addEventListener('click',closePF);
+  document.getElementById('pf-modal')?.addEventListener('click',e=>{ if(e.target===e.currentTarget) closePF(); });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape') closePF(); });
+  function closePF(){
+    document.querySelectorAll('#pf-slides video').forEach(v => v.pause());
+    document.getElementById('pf-modal').classList.remove('open');
+    document.body.style.overflow='';
+  }
+
+  window.openPortfolioDetail = async function(slug){
+    const modal=document.getElementById('pf-modal');
+    modal.classList.add('open'); document.body.style.overflow='hidden';
+    document.getElementById('pf-title').textContent='로딩 중...';
+    document.getElementById('pf-slides').innerHTML='<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.3);"><i class="fa fa-spinner fa-spin fa-2x"></i></div>';
+    
+    try {
+      // 1. 캐시된 데이터에서 검색 (ID 또는 Slug로 매칭)
+      let d = cachedPortfolioItems.find(it => String(it.id) === String(slug) || String(it.slug) === String(slug));
+      
+      // 2. 캐시에 없으면 Firestore에서 전체 로드하여 재시도 (매우 드문 경우)
+      if(!d) {
+          const qSnap = await getDocs(collection(db, 'portfolio'));
+          qSnap.forEach(doc => {
+              const data = doc.data();
+              if(String(doc.id) === String(slug) || String(data.slug) === String(slug)) {
+                  d = { ...data, id: doc.id };
+              }
+          });
+      }
+
+      if(!d) { 
+        console.warn('Portfolio mismatch:', slug);
+        closePF(); 
+        return; 
+      }
+
+      document.getElementById('pf-title').textContent=d.title||'';
+      document.getElementById('pf-client').textContent=d.client?`클라이언트: ${d.client}${d.year?' · '+d.year:''}`:d.year||'';
+      document.getElementById('pf-tag').textContent={branding:'Branding',consulting:'Consulting',video:'Video',integrated:'Integrated'}[d.category]||d.category;
+      
+      const show=(id,txt)=>{ const el=document.getElementById(id),wr=document.getElementById(id+'-wrap'); if(txt){el.textContent=txt;if(wr)wr.style.display='';}else{if(wr)wr.style.display='none';} };
+      show('pf-challenge',d.challenge); show('pf-solution',d.solution); show('pf-result',d.result);
+      
+      const vis=[d.challenge,d.solution,d.result].filter(Boolean).length;
+      document.getElementById('pf-secs').style.gridTemplateColumns=`repeat(${vis||1},1fr)`;
+      document.getElementById('pf-chips').innerHTML=(d.tags||'').split(',').filter(t=>t.trim()).map(t=>`<span class="pf-chip">${t.trim()}</span>`).join('');
+      
+      // 슬라이드 구성 (유튜브 자동 감지 포함)
+      const getYTID = (url) => url.match(/(?:https?:)?\/\/(?:www\.)?(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/|live\/)|youtu\.be\/)([\w-]{11})/)?.[1];
+      const isVid = (p) => /\.(mp4|webm|mov|avi)$/i.test(p.split('?')[0]);
+      const cleanPath = (p) => (!p.startsWith('http') && !p.startsWith('/')) ? '/' + p : p;
+      
+      let slides = [];
+      if(d.thumbnail) {
+          const ytId = getYTID(d.thumbnail);
+          slides.push({ src: cleanPath(d.thumbnail), type: ytId ? 'youtube' : (isVid(d.thumbnail)?'video':'image'), ytId });
+      }
+      if(d.images && d.images.length) {
+          d.images.forEach(i => {
+              const src = (typeof i === 'string') ? i : (i.image_path || i.url || '');
+              const ytId = getYTID(src);
+              slides.push({ src: cleanPath(src), type: ytId ? 'youtube' : (isVid(src)?'video':'image'), ytId });
+          });
+      }
+
+      slideCount = slides.length; slideIdx = 0;
+      const se=document.getElementById('pf-slides'),de=document.getElementById('pf-dots');
+      const pv=document.getElementById('pf-prev'),nx=document.getElementById('pf-next');
+      
+      if(!slideCount){
+        se.innerHTML='<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.2);"><i class="fa-solid fa-image fa-3x"></i></div>';
+        de.innerHTML=''; pv.style.display=nx.style.display='none';
+      } else {
+        se.style.transform='translateX(0)';
+        se.innerHTML = slides.map(s => {
+          if(s.type === 'youtube') {
+            return `<iframe class="pf-slide" src="https://www.youtube.com/embed/${s.ytId}?autoplay=1&mute=1&loop=1&playlist=${s.ytId}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="width:100%;height:100%;object-fit:cover;"></iframe>`;
+          }
+          if(s.type === 'video') {
+            return `<video class="pf-slide" src="${s.src}" controls autoplay muted playsinline style="object-fit:contain;background:#000;"></video>`;
+          }
+          return `<img class="pf-slide" src="${s.src}" alt="">`;
+        }).join('');
+        de.innerHTML = slides.map((_,i) => `<button class="pf-dot${i===0?' on':''}" onclick="pfGoSlide(${i})"></button>`).join('');
+        pv.style.display=nx.style.display=slideCount>1?'flex':'none';
+      }
+      document.getElementById('pf-box').scrollTop=0;
+    } catch(err) { console.error(err); closePF(); }
+  };
+
+  // ── IMPACT STORIES LOADING ──
+  (async function loadImpactStories() {
+    const wrapper = document.getElementById('impact-wrapper');
+    if(!wrapper) return;
+    try {
+        const qSnap = await getDocs(query(collection(db, 'impact_stories'), orderBy('sort_order', 'asc')));
+        if(!qSnap.empty) {
+            let html = '';
+            qSnap.forEach(d => {
+                const it = d.data();
+                const avatar = it.avatar || 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=200&auto=format&fit=crop';
+                const bgImg = it.bg_image ? `<img src="${it.bg_image.startsWith('http')?'':'/'}${it.bg_image}" class="impact-bg-img">` : '';
+                html += `
+                    <div class="swiper-slide">
+                      <div class="impact-slide">
+                        ${bgImg}
+                        <div class="impact-quote-icon">"</div>
+                        <h2 class="impact-main-text">${it.quote}</h2>
+                        <div class="impact-profile">
+                          <img src="${avatar}" alt="${it.author}" class="impact-avatar">
+                          <div class="impact-info">
+                            <p class="impact-info-name">${it.author}</p>
+                            <p class="impact-info-result">${it.result}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                `;
+            });
+            wrapper.innerHTML = html;
+            
+            // Initialize Swiper ONLY after content is loaded
+            new Swiper('#impact-slider', {
+                loop: true,
+                autoplay: { delay: 5000, disableOnInteraction: false },
+                pagination: { el: '.impact-pagination', clickable: true },
+                speed: 800,
+                effect: 'fade',
+                fadeEffect: { crossFade: true }
+            });
+        } else {
+            // AUTO-SEEDING defaults if empty
+            const defaults = [
+                { author: "한사발포차 최한사 사장님", quote: "\"줄 서는 식당으로 소문나서 막막했는데, <span class='highlight'>THE 3</span>의 브랜딩 이후 <br class='show-desktop'>영등포에서 가장 힙한 플레이스가 되었어요.\"", result: "네이버 플레이스 상위 1% 달성", avatar: "https://images.unsplash.com/photo-1552058544-f2b08422138a?q=80&w=200&auto=format&fit=crop", sort_order: 1 },
+                { author: "태백우장수 고태백 사장님", quote: "\"가족 외식 장소로 홍보가 안 돼서 힘들었지만, <br class='show-desktop'><span class='highlight'>THE 3</span>와 함께한 뒤 당산동 최고의 고기 맛집으로 자리 잡았습니다.\"", result: "월 매출 3배 성장 달성", avatar: "https://images.unsplash.com/photo-1544168190-79c17527004f?q=80&w=200&auto=format&fit=crop", sort_order: 2 },
+                { author: "일품각 장양꼬 사장님", quote: "\"당산역 원조의 자존심을 <span class='highlight'>THE 3</span>가 다시 세워줬습니다. <br class='show-desktop'>전통과 트렌드를 모두 잡은 완벽한 디자인의 승리입니다.\"", result: "지역 기반 검색 1위 점유", avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=200&auto=format&fit=crop", sort_order: 3 },
+                { author: "하와이조개 조하와 사장님", quote: "\"무제한 해물라면의 가치를 <span class='highlight'>THE 3</span>가 영상으로 증명해줬어요. <br class='show-desktop'>이제 당산에서 조개구이 하면 저희부터 찾습니다.\"", result: "인스타그램 태그 수 2,000% 폭증", avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&auto=format&fit=crop", sort_order: 4 },
+                { author: "안동실비 심안동 사장님", quote: "\"24시간 영업의 강점을 <span class='highlight'>THE 3</span>가 정교하게 타겟팅해줬습니다. <br class='show-desktop'>새벽에도 끊이지 않는 손님들로 즐거운 비명을 지릅니다.\"", result: "방문자 리뷰 1,000개 돌파", avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=200&auto=format&fit=crop", sort_order: 5 },
+                { author: "손정보쌈 박보쌈 사장님", quote: "\"막걸리 쿠폰 전략 하나로 <span class='highlight'>THE 3</span>가 상권 지도를 바꿨어요. <br class='show-desktop'>가장 단순한 게 가장 강력한 전략임을 배우고 갑니다.\"", result: "재방문율 40% 이상 기록", avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=200&auto=format&fit=crop", sort_order: 6 }
+            ];
+            for(const s of defaults) { await addDoc(collection(db, 'impact_stories'), s); }
+            location.reload();
+        }
+    } catch(e) { console.error('Impact Load Error:', e); }
+  })();
+
+  // ── CHATBOT ──
+  const cwin=document.getElementById('chat-win');
+  document.getElementById('chat-toggle').addEventListener('click',()=>cwin.classList.toggle('on'));
+  document.getElementById('close-chat').addEventListener('click',()=>cwin.classList.remove('on'));
+  document.getElementById('open-chat')?.addEventListener('click',e=>{e.preventDefault();cwin.classList.add('on');});
+
+  let cState='idle', lead={name:'',phone:''};
+  window.chatOpt=function(t){
+    if(t==='상담'){cState='naming';document.getElementById('chat-options').style.display='none';document.getElementById('chat-input-area').style.display='flex';document.getElementById('chat-input').placeholder='성함을 입력해 주세요...';addMsg('💬 상담 신청을 시작합니다.','usr');setTimeout(()=>addMsg('반갑습니다 사장님! 성함(가게 이름)이 어떻게 되시나요? 😊','bot'),500);return;}
+    const rs={가격:['💰 가격이 궁금해요.','가격 걱정 마세요! 실속형 패키지(100만원대~)부터 준비되어 있습니다. 사장님 상황에 맞는 합리적인 견적을 무료로 상담해 드릴게요. 😊'],기간:['⏱ 제작 기간이 궁금해요.','로고·브랜딩은 1~2주, 영상은 기획 후 1주 내외로 완성됩니다!'],효과:['📈 진짜 효과 있나요?','손님이 클릭하게 만드는 디자인으로 많은 사장님들이 비주얼 개편 후 매출 상승을 경험하셨습니다. 😄']};
+    addMsg(rs[t][0],'usr'); setTimeout(()=>addMsg(rs[t][1],'bot'),500);
+  };
+  function processIn(){
+    const v=document.getElementById('chat-input').value.trim(); if(!v)return;
+    addMsg(v,'usr'); document.getElementById('chat-input').value='';
+    if(cState==='naming'){lead.name=v;cState='phoning';document.getElementById('chat-input').placeholder='연락처를 입력해 주세요...';setTimeout(()=>addMsg(`${lead.name} 사장님, 반갑습니다! 연락처를 남겨주시면 빠르게 연락드릴게요. 📞`,'bot'),500);}
+    else if(cState==='phoning'){
+        lead.phone=v; cState='idle';
+        document.getElementById('chat-input-area').style.display='none';
+        
+        // Save to Firestore directly
+        addDoc(collection(db, 'contacts'), {
+            company_name: lead.name,
+            email: lead.phone,
+            service: '챗봇 문의',
+            message: `챗봇을 통해 남겨진 연락처입니다: ${lead.phone}`,
+            status: 'new',
+            created_at: new Date().toISOString()
+        }).catch(err => console.error('Chatbot Save Error:', err))
+        .finally(() => {
+            document.getElementById('chat-options').style.display='grid';
+            setTimeout(()=>addMsg('신청 완료! 확인 즉시 연락드리겠습니다. 감사합니다. 👍','bot'),500);
+        });
+    }
+  }
+  document.getElementById('send-chat').addEventListener('click',processIn);
+  document.getElementById('chat-input').addEventListener('keypress',e=>{if(e.key==='Enter')processIn();});
+  function addMsg(txt,who){
+    const d=document.createElement('div'); d.className='msg '+(who==='bot'?'bot':'usr');
+    const msgs=document.getElementById('chat-messages'); msgs.appendChild(d);
+    if(who==='bot'){let i=0;const ti=setInterval(()=>{d.textContent+=txt[i++];msgs.scrollTop=9999;if(i>=txt.length)clearInterval(ti);},22);}
+    else{d.textContent=txt;msgs.scrollTop=9999;}
+  }
+
+  // ── MOBILE MENU TOGGLE ──
+  const mobileMenu = document.getElementById('mobile-menu');
+  window.toggleMobileMenu = () => {
+    mobileMenu.classList.toggle('on');
+  };
+  document.getElementById('nav-toggle').addEventListener('click', toggleMobileMenu);
+  document.getElementById('close-mobile').addEventListener('click', toggleMobileMenu);
+
+  // ── NAV ACTIVE ON SCROLL (Scroll-Spy) ──
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const sections = ['home', 'team', 'gallery', 'journey', 'contact'].map(id => document.getElementById(id));
+  
+  const spyOptions = { threshold: 0.3, rootMargin: "-10% 0px -70% 0px" };
+  const spyObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id');
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+        });
+      }
+    });
+  }, spyOptions);
+
+  sections.forEach(sec => { if(sec) spyObserver.observe(sec); });
+
+  // ── CONTACT FORM ──
+  // ── CONTACT FORM (Using Event Delegation for Dynamic Chips) ──
+  document.getElementById('service-chips')?.addEventListener('click', function(e) {
+    const chip = e.target.closest('.svc-chip');
+    if (!chip) return;
+    
+    document.querySelectorAll('.svc-chip').forEach(c => c.classList.remove('selected'));
+    chip.classList.add('selected');
+    document.getElementById('selected-service').value = chip.dataset.val;
+  });
+
+
+
+  // (Removed static impact slider init)
+
+  document.getElementById('contact-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const service = document.getElementById('selected-service').value || 'general';
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true; btn.textContent = '전송 중...';
+
+    try {
+      await addDoc(collection(db, 'contacts'), {
+        company_name: document.getElementById('f-company').value,
+        email: document.getElementById('f-email').value,
+        service: service,
+        message: document.getElementById('f-message').value,
+        status: 'new',
+        created_at: new Date().toISOString()
+      });
+      document.getElementById('contact-form-area').style.display = 'none';
+      document.getElementById('success-msg').style.display = 'block';
+    } catch (err) { alert('오류: ' + err.message); btn.disabled = false; btn.textContent = '다시 시도'; }
+  });
+
+  // ── HERO 3D PARALLAX EFFECT (FOR TRENDY UI) ──
+  document.addEventListener('mousemove', (e) => {
+    const x = (window.innerWidth / 2 - e.pageX) / 60;
+    const y = (window.innerHeight / 2 - e.pageY) / 60;
+    
+    // Parallax for cards (subtle 3D tilt)
+    const cards = document.querySelectorAll('.fh-card');
+    cards.forEach((card, idx) => {
+        const factor = (idx + 1) * 2.5;
+        card.style.transform = `var(--fan-pos) translate3d(${x/factor}px, ${y/factor}px, 0)`;
+    });
+  });
+
+  // ── INTERACTIVE TITLE LOGIC (REFINED & CLEAN) ──
+  const mainTitle = document.getElementById('the3-hero-wrap');
+  if (mainTitle) {
+      // 1) CLICK TOGGLE (Both Mobile & PC)
+      mainTitle.addEventListener('click', (e) => {
+          mainTitle.classList.toggle('active');
+          e.stopPropagation();
+      });
+
+      // 2) MOBILE AUTO-SWAP (As per request: 3s interval)
+      if (isM) {
+          let autoToggle = setInterval(() => {
+              // 사용자가 직접 클릭해서 active인 상태라면 잠시 멈췄다 다음 턴에 다시 작동하도록 유도하거나 무시할 수 있습니다.
+              // 여기서는 자연스러운 노출을 위해 강제 토글합니다.
+              mainTitle.classList.toggle('active');
+          }, 3000); // 3초마다 Headline <-> Logo 전환
+
+          // 사용자가 직접 클릭하면 오토 토글을 잠시 멈추고 싶다면 여기에 인터벌 클리어 로직을 넣을 수 있지만, 
+          // 현재는 심플하게 자동 순환하도록 구현합니다.
+      }
+  }
+
+  // Finish Loading Animation Trigger
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+        document.body.classList.remove('loading');
+        document.body.classList.add('loaded');
+    }, 450);
+  });
+</script>
+</body>
+</html>
