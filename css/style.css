@@ -14,13 +14,13 @@
 }
 
 /* --------------------------------------------------------------------------
-   [PART 1] DARK THEME - THE3 NAVY/RED (Default Isle)
+   [PART 1] DARK THEME - THE3 LUXURY BLACK (Default Isle)
    -------------------------------------------------------------------------- */
 body:not(.light-mode) {
   /* [Source Variables for Dark Mode] */
-  --dark-bg-main: #0B1939;
-  --dark-bg-soft: #12224A;
-  --dark-bg-card: #182C5E;
+  --dark-bg-main: #050505;
+  --dark-bg-soft: #0F0F0F;
+  --dark-bg-card: #141414;
   --dark-text-primary: #FFFFFF;
   --dark-text-secondary: rgba(255, 255, 255, 0.85);
   --dark-text-dimmed: rgba(255, 255, 255, 0.5);
@@ -42,7 +42,7 @@ body:not(.light-mode) {
   --shadow-sm: var(--dark-shadow-sm);
   --shadow-md: var(--dark-shadow-md);
   --shadow-hover: var(--dark-shadow-hover);
-  --accent-glow: rgba(0, 102, 255, 0.25);
+  --accent-glow: rgba(200, 16, 46, 0.2);
 }
 
 /* --------------------------------------------------------------------------

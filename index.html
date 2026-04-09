@@ -26,12 +26,12 @@
 
 /* --- THE3 THEME ISOLATION ISLANDS --- */
 body:not(.light-mode) {
-    --bg-main: #0B1939;
-    --bg-card: #12224A;
+    --bg-main: #050505;
+    --bg-card: #0F0F0F;
     --text-main: #FFFFFF;
     --text-dim: rgba(255, 255, 255, 0.6);
     --border: rgba(255, 255, 255, 0.08);
-    --accent: #E63946;
+    --accent: #C8102E;
 }
 
 body.light-mode {
@@ -871,110 +871,96 @@ body.loaded .hero-reveal {
 .scroll-bar { width: 1px; height: 60px; background: linear-gradient(to bottom, var(--primary), transparent); }
 @keyframes guideFade { 0%, 100% { opacity: 0.3; transform: translate(-50%, 0); } 50% { opacity: 0.8; transform: translate(-50%, 10px); } }
 
-/* IMPACT SECTION & SLIDER */
+/* IMPACT SECTION (CONVERSATIONAL UI) */
 .impact-sect {
-  padding: 12rem 1.5rem;
-  background: #000;
+  padding: 8rem 1.5rem;
+  background: var(--bg-main);
   position: relative;
   overflow: hidden;
   border-top: 1px solid rgba(255,255,255,0.05);
 }
 .impact-glow {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 1000px;
-  height: 1000px;
+  position: absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  width:1000px; height:1000px;
   background: radial-gradient(circle, rgba(230,57,70,0.05) 0%, transparent 70%);
   pointer-events: none;
 }
 .impact-inner {
-  max-width: 1100px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 2;
-}
-.impact-slider {
-  width: 100%;
-  overflow: hidden;
-  padding-bottom: 3rem;
-}
-.impact-slide {
-  text-align: center;
-}
-.impact-quote-icon {
-  font-family: 'Outfit', sans-serif;
-  font-size: 6rem;
-  color: var(--primary);
-  opacity: 0.25;
-  line-height: 0.5;
-  margin-bottom: 2.5rem;
-  font-weight: 900;
-}
-.impact-main-text {
-  font-family: 'Pretendard', sans-serif;
-  font-size: clamp(1.4rem, 4vw, 2.5rem);
-  font-weight: 800;
-  color: #fff;
-  line-height: 1.5;
-  word-break: keep-all;
-  margin-bottom: 4rem;
-  max-width: 900px;
-  margin-left: auto;
-  margin-right: auto;
-}
-.impact-main-text .highlight {
-  color: var(--primary);
-}
-.impact-profile {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.2rem;
-}
-.impact-avatar {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid rgba(230,57,70,0.2);
-}
-.impact-info-name {
-  font-weight: 800;
-  color: #fff;
-  font-size: 1.1rem;
-  margin-bottom: 0.3rem;
-}
-.impact-info-result {
-  font-weight: 900;
-  color: var(--primary);
-  font-size: 0.85rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  background: rgba(230,57,70,0.1);
-  padding: 4px 14px;
-  border-radius: 99px;
-  display: inline-block;
-}
-.impact-pagination {
-  bottom: 0 !important;
-}
-.impact-pagination .swiper-pagination-bullet {
-  background: rgba(255,255,255,0.2);
-  width: 10px;
-  height: 10px;
-  transition: 0.3s;
-}
-.impact-pagination .swiper-pagination-bullet-active {
-  background: var(--primary);
-  width: 30px;
-  border-radius: 5px;
+  max-width: 900px; margin: 0 auto; position: relative; z-index: 2;
 }
 
-body.light-mode .impact-sect { background: #FFFFFF; border-top-color: rgba(0,0,0,0.05); }
-body.light-mode .impact-main-text { color: #111; }
-body.light-mode .impact-info-name { color: #111; }
+/* KAKAO INSPIRED CHAT UI */
+.chat-window {
+  background: rgba(20,20,25,0.8);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 40px;
+  display: flex;
+  flex-direction: column;
+  height: 680px;
+  box-shadow: 0 50px 100px rgba(0,0,0,0.5);
+  overflow: hidden;
+  backdrop-filter: blur(30px);
+}
+.chat-header {
+  padding: 1.8rem 2.5rem;
+  background: rgba(0,0,0,0.3);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.chat-header-title { font-weight: 900; color: #fff; font-size: 1.1rem; letter-spacing: 0.05em; display: flex; align-items: center; gap: 10px; }
+.chat-header-title i { color: var(--primary); font-size: 0.9rem; }
+.chat-body {
+  flex: 1;
+  padding: 2.5rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  scroll-behavior: smooth;
+}
+.chat-body::-webkit-scrollbar { width: 4px; }
+.chat-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+
+.chat-bubble-wrap {
+  display: flex; gap: 1.2rem; max-width: 85%;
+  opacity: 0; transform: translateY(30px); transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.chat-bubble-wrap.visible { opacity: 1; transform: translateY(0); }
+.chat-avatar { width: 48px; height: 48px; border-radius: 20px; object-fit: cover; border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0; }
+.chat-msg-area { display: flex; flex-direction: column; gap: 0.5rem; }
+.chat-sender { font-size: 0.8rem; font-weight: 900; color: rgba(255,255,255,0.5); margin-left: 2px; }
+.chat-bubble {
+  background: #fff;
+  color: #111;
+  padding: 1.4rem 1.8rem;
+  border-radius: 25px;
+  border-top-left-radius: 4px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.6;
+  word-break: keep-all;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+.chat-bubble-wrap.right { align-self: flex-end; flex-direction: row-reverse; }
+.chat-bubble-wrap.right .chat-bubble {
+  background: var(--primary);
+  color: #fff;
+  border-radius: 25px;
+  border-top-right-radius: 4px;
+  border-top-left-radius: 25px;
+}
+.chat-bubble-wrap.right .chat-sender { text-align: right; margin-right: 2px; }
+.chat-meta { align-self: flex-end; font-size: 0.7rem; color: rgba(255,255,255,0.3); margin-bottom: 4px; font-weight: 700; white-space: nowrap; }
+
+body.light-mode .chat-window { background: #f8f9fa; border-color: rgba(0,0,0,0.05); }
+body.light-mode .chat-header { background: #fff; border-bottom-color: rgba(0,0,0,0.05); }
+body.light-mode .chat-header-title { color: #000; }
+body.light-mode .chat-bubble { background: #fff; color: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+body.light-mode .chat-sender { color: rgba(0,0,0,0.4); }
+body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
 </style>
 </head>
 <body id="home" class="loading">
@@ -1151,19 +1137,23 @@ body.light-mode .impact-info-name { color: #111; }
   </div><!-- /stage -->
 </section>
 
-<!-- SUCCESS STORIES (IMPACT SECTION) -->
-<section id="impact" class="impact-sect" style="background:var(--bg-card); position:relative;">
+<!-- SUCCESS STORIES (CONVERSATIONAL UI) -->
+<section id="impact" class="impact-sect">
   <div class="impact-glow"></div>
   <div class="impact-inner fu">
-    <div class="swiper impact-slider" id="impact-slider">
-      <div class="swiper-wrapper" id="impact-wrapper">
-        <!-- Dynamic slides will be injected here -->
-        <div class="swiper-slide impact-slide">
-           <div style="padding:10rem; opacity:0.1;"><i class="fa fa-spinner fa-spin"></i></div>
+    <div class="chat-window">
+      <div class="chat-header">
+        <div class="chat-header-title">
+          <i class="fa fa-comment"></i> 성공 사례 리포트
+        </div>
+        <div style="font-size: 0.75rem; opacity: 0.5; color: rgba(255,255,255,0.4); font-weight:700;">THE 3 STUDIO</div>
+      </div>
+      <div class="chat-body" id="chat-body">
+        <!-- Messages will be injected here via JS -->
+        <div style="flex:1; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.1);">
+          <i class="fa fa-spinner fa-spin fa-2x"></i>
         </div>
       </div>
-      <!-- Pagination -->
-      <div class="swiper-pagination impact-pagination"></div>
     </div>
   </div>
 </section>
@@ -1179,44 +1169,41 @@ body.light-mode .impact-info-name { color: #111; }
   </div>
 </section>
 
-<!-- CONTACT SECTION (EXACT AS PER SCREENSHOT) -->
-<section class="contact-sect" id="contact" style="padding:10rem 1.5rem; background:var(--bg-card); position:relative; overflow:hidden;">
-  <!-- Background radial for context -->
-  <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:80%; height:80%; background:radial-gradient(circle, rgba(230,57,70,0.05) 0%, transparent 70%); pointer-events:none;"></div>
+<!-- CONTACT SECTION (LUXURY LIGHT REVERSION) -->
+<section class="contact-sect" id="contact" style="padding:10rem 1.5rem; background:#F8F9FA; position:relative; overflow:hidden;">
+  <!-- Subtle Light Accents -->
+  <div style="position:absolute; top:0; right:0; width:40%; height:40%; background:radial-gradient(circle, rgba(200,16,46,0.03) 0%, transparent 70%); pointer-events:none;"></div>
   
-  <div class="contact-grid-wrap" style="max-width:1200px; margin:0 auto; position:relative; z-index:2;">
-    <div class="fu" style="text-align:center; margin-bottom:5rem;">
-      <p style="color:var(--primary); font-size:0.85rem; font-weight:900; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:1.5rem;">READY TO START?</p>
-      <h2 style="font-family:'Pretendard', sans-serif; font-size:clamp(2rem, 5vw, 3.5rem); font-weight:900; line-height:1.2; letter-spacing:-0.03em;">성장의 파트너를 만날 시간입니다</h2>
+  <div class="contact-grid-wrap" style="max-width:1300px; margin:0 auto; position:relative; z-index:2;">
+    <div class="fu" style="text-align:center; margin-bottom:6rem;">
+      <p style="color:var(--primary); font-size:0.9rem; font-weight:900; letter-spacing:0.3em; text-transform:uppercase; margin-bottom:1.5rem;">Partner with Excellence</p>
+      <h2 style="font-family:'Pretendard', sans-serif; font-size:clamp(2.2rem, 5vw, 4rem); font-weight:950; line-height:1.1; letter-spacing:-0.04em; color:#111;">성장의 새로운 장을<br><span style="color:var(--primary);">함께</span> 열어갑니다</h2>
     </div>
 
-    <div class="fu contact-card" style="background:var(--bg-main); border:1px solid rgba(255,255,255,0.08); border-radius:3rem; padding:5rem; box-shadow:0 40px 100px rgba(0,0,0,0.5); display:grid; grid-template-columns: 1fr 1.5fr; gap:6rem; align-items:start;">
+    <div class="fu contact-card" style="background:#fff; border:1px solid rgba(0,0,0,0.05); border-radius:45px; padding:6rem; box-shadow:0 60px 120px rgba(0,0,0,0.06); display:grid; grid-template-columns: 1fr 1.6fr; gap:8rem; align-items:start;">
+      
       <!-- Left: Info -->
-      <div style="display:flex; flex-direction:column; gap:3rem;">
-        <p class="c-info-desc" style="line-height:1.8; font-size:1.1rem; margin-bottom:1rem; word-break:keep-all;">
-          각 분야의 전문가들이 비즈니스의 시작부터 끝까지 동행하겠습니다. 사소한 문의도 환영합니다.
-        </p>
+      <div style="display:flex; flex-direction:column; gap:4rem;">
+        <div style="position:relative;">
+          <div style="width:50px; height:2px; background:var(--primary); margin-bottom:2rem;"></div>
+          <p class="c-info-desc" style="line-height:1.9; font-size:1.15rem; color:#444; margin-bottom:1rem; word-break:keep-all; font-weight:500;">
+            단순한 문의도 좋습니다. <br><b style="color:#000;">대표 본인이 직접</b> 모든 내용을 검토하고 <br>가장 빠르고 정확한 해답을 드립니다.
+          </p>
+        </div>
         
-        <div style="display:flex; flex-direction:column; gap:2.5rem;">
-          <div style="display:flex; align-items:center; gap:1.5rem;">
-            <div style="width:58px; height:58px; background:var(--primary-soft); border:1px solid rgba(230,57,70,0.2); border-radius:18px; display:flex; align-items:center; justify-content:center; color:var(--primary); font-size:1.4rem;"><i class="fa fa-envelope"></i></div>
-            <div class="c-info-text">
-              <p class="c-info-label" style="font-size:0.75rem; margin:0 0 4px; text-transform:uppercase; font-weight:800; letter-spacing:0.05em;">Email</p>
-              <a href="mailto:hello@the3studio.com" id="contact-email-link" class="c-info-val" style="text-decoration:none; font-weight:800; font-size:1.1rem; transition:0.3s; word-break:break-all;">hello@the3studio.com</a>
+        <div style="display:flex; flex-direction:column; gap:3rem;">
+          <div style="display:flex; align-items:center; gap:1.8rem;">
+            <div style="width:64px; height:64px; background:#F8F9FA; border:1px solid rgba(0,0,0,0.05); border-radius:22px; display:flex; align-items:center; justify-content:center; color:var(--primary); font-size:1.5rem;"><i class="fa fa-envelope"></i></div>
+            <div>
+              <p style="font-size:0.75rem; color:#999; margin:0 0 5px; font-weight:800; letter-spacing:0.1em; text-transform:uppercase;">Inquiry</p>
+              <a href="mailto:hello@the3studio.com" id="c-email-link" style="color:#111; text-decoration:none; font-weight:850; font-size:1.25rem; font-family:'Outfit';">hello@the3studio.com</a>
             </div>
           </div>
-          <div style="display:flex; align-items:center; gap:1.5rem;">
-            <div style="width:58px; height:58px; background:var(--primary-soft); border:1px solid rgba(230,57,70,0.2); border-radius:18px; display:flex; align-items:center; justify-content:center; color:var(--primary); font-size:1.4rem;"><i class="fa fa-phone"></i></div>
-            <div class="c-info-text">
-              <p class="c-info-label" style="font-size:0.75rem; margin:0 0 4px; text-transform:uppercase; font-weight:800; letter-spacing:0.05em;">Phone</p>
-              <a href="tel:01037577555" id="contact-phone-link" class="c-info-val" style="text-decoration:none; font-weight:800; font-size:1.1rem; transition:0.3s;">01037577555</a>
-            </div>
-          </div>
-          <div style="display:flex; align-items:center; gap:1.5rem;">
-            <div style="width:58px; height:58px; background:var(--primary-soft); border:1px solid rgba(230,57,70,0.2); border-radius:18px; display:flex; align-items:center; justify-content:center; color:var(--primary); font-size:1.4rem;"><i class="fa fa-location-dot"></i></div>
-            <div class="c-info-text">
-              <p class="c-info-label" style="font-size:0.75rem; margin:0 0 4px; text-transform:uppercase; font-weight:800; letter-spacing:0.05em;">Location</p>
-              <span id="contact-loc-text" class="c-info-val" style="font-weight:800; font-size:1.1rem;">Seoul, Republic of Korea</span>
+          <div style="display:flex; align-items:center; gap:1.8rem;">
+            <div style="width:64px; height:64px; background:#F8F9FA; border:1px solid rgba(0,0,0,0.05); border-radius:22px; display:flex; align-items:center; justify-content:center; color:var(--primary); font-size:1.5rem;"><i class="fa fa-phone"></i></div>
+            <div>
+              <p style="font-size:0.75rem; color:#999; margin:0 0 5px; font-weight:800; letter-spacing:0.1em; text-transform:uppercase;">Hotline</p>
+              <a href="tel:01037577555" id="c-phone-link" style="color:#111; text-decoration:none; font-weight:850; font-size:1.25rem; font-family:'Outfit';">010.3757.7555</a>
             </div>
           </div>
         </div>
@@ -1224,34 +1211,58 @@ body.light-mode .impact-info-name { color: #111; }
 
       <!-- Right: Form -->
       <div id="contact-form-area">
+        <style>
+          .svc-chip { 
+            background:#F8F9FA; border:1px solid rgba(0,0,0,0.05); 
+            padding:12px 24px; border-radius:15px; color:#666; 
+            font-size:0.95rem; font-weight:700; cursor:pointer; transition:all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+          }
+          .svc-chip:hover { background:#fff; border-color:var(--primary); color:var(--primary); transform:translateY(-3px); }
+          .svc-chip.active { background:var(--primary); border-color:var(--primary); color:#fff; box-shadow:0 10px 30px rgba(200,16,46,0.2); }
+          
+          .luxury-input {
+            width:100%; background:#F8F9FA; border:1px solid rgba(0,0,0,0.05);
+            border-radius:18px; padding:20px 25px; color:#111; font-size:1.1rem; font-weight:500;
+            transition:all 0.4s ease; outline:none;
+          }
+          .luxury-input:focus { background:#fff; border-color:var(--primary); box-shadow:0 0 25px rgba(200,16,46,0.08); }
+          .luxury-input::placeholder { color:#ADB5BD; font-weight:400; }
+          
+          #submit-btn {
+            background:linear-gradient(135deg, #C8102E 0%, #A00D25 100%);
+            border:none; border-radius:20px; color:#fff; font-size:1.25rem; font-weight:900;
+            cursor:pointer; transition:all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow:0 15px 45px rgba(200,16,46,0.25); position:relative; overflow:hidden;
+          }
+          #submit-btn:hover { transform:scale(1.02); box-shadow:0 25px 60px rgba(200,16,46,0.4); }
+          #submit-btn:active { transform:scale(0.98); }
+        </style>
+        
         <form id="contact-form">
-          <div style="margin-bottom:3rem;">
-            <label class="c-label" style="display:block; font-size:0.85rem; font-weight:900; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:1.5rem;">관심 서비스</label>
-            <div id="service-chips" style="display:flex; gap:0.8rem; flex-wrap:wrap;">
-              <button type="button" class="svc-chip" data-val="consulting">Strategy</button>
-              <button type="button" class="svc-chip" data-val="branding">Branding</button>
-              <button type="button" class="svc-chip" data-val="video">Video</button>
-              <button type="button" class="svc-chip" data-val="integrated">Integrated</button>
+          <div style="margin-bottom:3.5rem;">
+            <label style="display:block; font-size:0.8rem; font-weight:950; text-transform:uppercase; letter-spacing:0.15em; color:var(--primary); margin-bottom:1.2rem;">Interested Service</label>
+            <div id="service-chips" style="display:flex; gap:1rem; flex-wrap:wrap;">
+              <!-- Dynamically Loaded -->
             </div>
             <input type="hidden" id="selected-service">
           </div>
 
-          <div style="margin-bottom:2rem;">
-            <label class="c-label" style="display:block; font-size:0.85rem; font-weight:900; margin-bottom:1rem;">회사 및 성함</label>
-            <input type="text" id="f-company" class="c-input" placeholder="성함 혹은 회사명을 입력해주세요" style="width:100%;" required>
+          <div style="margin-bottom:2.5rem;">
+            <label style="display:block; font-size:0.85rem; font-weight:900; color:#999; margin-bottom:1rem; margin-left:5px;">회사명 / 성함</label>
+            <input type="text" id="f-company" class="luxury-input" placeholder="비즈니스의 이름을 알려주세요" required>
           </div>
 
-          <div style="margin-bottom:2rem;">
-            <label class="c-label" style="display:block; font-size:0.85rem; font-weight:900; margin-bottom:1rem;">이메일 / 연락처</label>
-            <input type="text" id="f-email" class="c-input" placeholder="연락받으실 정보를 입력해주세요" style="width:100%;" required>
+          <div style="margin-bottom:2.5rem;">
+            <label style="display:block; font-size:0.85rem; font-weight:900; color:#999; margin-bottom:1rem; margin-left:5px;">이메일 / 연락처</label>
+            <input type="text" id="f-email" class="luxury-input" placeholder="연락받으실 소중한 정보입니다" required>
           </div>
 
-          <div style="margin-bottom:3rem;">
-            <label class="c-label" style="display:block; font-size:0.85rem; font-weight:900; margin-bottom:1rem;">메시지</label>
-            <textarea id="f-message" class="c-input" placeholder="프로젝트에 대해 자유롭게 설명해주세요" style="width:100%; resize:none;" rows="5" required></textarea>
+          <div style="margin-bottom:4rem;">
+            <label style="display:block; font-size:0.85rem; font-weight:900; color:rgba(255,255,255,0.5); margin-bottom:1rem; margin-left:5px;">프로젝트 상세</label>
+            <textarea id="f-message" class="luxury-input" placeholder="함께 고민하고 싶은 내용을 자유롭게 적어주세요" style="resize:none;" rows="5" required></textarea>
           </div>
 
-          <button type="submit" id="submit-btn" style="width:100%; height:70px;">프로젝트 문의하기</button>
+          <button type="submit" id="submit-btn" style="width:100%; height:85px;">프로젝트 컨설팅 신청하기</button>
         </form>
       </div>
 
@@ -1406,9 +1417,13 @@ body.light-mode .impact-info-name { color: #111; }
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <!-- CORE SCRIPTS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
 <script type="module">
-  import { db, doc, getDoc, setDoc, collection, getDocs, addDoc, query, orderBy } from './js/firebase-init.js';
+  import { db, doc, getDoc, setDoc, updateDoc, collection, getDocs, addDoc, query, orderBy } from './js/firebase-init.js';
   
   // ── BANNER PERSISTENCE ──
   window.closeBanner = () => {
@@ -1520,17 +1535,20 @@ body.light-mode .impact-info-name { color: #111; }
     editorUI.id = 'admin-editor-ui';
     Object.assign(editorUI.style, {
       position:'fixed', top:'0', left:'0', width:'100%', height:'100%', 
-      pointerEvents:'none', zIndex:'9999'
+      pointerEvents:'none', zIndex:'999999'
     });
+
     
     // 하단 툴바
     const toolbar = document.createElement('div');
     Object.assign(toolbar.style, {
-      position: 'absolute', bottom: '40px', left: '50%', transform: 'translateX(-50%)',
-      display: 'flex', gap: '15px', alignItems: 'center', background: 'rgba(0,0,0,0.85)',
-      padding: '12px 25px', borderRadius: '100px', border: '1px solid rgba(255,255,255,0.15)',
-      backdropFilter: 'blur(30px)', pointerEvents: 'auto', boxShadow: '0 20px 50px rgba(0,0,0,0.8)'
+      position: 'fixed', bottom: '40px', left: '50%', transform: 'translateX(-50%)',
+      display: 'flex', gap: '15px', alignItems: 'center', background: 'rgba(5,5,5,0.95)',
+      padding: '12px 25px', borderRadius: '100px', border: '1px solid rgba(255,255,255,0.2)',
+      backdropFilter: 'blur(30px)', pointerEvents: 'auto', boxShadow: '0 20px 50px rgba(0,0,0,0.9)',
+      zIndex: '1000'
     });
+
     
     toolbar.innerHTML = `
       <div style="display:flex; background:rgba(255,255,255,0.05); padding:4px; border-radius:100px;">
@@ -1542,7 +1560,15 @@ body.light-mode .impact-info-name { color: #111; }
       <a href="/admin/index.html" style="color:rgba(255,255,255,0.5); font-size:12px; font-weight:700; text-decoration:none; margin-left:10px;">대시보드로 복귀</a>
     `;
     
-    document.body.appendChild(toolbar);
+    editorUI.appendChild(toolbar);
+    document.body.appendChild(editorUI);
+
+    // 버튼 호버 효과 추가
+    const saveBtn = toolbar.querySelector('#save-live');
+    saveBtn.onmouseover = () => { saveBtn.style.opacity = '0.8'; saveBtn.style.transform = 'scale(1.05)'; };
+    saveBtn.onmouseout = () => { saveBtn.style.opacity = '1'; saveBtn.style.transform = 'scale(1)'; };
+    saveBtn.style.transition = '0.3s cubic-bezier(0.16, 1, 0.3, 1)';
+
 
     // 모드 전환 이벤트
     const btnPc = toolbar.querySelector('#toggle-pc');
@@ -1806,7 +1832,6 @@ body.light-mode .impact-info-name { color: #111; }
           if(d.slots_left) { const el = document.getElementById('slots-count'); if(el) el.innerText = d.slots_left; }
 
           // ── 2. 어드민 1:1 절대 배치 시스템 (ABSOLUTE POSITIONING) ──
-          // fh-title을 absolute container로 전환 (어드민 editor-cinematic-wrap과 동일)
           const fhTitle = document.getElementById('fh-title');
           if(fhTitle) {
               fhTitle.style.cssText = 'position:absolute; inset:0; display:block; width:100%; height:100%; max-width:none; padding:0; z-index:100;';
@@ -1815,6 +1840,7 @@ body.light-mode .impact-info-name { color: #111; }
 
           const isMobile = window.innerWidth <= 768;
           const suffix = isMobile ? '_mobile' : '_pc';
+          const isAdminMode = window.location.hash.includes('admin');
 
           // 어드민 에디터와 1:1 동일 포지션 매핑
           const posMap = [
@@ -1832,27 +1858,46 @@ body.light-mode .impact-info-name { color: #111; }
               const el = document.getElementById(cfg.id);
               if (!el) return;
               
-              // 오프셋: Firestore 저장값 (어드민 suffix 키 우선, fallback은 기본 키)
               const offset = d[cfg.key + suffix] !== undefined ? d[cfg.key + suffix] : (d[cfg.key] || 0);
+              const fsVal = d[cfg.fsKey + suffix] || d[cfg.key + '_fs' + suffix] || d[cfg.key + suffix + '_fs'];
               
-              // 어드민과 동일한 absolute + translate(-50%, offset) 배치
               el.style.position = 'absolute';
               el.style.top = cfg.top;
               el.style.left = '50%';
               el.style.transform = `translate(-50%, ${offset}px)`;
               el.style.textAlign = 'center';
+              el.style.zIndex = '101'; // 텍스트를 전면으로
               
               if (cfg.nowrap) el.style.whiteSpace = 'nowrap';
               if (cfg.minW) el.style.minWidth = cfg.minW;
               if (cfg.w) el.style.width = cfg.w;
               if (cfg.maxW) el.style.maxWidth = cfg.maxW;
-              
-              // 폰트사이즈: 어드민 saveLiveLayout이 저장하는 키 = off_label_pc_fs (fsKey+suffix)
-              const fsVal = d[cfg.fsKey + suffix] || d[cfg.key + '_fs' + suffix] || d[cfg.key + suffix + '_fs'];
-              if (fsVal) {
-                  el.style.fontSize = `${fsVal}rem`;
-              } else if (cfg.defaultFS) {
-                  el.style.fontSize = `${cfg.defaultFS}rem`;
+              if (fsVal) el.style.fontSize = `${fsVal}rem`;
+              else if (cfg.defaultFS) el.style.fontSize = `${cfg.defaultFS}rem`;
+
+              // [NEW] 어드민 모드일 때 히어로 텍스트 드래그 기능 부여
+              if (isAdminMode) {
+                  el.style.cursor = 'move';
+                  el.style.userSelect = 'none';
+                  el.setAttribute('data-drag-key', cfg.key + suffix);
+                  
+                  el.onmousedown = (e) => {
+                      e.preventDefault(); e.stopPropagation();
+                      const startY = e.clientY;
+                      const matches = el.style.transform.match(/translate\(-50%,\s*(-?\d+\.?\d*)px\)/);
+                      const startVal = matches ? parseFloat(matches[1]) : 0;
+                      
+                      const onMove = (me) => {
+                          const delta = me.clientY - startY;
+                          el.style.transform = `translate(-50%, ${startVal + delta}px)`;
+                      };
+                      const onUp = () => {
+                          window.removeEventListener('mousemove', onMove);
+                          window.removeEventListener('mouseup', onUp);
+                      };
+                      window.addEventListener('mousemove', onMove);
+                      window.addEventListener('mouseup', onUp);
+                  };
               }
           });
           
@@ -1971,35 +2016,41 @@ body.light-mode .impact-info-name { color: #111; }
 
   // ── SAVE PLACEMENTS TO FIRESTORE (최종 통합 모듈) ──
   window.savePlacements = async function() {
-    if (!transforms.length || !portIds.length) {
-        alert('저장할 카드 데이터가 아직 로드되지 않았습니다.');
-        return;
-    }
-    
     const btn = document.getElementById('save-live');
     const oldText = btn ? (btn.innerText || btn.textContent) : '현재 위치 저장';
     if(btn) { btn.innerText = '📡 저장 중...'; btn.disabled = true; }
 
     try {
-        // [FIX] 현재 화면에 표시된(portIds) 카드들의 좌표(transforms)만 추출하여 매칭
-        const dataToSave = portIds.map((id, idx) => {
+        // 1. 3D 갤러리 좌표 수집
+        const galleryData = transforms.length ? portIds.map((id, idx) => {
             const t = transforms[idx];
             if (!t) return null;
-            return {
-                id: id,
-                x: Math.round(t.x),
-                y: Math.round(t.y),
-                z: Math.round(t.z)
-            };
-        }).filter(Boolean);
+            return { id: id, x: Math.round(t.x), y: Math.round(t.y), z: Math.round(t.z) };
+        }).filter(Boolean) : [];
 
-        await setDoc(doc(db, 'placements', isM ? 'mobile' : 'pc'), {
-            items: dataToSave,
-            updatedAt: new Date().toISOString()
+        // 2. 히어로 텍스트 오프셋 수집
+        const isMobile = window.innerWidth <= 768;
+        const heroUpdates = {};
+        document.querySelectorAll('[data-drag-key]').forEach(el => {
+            const key = el.getAttribute('data-drag-key');
+            const matches = el.style.transform.match(/translate\(-50%,\s*(-?\d+\.?\d*)px\)/);
+            if (matches) heroUpdates[key] = Math.round(parseFloat(matches[1]));
         });
+
+        // 3. Firestore 저장 (병렬 처리)
+        const promises = [];
+        if (galleryData.length) {
+            promises.push(setDoc(doc(db, 'placements', isM ? 'mobile' : 'pc'), {
+                items: galleryData, updatedAt: new Date().toISOString()
+            }));
+        }
+        if (Object.keys(heroUpdates).length) {
+            promises.push(updateDoc(doc(db, 'settings', 'hero'), heroUpdates));
+        }
+
+        await Promise.all(promises);
         
         if(btn) { btn.innerText = '✅ 저장되었습니다!'; btn.disabled = false; }
-        console.log('Saved placements for', isM ? 'mobile' : 'pc', dataToSave);
         setTimeout(() => { if(btn) btn.innerText = oldText; }, 2000);
     } catch(e) {
         console.error('Save Placements Error:', e);
@@ -2008,6 +2059,7 @@ body.light-mode .impact-info-name { color: #111; }
         setTimeout(() => { if(btn) btn.innerText = oldText; }, 2000);
     }
   };
+
 
   // Hero Fan Section Render
   (async function loadHeroFromFirestore() {
@@ -2117,7 +2169,7 @@ body.light-mode .impact-info-name { color: #111; }
                         tasks = `<li><i class="fa fa-circle" style="color:var(--primary); font-size:6px; margin-right:12px; opacity:0.8;"></i> 로고 및 BI/BX 디자인</li>
                                  <li><i class="fa fa-circle" style="color:var(--primary); font-size:6px; margin-right:12px; opacity:0.8;"></i> 비주얼 메시지 전략 수립</li>
                                  <li><i class="fa fa-circle" style="color:var(--primary); font-size:6px; margin-right:12px; opacity:0.8;"></i> 브랜드 스타일 가이드 개발</li>`;
-                    } else if(role.includes('video') || role.includes('motion') || role.includes('producer')) {
+                    } else if(role.includes('video') || role.includes('production') || role.includes('pd')) {
                         tasks = `<li><i class="fa fa-circle" style="color:var(--primary); font-size:6px; margin-right:12px; opacity:0.8;"></i> 1초 만에 시선을 잡는 영상 연출</li>
                                  <li><i class="fa fa-circle" style="color:var(--primary); font-size:6px; margin-right:12px; opacity:0.8;"></i> 기업 홍보 및 브랜드 필름 제작</li>
                                  <li><i class="fa fa-circle" style="color:var(--primary); font-size:6px; margin-right:12px; opacity:0.8;"></i> 숏폼 및 바이럴 콘텐츠 최적화</li>`;
@@ -2149,10 +2201,8 @@ body.light-mode .impact-info-name { color: #111; }
                 `;
             });
             teamGrid.innerHTML = teamHTML;
-            
-            // Re-apply fade-up observation for dynamic elements
-            if(io) {
-                document.querySelectorAll('#team-grid .team-card').forEach(el => io.observe(el));
+            if(window.io) {
+                document.querySelectorAll('#team-grid .team-card').forEach(el => window.io.observe(el));
             }
         }
     } catch(e) { console.error('Team Load Error:', e); }
@@ -2165,14 +2215,9 @@ body.light-mode .impact-info-name { color: #111; }
           const desc = item.querySelector('.pkg-desc');
           const toggle = item.querySelector('.pkg-toggle');
           const isOpen = desc.style.maxHeight !== '0px' && desc.style.maxHeight !== '';
-          
           document.querySelectorAll('.pkg-desc').forEach(d => d.style.maxHeight = '0px');
           document.querySelectorAll('.pkg-toggle').forEach(t => t.style.transform = 'rotate(0deg)');
-          
-          if (!isOpen) {
-              desc.style.maxHeight = desc.scrollHeight + 'px';
-              toggle.style.transform = 'rotate(45deg)';
-          }
+          if (!isOpen) { desc.style.maxHeight = desc.scrollHeight + 'px'; toggle.style.transform = 'rotate(45deg)'; }
       }
   });
 
@@ -2194,7 +2239,6 @@ body.light-mode .impact-info-name { color: #111; }
     const se = document.getElementById('pf-slides');
     if(se) se.style.transform=`translateX(-${slideIdx*100}%)`;
     document.querySelectorAll('.pf-dot').forEach((d,i)=>d.classList.toggle('on',i===slideIdx));
-    
     const cur = document.querySelectorAll('#pf-slides video, #pf-slides img')[slideIdx];
     if(cur && cur.tagName==='VIDEO') cur.play().catch(()=>{});
   };
@@ -2218,20 +2262,14 @@ body.light-mode .impact-info-name { color: #111; }
     if(slidesEl) slidesEl.innerHTML='<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.3);"><i class="fa fa-spinner fa-spin fa-2x"></i></div>';
     
     try {
-      // 1. 캐시된 데이터에서 검색
       let d = cachedPortfolioItems.find(it => String(it.id) === String(slug) || String(it.slug) === String(slug));
-      
-      // 2. 없으면 Firestore 로드
       if(!d) {
           const qSnap = await getDocs(collection(db, 'portfolio'));
           qSnap.forEach(doc => {
               const data = doc.data();
-              if(String(doc.id) === String(slug) || String(data.slug) === String(slug)) {
-                  d = { ...data, id: doc.id };
-              }
+              if(String(doc.id) === String(slug) || String(data.slug) === String(slug)) d = { ...data, id: doc.id };
           });
       }
-
       if(!d) { closePF(); return; }
 
       if(titleEl) titleEl.textContent=d.title||'';
@@ -2276,21 +2314,15 @@ body.light-mode .impact-info-name { color: #111; }
         se.style.transform='translateX(0)';
         se.innerHTML = slides.map(s => {
           let media = '';
-          if(s.type === 'youtube') {
-            media = `<iframe src="https://www.youtube.com/embed/${s.ytId}?autoplay=1&mute=1&loop=1&playlist=${s.ytId}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
-          } else if(s.type === 'video') {
-            media = `<video src="${s.src}" controls autoplay muted playsinline></video>`;
-          } else {
-            media = `<img src="${s.src}" alt="">`;
-          }
+          if(s.type === 'youtube') media = `<iframe src="https://www.youtube.com/embed/${s.ytId}?autoplay=1&mute=1&loop=1&playlist=${s.ytId}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+          else if(s.type === 'video') media = `<video src="${s.src}" controls autoplay muted playsinline></video>`;
+          else media = `<img src="${s.src}" alt="">`;
           return `<div class="pf-slide-item">${media}</div>`;
         }).join('');
         de.innerHTML = slides.map((_,i) => `<button class="pf-dot${i===0?' on':''}" onclick="pfGoSlide(${i})"></button>`).join('');
         if(pv) pv.style.display=slideCount>1?'flex':'none';
         if(nx) nx.style.display=slideCount>1?'flex':'none';
       }
-      const box = document.getElementById('pf-box');
-      if(box) box.scrollTop=0;
     } catch(err) { console.error(err); closePF(); }
   };
 
@@ -2300,66 +2332,73 @@ body.light-mode .impact-info-name { color: #111; }
   document.getElementById('pf-modal')?.addEventListener('click',e=>{ if(e.target===e.currentTarget) closePF(); });
   document.addEventListener('keydown',e=>{ if(e.key==='Escape') closePF(); });
 
-  // ── IMPACT STORIES LOADING ──
+  // ── IMPACT STORIES LOADING (CONVERSATIONAL VERSION) ──
   (async function loadImpactStories() {
-    const wrapper = document.getElementById('impact-wrapper');
-    if(!wrapper) return;
+    const chatBody = document.getElementById('chat-body');
+    if(!chatBody) return;
     try {
         const qSnap = await getDocs(query(collection(db, 'impact_stories'), orderBy('sort_order', 'asc')));
         if(!qSnap.empty) {
-            let html = '';
-            qSnap.forEach(d => {
-                const it = d.data();
-                const avatar = it.avatar || 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=200&auto=format&fit=crop';
-                const bgImg = it.bg_image ? `<img src="${it.bg_image.startsWith('http')?'':'/'}${it.bg_image}" class="impact-bg-img">` : '';
-                html += `
-                    <div class="swiper-slide">
-                      <div class="impact-slide">
-                        ${bgImg}
-                        <div class="impact-quote-icon">"</div>
-                        <h2 class="impact-main-text">${it.quote}</h2>
-                        <div class="impact-profile">
-                          <img src="${avatar}" alt="${it.author}" class="impact-avatar">
-                          <div class="impact-info">
-                            <p class="impact-info-name">${it.author}</p>
-                            <p class="impact-info-result">${it.result}</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                `;
-            });
-            wrapper.innerHTML = html;
+            const items = [];
+            qSnap.forEach(d => items.push(d.data()));
             
-            // Initialize Swiper ONLY after content is loaded
-            new Swiper('#impact-slider', {
-                loop: true,
-                autoplay: { delay: 5000, disableOnInteraction: false },
-                pagination: { el: '.impact-pagination', clickable: true },
-                speed: 800,
-                effect: 'fade',
-                fadeEffect: { crossFade: true }
-            });
-        } else {
-            // AUTO-SEEDING defaults if empty
-            const defaults = [
-                { author: "한사발포차 최한사 사장님", quote: "\"줄 서는 식당으로 소문나서 막막했는데, <span class='highlight'>THE 3</span>의 브랜딩 이후 <br class='show-desktop'>영등포에서 가장 힙한 플레이스가 되었어요.\"", result: "네이버 플레이스 상위 1% 달성", avatar: "https://images.unsplash.com/photo-1552058544-f2b08422138a?q=80&w=200&auto=format&fit=crop", sort_order: 1 },
-                { author: "태백우장수 고태백 사장님", quote: "\"가족 외식 장소로 홍보가 안 돼서 힘들었지만, <br class='show-desktop'><span class='highlight'>THE 3</span>와 함께한 뒤 당산동 최고의 고기 맛집으로 자리 잡았습니다.\"", result: "월 매출 3배 성장 달성", avatar: "https://images.unsplash.com/photo-1544168190-79c17527004f?q=80&w=200&auto=format&fit=crop", sort_order: 2 },
-                { author: "일품각 장양꼬 사장님", quote: "\"당산역 원조의 자존심을 <span class='highlight'>THE 3</span>가 다시 세워줬습니다. <br class='show-desktop'>전통과 트렌드를 모두 잡은 완벽한 디자인의 승리입니다.\"", result: "지역 기반 검색 1위 점유", avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=200&auto=format&fit=crop", sort_order: 3 },
-                { author: "하와이조개 조하와 사장님", quote: "\"무제한 해물라면의 가치를 <span class='highlight'>THE 3</span>가 영상으로 증명해줬어요. <br class='show-desktop'>이제 당산에서 조개구이 하면 저희부터 찾습니다.\"", result: "인스타그램 태그 수 2,000% 폭증", avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&auto=format&fit=crop", sort_order: 4 },
-                { author: "안동실비 심안동 사장님", quote: "\"24시간 영업의 강점을 <span class='highlight'>THE 3</span>가 정교하게 타겟팅해줬습니다. <br class='show-desktop'>새벽에도 끊이지 않는 손님들로 즐거운 비명을 지릅니다.\"", result: "방문자 리뷰 1,000개 돌파", avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=200&auto=format&fit=crop", sort_order: 5 },
-                { author: "손정보쌈 박보쌈 사장님", quote: "\"막걸리 쿠폰 전략 하나로 <span class='highlight'>THE 3</span>가 상권 지도를 바꿨어요. <br class='show-desktop'>가장 단순한 게 가장 강력한 전략임을 배우고 갑니다.\"", result: "재방문율 40% 이상 기록", avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=200&auto=format&fit=crop", sort_order: 6 }
-            ];
-            for(const s of defaults) { await addDoc(collection(db, 'impact_stories'), s); }
-            location.reload();
+            chatBody.innerHTML = ''; // Clear spinner
+            
+            const renderMessages = () => {
+                items.forEach((it, idx) => {
+                    setTimeout(() => {
+                        const avatar = it.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=100&auto=format&fit=crop';
+                        // 1. 고객 메시지
+                        const userMsg = document.createElement('div');
+                        userMsg.className = 'chat-bubble-wrap';
+                        userMsg.innerHTML = `
+                            <img src="${avatar}" class="chat-avatar" alt="${it.author}">
+                            <div class="chat-msg-area">
+                                <span class="chat-sender">${it.author}</span>
+                                <div class="chat-bubble">${it.quote}</div>
+                            </div>
+                            <span class="chat-meta">오전 11:${String(idx+10).padStart(2,'0')}</span>
+                        `;
+                        chatBody.appendChild(userMsg);
+                        setTimeout(() => userMsg.classList.add('visible'), 50);
+                        chatBody.scrollTop = chatBody.scrollHeight;
+
+                        // 2. THE 3 STUDIO 답변 (딜레이 후)
+                        setTimeout(() => {
+                            const resMsg = document.createElement('div');
+                            resMsg.className = 'chat-bubble-wrap right';
+                            resMsg.innerHTML = `
+                                <div class="chat-msg-area">
+                                    <span class="chat-sender">THE 3 STUDIO</span>
+                                    <div class="chat-bubble">저희와 함께해주셔서 감사합니다! ${it.result}의 성과를 내셔서 정말 뿌듯합니다. 🚀</div>
+                                </div>
+                                <span class="chat-meta">오전 11:${String(idx+12).padStart(2,'0')}</span>
+                            `;
+                            chatBody.appendChild(resMsg);
+                            setTimeout(() => resMsg.classList.add('visible'), 50);
+                            chatBody.scrollTop = chatBody.scrollHeight;
+                        }, 1200);
+
+                    }, idx * 3500); // 다음 대화 덩어리까지의 시간
+                });
+            };
+
+            // 화면에 보일 때 시작
+            const obs = new IntersectionObserver((entries) => {
+                if(entries[0].isIntersecting) {
+                    renderMessages();
+                    obs.disconnect();
+                }
+            }, { threshold: 0.3 });
+            obs.observe(chatBody);
         }
     } catch(e) { console.error('Impact Load Error:', e); }
   })();
 
   // ── CHATBOT ──
   const cwin=document.getElementById('chat-win');
-  document.getElementById('chat-toggle').addEventListener('click',()=>cwin.classList.toggle('on'));
-  document.getElementById('close-chat').addEventListener('click',()=>cwin.classList.remove('on'));
+  document.getElementById('chat-toggle')?.addEventListener('click',()=>cwin.classList.toggle('on'));
+  document.getElementById('close-chat')?.addEventListener('click',()=>cwin.classList.remove('on'));
   document.getElementById('open-chat')?.addEventListener('click',e=>{e.preventDefault();cwin.classList.add('on');});
 
   let cState='idle', lead={name:'',phone:''};
@@ -2375,15 +2414,9 @@ body.light-mode .impact-info-name { color: #111; }
     else if(cState==='phoning'){
         lead.phone=v; cState='idle';
         document.getElementById('chat-input-area').style.display='none';
-        
-        // Save to Firestore directly
         addDoc(collection(db, 'contacts'), {
-            company_name: lead.name,
-            email: lead.phone,
-            service: '챗봇 문의',
-            message: `챗봇을 통해 남겨진 연락처입니다: ${lead.phone}`,
-            status: 'new',
-            created_at: new Date().toISOString()
+            company_name: lead.name, email: lead.phone, service: '챗봇 문의',
+            message: `챗봇을 통해 남겨진 연락처입니다: ${lead.phone}`, status: 'new', created_at: new Date().toISOString()
         }).catch(err => console.error('Chatbot Save Error:', err))
         .finally(() => {
             document.getElementById('chat-options').style.display='grid';
@@ -2391,39 +2424,60 @@ body.light-mode .impact-info-name { color: #111; }
         });
     }
   }
-  document.getElementById('send-chat').addEventListener('click',processIn);
-  document.getElementById('chat-input').addEventListener('keypress',e=>{if(e.key==='Enter')processIn();});
+  document.getElementById('send-chat')?.addEventListener('click',processIn);
+  document.getElementById('chat-input')?.addEventListener('keypress',e=>{if(e.key==='Enter')processIn();});
   function addMsg(txt,who){
+    const msgs=document.getElementById('chat-messages'); 
+    if(!msgs) return;
     const d=document.createElement('div'); d.className='msg '+(who==='bot'?'bot':'usr');
-    const msgs=document.getElementById('chat-messages'); msgs.appendChild(d);
+    msgs.appendChild(d);
     if(who==='bot'){let i=0;const ti=setInterval(()=>{d.textContent+=txt[i++];msgs.scrollTop=9999;if(i>=txt.length)clearInterval(ti);},22);}
     else{d.textContent=txt;msgs.scrollTop=9999;}
   }
 
-  // ── MOBILE MENU TOGGLE ──
-  const mobileMenu = document.getElementById('mobile-menu');
-  window.toggleMobileMenu = () => {
-    mobileMenu.classList.toggle('on');
-  };
-  document.getElementById('nav-toggle').addEventListener('click', toggleMobileMenu);
-  document.getElementById('close-mobile').addEventListener('click', toggleMobileMenu);
+  // ── LOAD CONTACT SETTINGS ──
+  async function loadContactInfo() {
+    try {
+      const s = await getDoc(doc(db, 'settings', 'contact'));
+      if (s.exists()) {
+        const d = s.data();
+        const em = d.email || 'hello@the3studio.com';
+        const ph = d.phone || '01037577555';
+        const svcs = d.services || ['Strategy', 'Branding', 'Video', 'Integrated'];
 
-  // ── NAV ACTIVE ON SCROLL (Scroll-Spy) ──
+        const el = document.getElementById('c-email-link');
+        if(el) { el.textContent = em; el.href = `mailto:${em}`; }
+        
+        const pl = document.getElementById('c-phone-link');
+        if(pl) { pl.textContent = ph; pl.href = `tel:${ph.replace(/[^0-9]/g, '')}`; }
+
+        const sc = document.getElementById('service-chips');
+        if (sc) {
+          sc.innerHTML = svcs.map((sv, i) => `<button type="button" class="svc-chip ${i===0?'active':''}" data-val="${sv}">${sv}</button>`).join('');
+          if(svcs.length > 0) document.getElementById('selected-service').value = svcs[0];
+        }
+      }
+    } catch (err) { console.error('Contact Sync Error:', err); }
+  }
+  loadContactInfo();
+
+  // ── MOBILE MENU ──
+  const mobileMenu = document.getElementById('mobile-menu');
+  window.toggleMobileMenu = () => { mobileMenu?.classList.toggle('on'); };
+  document.getElementById('nav-toggle')?.addEventListener('click', toggleMobileMenu);
+  document.getElementById('close-mobile')?.addEventListener('click', toggleMobileMenu);
+
+  // ── SCROLL SPY ──
   const navLinks = document.querySelectorAll('.nav-links a');
   const sections = ['home', 'team', 'gallery', 'journey', 'contact'].map(id => document.getElementById(id));
-  
-  const spyOptions = { threshold: 0.3, rootMargin: "-10% 0px -70% 0px" };
   const spyObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         const id = entry.target.getAttribute('id');
-        navLinks.forEach(link => {
-          link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
-        });
+        navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === `#${id}`));
       }
     });
-  }, spyOptions);
-
+  }, { threshold: 0.3, rootMargin: "-10% 0px -70% 0px" });
   sections.forEach(sec => { if(sec) spyObserver.observe(sec); });
 
   // ── CONTACT FORM ──
@@ -2432,8 +2486,8 @@ body.light-mode .impact-info-name { color: #111; }
     const chip = e.target.closest('.svc-chip');
     if (!chip) return;
     
-    document.querySelectorAll('.svc-chip').forEach(c => c.classList.remove('selected'));
-    chip.classList.add('selected');
+    document.querySelectorAll('.svc-chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
     document.getElementById('selected-service').value = chip.dataset.val;
   });
 
@@ -2505,11 +2559,21 @@ body.light-mode .impact-info-name { color: #111; }
     
     if(!sub || !acc) return;
     
+    // Safety check for GSAP
+    if (typeof gsap === 'undefined') {
+        console.warn('GSAP not loaded. Skipping typewriter.');
+        sub.style.opacity = 1; acc.style.opacity = 1; desc.style.opacity = 1; cta.style.opacity = 1;
+        sub.textContent = textData.main_copy || "";
+        acc.textContent = textData.accent_copy || "";
+        return;
+    }
+
     const subText = textData.main_copy || "장사도 바쁜데,";
     const accText = textData.accent_copy || "콘텐츠까지 고민하시나요?";
     
     // Initial State - Set visibility explicitly
     gsap.set([sub, acc, desc, cta], { opacity: 0, visibility: 'visible' });
+
     sub.innerHTML = ''; acc.innerHTML = '';
     
     // Kill existing timelines to prevent double playing

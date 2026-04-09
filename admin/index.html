@@ -5,29 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>THE 3 STUDIO | Ultimate Master Control v5.0</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --accent: #C8102E; 
-            --sidebar-w: 260px;
+            --sidebar-w: 280px;
             --danger: #ff3b30; 
             --success: #28cd41;
-            --glow: 0 0 20px rgba(200, 16, 46, 0.3);
-            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --glow: 0 0 20px rgba(200, 16, 46, 0.4);
+            --transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         /* --------------------------------------------------------------------------
-           [ISLAND 1] DARK THEME (The Deep Blue)
+           [ISLAND 1] DARK THEME (The Luxury Black)
            -------------------------------------------------------------------------- */
         body:not(.light-mode) {
-            --bg-main: #0B1939; 
-            --bg-card: #12224A; 
-            --bg-sidebar: #081126;
+            --bg-main: #050505; 
+            --bg-card: #0F0F0F; 
+            --bg-sidebar: #050505;
             --text-main: #ffffff; 
             --text-dim: rgba(255,255,255,0.6);
             --border: rgba(255,255,255,0.08);
-            --input-bg: #081126;
-            --modal-overlay: rgba(11,25,57,0.85);
+            --input-bg: #1A1A1A;
+            --modal-overlay: rgba(0,0,0,0.85);
         }
 
         /* --------------------------------------------------------------------------
@@ -53,49 +54,59 @@
         /* --------------------------------------------------------------------------
            [SKELETON] COMMON UI STYLES
            -------------------------------------------------------------------------- */
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body { background: var(--bg-main); color: var(--text-main); font-family: 'Inter', sans-serif; transition: background var(--transition); }
-        .dashboard-layout { display: flex; height: 100vh; }
+        * { margin:0; padding:0; box-sizing:border-box; -webkit-font-smoothing: antialiased; }
+        body { background: var(--bg-main); color: var(--text-main); font-family: 'Pretendard Variable', 'Pretendard', 'Inter', sans-serif; transition: background var(--transition); letter-spacing: -0.01em; }
+        .dashboard-layout { display: flex; height: 100vh; overflow: hidden; }
 
         .sidebar { 
             width: var(--sidebar-w); background: var(--bg-sidebar); 
             border-right: 1px solid var(--border); display: flex; flex-direction: column; 
-            padding: 2rem 1rem; flex-shrink: 0; z-index: 1000; transition: background var(--transition); 
+            padding: 2.5rem 1.2rem; flex-shrink: 0; z-index: 1000; transition: background var(--transition);
         }
-        .logo { font-family: 'Outfit'; font-weight: 900; font-size: 1.4rem; color: var(--text-main); margin-bottom: 2.5rem; padding: 0 1rem; }
+        .logo { font-family: 'Outfit'; font-weight: 900; font-size: 1.5rem; color: var(--text-main); margin-bottom: 3rem; padding: 0 1rem; letter-spacing: -0.02em; }
         .logo span { color: var(--accent); }
-        .nav-menu { flex: 1; overflow-y: auto; }
-        .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; color: var(--text-dim); border-radius: 12px; transition: var(--transition); margin-bottom: 5px; cursor: pointer; font-size: 0.85rem; font-weight: 600; }
-        .nav-item:hover { background: rgba(255,255,255,0.05); color: var(--text-main); }
-        .nav-item.active { background: var(--accent); color: #fff; box-shadow: 0 10px 20px rgba(230, 57, 70, 0.2); }
+        .nav-menu { flex: 1; overflow-y: auto; padding-right: 4px; }
+        .nav-menu::-webkit-scrollbar { width: 3px; }
+        .nav-menu::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.05); border-radius: 10px; }
+
+        .nav-item { display: flex; align-items: center; gap: 14px; padding: 14px 18px; color: var(--text-dim); border-radius: 16px; transition: var(--transition); margin-bottom: 6px; cursor: pointer; font-size: 0.9rem; font-weight: 700; }
+        .nav-item i { font-size: 1.1rem; opacity: 0.7; transition: 0.3s; }
+        .nav-item:hover { background: rgba(255,255,255,0.03); color: var(--text-main); transform: translateX(5px); }
+        .nav-item:hover i { color: var(--accent); opacity: 1; }
+        .nav-item.active { background: linear-gradient(135deg, #B91C1C 0%, #E11D48 100%); color: #fff; box-shadow: 0 15px 30px rgba(185,28,28, 0.25); }
+        .nav-item.active i { opacity: 1; color: #fff; }
 
         .main-content { flex: 1; display: flex; flex-direction: column; overflow-y: auto; background: var(--bg-main); transition: background var(--transition); }
-        .top-bar { height: 70px; display: flex; align-items: center; justify-content: flex-end; padding: 0 2rem; border-bottom: 1px solid var(--border); }
-        .app-view { padding: 2.5rem; max-width: 1400px; margin: 0 auto; width: 100%; }
+        .top-bar { height: 75px; display: flex; align-items: center; justify-content: flex-end; padding: 0 2.5rem; border-bottom: 1px solid var(--border); background: rgba(0,0,0,0.1); backdrop-filter: blur(10px); }
+        .app-view { padding: 3.5rem; max-width: 1500px; margin: 0 auto; width: 100%; }
 
-        .header-content { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
-        .view-title h1 { font-family: 'Outfit'; font-size: 2rem; font-weight: 900; color: var(--text-main); }
-        .btn { background: var(--accent); color: #fff; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font-size: 0.8rem; transition: var(--transition); }
-        .btn:hover { transform: translateY(-1px); filter: brightness(1.1); }
-        .btn-s { background: rgba(255,255,255,0.08); padding: 8px 16px; border-radius: 8px; color: var(--text-dim); }
-        .btn-danger { color: #fff; background: var(--danger); }
+        .header-content { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem; }
+        .view-title h1 { font-family: 'Outfit'; font-size: 2.2rem; font-weight: 900; color: var(--text-main); letter-spacing: -0.03em; }
+        .btn { background: linear-gradient(135deg, #B91C1C 0%, #E11D48 100%); color: #fff; border: none; padding: 14px 28px; border-radius: 14px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; font-size: 0.9rem; transition: var(--transition); box-shadow: 0 10px 20px rgba(185,28,28, 0.2); }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(185,28,28, 0.35); filter: brightness(1.1); }
+        .btn-s { background: rgba(255,255,255,0.06); padding: 10px 18px; border-radius: 10px; color: var(--text-dim); font-weight: 700; font-size: 0.8rem; }
+        .btn-s:hover { background: rgba(255,255,255,0.1); color: #fff; }
+        .btn-danger { color: #fff; background: #dc2626; box-shadow: 0 10px 20px rgba(220,38,38,0.2); }
         .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-main); }
+        .btn-outline:hover { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.2); }
 
-        .table-container { background: var(--bg-card); border-radius: 20px; border: 1px solid var(--border); overflow: hidden; margin-top: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .table-container { background: var(--bg-card); border-radius: 24px; border: 1px solid var(--border); overflow: hidden; margin-top: 2rem; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
         table { width: 100%; border-collapse: collapse; }
-        th { text-align: left; padding: 1.2rem; background: rgba(255,255,255,0.02); color: var(--text-dim); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
-        td { padding: 1.2rem; border-top: 1px solid var(--border); font-size: 0.85rem; vertical-align: middle; color: var(--text-main); }
-        .thumb-cell { width: 60px; height: 45px; border-radius: 8px; overflow: hidden; background: #000; border: 1px solid var(--border); }
+        th { text-align: left; padding: 1.5rem; background: rgba(255,255,255,0.02); color: var(--text-dim); font-size: 0.75rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; }
+        td { padding: 1.5rem; border-top: 1px solid var(--border); font-size: 0.95rem; vertical-align: middle; color: var(--text-main); font-weight: 500; }
+        tr:hover td { background: rgba(255,255,255,0.01); }
+        .thumb-cell { width: 64px; height: 48px; border-radius: 10px; overflow: hidden; background: #000; border: 1px solid var(--border); transition: 0.3s; }
+        .thumb-cell:hover { transform: scale(1.1); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
         .thumb-cell img, .thumb-cell video { width: 100%; height: 100%; object-fit: cover; }
 
-        .modal { position: fixed; inset: 0; background: var(--modal-overlay); backdrop-filter: blur(15px); display: none; align-items: center; justify-content: center; z-index: 10000; transition: var(--transition); }
-        .modal-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 30px; width: 100%; max-width: 750px; padding: 3rem; max-height: 90vh; overflow-y: auto; box-shadow: 0 30px 60px rgba(0,0,0,0.1); }
-        .form-group { margin-bottom: 1.5rem; }
-        .form-label { display: block; color: var(--text-dim); font-size: 0.65rem; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; }
-        .form-input { width: 100%; background: var(--input-bg); border: 1px solid var(--border); border-radius: 12px; padding: 14px; color: var(--text-main); font-size: 0.9rem; transition: var(--transition); }
-        .form-input:focus { border-color: var(--accent); outline: none; }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-        textarea.form-input { min-height: 80px; }
+        .modal { position: fixed; inset: 0; background: var(--modal-overlay); backdrop-filter: blur(25px); display: none; align-items: center; justify-content: center; z-index: 10000; transition: var(--transition); }
+        .modal-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 35px; width: 95%; max-width: 780px; padding: 3.5rem; max-height: 90vh; overflow-y: auto; box-shadow: 0 40px 100px rgba(0,0,0,0.5); }
+        .form-group { margin-bottom: 2rem; }
+        .form-label { display: block; color: var(--text-dim); font-size: 0.75rem; font-weight: 900; text-transform: uppercase; margin-bottom: 10px; letter-spacing: 0.05em; }
+        .form-input { width: 100%; background: var(--input-bg); border: 1px solid var(--border); border-radius: 14px; padding: 16px; color: var(--text-main); font-size: 0.95rem; transition: var(--transition); font-weight: 500; }
+        .form-input:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 20px rgba(200,16,46,0.1); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        textarea.form-input { min-height: 120px; line-height: 1.6; }
 
         .switch-wrap { display: flex; align-items: center; gap: 10px; cursor: pointer; }
         .switch-box { width: 42px; height: 24px; background: rgba(255,255,255,0.1); border-radius: 20px; position: relative; transition: 0.3s; border: 1px solid var(--border); }
@@ -150,36 +161,36 @@
     <aside class="sidebar">
         <div class="logo">THE <span>3</span> STUDIO</div>
         <nav class="nav-menu">
-            <div class="nav-item" onclick="window.open('../', '_blank')"><i class="fa fa-external-link"></i> 홈페이지 바로가기</div>
+            <div class="nav-item" onclick="window.open('../', '_blank')" style="border: 1px solid rgba(255,255,255,0.05); margin-bottom: 2rem;"><i class="fa fa-external-link" style="color:var(--accent);"></i> 홈페이지 바로가기</div>
+            
+            <div class="nav-group-title">DIRECT LIVE EDITOR (1:1 배치)</div>
+            <div class="nav-item active" onclick="switchView('placements')" style="background: rgba(200, 16, 46, 0.1); border: 1px solid var(--accent);"><i class="fa fa-th-large" style="color:var(--accent);"></i> <b>3D 갤러리 1:1 배치 마스터</b></div>
             
             <div class="nav-group-title">MAIN CONTENT</div>
-            <div class="nav-item active" onclick="switchView('global')"><i class="fa fa-globe"></i> 전역 설정 (테마)</div>
+            <div class="nav-item" onclick="switchView('portfolio')"><i class="fa fa-folder"></i> 포트폴리오(3D 카드) 관리</div>
+            <div class="nav-item" onclick="switchView('global')"><i class="fa fa-globe"></i> 전역 설정 (테마/컬러)</div>
             <div class="nav-item" onclick="switchView('hero')"><i class="fa fa-tv"></i> 히어로 섹션 마스터</div>
-            <div class="nav-item" onclick="switchView('portfolio')"><i class="fa fa-folder"></i> 포트폴리오 관리</div>
-            <div class="nav-item" onclick="switchView('team')"><i class="fa fa-users"></i> 팀 멤버</div>
+            <div class="nav-item" onclick="switchView('team')"><i class="fa fa-users"></i> 팀 멤버 컨설팅</div>
             <div class="nav-item" onclick="switchView('journey')"><i class="fa fa-route"></i> 성공 연혁</div>
             <div class="nav-item" onclick="switchView('impact_stories')"><i class="fa fa-quote-right"></i> 고객 성공 메시지</div>
-            <div class="nav-item" onclick="switchView('consulting')"><i class="fa fa-envelope"></i> 문의 내역</div>
-            <div class="nav-item" onclick="switchView('contact_settings')"><i class="fa fa-address-book"></i> 연락처/서비스 설정</div>
+            <div class="nav-item" onclick="switchView('hero_slides')"><i class="fa fa-images"></i> 히어로 캐러셀</div>
 
-            <div class="nav-group-title">ADVANCED</div>
-            <div class="nav-item toggle-btn" onclick="toggleExtraMenu(this)">
-                <i class="fa fa-tools"></i> 기능 더보기 (기타)
-                <i class="fa fa-chevron-down"></i>
-            </div>
-            <div class="extra-menu" id="extra-menu">
-                <div class="nav-item" onclick="switchView('hero_slides')"><i class="fa fa-images"></i> 히어로 캐러셀</div>
-                <div class="nav-item" onclick="switchView('portfolio_hero')"><i class="fa fa-palette"></i> 포트폴리오 히어로 설정</div>
-                <div class="nav-item" onclick="switchView('stats')"><i class="fa fa-chart-bar"></i> 성과 수치 (Stats)</div>
-                <div class="nav-item" onclick="switchView('clients')"><i class="fa fa-building"></i> 고객사 관리</div>
-                <div class="nav-item" onclick="switchView('placements')"><i class="fa fa-th-large"></i> 1:1 라이브 배치</div>
-            </div>
+            <div class="nav-group-title">MANAGEMENT</div>
+            <div class="nav-item" onclick="switchView('consulting')"><i class="fa fa-envelope"></i> 문의 내역 확인</div>
+            <div class="nav-item" onclick="switchView('contact_settings')"><i class="fa fa-address-book"></i> 연락처/서비스 설정</div>
+            <div class="nav-item" onclick="switchView('stats')"><i class="fa fa-chart-bar"></i> 성과 수치 (Stats)</div>
+            <div class="nav-item" onclick="switchView('clients')"><i class="fa fa-building"></i> 고객사 로고</div>
         </nav>
-        <div class="nav-item" style="margin-top:auto;" onclick="logout()"><i class="fa fa-sign-out"></i> 로그아웃</div>
+        <div class="nav-item" style="margin-top:2rem; background: rgba(220,38,38,0.1); color: #dc2626; border-radius: 12px; font-weight:900;" onclick="logout()"><i class="fa fa-sign-out"></i> 로그아웃</div>
     </aside>
 
     <main class="main-content">
-        <div class="top-bar"><span style="font-weight:900; font-size:0.7rem; color:var(--text-dim); letter-spacing:0.1em;">ULTIMATE STABLE v5.0</span></div>
+        <div class="top-bar">
+            <div style="display:flex; align-items:center; gap:10px;">
+                <div style="width:8px; height:8px; background:var(--success); border-radius:50%; box-shadow:0 0 10px var(--success);"></div>
+                <span style="font-weight:900; font-size:0.75rem; color:var(--text-dim); letter-spacing:0.1em; text-transform:uppercase;">System Active | v5.2 Premium</span>
+            </div>
+        </div>
         <div class="app-view" id="app-view"></div>
     </main>
 </div>
@@ -938,25 +949,50 @@
             const snap = await getDocs(collection(db, col));
             const items = []; snap.forEach(d => items.push({...d.data(), id: d.id}));
             
-            // 신규 문의 상단 노출을 위한 날짜순 정렬
+            // 신규 문의 상단 노출
             if(items.length > 0 && items[0].created_at) {
                 items.sort((a,b) => (b.created_at || '').localeCompare(a.created_at || ''));
             } else if(items.length > 0 && items[0].sort_order !== undefined) {
                 items.sort((a,b) => (parseInt(a.sort_order)||0) - (parseInt(b.sort_order)||0));
             }
 
+            const isContact = (col === 'contacts');
             appView.innerHTML = `
-                <div class="header-content"><h1>${title} 관리</h1>${col==='contacts'?'':`<button class="btn" onclick="openEditModal('${col}')"><i class="fa fa-plus"></i> 추가</button>`}</div>
-                <div class="table-container">
-                    ${items.length === 0 ? '<div style="text-align:center; padding:5rem; color:rgba(255,255,255,0.2);">데이터가 존재하지 않습니다.</div>' : `
-                    <table>
-                        <thead><tr>${fields.map(f => `<th>${labelMap[f] || f}</th>`).join('')}<th style="text-align:right">관리</th></tr></thead>
+                <div class="header-content" style="margin-bottom:3rem;">
+                    <div class="view-title">
+                        <h1 style="font-family:'Outfit'; font-weight:900; letter-spacing:-0.02em;">${isContact ? 'Inquiry Dashboard' : title + ' 관리'}</h1>
+                        <p style="color:var(--text-dim); font-size:0.95rem;">${isContact ? '고객님이 남기신 소중한 문의 내역을 확인하고 관리합니다.' : '데이터를 체계적으로 관리하고 업데이트하세요.'}</p>
+                    </div>
+                    ${isContact ? '' : `<button class="btn" onclick="openEditModal('${col}')"><i class="fa fa-plus"></i> 신규 등록</button>`}
+                </div>
+
+                <div class="table-container" style="background:${isContact ? 'rgba(255,255,255,0.02)' : 'transparent'}; border-radius:24px; padding:${isContact ? '2.5rem' : '0'}; border:1px solid rgba(255,255,255,0.05); box-shadow:0 10px 40px rgba(0,0,0,0.1);">
+                    ${items.length === 0 ? '<div style="text-align:center; padding:8rem; opacity:0.3; font-weight:600;">데이터가 존재하지 않습니다.</div>' : `
+                    <table style="width:100%; border-collapse:separate; border-spacing:0 10px;">
+                        <thead>
+                            <tr style="background:transparent;">
+                                ${fields.map(f => `<th style="padding:15px; border-bottom:1px solid rgba(255,255,255,0.05); font-weight:900; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-dim);">${labelMap[f] || f}</th>`).join('')}
+                                <th style="text-align:right; padding:15px; border-bottom:1px solid rgba(255,255,255,0.05);">관리</th>
+                            </tr>
+                        </thead>
                         <tbody>
-                            ${items.map(it => `<tr>${fields.map(f => {
-                                if(f==='photo'||f==='logo'||f==='image_path'||f==='thumbnail'||f==='avatar') return `<td><div class="thumb-cell">${isVideo(it[f])?`<video src="${getMediaSrc(it[f])}"></video>`:`<img src="${getMediaSrc(it[f])}">`}</div></td>`;
-                                if(f==='created_at' && it[f]) return `<td>${it[f].split('T')[0]}</td>`;
-                                return `<td>${it[f] || '-'}</td>`;
-                            }).join('')}<td style="text-align:right"><button class="btn btn-s" onclick="editItem('${col}','${it.id}')"><i class="fa fa-${col==='contacts'?'eye':'edit'}"></i></button><button class="btn btn-s btn-danger" onclick="deleteItem('${col}','${it.id}')"><i class="fa fa-trash"></i></button></td></tr>`).join('')}
+                            ${items.map((it, idx) => `
+                            <tr class="list-row" style="background:rgba(255,255,255,0.02); transition:0.3s; cursor:pointer;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='rgba(255,255,255,0.02)'">
+                                ${fields.map(f => {
+                                    let cellVal = it[f] || '-';
+                                    if(f==='photo'||f==='logo'||f==='image_path'||f==='thumbnail'||f==='avatar') return `<td style="padding:15px;"><div class="thumb-cell" style="width:60px; height:60px; border-radius:12px;">${isVideo(cellVal)?`<video src="${getMediaSrc(cellVal)}"></video>`:`<img src="${getMediaSrc(cellVal)}">`}</div></td>`;
+                                    if(f==='created_at' && cellVal) return `<td style="padding:15px;"><span style="font-size:0.85rem; color:var(--text-dim);">${cellVal.split('T')[0]}</span></td>`;
+                                    if(f==='company_name' && isContact) return `<td style="padding:15px;"><div style="display:flex; align-items:center; gap:8px;"><span style="font-weight:900; font-size:1.1rem; color:var(--text-primary); text-shadow:none;">${cellVal}</span>${idx < 2 ? '<span style="background:var(--accent); color:#fff; font-size:0.6rem; padding:2px 6px; border-radius:4px; font-weight:900; box-shadow:0 4px 10px rgba(200,16,46,0.3);">NEW</span>' : ''}</div></td>`;
+                                    if(f==='service' && isContact) return `<td style="padding:15px;"><span style="background:rgba(200,16,46,0.1); padding:6px 12px; border-radius:8px; font-size:0.8rem; font-weight:900; color:var(--accent);">${cellVal}</span></td>`;
+                                    return `<td style="padding:15px; font-weight:500; font-size:0.95rem; color:var(--text-primary);">${cellVal}</td>`;
+                                }).join('')}
+                                <td style="text-align:right; padding:15px;">
+                                    <div style="display:flex; justify-content:flex-end; gap:8px;">
+                                        <button class="btn btn-s" onclick="editItem('${col}','${it.id}')" style="background:rgba(255,255,255,0.05); color:var(--text-primary); border:none; width:44px; height:44px; border-radius:12px;"><i class="fa fa-${isContact?'eye':'edit'}"></i></button>
+                                        <button class="btn btn-s btn-danger" onclick="deleteItem('${col}','${it.id}')" style="width:44px; height:44px; border-radius:12px;"><i class="fa fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>`).join('')}
                         </tbody>
                     </table>`}
                 </div>
@@ -1208,41 +1244,53 @@
         appView.innerHTML = `
             <div class="header-content">
                 <div class="view-title">
-                    <h1>1:1 라이브 사이트 에디터</h1>
-                    <p>시뮬레이터가 아닌 '진짜 내 웹사이트'에서 실시간으로 배치를 수정하세요.</p>
+                    <h1 style="color:var(--primary); font-weight:900;">1:1 3D 갤러리 & 히어로 배치 마스터</h1>
+                    <p>시뮬레이터가 아닌 '진짜 내 웹사이트'에서 카드와 문구의 위치를 실시간으로 잡으세요.</p>
                 </div>
             </div>
-            <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:60vh; text-align:center; background:#0a0a0a; border-radius:30px; border:1px solid #1a1a1a; margin-top:2rem; padding: 4rem 2rem;">
-                <div style="font-size:5rem; color:var(--accent); margin-bottom:2rem;"><i class="fa-solid fa-layer-group"></i></div>
-                <h2 style="font-family:'Outfit'; font-size:2.5rem; font-weight:900; color:#fff; margin-bottom:1rem;">에디터 접속 모드 선택</h2>
-                <p style="color:rgba(255,255,255,0.4); max-width:600px; margin-bottom:3.5rem; line-height:1.7;">편집하고 싶은 환경에 맞춰 에디터를 열어주세요.<br>가장 정확한 배치를 위해 <b>[반응형 모바일]</b> 모드 사용 시 <b>F12</b> 키 조작이 권장됩니다.</p>
+            
+            <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:60vh; text-align:center; background:#050505; border-radius:40px; border:1px solid rgba(255,255,255,0.05); margin-top:2rem; padding: 5rem 2rem; position:relative; overflow:hidden;">
+                <!-- Subtle Decorative Background -->
+                <div style="position:absolute; top:0; left:50%; transform:translateX(-50%); width:100%; height:100%; background:radial-gradient(circle at center, rgba(200,16,46,0.05) 0%, transparent 70%); pointer-events:none;"></div>
+
+                <div style="font-size:5.5rem; color:var(--primary); margin-bottom:2.5rem; filter: drop-shadow(0 0 20px rgba(200,16,46,0.3)); animate: float 3s ease-in-out infinite;">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
                 
-                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:1.5rem; width:100%; max-width:1000px;">
-                    <!-- 1. LIVE PC -->
-                    <a href="/index.html#admin" target="_blank" class="btn" style="background:linear-gradient(135deg, #0066ff 0%, #0044aa 100%); padding:25px; border-radius:15px; text-decoration:none; display:flex; flex-direction:column; align-items:center;">
-                        <i class="fa-solid fa-desktop" style="font-size:2rem; margin-bottom:15px;"></i>
-                        <span style="font-size:1.1rem; font-weight:900; margin-bottom:5px;">라이브 PC 에디터</span>
-                        <span style="font-size:0.75rem; opacity:0.6;">데스크탑용 배치를 수정합니다</span>
+                <h2 style="font-family:'Outfit'; font-size:2.8rem; font-weight:950; color:#fff; margin-bottom:1.5rem; letter-spacing:-0.03em;">라이브 배치 에디터 접속</h2>
+                <p style="color:rgba(255,255,255,0.5); max-width:650px; margin-bottom:4rem; line-height:1.8; font-size:1.1rem; word-break:keep-all;">
+                    홈페이지를 열어 <b style="color:#fff;">3D 갤러리 카드를 마우스로 직접 드래그</b>하여 위치를 수정합니다.<br>
+                    수정 후 상단 중앙의 <b style="color:var(--primary);">[현재 위치 저장]</b> 버튼을 눌러야 실제 반영됩니다.
+                </p>
+                
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:2rem; width:100%; max-width:1100px; position:relative; z-index:2;">
+                    <!-- 1. LIVE PC (FOR GALLERY) -->
+                    <a href="/index.html#admin" target="_blank" class="editor-card" style="background:rgba(255,255,255,0.03); padding:40px 30px; border-radius:25px; text-decoration:none; display:flex; flex-direction:column; align-items:center; border:1px solid rgba(255,255,255,0.1); transition:0.3s; color:#fff;">
+                        <div style="width:70px; height:70px; background:rgba(255,255,255,0.05); border-radius:20px; display:flex; align-items:center; justify-content:center; margin-bottom:20px; font-size:2rem; color:var(--primary);"><i class="fa-solid fa-desktop"></i></div>
+                        <span style="font-size:1.3rem; font-weight:900; margin-bottom:10px;">PC 3D 갤러리 편집</span>
+                        <span style="font-size:0.85rem; opacity:0.6; line-height:1.5;">큰 화면에서 마우스 드래그로<br>카드를 시원하게 배치하세요</span>
                     </a>
 
-                    <!-- 2. RESPONSIVE MOBILE -->
-                    <a href="/index.html#admin-mobile" target="_blank" class="btn" style="background:linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); padding:25px; border-radius:15px; text-decoration:none; display:flex; flex-direction:column; align-items:center;">
-                        <i class="fa-solid fa-expand" style="font-size:2rem; margin-bottom:15px;"></i>
-                        <span style="font-size:1.1rem; font-weight:900; margin-bottom:5px;">반응형 모바일 모드</span>
-                        <span style="font-size:0.75rem; opacity:0.7;">창 크기에 따라 비율이 자동 조절됩니다</span>
-                    </a>
-
-                    <!-- 3. F12 SIMULATOR (USER PRECEDENCE) -->
-                    <a href="/index.html#admin-mobile" target="_blank" class="btn" style="background:linear-gradient(135deg, #ec4899 0%, #db2777 100%); padding:25px; border-radius:15px; text-decoration:none; display:flex; flex-direction:column; align-items:center;">
-                        <i class="fa-solid fa-bug" style="font-size:2rem; margin-bottom:15px;"></i>
-                        <span style="font-size:1.1rem; font-weight:900; margin-bottom:5px;">모바일 시뮬레이터 (F12)</span>
-                        <span style="font-size:0.75rem; opacity:0.9; color:#fff;"><b>필독: F12 → 📱 모바일 아이콘 클릭</b></span>
-                        <p style="font-size:10px; margin-top:10px; color:rgba(255,255,255,0.6);">정교한 모바일 배치를 위한 권장 모드</p>
+                    <!-- 2. RESPONSIVE MOBILE (FOR GALLERY) -->
+                    <a href="/index.html#admin-mobile" target="_blank" class="editor-card" style="background:rgba(255,255,255,0.03); padding:40px 30px; border-radius:25px; text-decoration:none; display:flex; flex-direction:column; align-items:center; border:1px solid rgba(255,255,255,0.1); transition:0.3s; color:#fff;">
+                        <div style="width:70px; height:70px; background:rgba(255,255,255,0.05); border-radius:20px; display:flex; align-items:center; justify-content:center; margin-bottom:20px; font-size:2rem; color:var(--primary);"><i class="fa-solid fa-mobile-screen"></i></div>
+                        <span style="font-size:1.3rem; font-weight:900; margin-bottom:10px;">모바일 3D 갤러리 편집</span>
+                        <span style="font-size:0.85rem; opacity:0.6; line-height:1.5;"><b>F12</b>를 눌러 모바일 크기로 맞추면<br>정교한 휴대폰용 배치 가능!</span>
                     </a>
                 </div>
+
+                <div style="margin-top:4rem; padding:20px 40px; background:rgba(200,16,46,0.1); border-radius:100px; border:1px solid rgba(200,16,46,0.2); color:var(--primary); font-weight:800; font-size:0.9rem;">
+                    <i class="fa-solid fa-circle-info"></i> 팁: 접속 후 '3D 갤러리' 영역까지 슥 내리면 카드가 나타납니다!
+                </div>
             </div>
+
+            <style>
+                .editor-card:hover { transform: translateY(-10px); border-color: var(--primary) !important; background: rgba(200,16,46,0.05) !important; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+                @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+            </style>
         `;
     }
+
 
     switchView('global');
 
