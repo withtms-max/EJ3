@@ -370,9 +370,10 @@ footer { padding: 4rem 2rem; border-top: 1px solid var(--border); text-align: ce
             } else {
                 thumbHTML = `<div style="width:100%;height:100%;background:#111;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.1);"><i class="fa fa-image" style="font-size:2rem;"></i></div>`;
             }
-            const linkParam = item.slug ? `slug=${encodeURIComponent(item.slug)}` : `id=${encodeURIComponent(item.id)}`;
+            // [FIX] 페이지 이동 대신 모달 오픈 함수 호출
+            const slugOrId = item.id || item.slug;
             return `
-            <a href="work-detail.html?${linkParam}" class="work-card fu">
+            <div onclick="openPortfolioDetail('${slugOrId}')" class="work-card fu" style="cursor:pointer;">
                 <div class="work-thumb-wrap">
                     ${thumbHTML}
                 </div>
@@ -381,10 +382,116 @@ footer { padding: 4rem 2rem; border-top: 1px solid var(--border); text-align: ce
                     <h3 class="work-title">${item.title}</h3>
                     <div class="work-meta">${item.client ? item.client + ' · ' : ''}${item.year || ''}</div>
                 </div>
-            </a>
+            </div>
         `}).join('');
         document.querySelectorAll('.work-card.fu').forEach(el => observer.observe(el));
     }
+
+    // ── [NEW] PORTFOLIO MODAL LOGIC ──
+    let slideIdx=0, slideCount=0;
+    window.pfGoSlide = function(n){
+        const slides = document.querySelectorAll('#pf-slides video');
+        slides.forEach(v => v.pause());
+        slideIdx=(n+slideCount)%slideCount;
+        const se = document.getElementById('pf-slides');
+        if(se) se.style.transform=`translateX(-${slideIdx*100}%)`;
+        document.querySelectorAll('.pf-dot').forEach((d,i)=>d.classList.toggle('on',i===slideIdx));
+        
+        const cur = document.querySelectorAll('#pf-slides video, #pf-slides img')[slideIdx];
+        if(cur && cur.tagName==='VIDEO') cur.play().catch(()=>{});
+    };
+
+    window.closePF = function(){
+        document.querySelectorAll('#pf-slides video').forEach(v => v.pause());
+        const modal = document.getElementById('pf-modal');
+        if(modal) modal.classList.remove('open');
+        document.body.style.overflow='';
+    };
+
+    window.openPortfolioDetail = async function(slug){
+        const modal=document.getElementById('pf-modal');
+        if(!modal) return;
+        modal.classList.add('open'); 
+        document.body.style.overflow='hidden';
+        
+        const titleEl = document.getElementById('pf-title');
+        const slidesEl = document.getElementById('pf-slides');
+        if(titleEl) titleEl.textContent='로딩 중...';
+        if(slidesEl) slidesEl.innerHTML='<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.3);"><i class="fa fa-spinner fa-spin fa-2x"></i></div>';
+        
+        try {
+            let d = allItems.find(it => String(it.id) === String(slug) || String(it.slug) === String(slug));
+            if(!d) {
+                closePF();
+                return;
+            }
+
+            if(titleEl) titleEl.textContent=d.title||'';
+            const clientEl = document.getElementById('pf-client');
+            if(clientEl) clientEl.textContent=d.client?`Client: ${d.client}${d.year?' · '+d.year:''}`:d.year||'';
+            
+            const tagEl = document.getElementById('pf-tag');
+            if(tagEl) tagEl.textContent=categoryLabel[d.category]||d.category;
+            
+            const resEl = document.getElementById('pf-result');
+            if (resEl) resEl.textContent = d.result || d.title || '성공적인 비즈니스 파트너십의 결과물입니다.';
+            
+            const getYTID = (url) => {
+                if(!url) return null;
+                const m = url.match(/(?:https?:)?\/\/(?:www\.)?(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/|live\/)|youtu\.be\/)([\w-]{11})/);
+                return m ? m[1] : null;
+            };
+            const isVid = (p) => /\.(mp4|webm|mov|avi)$/i.test(String(p).split('?')[0]);
+            const cleanPath = (p) => (!String(p).startsWith('http') && !String(p).startsWith('/')) ? '/' + p : p;
+            
+            let slides = [];
+            if(d.thumbnail) {
+                const ytId = getYTID(d.thumbnail);
+                slides.push({ src: cleanPath(d.thumbnail), type: ytId ? 'youtube' : (isVid(d.thumbnail)?'video':'image'), ytId });
+            }
+            if(d.images && d.images.length) {
+                d.images.forEach(i => {
+                    const src = (typeof i === 'string') ? i : (i.image_path || i.url || '');
+                    const ytId = getYTID(src);
+                    slides.push({ src: cleanPath(src), type: ytId ? 'youtube' : (isVid(src)?'video':'image'), ytId });
+                });
+            }
+
+            slideCount = slides.length; slideIdx = 0;
+            const se=document.getElementById('pf-slides'), de=document.getElementById('pf-dots');
+            const pv=document.getElementById('pf-prev'), nx=document.getElementById('pf-next');
+            
+            if(!slideCount){
+                se.innerHTML='<div class="pf-slide-item"><i class="fa-solid fa-image fa-3x" style="opacity:0.1;"></i></div>';
+                de.innerHTML=''; if(pv) pv.style.display='none'; if(nx) nx.style.display='none';
+            } else {
+                se.style.transform='translateX(0)';
+                se.innerHTML = slides.map(s => {
+                    let media = '';
+                    if(s.type === 'youtube') {
+                        media = `<iframe src="https://www.youtube.com/embed/${s.ytId}?autoplay=1&mute=1&loop=1&playlist=${s.ytId}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+                    } else if(s.type === 'video') {
+                        media = `<video src="${s.src}" controls autoplay muted playsinline></video>`;
+                    } else {
+                        media = `<img src="${s.src}" alt="">`;
+                    }
+                    return `<div class="pf-slide-item">${media}</div>`;
+                }).join('');
+                de.innerHTML = slides.map((_,i) => `<button class="pf-dot${i===0?' on':''}" onclick="pfGoSlide(${i})"></button>`).join('');
+                if(pv) pv.style.display=slideCount>1?'flex':'none';
+                if(nx) nx.style.display=slideCount>1?'flex':'none';
+            }
+            const box = document.getElementById('pf-box');
+            if(box) box.scrollTop=0;
+        } catch(err) { console.error(err); closePF(); }
+    };
+
+    // Modal Event Listeners
+    document.getElementById('pf-prev')?.addEventListener('click',()=>pfGoSlide(slideIdx-1));
+    document.getElementById('pf-next')?.addEventListener('click',()=>pfGoSlide(slideIdx+1));
+    document.getElementById('pf-close')?.addEventListener('click',closePF);
+    document.getElementById('pf-modal')?.addEventListener('click',e=>{ if(e.target===e.currentTarget) closePF(); });
+    document.addEventListener('keydown',e=>{ if(e.key==='Escape') closePF(); });
 
     async function loadWork() {
         try {
@@ -456,7 +563,7 @@ footer { padding: 4rem 2rem; border-top: 1px solid var(--border); text-align: ce
             hDesc.innerText = theme.desc;
             
             const mediaUrl = theme.img || '';
-            const isVid = /\.(mp4|webm|mov|avi)$/i.test(mediaUrl.split('?')[0].split('#')[0]);
+            const isVid = /\.(mp4|webm|mov|avi)$/i.test(String(mediaUrl).split('?')[0].split('#')[0]);
 
             // Clear previous background (image or video)
             hBg.innerHTML = '';
@@ -468,14 +575,12 @@ footer { padding: 4rem 2rem; border-top: 1px solid var(--border); text-align: ce
                 videoEl.autoplay = true;
                 videoEl.muted = true;
                 videoEl.loop = true;
-                // Add attributes via setAttribute for better mobile browser compliance
                 videoEl.setAttribute('playsinline', '');
                 videoEl.setAttribute('webkit-playsinline', '');
                 videoEl.style.width = '100%';
                 videoEl.style.height = '100%';
                 videoEl.style.objectFit = 'cover';
                 
-                // [FIX] Wait for video to be ready before fading in (Prevents black frame flicker)
                 videoEl.oncanplay = () => {
                     hBg.classList.add('active');
                     videoEl.play().catch(e => console.warn('Video play failed:', e));
@@ -486,11 +591,9 @@ footer { padding: 4rem 2rem; border-top: 1px solid var(--border); text-align: ce
                 hBg.style.backgroundImage = `url('${mediaUrl}')`;
                 hBg.style.backgroundSize = 'cover';
                 hBg.style.backgroundPosition = 'center';
-                // Static image: Just fade in
                 setTimeout(() => hBg.classList.add('active'), 100);
             }
             
-            // Text Content Fade In
             setTimeout(() => {
                 hContent.style.opacity = '1';
                 hContent.style.transform = 'translateY(0)';
@@ -510,20 +613,91 @@ footer { padding: 4rem 2rem; border-top: 1px solid var(--border); text-align: ce
     // Initial Load
     syncHeroSettings().then(() => {
         loadWork().then(() => {
-            // URL 파라미터(?filter=category)가 있으면 해당 탭 자동 클릭
             const urlParams = new URLSearchParams(window.location.search);
             const filterParam = urlParams.get('filter');
             if (filterParam) {
                 const targetTab = document.querySelector(`.filter-tab[data-cat="${filterParam}"]`);
                 if (targetTab) targetTab.click();
             } else {
-                updateCinematicHero('all'); // 기본 테마 적용
+                updateCinematicHero('all'); 
             }
         });
     });
     
-    // Initial Fade-up
     document.querySelectorAll('.fu').forEach(el => observer.observe(el));
 </script>
+
+<!-- ──────────────────────────────────────────────────────────────────────────
+     [PORTFOLIO MODAL] 프리미엄 카드뉴스 레이아웃
+     ────────────────────────────────────────────────────────────────────────── -->
+<div id="pf-modal">
+  <div id="pf-box">
+    <button id="pf-close"><i class="fa fa-times"></i></button>
+    <div id="pf-content">
+      <div id="pf-media-area">
+        <div id="pf-slides"></div>
+        <button id="pf-prev" class="pf-nav"><i class="fa fa-chevron-left"></i></button>
+        <button id="pf-next" class="pf-nav"><i class="fa fa-chevron-right"></i></button>
+        <div id="pf-dots"></div>
+      </div>
+      <div id="pf-info-area">
+        <div class="pf-meta">
+          <span id="pf-tag">Category</span>
+          <span id="pf-client">Client Info</span>
+        </div>
+        <h2 id="pf-title">Project Title</h2>
+        <div class="pf-desc-block">
+          <h3>The Result</h3>
+          <p id="pf-result">비즈니스 성장의 결과물을 시원한 비주얼로 확인하세요.</p>
+        </div>
+        <div class="pf-scroll-guide">
+          <span>Scroll down to see more</span>
+          <i class="fa fa-chevron-down"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+/* MODAL STYLES (MATCHING INDEX.HTML) */
+#pf-modal { position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.95); backdrop-filter:blur(30px); display:flex; align-items:center; justify-content:center; opacity:0; visibility:hidden; transition:0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+#pf-modal.open { opacity:1; visibility:visible; }
+#pf-box { width:95%; max-width:1600px; height:90vh; background:#050505; border:1px solid rgba(255,255,255,0.1); border-radius:40px; position:relative; overflow-y:auto; overflow-x:hidden; transform:translateY(50px); transition:0.6s cubic-bezier(0.16, 1, 0.3, 1); box-shadow:0 100px 200px rgba(0,0,0,0.8); }
+#pf-modal.open #pf-box { transform:translateY(0); }
+#pf-close { position:absolute; top:40px; right:40px; background:rgba(255,255,255,0.1); border:none; width:60px; height:60px; border-radius:30px; color:#fff; font-size:1.5rem; cursor:pointer; z-index:100; transition:0.3s; display:flex; align-items:center; justify-content:center; }
+#pf-close:hover { background:var(--primary); transform:rotate(90deg); }
+
+#pf-content { display:flex; flex-direction:column; width:100%; }
+#pf-media-area { width:100%; height:80vh; position:relative; overflow:hidden; background:#000; }
+#pf-slides { display:flex; width:100%; height:100%; transition:0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.pf-slide-item { flex:0 0 100%; height:100%; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+.pf-slide-item img, .pf-slide-item video, .pf-slide-item iframe { width:100%; height:100%; object-fit:contain; }
+.pf-nav { position:absolute; top:50%; transform:translateY(-50%); width:80px; height:80px; background:rgba(0,0,0,0.3); border:none; color:#fff; font-size:1.5rem; cursor:pointer; z-index:10; border-radius:50%; transition:0.3s; display:flex; align-items:center; justify-content:center; }
+.pf-nav:hover { background:var(--primary); }
+#pf-prev { left:40px; } #pf-next { right:40px; }
+#pf-dots { position:absolute; bottom:40px; left:50%; transform:translateX(-50%); display:flex; gap:10px; z-index:10; }
+.pf-dot { width:8px; height:8px; border-radius:4px; background:rgba(255,255,255,0.3); border:none; cursor:pointer; transition:0.3s; }
+.pf-dot.on { width:40px; background:var(--primary); }
+
+#pf-info-area { padding:100px 80px; max-width:1000px; margin:0 auto; text-align:center; }
+.pf-meta { display:flex; justify-content:center; gap:20px; font-size:0.9rem; font-weight:800; letter-spacing:0.2em; text-transform:uppercase; color:var(--primary); margin-bottom:30px; }
+#pf-title { font-size:4rem; font-weight:950; letter-spacing:-0.05em; color:#fff; margin-bottom:60px; line-height:1.1; }
+.pf-desc-block { background:rgba(255,255,255,0.03); padding:60px; border-radius:30px; border:1px solid rgba(255,255,255,0.05); }
+.pf-desc-block h3 { color:var(--primary); font-size:0.8rem; font-weight:900; letter-spacing:0.3em; text-transform:uppercase; margin-bottom:20px; }
+#pf-result { font-size:1.5rem; line-height:1.6; color:rgba(255,255,255,0.7); font-weight:600; }
+.pf-scroll-guide { margin-top:60px; color:rgba(255,255,255,0.2); font-size:0.8rem; font-weight:800; text-transform:uppercase; letter-spacing:0.1em; }
+.pf-scroll-guide i { display:block; margin-top:10px; animation: bounce 2s infinite; }
+
+@keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
+
+@media (max-width: 1024px) {
+    #pf-box { height:100vh; width:100%; border-radius:0; }
+    #pf-title { font-size:2.5rem; }
+    #pf-info-area { padding:60px 30px; }
+    .pf-desc-block { padding:30px; }
+    #pf-prev, #pf-next { width:50px; height:50px; font-size:1rem; }
+}
+</style>
 </body>
 </html>
