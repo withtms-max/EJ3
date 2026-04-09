@@ -1286,65 +1286,88 @@
                     <!-- [NAV BAR SIMULATOR] Mirror site spacing -->
                     <div style="position:absolute; top:0; left:0; width:100%; height:80px; background:linear-gradient(to bottom, rgba(0,0,0,0.5), transparent); z-index:5;"></div>
 
-                    <!-- DRAGGABLE CANVAS - EXACT 1:1 MIRROR -->
-                    <div id="editor-cinematic-wrap" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; z-index:20; padding:0 20px;">
+                    <!-- DRAGGABLE & RESIZABLE CANVAS (CENTRALIZED) -->
+                    <div id="editor-cinematic-wrap" style="position:absolute; inset:0; z-index:20; background:transparent;">
                         
-                        <!-- 1. hero-sub -->
-                        <div class="draggable" data-id="hero-sub" data-key="off_label${suffix}" 
-                             style="transform:translateY(${d['off_label'+suffix]||0}px); color:#E63946; font-weight:900; letter-spacing:0.4rem; padding:10px 5px; cursor:move; font-size:0.9rem; text-transform:uppercase; margin-bottom:1.5rem; text-shadow:0 2px 8px rgba(0,0,0,0.8); user-select:none;">
+                        <!-- 1. hero-sub (Label) -->
+                        <div class="draggable resizable" data-id="hero-sub" data-key="off_label${suffix}" 
+                             style="position:absolute; top:30%; left:50%; transform:translate(-50%, ${d['off_label'+suffix]||0}px); color:#E63946; font-weight:900; letter-spacing:0.4rem; padding:15px; cursor:move; font-size:${d['off_label_fs'+suffix]||0.9}rem; text-transform:uppercase; text-shadow:0 2px 8px rgba(0,0,0,0.8); user-select:none; white-space:nowrap; border:1px dashed rgba(255,255,255,0.1);">
                              ${document.querySelector('[name="subtitle"]')?.value || d.subtitle || 'THE PREMIER CREATIVE AGENCY'}
+                             <div class="resize-handle" style="position:absolute; right:-5px; bottom:-5px; width:10px; height:10px; background:#4488ff; cursor:nwse-resize; z-index:30;"></div>
                         </div>
                         
-                        <!-- 2+3. Headline Group - EXACT same structure as index.html -->
-                        <div style="width:100%; max-width:${isMob?'390px':'1200px'}; margin-bottom:2rem;">
-                            <h1 style="display:block; margin:0; padding:0; font-family:'Pretendard',sans-serif; font-size:clamp(2.2rem, 6vw, 4.5rem); font-weight:800; line-height:1.15; letter-spacing:-0.03em; color:#fff;">
-                                <!-- hero-subline (= 0.35em of parent like live site) -->
-                                <div class="draggable" data-id="hero-subline" data-key="off_subline${suffix}" 
-                                     style="transform:translateY(${d['off_subline'+suffix]||0}px); font-size:0.35em; font-weight:700; color:rgba(255,255,255,0.85); letter-spacing:0.1em; margin-bottom:1rem; display:block; cursor:move; padding:5px; user-select:none; text-shadow:0 2px 8px rgba(0,0,0,0.8);">
-                                     ${document.querySelector('[name="main_copy"]')?.value || d.main_copy || '장사도 바쁜데,'}
-                                </div>
-                                <!-- the3-headline-main accent -->
-                                <div class="draggable" data-id="the3-headline-main" data-key="off_main${suffix}" 
-                                     style="transform:translateY(${d['off_main'+suffix]||0}px); display:block; cursor:move; padding:5px; user-select:none; word-break:keep-all;">
-                                     <span style="background:linear-gradient(135deg,#fff 0%,#E63946 50%,#8b0000 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">
-                                        ${document.querySelector('[name="accent_copy"]')?.value || d.accent_copy || '콘텐츠까지 고민하시나요?'}
-                                     </span>
-                                </div>
-                            </h1>
+                        <!-- 2. hero-subline -->
+                        <div class="draggable resizable" data-id="hero-subline" data-key="off_subline${suffix}" 
+                             style="position:absolute; top:42%; left:50%; transform:translate(-50%, ${d['off_subline'+suffix]||0}px); font-family:'Pretendard'; font-size:${d['off_subline_fs'+suffix]||1.5}rem; font-weight:700; color:rgba(255,255,255,0.85); letter-spacing:0.1em; display:block; cursor:move; padding:10px; user-select:none; text-shadow:0 2px 8px rgba(0,0,0,0.8); white-space:nowrap; border:1px dashed rgba(255,255,255,0.1);">
+                             ${document.querySelector('[name="main_copy"]')?.value || d.main_copy || '장사도 바쁜데,'}
+                             <div class="resize-handle" style="position:absolute; right:-5px; bottom:-5px; width:10px; height:10px; background:#4488ff; cursor:nwse-resize; z-index:30;"></div>
+                        </div>
+
+                        <!-- 3. hero-accent -->
+                        <div class="draggable resizable" data-id="hero-accent" data-key="off_main${suffix}" 
+                             style="position:absolute; top:50%; left:50%; transform:translate(-50%, ${d['off_main'+suffix]||0}px); font-family:'Pretendard'; font-size:${d['off_main_fs'+suffix]||4}rem; font-weight:900; line-height:1.15; cursor:move; padding:10px; user-select:none; word-break:keep-all; text-align:center; min-width:800px; border:1px dashed rgba(255,255,255,0.1);">
+                             <span style="background:linear-gradient(135deg,#fff 0%,#E63946 50%,#8b0000 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; filter:drop-shadow(0 0 30px rgba(230,57,70,0.5));">
+                                ${document.querySelector('[name="accent_copy"]')?.value || d.accent_copy || '콘텐츠까지 고민하시나요?'}
+                             </span>
+                             <div class="resize-handle" style="position:absolute; right:10%; bottom:0; width:15px; height:15px; background:#4488ff; cursor:nwse-resize; z-index:30;"></div>
                         </div>
 
                         <!-- 4. hero-desc -->
-                        <div class="draggable" data-id="hero-desc" data-key="off_desc${suffix}" 
-                             style="transform:translateY(${d['off_desc'+suffix]||0}px); color:rgba(255,255,255,0.9); font-size:clamp(1rem,2vw,1.25rem); max-width:${isMob?'340px':'850px'}; padding:10px 5px; cursor:move; line-height:1.8; word-break:keep-all; font-weight:600; margin-bottom:3rem; text-shadow:0 2px 8px rgba(0,0,0,0.8); user-select:none;">
+                        <div class="draggable resizable" data-id="hero-desc" data-key="off_desc${suffix}" 
+                             style="position:absolute; top:65%; left:50%; transform:translate(-50%, ${d['off_desc'+suffix]||0}px); color:rgba(255,255,255,0.9); font-size:${d['off_desc_fs'+suffix]||1.15}rem; width:80%; max-width:850px; padding:15px; cursor:move; line-height:1.8; word-break:keep-all; font-weight:600; text-shadow:0 2px 8px rgba(0,0,0,0.8); user-select:none; text-align:center; border:1px dashed rgba(255,255,255,0.1);">
                              ${document.querySelector('[name="description"]')?.value || d.description || ''}
+                             <div class="resize-handle" style="position:absolute; right:0; bottom:0; width:10px; height:10px; background:#4488ff; cursor:nwse-resize; z-index:30;"></div>
                         </div>
 
                         <!-- 5. hero-cta-wrapper -->
                         <div class="draggable" data-id="hero-cta-wrapper" data-key="off_cta${suffix}" 
-                             style="transform:translateY(${d['off_cta${suffix}']||0}px); padding:1.4rem 3.5rem; background:#E63946; border-radius:99px; color:#fff; font-weight:800; cursor:move; font-size:1.1rem; box-shadow:0 10px 30px rgba(0,0,0,0.5); white-space:nowrap; display:inline-block; width:fit-content; border:2px solid rgba(255,255,255,0.3); user-select:none;">
+                             style="position:absolute; top:80%; left:50%; transform:translate(-50%, ${d['off_cta'+suffix]||0}px); padding:1.4rem 3.5rem; background:#E63946; border-radius:99px; color:#fff; font-weight:800; cursor:move; font-size:${d['off_cta_fs'+suffix]||1.1}rem; box-shadow:0 10px 30px rgba(0,0,0,0.5); white-space:nowrap; display:inline-block; width:fit-content; border:2px solid rgba(255,255,255,0.3); user-select:none;">
                              ${document.querySelector('[name="cta_text"]')?.value || d.cta_text || '우리 가게도 바뀔 수 있을까? 무료 진단받기'} <i class="fa fa-arrow-right" style="margin-left:10px;"></i>
                         </div>
                     </div>
 
                     <!-- BG Logo -->
-                    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:rgba(255,255,255,0.04); font-size:60vw; font-weight:950; letter-spacing:-0.05em; pointer-events:none; white-space:nowrap; z-index:1;">THE 3</div>
+                    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:rgba(255,255,255,0.02); font-size:60vw; font-weight:950; letter-spacing:-0.05em; pointer-events:none; white-space:nowrap; z-index:1;">THE 3</div>
                 </div>
             `;
 
             const draggables = container.querySelectorAll('.draggable');
             draggables.forEach(el => {
-                let sy, sv;
+                let sy, sv, startFS, resizing = false;
+                
                 el.onmousedown = (e) => {
+                    const handle = e.target.closest('.resize-handle');
+                    if (handle) {
+                        resizing = true;
+                        e.preventDefault();
+                        e.stopPropagation();
+                        sy = e.clientY;
+                        startFS = parseFloat(window.getComputedStyle(el).fontSize);
+                        
+                        const rMove = (me) => {
+                            const delta = me.clientY - sy;
+                            el.style.fontSize = `${startFS + delta * 0.1}px`;
+                        };
+                        const rUp = () => {
+                            window.removeEventListener('mousemove', rMove);
+                            window.removeEventListener('mouseup', rUp);
+                        };
+                        window.addEventListener('mousemove', rMove);
+                        window.addEventListener('mouseup', rUp);
+                        return;
+                    }
+
                     e.preventDefault();
                     e.stopPropagation();
-                    el.classList.add('dragging');
+                    
                     sy = e.clientY;
-                    const matches = el.style.transform.match(/translateY\((.+)px\)/);
+                    const matches = el.style.transform.match(/translate\(-50%,\s*(-?\d+\.?\d*)px\)/);
                     sv = matches ? parseFloat(matches[1]) : 0;
                     
-                    const move = (me) => { el.style.transform = `translateY(${sv + me.clientY - sy}px)`; };
+                    const move = (me) => { 
+                        el.style.transform = `translate(-50%, ${sv + me.clientY - sy}px)`; 
+                    };
                     const up = () => {
-                        el.classList.remove('dragging');
                         window.removeEventListener('mousemove', move);
                         window.removeEventListener('mouseup', up);
                     };
@@ -1365,8 +1388,12 @@
         
         draggables.forEach(el => {
             const key = el.dataset.key;
-            const matches = el.style.transform.match(/translateY\((.+)px\)/);
+            const matches = el.style.transform.match(/translate\(-50%,\s*(-?\d+\.?\d*)px\)/);
             updates[key] = matches ? parseFloat(matches[1]) : 0;
+            
+            // SAVE CUSTOM FONT SIZE
+            const fs = window.getComputedStyle(el).fontSize;
+            updates[key + '_fs'] = parseFloat(fs) / 16; // Save as rem
         });
 
         try {
