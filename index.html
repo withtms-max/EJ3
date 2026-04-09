@@ -156,7 +156,8 @@ nav.scrolled .nav-logo{color: var(--text-main) !important;}
   transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .fh-title:hover {
-  opacity: 0.85 !important;
+  opacity: 0.15 !important;
+  transform: scale(1.02) !important;
 }
 #the3-headline-main {
   display: block;
@@ -652,7 +653,7 @@ body.light-mode .impact-main-text, body.light-mode .impact-info-name { color: #1
   .nav-links li a { font-size: 0.76rem !important; letter-spacing: 0.01em !important; padding: 4px 0; color: #fff !important; opacity: 1 !important; font-weight: 800 !important; }
   .nav-cta, .nav-toggle { display:none !important; }
   .team-sect,.svc-sect,.journey-sect,.footer-sect{padding:3.5rem 1.5rem !important;}
-  .fan-hero { padding: 6rem 1rem 2rem; min-height: auto; }
+  .fan-hero { padding: 6rem 1rem 2rem; min-height: 100vh; }
   .fh-c1 { --fan-pos: translateX(-140px) translateY(30px) rotate(-15deg); }
   .fh-c2 { --fan-pos: translateX(-70px) translateY(10px) rotate(-8deg); }
   .fh-c4 { --fan-pos: translateX(70px) translateY(10px) rotate(8deg); }
@@ -1756,12 +1757,12 @@ body.light-mode .impact-info-name { color: #111; }
           const isMobile = window.innerWidth <= 768;
           const suffix = isMobile ? '_mobile' : '_pc';
 
-          // 어드민 에디터와 1:1 동일 포지션 매핑 (admin/index.html 1293~1326 라인 참조)
+          // 어드민 에디터와 1:1 동일 포지션 매핑
           const posMap = [
               { id: 'hero-sub',         top: '30%', key: 'off_label',   fsKey: 'off_label_fs',   defaultFS: 0.9,  nowrap: true },
               { id: 'hero-subline',     top: '42%', key: 'off_subline', fsKey: 'off_subline_fs', defaultFS: 1.5,  nowrap: true },
-              { id: 'hero-accent',      top: '50%', key: 'off_main',   fsKey: 'off_main_fs',    defaultFS: 4,    minW: '800px' },
-              { id: 'hero-desc',        top: '65%', key: 'off_desc',   fsKey: 'off_desc_fs',    defaultFS: 1.15, w: '80%', maxW: '850px' },
+              { id: 'hero-accent',      top: '50%', key: 'off_main',   fsKey: 'off_main_fs',    defaultFS: 4,    minW: isMobile ? '90%' : '800px' },
+              { id: 'hero-desc',        top: '65%', key: 'off_desc',   fsKey: 'off_desc_fs',    defaultFS: 1.15, w: '85%', maxW: '850px' },
               { id: 'hero-cta-wrapper', top: '80%', key: 'off_cta',    fsKey: 'off_cta_fs',     defaultFS: null }
           ];
 
