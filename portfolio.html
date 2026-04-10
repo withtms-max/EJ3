@@ -26,17 +26,13 @@
         .h-main { font-size: clamp(2.5rem, 6vw, 4.8rem); font-weight: 900; line-height: 1.1; letter-spacing: -0.04em; margin-bottom: 1.5rem; }
         .h-sub { color: rgba(255,255,255,0.4); font-size: 1.1rem; line-height: 1.8; max-width: 800px; margin: 0 auto; word-break: keep-all; letter-spacing: 0.05em; font-weight: 500; }
 
-        /* Filter Tabs (Identical to Screenshot) */
-        .filter-section { padding: 3rem 0; }
-        .tabs-container { display: flex; justify-content: center; gap: 0.8rem; flex-wrap: wrap; max-width: 1300px; margin: 0 auto; padding: 0 1rem; }
-        .tab-btn { padding: 1.2rem 2.8rem; border-radius: 99px; border: 1px solid rgba(255,255,255,0.1); background: #0a0a0a; color: rgba(255,255,255,0.5); font-weight: 800; font-size: 1rem; cursor: pointer; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        /* Filter Tabs */
+        .filter-section { padding: 1.2rem 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); position: sticky; top: 70px; z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
+        .tabs-container { display: flex; justify-content: center; gap: 0.8rem; flex-wrap: wrap; max-width: 1300px; margin: 0 auto; padding: 0 1.5rem; scrollbar-width: none; }
+        .tabs-container::-webkit-scrollbar { display: none; }
+        .tab-btn { padding: 1rem 2.4rem; border-radius: 99px; border: 1px solid rgba(255,255,255,0.1); background: #0a0a0a; color: rgba(255,255,255,0.5); font-weight: 800; font-size: 0.95rem; cursor: pointer; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); white-space: nowrap; flex-shrink: 0; }
         .tab-btn:hover { border-color: rgba(255,255,255,0.2); color: #fff; }
         .tab-btn.active { background: linear-gradient(135deg, #74b3ff 0%, #0066ff 100%); color: #fff; border-color: transparent; box-shadow: 0 15px 40px rgba(0,102,255,0.4); }
-
-        /* Sort Options */
-        .sort-wrap { display: flex; justify-content: center; gap: 1rem; margin-top: 2rem; }
-        .sort-btn { background: transparent; border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.5); padding: 0.7rem 1.6rem; border-radius: 99px; font-size: 0.85rem; font-weight: 800; cursor: pointer; transition: 0.3s; }
-        .sort-btn.active { border-color: var(--p); color: var(--p); background: rgba(0,102,255,0.08); }
 
         /* Archive Grid (Identical to Screenshot) */
         .grid-section { max-width: 1400px; margin: 0 auto; padding: 6rem 2rem 12rem; }
@@ -63,8 +59,10 @@
             nav { padding: 1.2rem 1.5rem; }
             .pf-header { padding: 8rem 1.5rem 2rem; }
             .grid-section { padding: 3rem 1.5rem; }
-            .pf-grid { grid-template-columns: 1fr; gap: 2rem; }
-            .tabs-container { justify-content: flex-start; overflow-x: auto; padding-bottom: 1rem; }
+            .pf-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            .filter-section { top: 60px; padding: 1.2rem 0; background: rgba(0,0,0,0.8); }
+            .tabs-container { justify-content: center; flex-wrap: wrap; padding: 0 1.5rem; gap: 0.6rem 0.8rem; }
+            .tab-btn { padding: 0.6rem 1rem; font-size: 0.8rem; border-radius: 999px; }
         }
     </style>
 </head>
@@ -95,10 +93,6 @@
             <button class="tab-btn" data-cat="storyboard">우리매장 스토리보드</button>
             <button class="tab-btn" data-cat="photo">내가게의 사진촬영</button>
             <button class="tab-btn" data-cat="character">내가게의 캐릭터만들기</button>
-        </div>
-        <div class="sort-wrap">
-            <button class="sort-btn active">최신순</button>
-            <button class="sort-btn">연도별</button>
         </div>
     </div>
 

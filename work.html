@@ -122,16 +122,12 @@ nav.scrolled{background:var(--bg-card);backdrop-filter:blur(12px);padding:1rem 3
 .hero-desc { font-size: 1.2rem; color: var(--text-dim); line-height: 1.8; max-width: 800px; margin: 0 auto; font-weight: 500; word-break: keep-all; letter-spacing: 0.02em; }
 
 /* FILTERS */
-.filter-sect { padding: 2rem; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--bg-darker); position: sticky; top: 80px; z-index: 100; }
-.filter-tabs { display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; }
-.filter-tab { background: transparent; border: 1px solid var(--border); color: var(--text-dim); padding: 0.6rem 1.5rem; border-radius: 999px; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: 0.2s; }
-.filter-tab.active { background: linear-gradient(135deg, #fff 0%, var(--primary) 100%); border-color: var(--primary); color: #000; box-shadow: 0 0 15px rgba(0, 102, 255, 0.3); }
-
-/* SORTING UI */
-.sort-wrap { display: flex; justify-content: center; gap: 0.5rem; margin-top: 1.5rem; }
-.sort-tab { background: transparent; border: 1px solid var(--border); color: var(--text-dim); padding: 0.5rem 1.2rem; border-radius: 999px; font-weight: 700; font-size: 0.75rem; cursor: pointer; transition: 0.2s; }
-.sort-tab:hover { color: var(--text-main); border-color: var(--primary); }
-.sort-tab.active { background: rgba(255,255,255,0.05); border-color: var(--primary); color: var(--primary); }
+.filter-sect { padding: 1.2rem 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: rgba(5,5,5,0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); position: sticky; top: 70px; z-index: 100; transition: all 0.3s ease; }
+body.light-mode .filter-sect { background: rgba(255,255,255,0.55); }
+.filter-tabs { display: flex; justify-content: center; gap: 0.8rem; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; scrollbar-width: none; }
+.filter-tabs::-webkit-scrollbar { display: none; }
+.filter-tab { background: transparent; border: 1px solid var(--border); color: var(--text-dim); padding: 0.6rem 1.5rem; border-radius: 999px; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: 0.2s; white-space: nowrap; }
+.filter-tab.active { background: linear-gradient(135deg, #fff 0%, var(--primary) 100%); border-color: var(--primary); color: #000; box-shadow: 0 0 15px rgba(200, 16, 46, 0.3); }
 
 /* GRID */
 .work-grid { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; padding: 4rem 2rem 8rem; }
@@ -171,7 +167,12 @@ footer { padding: 4rem 2rem; border-top: 1px solid var(--border); text-align: ce
 
 @media(max-width: 640px) {
   nav { position: absolute; padding: 1.5rem; }
-  .filter-sect { position: relative; top: 0; padding: 1.2rem 1rem; }
+  .filter-sect { position: sticky; top: 0; padding: 1.2rem 0; background: rgba(5,5,5,0.8); }
+  .filter-tabs { justify-content: center; flex-wrap: wrap; padding: 0 1.5rem; gap: 0.6rem 0.8rem; }
+  .work-grid { grid-template-columns: 1fr; gap: 1.5rem; padding: 2rem 1.5rem 5rem; }
+  .work-card { border-radius: 1rem; }
+  .work-info { padding: 1.2rem; }
+  .work-title { font-size: 1.1rem; }
   .work-hero { padding: 6rem 1.5rem 3rem; }
   .nav-links, .nav-cta { display: none; }
   .nav-toggle { display: block; }
@@ -259,10 +260,6 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
         <button class="filter-tab" data-cat="storyboard">우리매장 스토리보드</button>
         <button class="filter-tab" data-cat="photo">내가게의 사진촬영</button>
         <button class="filter-tab" data-cat="character">내가게의 캐릭터만들기</button>
-    </div>
-    <div class="sort-wrap">
-        <button class="sort-tab active" data-sort="latest">최신순</button>
-        <button class="sort-tab" data-sort="year">연도별</button>
     </div>
 </section>
 

@@ -452,8 +452,48 @@ body.light-mode .impact-main-text, body.light-mode .impact-info-name { color: #1
 .team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2.5rem;}
 .team-card{background: var(--bg-card);border:1px solid var(--border);border-radius:2rem;overflow:hidden;transition:.3s;}
 .team-card:hover{border-color:rgba(230,57,70,.3); box-shadow: 0 15px 35px rgba(0,0,0,0.4);}
-.team-card img{width:100%;aspect-ratio:3/4;object-fit:cover;filter:grayscale(1);transition:.5s;display:block;}
-.team-card:hover img{filter:grayscale(0);}
+.team-card img{width:100%;aspect-ratio:3/4;object-fit:cover;transition:.5s;display:block;}
+.team-card:hover img{filter:none;}
+
+/* Cinematic Decalcomania Transition */
+.team-visual-container {
+    position: relative;
+    height: 480px;
+    overflow: hidden;
+    background: #000;
+}
+.team-img-primary, .team-img-secondary {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 15%; /* 머리가 짤리지 않도록 상단 고정 */
+    transition: 1.8s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+}
+.team-img-secondary {
+    opacity: 0;
+    clip-path: inset(0 50% 0 50%); /* 중앙에서 시작 */
+    scale: 1.1; /* 미세한 줌 효과 */
+}
+.team-card.is-active .team-img-secondary {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+    scale: 1;
+}
+.team-card.is-active .team-img-primary {
+    scale: 0.95;
+    opacity: 0.5;
+}
+
+@media (max-width: 768px) {
+    .team-visual-container {
+        height: 380px; /* 모바일에서는 높이를 줄여 한 눈에 들어오게 조절 */
+    }
+    .team-img-primary, .team-img-secondary {
+        object-position: center 10%; /* 모바일에서 더 정확하게 얼굴 위주로 배치 */
+    }
+}
 .team-info{padding:1.5rem;}
 .team-role{color:var(--primary);font-family:'Outfit',sans-serif;font-size:.7rem;font-weight:900;letter-spacing:.15em;text-transform:uppercase;margin-bottom:.5rem;}
 .team-name{font-family:'Outfit',sans-serif;font-size:1.5rem;font-weight:900;margin-bottom:.8rem;letter-spacing:-0.03em;}
@@ -539,9 +579,11 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
 .chat-msgs{flex:1;padding:1.2rem;overflow-y:auto;display:flex;flex-direction:column;gap:12px;background:#080808;}
 .msg{max-width:85%;padding:10px 16px;border-radius:16px;font-size:.88rem;line-height:1.5;}
 .bot{background:#1a1a1a;color:#fff;align-self:flex-start;border-bottom-left-radius:4px;border:1px solid rgba(255,255,255,.06);}
-#send-chat{background:linear-gradient(135deg, #fff 0%, var(--primary) 100%);color:#000;border:none;padding:0 20px;border-radius:10px;font-weight:800;cursor:pointer;font-size:.85rem;transition:0.2s;}
+.chat-inp{padding:16px;display:flex;gap:8px;border-top:1px solid rgba(255,255,255,.06);background:#111;}
+.chat-inp input{flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#fff;padding:10px 15px;border-radius:10px;font-size:0.85rem;outline:none;}
+#send-chat{background:#C8102E;color:#fff;border:none;padding:0 20px;border-radius:10px;font-weight:800;cursor:pointer;font-size:.85rem;transition:0.2s;}
 #send-chat:hover{opacity:0.9; transform: scale(1.05); filter: brightness(1.1);}
-.usr{background:var(--primary);color:#fff;align-self:flex-end;border-bottom-right-radius:4px;}
+.usr{background:#C8102E;color:#fff;align-self:flex-end;border-bottom-right-radius:4px;}
 .chat-opts{padding:16px;display:flex;flex-wrap:wrap;gap:8px;border-top:1px solid rgba(255,255,255,.06);background:#111;}
 .chat-opts button{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);padding:8px 16px;border-radius:99px;font-size:.78rem;font-weight:600;cursor:pointer;transition:.3s;white-space:nowrap;}
 .chat-opts button:hover{background:rgba(0,136,255,0.15);border-color:#0088ff;color:#fff;transform:translateY(-2px);}
@@ -591,6 +633,111 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
   height: 6px;
   background: #ff3c82;
   border-radius: 50%;
+}
+
+/* EVALUATION UI ENHANCEMENTS */
+.eval-section { padding: 10rem 1.5rem; background: var(--bg-main); border-top: 1px solid var(--border); }
+.eval-container { max-width: 1200px; margin: 0 auto; }
+.eval-header { text-align: center; margin-bottom: 5rem; }
+
+.eval-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 2rem;
+    padding: 3.5rem;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.3);
+    backdrop-filter: blur(20px);
+}
+
+.eval-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.eval-input-group { display: flex; flex-direction: column; gap: 0.8rem; }
+.eval-input-group label { font-size: 0.85rem; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; }
+.eval-input-group input, .eval-input-group select {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.1rem 1.4rem;
+    color: #fff;
+    font-size: 1rem;
+    transition: var(--transition);
+}
+.eval-input-group input:focus, .eval-input-group select:focus {
+    border-color: var(--primary);
+    background: rgba(255,255,255,0.05);
+    box-shadow: 0 0 0 4px rgba(200,16,46,0.15);
+    outline: none;
+}
+
+.question-list { display: flex; flex-direction: column; gap: 1.2rem; border-top: 1px solid var(--border); padding-top: 3.5rem; margin-top: 3.5rem; }
+.question-item {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border);
+    border-radius: 1.5rem;
+    padding: 2rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: var(--transition);
+}
+.question-item:hover { background: rgba(255,255,255,0.04); transform: translateX(8px); border-color: rgba(255,255,255,0.15); }
+
+.question-text { font-size: 1.15rem; font-weight: 600; color: #fff; letter-spacing: -0.02em; }
+.score-selector { display: flex; gap: 0.6rem; }
+.score-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-dim);
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.score-btn:hover { border-color: var(--primary); color: #fff; background: rgba(255,255,255,0.05); }
+.score-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; box-shadow: 0 10px 25px rgba(200,16,46,0.3); }
+
+/* EVALUATION SUMMARY BOX */
+.eval-summary-card {
+    background: linear-gradient(135deg, rgba(200,16,46,0.12) 0%, rgba(200,16,46,0.03) 100%);
+    border: 1px solid rgba(200,16,46,0.25);
+    border-radius: 2.5rem;
+    padding: 3rem;
+    margin-top: 5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+}
+.eval-score-display { text-align: left; }
+.eval-score-label { font-size: 0.95rem; font-weight: 700; color: var(--primary); text-transform: uppercase; margin-bottom: 0.8rem; letter-spacing: 0.1em; }
+.eval-score-value { font-size: 4.5rem; font-weight: 900; color: #fff; line-height: 1; font-family: 'Outfit', sans-serif; }
+.eval-action-btn { 
+    background: #fff; 
+    color: #000; 
+    padding: 1.2rem 2.5rem; 
+    border-radius: 999px; 
+    font-weight: 900; 
+    text-transform: uppercase; 
+    letter-spacing: 0.05em; 
+    transition: var(--transition); 
+}
+.eval-action-btn:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(255,255,255,0.15); }
+
+@media(max-width:768px){
+    .eval-card { padding: 2rem; }
+    .question-item { flex-direction: column; align-items: flex-start; gap: 1.5rem; padding: 1.5rem; }
+    .eval-summary-card { flex-direction: column; text-align: center; }
+    .eval-score-display { text-align: center; }
 }
 
 @media(max-width:768px){
@@ -1040,13 +1187,6 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
     <p id="hero-desc" style="color:rgba(255,255,255,0.9); font-size:1.15rem; font-weight:600; line-height:1.8; word-break:keep-all; text-shadow:0 2px 8px rgba(0,0,0,0.8); text-align:center;">
        매출 상승은 콘텐츠가 결정합니다. 진단, 기획, 제작까지<br class="hide-pc"> 원스톱 전문가 집단 &lt;THE3 스튜디오&gt;
     </p>
-    <!-- 5. hero-cta-wrapper - admin: top:80% -->
-    <div id="hero-cta-wrapper" style="text-align:center;">
-      <a href="#contact" class="gallery-btn">
-        <span id="hero-cta-text">우리 가게도 바뀔 수 있을까? 무료 진단받기</span>
-        <i class="fa fa-arrow-right"></i>
-      </a>
-    </div>
   </div>
   
   <!-- BACKGROUND ATMOSPHERE (REPLACED BY VIDEO BUT REMAINING HIDDEN JUST IN CASE) -->
@@ -2195,14 +2335,18 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
             items.forEach(it => {
                 let photo = it.photo || 'https://via.placeholder.com/450x600';
                 if(photo && !photo.startsWith('http') && !photo.startsWith('/')) { photo = '/' + photo; }
+                
+                let photo2 = it.photo_secondary || photo; // 보조 사진 (캐릭터 등)
+                if(photo2 && !photo2.startsWith('http') && !photo2.startsWith('/')) { photo2 = '/' + photo2; }
 
-                // 역할별 맞춤형 업무 리스트 구성 (데이터베이스 필드 우선, 없으면 기본값)
+                // 역할별 맞춤형 업무 리스트 구성 (생략...)
                 let tasks = '';
                 if(it.tasks && it.tasks.trim()) {
                     tasks = it.tasks.split('\n').filter(t => t.trim()).map(t => 
                         `<li><i class="fa fa-circle" style="color:var(--primary); font-size:6px; margin-right:12px; opacity:0.8;"></i> ${t.trim()}</li>`
                     ).join('');
                 } else {
+                    // ... (기본값 로직은 동일하게 유지)
                     const role = (it.role || '').toLowerCase();
                     if(role.includes('planning') || role.includes('strategy') || role.includes('consulting')) {
                         tasks = `<li><i class="fa fa-circle" style="color:var(--primary); font-size:6px; margin-right:12px; opacity:0.8;"></i> 전략적 비즈니스 컨설팅</li>
@@ -2225,12 +2369,16 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
 
                 teamHTML += `
                   <div class="team-card" style="background:var(--bg-card); border:1px solid var(--border-strong); border-radius:38px; overflow:hidden; box-shadow:0 40px 80px rgba(0,0,0,0.25); transition:0.5s cubic-bezier(0.2, 0.8, 0.2, 1); backdrop-filter:blur(10px);">
-                    <div style="position:relative; height:480px; overflow:hidden;">
-                      <img src="${photo}" style="width:100%; height:100%; object-fit:cover; transition: 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);">
-                      <div style="position:absolute; bottom:0; left:0; width:100%; padding:50px 40px; background:linear-gradient(transparent, rgba(0,0,0,0.95));">
-                        <p class="team-role" style="color:var(--primary); font-size:0.75rem; font-weight:900; letter-spacing:0.3em; margin-bottom:12px; text-transform:uppercase; text-shadow:0 0 15px rgba(200,16,46,0.4);">${it.role || 'EXPERTS'}</p>
-                        <h3 class="team-name" style="color:#fff; font-size:2.4rem; font-weight:900; letter-spacing:-0.04em; line-height:1.1;">${it.name || 'Master'}</h3>
-                      </div>
+                    <div class="team-visual-container">
+                        <!-- Primary: Real Person -->
+                        <img src="${photo}" class="team-img-primary">
+                        <!-- Secondary: Character Member -->
+                        <img src="${photo2}" class="team-img-secondary">
+                        
+                        <div style="position:absolute; bottom:0; left:0; width:100%; padding:50px 40px; background:linear-gradient(transparent, rgba(0,0,0,0.95)); z-index:10;">
+                            <p class="team-role" style="color:var(--primary); font-size:0.75rem; font-weight:900; letter-spacing:0.3em; margin-bottom:12px; text-transform:uppercase; text-shadow:0 0 15px rgba(200,16,46,0.4);">${it.role || 'EXPERTS'}</p>
+                            <h3 class="team-name" style="color:#fff !important; font-size:2.4rem; font-weight:900; letter-spacing:-0.04em; line-height:1.1; text-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 20px rgba(200,16,46,0.3);">${it.name || 'Master'}</h3>
+                        </div>
                     </div>
                     <div style="padding:48px 40px;">
                       <p class="team-bio-text" style="font-size:1.15rem; font-weight:700; margin-bottom:24px; line-height:1.5; color:var(--text-primary); letter-spacing:-0.02em;">
@@ -2244,6 +2392,26 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
                 `;
             });
             teamGrid.innerHTML = teamHTML;
+
+            // Cinematic Auto Transition Engine
+            function initTeamAutoTransition() {
+                const cards = document.querySelectorAll('#team-grid .team-card');
+                if(!cards.length) return;
+                
+                let active = false;
+                setInterval(() => {
+                    active = !active;
+                    cards.forEach((card, idx) => {
+                        // 0.3초 시차를 두고 순차적으로 전환 (데칼코마니 웨이브)
+                        setTimeout(() => {
+                            if(active) card.classList.add('is-active');
+                            else card.classList.remove('is-active');
+                        }, idx * 300);
+                    });
+                }, 5000); // 5초 간격
+            }
+            initTeamAutoTransition();
+
             if(window.io) {
                 document.querySelectorAll('#team-grid .team-card').forEach(el => window.io.observe(el));
             }
