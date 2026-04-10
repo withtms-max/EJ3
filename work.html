@@ -130,20 +130,82 @@ body.light-mode .filter-sect { background: rgba(255,255,255,0.55); }
 .filter-tab.active { background: linear-gradient(135deg, #fff 0%, var(--primary) 100%); border-color: var(--primary); color: #000; box-shadow: 0 0 15px rgba(200, 16, 46, 0.3); }
 
 /* GRID */
-.work-grid { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; padding: 4rem 2rem 8rem; }
-.work-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 1.5rem; overflow: hidden; text-decoration: none; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-.work-card:hover { transform: translateY(-10px); border-color: var(--primary); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
-.work-thumb-wrap { width: 100%; aspect-ratio: 4/3; background: #111; overflow: hidden; position: relative; }
-.work-thumb-wrap img { width: 100%; height: 100%; object-fit: cover; transition: 0.8s; }
-.work-card:hover .work-thumb-wrap img { transform: scale(1.1); }
-.yt-play-icon { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.35); transition: 0.3s; pointer-events: none; }
-.yt-play-icon i { font-size: 3rem; color: #fff; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5)); transition: 0.3s; }
-.work-card:hover .yt-play-icon { background: rgba(0,0,0,0.15); }
-.work-card:hover .yt-play-icon i { transform: scale(1.15); color: #ff4444; }
-.work-info { padding: 1.8rem; }
-.work-cat { color: var(--primary); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.6rem; }
-.work-title { font-size: 1.3rem; font-weight: 800; color: inherit; margin-bottom: 0.5rem; }
-.work-meta { font-size: 0.85rem; color: var(--text-dim); }
+/* GRID 개편 (Cinematic Gallery Style) */
+.work-grid { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 3.5rem 2.5rem; padding: 4rem 2rem 8rem; }
+.work-card { background: transparent; border: none; border-radius: 0; overflow: visible; text-decoration: none; transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+.work-card:hover { transform: translateY(-12px); }
+.work-thumb-wrap { 
+    width: 100%; 
+    aspect-ratio: 1 / 1; 
+    background: #fff; /* 밝고 깨끗한 배경 */
+    border: 1px solid rgba(0,0,0,0.06); /* 아주 얇은 구분선 */
+    overflow: hidden; 
+    position: relative; 
+    border-radius: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+}
+body.light-mode .work-thumb-wrap { background: #fff; }
+.work-card:hover .work-thumb-wrap { border-color: var(--primary); }
+
+.work-thumb-wrap img, .work-thumb-wrap video { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1); 
+}
+
+/* 로고 카테고리 등 '잘림 방지'가 필요한 경우 */
+.work-card.contain-mode .work-thumb-wrap img { 
+    object-fit: contain; 
+    padding: 1rem; /* 너무 꽉 차지 않게 여유 */
+    width: 90%;
+    height: 90%;
+}
+
+
+.work-card:hover .work-thumb-wrap img { transform: scale(1.05); }
+.yt-play-icon { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2); transition: 0.3s; pointer-events: none; }
+.yt-play-icon i { font-size: 2.5rem; color: #fff; opacity: 0.7; transition: 0.3s; }
+.work-card:hover .yt-play-icon { background: rgba(0,0,0,0.1); }
+.work-card:hover .yt-play-icon i { transform: scale(1.2); opacity: 1; color: var(--primary); }
+.work-info { padding: 1.5rem 0.5rem; }
+.work-cat { color: var(--primary); font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 0.8rem; opacity: 0.9; }
+.work-title { font-size: 1.4rem; font-weight: 850; color: #fff; margin-bottom: 0.6rem; letter-spacing: -0.02em; }
+
+/* CARD SLIDER (Minimalist) */
+.card-nav { 
+    position:absolute; 
+    top:50%; 
+    transform:translateY(-50%); 
+    width:40px; 
+    height:40px; 
+    background:rgba(255,255,255,0.8); /* 밝은 배경 추가 */
+    color:rgba(0,0,0,0.5); /* 진한 회색 아이콘 */
+    border:none; 
+    border-radius: 20px;
+    display:flex; 
+    align-items:center; 
+    justify-content:center; 
+    cursor:pointer; 
+    z-index:5; 
+    opacity:0; 
+    transition:0.3s; 
+    font-size: 1rem;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.card-nav i { filter: none; } /* 그림자 대신 배경으로 해결 */
+.card-prev { left: 10px; }
+.card-next { right: 10px; }
+.work-card:hover .card-nav { opacity:1; }
+.card-nav:hover { background:#fff; color:var(--primary); transform: translateY(-50%) scale(1.1); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+
+.work-meta { font-size: 0.9rem; color: rgba(255,255,255,0.4); font-weight: 500; }
+
+
 
 /* FOOTER */
 footer { padding: 4rem 2rem; border-top: 1px solid var(--border); text-align: center; }
@@ -204,11 +266,10 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
 .chat-opts button{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);padding:8px 16px;border-radius:999px;font-size:.78rem;font-weight:600;cursor:pointer;transition:.3s;white-space:nowrap;}
 .chat-opts button:hover{background:rgba(200,16,46,0.15);border-color:#C8102E;color:#fff;transform:translateY(-2px);}
 .chat-close{margin-left:auto;background:none;border:none;color:rgba(255,255,255,0.4);font-size:1.4rem;cursor:pointer;transition:.2s;}
-.chat-toggle{background:#C8102E; box-shadow: 0 4px 20px rgba(200,16,46, 0.4);}
-.pulse-r{position:absolute;inset:0;border-radius:50%;border:2px solid rgba(200,16,46, 0.5);animation:pr 2s infinite;}
-@keyframes pr{0%{transform:scale(1);opacity:.7;}100%{transform:scale(1.5);opacity:0;}}
-,0.4); }
+    box-shadow: 0 4px 20px rgba(200,16,46, 0.4); 
+}
 </style>
+
 </head>
 <body>
 <script>
@@ -327,16 +388,23 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
     // YouTube 헬퍼 함수
     const isYouTube = (url) => {
         if(!url) return false;
-        return /(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([\w-]{11})/.test(url);
+        return /(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/|live\/)|youtu\.be\/)([\w-]{11})/.test(url);
+    };
+    const isVideo = (url) => {
+        if(!url) return false;
+        return /\.(mp4|webm|avi|mov)$/i.test(String(url).split('?')[0]);
     };
     const getYouTubeId = (url) => {
-        const m = url.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/|youtube\.com\/live\/)?([\w-]{11})/);
+        if(!url) return null;
+        const m = url.match(/(?:https?:)?\/\/(?:www\.)?(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/|live\/)|youtu\.be\/)([\w-]{11})/);
         return m ? m[1] : null;
     };
+    const cleanPath = (p) => (!String(p).startsWith('http') && !String(p).startsWith('/')) ? '/' + p : p;
     const getYouTubeThumbnail = (url) => {
         const id = getYouTubeId(url);
         return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : null;
     };
+
 
     let currentCat = 'all';
     let currentSort = 'latest';
@@ -350,20 +418,21 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
                 const yA = parseInt(a.year) || 0;
                 const yB = parseInt(b.year) || 0;
                 if (yA !== yB) return yB - yA; // 연도 내림차순 (최신 연도 우선)
-                const sA = parseInt(a.sort_order) || 999;
-                const sB = parseInt(b.sort_order) || 999;
-                return sA - sB; // 노출 순서 오름차순 (작은 숫자가 우선)
+                const sA = parseInt(a.sort_order) || 0;
+                const sB = parseInt(b.sort_order) || 0;
+                return sB - sA; // 노출 순서 내림차순 (큰 숫자가 우선)
             });
         } else if (currentSort === 'year') {
             filtered.sort((a, b) => {
                 const yA = parseInt(a.year) || 0;
                 const yB = parseInt(b.year) || 0;
                 if (yA !== yB) return yB - yA; // 연도 내림차순
-                const sA = parseInt(a.sort_order) || 999;
-                const sB = parseInt(b.sort_order) || 999;
-                return sA - sB; 
+                const sA = parseInt(a.sort_order) || 0;
+                const sB = parseInt(b.sort_order) || 0;
+                return sB - sA; 
             });
         }
+
         
         const grid = document.getElementById('work-grid');
         if (!filtered.length) {
@@ -371,37 +440,54 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
             return;
         }
         
-        grid.innerHTML = filtered.map(item => {
-            let thumb = item.thumbnail || '';
-            // 만약 썸네일이 비어있다면 images에서 유튜브 추출 시도
-            if (!thumb && item.images && item.images.length) {
-                const getYTID = (url) => url.match(/(?:https?:)?\/\/(?:www\.)?(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/|live\/)|youtu\.be\/)([\w-]{11})/)?.[1];
-                for (const img of item.images) {
+        grid.innerHTML = filtered.map((item, cardIdx) => {
+            // [THUMBNAIL FALLBACK]
+            let allMedia = [];
+            if (item.thumbnail) allMedia.push(item.thumbnail);
+            if (item.images && item.images.length) {
+                item.images.forEach(img => {
                     const src = (typeof img === 'string') ? img : (img.image_path || img.url || '');
-                    if (getYTID(src)) { thumb = src; break; }
-                }
+                    if (src && !allMedia.includes(src)) allMedia.push(src);
+                });
             }
 
-            if (thumb && !thumb.startsWith('http') && !thumb.startsWith('/')) thumb = '/' + thumb;
-            const isVideoFile = /\.(mp4|webm|avi|mov)$/i.test(thumb.split('?')[0]);
-            const isYT = isYouTube(thumb);
-            let thumbHTML;
-            if(isYT) {
-                const ytThumb = getYouTubeThumbnail(thumb);
-                thumbHTML = `<img src="${ytThumb}" alt="${item.title}" onerror="_imgFallback(this)"><div class="yt-play-icon"><i class="fa fa-circle-play"></i></div>`;
-            } else if(isVideoFile) {
-                thumbHTML = `<video src="${thumb}" muted loop autoplay playsinline style="width:100%;height:100%;object-fit:cover;"></video>`;
-            } else if(thumb) {
-                thumbHTML = `<img src="${thumb}" alt="${item.title}" onerror="_imgFallback(this)">`;
-            } else {
-                thumbHTML = `<div style="width:100%;height:100%;background:#111;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.1);"><i class="fa fa-image" style="font-size:2rem;"></i></div>`;
-            }
-            // [FIX] 페이지 이동 대신 모달 오픈 함수 호출
+            let thumb = allMedia[0] || '';
+            
+            const isVideoFile = (p) => /\.(mp4|webm|avi|mov)$/i.test(p.split('?')[0]);
+            const getMediaHTML = (src, title) => {
+                const isF = isVideoFile(src);
+                const isY = isYouTube(src);
+                if(isY) {
+                    const ytThumb = getYouTubeThumbnail(src);
+                    return `<img src="${ytThumb}" alt="${title}" onerror="_imgFallback(this)"><div class="yt-play-icon"><i class="fa fa-circle-play"></i></div>`;
+                } else if(isF) {
+                    return `<video src="${src}" muted loop autoplay playsinline style="width:100%;height:100%;object-fit:cover;"></video>`;
+                } else if(src) {
+                    return `<img src="${src}" alt="${title}" onerror="_imgFallback(this)">`;
+                }
+                return `<div style="width:100%;height:100%;background:#111;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.1);"><i class="fa fa-image" style="font-size:2rem;"></i></div>`;
+            };
+
+            const thumbHTML = getMediaHTML(thumb, item.title);
             const slugOrId = item.id || item.slug;
+            
+            // [WELL-BEING] 로고 등의 카테고리는 이미지가 잘리지 않도록 함
+            const extraClass = (item.category === 'calligraphy') ? 'contain-mode' : '';
+            
+            // Serialize media array for slider
+            const mediaJson = JSON.stringify(allMedia.map(m => cleanPath(m))).replace(/"/g, '&quot;');
+            const hasMulti = allMedia.length > 1;
+
             return `
-            <div onclick="openPortfolioDetail('${slugOrId}')" class="work-card fu" style="cursor:pointer;">
+            <div onclick="openPortfolioDetail('${slugOrId}')" class="work-card fu ${extraClass}" data-card-images="${mediaJson}" data-current-idx="0" style="cursor:pointer;">
                 <div class="work-thumb-wrap">
-                    ${thumbHTML}
+                    <div class="card-media-box" style="width:100%; height:100%;">
+                        ${thumbHTML}
+                    </div>
+                    ${hasMulti ? `
+                    <button class="card-nav card-prev" onclick="event.stopPropagation(); moveCardSlide(this, -1)"><i class="fa fa-chevron-left"></i></button>
+                    <button class="card-nav card-next" onclick="event.stopPropagation(); moveCardSlide(this, 1)"><i class="fa fa-chevron-right"></i></button>
+                    ` : ''}
                 </div>
                 <div class="work-info">
                     <div class="work-cat">${categoryLabel[item.category] || item.category}</div>
@@ -410,15 +496,61 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
                 </div>
             </div>
         `}).join('');
+
+
         document.querySelectorAll('.work-card.fu').forEach(el => observer.observe(el));
     }
+
+    // [CARD SLIDER] 전역 제어 함수
+    // [CARD SLIDER] 전역 제어 함수 (Smooth swap)
+    window.moveCardSlide = function(btn, dir) {
+        const card = btn.closest('.work-card');
+        const mediaBox = card.querySelector('.card-media-box');
+        const images = JSON.parse(card.getAttribute('data-card-images'));
+        let cur = parseInt(card.getAttribute('data-current-idx'));
+        
+        cur = (cur + dir + images.length) % images.length;
+        card.setAttribute('data-current-idx', cur);
+        
+        const src = images[cur];
+        const ytId = getYouTubeId(src);
+        
+        let html = '';
+        if (ytId) {
+            const ytThumb = `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`;
+            html = `<img src="${ytThumb}" alt="" onerror="_imgFallback(this)"><div class="yt-play-icon"><i class="fa fa-circle-play"></i></div>`;
+        } else if (isVideo(src)) {
+            html = `<video src="${src}" muted loop autoplay playsinline style="width:100%;height:100%;object-fit:inherit;"></video>`;
+        } else {
+            html = `<img src="${src}" alt="" onerror="_imgFallback(this)">`;
+        }
+        
+        mediaBox.style.transition = '0.3s';
+        mediaBox.style.opacity = '0';
+        setTimeout(() => {
+            mediaBox.innerHTML = html;
+            mediaBox.style.opacity = '1';
+        }, 150);
+    };
+
+
 
     // ── PORTFOLIO MODAL (Soojin Style - Instant Swap) ──
     let slideIdx=0, slideCount=0, currentZoom=1;
     window.pfGoSlide = function(n){
-        const slides = document.querySelectorAll('#pf-slides video');
-        slides.forEach(v => v.pause());
+        // Stop all videos (HTML5 and YouTube)
+        const videos = document.querySelectorAll('#pf-slides video');
+        videos.forEach(v => v.pause());
+        
+        const iframes = document.querySelectorAll('#pf-slides iframe');
+        iframes.forEach(f => {
+            const currentSrc = f.src;
+            f.src = '';
+            f.src = currentSrc; // Reloading stops the video and keeps it ready
+        });
+
         slideIdx=(n+slideCount)%slideCount;
+
         
         // Reset Zoom on slide change
         currentZoom = 1;
@@ -459,20 +591,36 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
         }
     }
 
+    window.pfToggleInfo = function() {
+        const modal = document.getElementById('pf-modal');
+        if(modal) modal.classList.toggle('info-visible');
+    };
+
     window.pfToggleFullscreen = function() {
-        const area = document.getElementById('pf-media-area');
-        if(!document.fullscreenElement) {
-            area.requestFullscreen().catch(err => console.warn(err));
+        const modal = document.getElementById('pf-modal');
+        if (!document.fullscreenElement) {
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+            } else if (document.documentElement.webkitRequestFullscreen) {
+                document.documentElement.webkitRequestFullscreen();
+            }
         } else {
-            if (document.exitFullscreen) document.exitFullscreen();
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            }
         }
     };
 
-
     window.closePF = function(){
+        if (document.fullscreenElement) {
+            if (document.exitFullscreen) document.exitFullscreen();
+        }
         document.querySelectorAll('#pf-slides video').forEach(v => v.pause());
         const modal = document.getElementById('pf-modal');
-        if(modal) modal.classList.remove('open');
+        if(modal) {
+            modal.classList.remove('open');
+            modal.classList.remove('info-visible');
+        }
         document.body.style.overflow='';
         // Reset parallax
         document.getElementById('work-page').style.transform = '';
@@ -506,26 +654,21 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
             const resEl = document.getElementById('pf-result');
             if (resEl) resEl.textContent = d.result || d.title || '혁신적인 결과물로 비즈니스의 가치를 증명합니다.';
             
-            const getYTID = (url) => {
-                if(!url) return null;
-                const m = url.match(/(?:https?:)?\/\/(?:www\.)?(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/|live\/)|youtu\.be\/)([\w-]{11})/);
-                return m ? m[1] : null;
-            };
             const isVid = (p) => /\.(mp4|webm|mov|avi)$/i.test(String(p).split('?')[0]);
-            const cleanPath = (p) => (!String(p).startsWith('http') && !String(p).startsWith('/')) ? '/' + p : p;
             
-            let slides = [];
-            if(d.thumbnail) {
-                const ytId = getYTID(d.thumbnail);
-                slides.push({ src: cleanPath(d.thumbnail), type: ytId ? 'youtube' : (isVid(d.thumbnail)?'video':'image'), ytId });
-            }
+            let allUrls = [];
+            if(d.thumbnail) allUrls.push(cleanPath(d.thumbnail));
             if(d.images && d.images.length) {
                 d.images.forEach(i => {
-                    const src = (typeof i === 'string') ? i : (i.image_path || i.url || '');
-                    const ytId = getYTID(src);
-                    slides.push({ src: cleanPath(src), type: ytId ? 'youtube' : (isVid(src)?'video':'image'), ytId });
+                    const src = cleanPath((typeof i === 'string') ? i : (i.image_path || i.url || ''));
+                    if(src && !allUrls.includes(src)) allUrls.push(src);
                 });
             }
+
+            const slides = allUrls.map(url => {
+                const ytId = getYouTubeId(url);
+                return { src: url, type: ytId ? 'youtube' : (isVid(url)?'video':'image'), ytId };
+            });
 
             slideCount = slides.length; slideIdx = 0;
             const se=document.getElementById('pf-slides');
@@ -564,6 +707,26 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
     document.getElementById('pf-close')?.addEventListener('click',closePF);
     document.getElementById('pf-modal')?.addEventListener('click',e=>{ if(e.target===e.currentTarget) closePF(); });
     document.addEventListener('keydown',e=>{ if(e.key==='Escape') closePF(); });
+
+    // ── Cinema Mode Media Click Navigation ──
+    document.getElementById('pf-media-area')?.addEventListener('click', e => {
+        if (e.target.closest('button')) return;
+        const rect = e.currentTarget.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        if (x < rect.width / 3) pfGoSlide(slideIdx - 1);
+        else if (x > rect.width * 2 / 3) pfGoSlide(slideIdx + 1);
+    });
+
+    // ── Touch Swipe Support (Mobile) ──
+    let touchStartX = 0;
+    document.getElementById('pf-media-area')?.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    document.getElementById('pf-media-area')?.addEventListener('touchend', e => {
+        let touchEndX = e.changedTouches[0].screenX;
+        if (touchStartX - touchEndX > 50) pfGoSlide(slideIdx + 1);
+        if (touchEndX - touchStartX > 50) pfGoSlide(slideIdx - 1);
+    }, { passive: true });
 
     // Parallax Effect for background when modal scrolls (Disabled in single view)
     /*
@@ -757,7 +920,6 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
             else{d.textContent=txt;msgs.scrollTop=9999;}
         }
     } catch(e) { console.warn('Chatbot Logic Error:', e); }
-
 </script>
 
 <!-- ──────────────────────────────────────────────────────────────────────────
@@ -769,13 +931,12 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
     <div id="pf-counter">1 / 1</div>
     
     <div id="pf-tools">
-      <button class="pf-tool-btn" onclick="pfZoom(-0.2)" title="축소"><i class="fa fa-minus"></i></button>
+      <button class="pf-tool-btn" onclick="pfToggleInfo()" title="상세 정보"><i class="fa fa-info-circle"></i></button>
       <div class="pf-tool-div"></div>
+      <button class="pf-tool-btn" onclick="pfZoom(-0.2)" title="축소"><i class="fa fa-minus"></i></button>
       <button class="pf-tool-btn" onclick="pfZoom(0.2)" title="확대"><i class="fa fa-plus"></i></button>
       <div class="pf-tool-div"></div>
-      <button class="pf-tool-btn" onclick="pfZoom(0)" title="원본 크기"><i class="fa fa-expand"></i></button>
-      <div class="pf-tool-div"></div>
-      <button class="pf-tool-btn" onclick="pfToggleFullscreen()" title="전체화면"><i class="fa fa-maximize"></i></button>
+      <button class="pf-tool-btn" onclick="pfToggleFullscreen()" title="전체화면"><i class="fa fa-expand"></i></button>
     </div>
 
     <button id="pf-close"><i class="fa fa-times"></i></button>
@@ -803,51 +964,75 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
   </div>
 </div>
 
+<!-- PORTFOLIO MODAL (PREMIUM WIDE VISUAL-FIRST - SOOJIN STYLE) -->
 <style>
-/* MODAL STYLES (Soojin Immersive Style) */
-#pf-modal { position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.2); backdrop-filter:blur(40px); display:none; align-items:center; justify-content:center; opacity:0; transition:0.4s ease; }
+/* MODAL STYLES (Synchronized Premium Style) */
+#pf-modal { position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.92); backdrop-filter:blur(8px); display:none; align-items:center; justify-content:center; opacity:0; transition:0.4s ease; border:none; }
 #pf-modal.open { display:flex; opacity:1; visibility:visible; }
-#pf-modal.open ~ .fixed-actions, #pf-modal.open ~ #banner { display:none !important; }
+#pf-modal.open ~ .fixed-actions, #pf-modal.open ~ #film-grain, #pf-modal.open ~ #banner { display:none !important; }
 #pf-modal.open ~ .chat-win { display:none !important; }
 #pf-box { width:100%; height:100vh; position:relative; overflow:hidden; transform:translateY(30px); transition:0.6s cubic-bezier(0.16, 1, 0.3, 1); }
 #pf-box::-webkit-scrollbar { display: none; }
 #pf-modal.open #pf-box { transform:translateY(0); }
 
-#pf-counter { position:fixed; top:40px; left:40px; color:#fff; font-size:1rem; font-weight:800; letter-spacing:0.1em; z-index:101; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+#pf-counter { position:fixed; top:40px; left:40px; color:#fff; font-size:1rem; font-weight:800; letter-spacing:0.1em; z-index:101; text-shadow: 0 2px 10px rgba(0,0,0,0.5); transition: opacity 0.5s; }
 #pf-close { position:fixed; top:40px; right:40px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); width:60px; height:60px; border-radius:30px; color:#fff; font-size:1.5rem; cursor:pointer; z-index:101; transition:0.3s; display:flex; align-items:center; justify-content:center; backdrop-filter: blur(10px); }
 #pf-close:hover { background:var(--primary); transform:rotate(90deg); border-color: transparent; }
 
 #pf-content { width:100%; height:100vh; position:relative; }
-#pf-media-area { width:100%; height:100vh; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; background: transparent; }
-#pf-slides { display:flex; width:100%; height:100%; }
-.pf-slide-item { flex:0 0 100%; height:100%; display:flex; align-items:center; justify-content:center; padding:0; }
-.pf-slide-item img, .pf-slide-item video { max-width:95%; max-height:90%; width:auto; height:auto; object-fit:contain; border-radius:10px; box-shadow:0 20px 50px rgba(0,0,0,0.5); }
-.pf-slide-item iframe { width:85vw; height:calc(85vw * 9 / 16); max-width:1400px; max-height:80vh; border:none; border-radius:12px; box-shadow:0 30px 60px rgba(0,0,0,0.5); }
+#pf-media-area { width:100%; height:100vh; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; background: transparent; cursor: pointer; }
+#pf-slides { display:flex; width:100%; height:100%; pointer-events: none; }
+.pf-slide-item { flex:0 0 100%; height:100%; display:flex; align-items:center; justify-content:center; padding: 0; transition: padding 0.5s; pointer-events: none; }
+.pf-slide-item img, .pf-slide-item video, .pf-slide-item iframe { pointer-events: auto; }
+.pf-slide-item img, .pf-slide-item video { max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain; border-radius:0; box-shadow:0 30px 100px rgba(0,0,0,0.8); transition: 0.5s; }
+.pf-slide-item iframe { width:100vw; height:100vh; max-width:100%; max-height:100%; border:none; border-radius:0; box-shadow:none; transition: 0.5s; z-index: 10; }
+
+
+/* UI 요소들 (도구, 카운터 등) */
+#pf-tools, #pf-counter { opacity: 0.4; transition: 0.3s; }
+#pf-tools:hover, #pf-counter:hover { opacity: 1; }
+
 @media (max-width: 768px) {
-    .pf-slide-item iframe { width:100vw; height:calc(100vw * 9 / 16); }
-    .pf-slide-item img, .pf-slide-item video { max-width:100%; max-height:80vh; border-radius:0; }
+    .pf-slide-item { padding: 0; }
+    .pf-slide-item iframe { width:100vw; height:100vh; }
+    .pf-slide-item img, .pf-slide-item video { max-width:100%; max-height:100%; border-radius:0; }
 }
 
-.pf-nav { position:fixed; top:50%; transform:translateY(-50%); width:100px; height:100px; background:transparent; border:none; color:rgba(255,255,255,0.2); font-size:2.5rem; cursor:pointer; z-index:90; transition:0.3s; display:flex; align-items:center; justify-content:center; }
-.pf-nav:hover { color:#fff; background:rgba(255,255,255,0.05); }
-#pf-prev { left:20px; } #pf-next { right:20px; }
+.pf-nav { position:fixed; top:50%; transform:translateY(-50%); width:70px; height:70px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.08); border-radius: 35px; color:rgba(255,255,255,0.3); font-size:1.8rem; cursor:pointer; z-index:90; transition:0.3s; display:flex; align-items:center; justify-content:center; pointer-events: auto; backdrop-filter: blur(5px); }
+.pf-nav:hover { color:#fff; background:rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.2); transform: translateY(-50%) scale(1.1); }
+#pf-prev { left:30px; } #pf-next { right:30px; }
+#pf-modal.open:not(:hover) .pf-nav { opacity: 0; }
 
-#pf-info-area { position:absolute; bottom:0; left:0; width:100%; padding:80px 60px 50px; text-align:left; z-index:100; background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 60%, transparent 100%); pointer-events: none; }
+@media (max-width: 768px) {
+    .pf-nav { width: 50px; height: 50px; font-size: 1.2rem; background: rgba(0,0,0,0.3); border: none; }
+    #pf-prev { left: 10px; } #pf-next { right: 10px; }
+}
+
+#pf-info-area { position:absolute; bottom:0; left:0; width:100%; padding:140px 60px 60px; text-align:left; z-index:100; background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 40%, transparent 100%); pointer-events: none; opacity:0; transform:translateY(20px); transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+#pf-modal.info-visible #pf-info-area { opacity: 1; transform:translateY(0); pointer-events: auto; }
 #pf-info-area > * { pointer-events: auto; }
-.pf-meta { display:flex; gap:15px; font-size:0.75rem; font-weight:900; letter-spacing:0.15em; text-transform:uppercase; color:var(--primary); margin-bottom:10px; opacity:0.8; }
-#pf-title { font-size:clamp(2rem, 5vw, 4rem); font-weight:950; letter-spacing:-0.03em; color:#fff; margin-bottom:10px; line-height:1.1; text-shadow: 0 5px 20px rgba(0,0,0,0.5); }
-.pf-desc-block { max-width:700px; }
-.pf-desc-block h3 { display:none; } /* 캡처 스타일을 위해 Summary 제목 숨김 */
-#pf-result { font-size:1.1rem; line-height:1.6; color:rgba(255,255,255,0.8); font-weight:500; word-break:keep-all; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+.pf-meta { display:flex; gap:15px; font-size:0.75rem; font-weight:900; letter-spacing:0.15em; text-transform:uppercase; color:var(--primary); margin-bottom:8px; opacity:0.8; }
+#pf-title { font-size:clamp(1.6rem, 4.2vw, 2.8rem); font-weight:950; letter-spacing:-0.03em; color:#fff !important; margin-bottom:8px; line-height:1.2; text-shadow: 0 5px 30px rgba(0,0,0,1); }
+.pf-desc-block { max-width:800px; opacity: 0.8; }
+.pf-desc-block h3 { display:none; }
+#pf-result { font-size:1.05rem; line-height:1.6; color:rgba(255,255,255,0.85); font-weight:500; word-break:keep-all; text-shadow: 0 2px 10px rgba(0,0,0,1); }
 
-#pf-tools { position:fixed; top:40px; right:120px; display:flex; gap:10px; z-index:105; background:rgba(255,255,255,0.05); padding:8px 15px; border-radius:30px; border:1px solid rgba(255,255,255,0.1); backdrop-filter:blur(10px); transition: 0.3s; }
+#pf-tools { position:fixed; top:40px; right:120px; display:flex; gap:10px; z-index:105; background:rgba(255,255,255,0.08); padding:8px 15px; border-radius:30px; border:1px solid rgba(255,255,255,0.1); backdrop-filter:blur(10px); transition: 0.5s; }
 .pf-tool-btn { background:none; border:none; color:rgba(255,255,255,0.6); font-size:1.1rem; cursor:pointer; padding:5px 12px; transition:0.3s; display:flex; align-items:center; gap:8px; }
-.pf-tool-btn:hover { color:#fff; }
-.pf-tool-btn i { font-size:0.9rem; }
+.pf-tool-btn:hover { color:#fff; transform: scale(1.1); }
+.pf-tool-btn i { font-size:0.95rem; }
 .pf-tool-div { width:1px; height:15px; background:rgba(255,255,255,0.1); align-self:center; }
 
-#pf-dots { display:flex; gap:12px; z-index:10; }
-.pf-dot { width:10px; height:10px; border-radius:5px; background:rgba(255,255,255,0.2); border:none; cursor:pointer; transition:0.3s; }
+#pf-dots { display:flex; gap:12px; z-index:10; transition: 0.5s; }
+.pf-dot { width:8px; height:8px; border-radius:4px; background:rgba(255,255,255,0.15); border:none; cursor:pointer; transition:0.3s; }
+.pf-dot.on { width:32px; background:var(--primary); opacity:1; }
+
+@media (max-width: 768px) {
+    #pf-tools { display: none; }
+    #pf-info-area { padding: 60px 25px 30px; }
+    #pf-title { font-size: 1.5rem !important; }
+}
+</style>
 .pf-dot.on { width:40px; background:var(--primary); }
 
 @media (max-width: 768px) {

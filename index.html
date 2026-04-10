@@ -276,6 +276,7 @@ nav.scrolled .nav-logo{color: var(--text-main) !important;}
   word-break: keep-all;
 }
 
+
 /* Fan Cards Container */
 .fh-fan {
   position: relative;
@@ -287,6 +288,72 @@ nav.scrolled .nav-logo{color: var(--text-main) !important;}
   align-items: center;
   margin-bottom: 1.5rem;
 }
+
+/* Cinematic Gallery Style Synchronization */
+.work-card { background: transparent; border: none; border-radius: 0; overflow: visible; text-decoration: none; transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+.work-card:hover { transform: translateY(-12px); }
+.work-thumb-wrap { 
+    width: 100%; 
+    aspect-ratio: 1 / 1; 
+    background: #fff; 
+    border: 1px solid rgba(0,0,0,0.06); 
+    overflow: hidden; 
+    position: relative; 
+    border-radius: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+}
+.work-card:hover .work-thumb-wrap { border-color: var(--primary); }
+.work-thumb-wrap img, .work-thumb-wrap video { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1); 
+}
+.work-card.contain-mode .work-thumb-wrap img { 
+    object-fit: contain; 
+    padding: 1rem;
+    width: 90%;
+    height: 90%;
+}
+.work-card:hover .work-thumb-wrap img { transform: scale(1.05); }
+
+.work-info { padding: 1.5rem 0.5rem; }
+
+.work-cat { color: var(--primary); font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 0.8rem; }
+.work-title { font-size: 1.4rem; font-weight: 850; color: #fff; margin-bottom: 0.6rem; letter-spacing: -0.02em; }
+.work-meta { font-size: 0.9rem; color: rgba(255,255,255,0.4); font-weight: 500; }
+
+.card-nav { 
+    position:absolute; 
+    top:50%; 
+    transform:translateY(-50%); 
+    width:40px; 
+    height:40px; 
+    background:rgba(255,255,255,0.8); 
+    color:rgba(0,0,0,0.5); 
+    border:none; 
+    border-radius:20px;
+    display:flex; 
+    align-items:center; 
+    justify-content:center; 
+    cursor:pointer; 
+    z-index:5; 
+    opacity:0; 
+    transition:0.3s; 
+    font-size: 1rem;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.card-nav i { filter: none; }
+.card-prev { left: 10px; }
+.card-next { right: 10px; }
+.work-card:hover .card-nav { opacity:1; }
+.card-nav:hover { background:#fff; color:var(--primary); transform: translateY(-50%) scale(1.1); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+
+
 
 /* Floating Badges */
 .fh-tooltip {
@@ -1447,10 +1514,10 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
 </footer>
   </div> <!-- #index-page wrapper end -->
 
-<!-- PORTFOLIO MODAL (PREMIUM WIDE VISUAL-FIRST) -->
+<!-- PORTFOLIO MODAL (PREMIUM WIDE VISUAL-FIRST - SOOJIN STYLE) -->
 <style>
-/* MODAL STYLES (Soojin Immersive Style - Synchronized) */
-#pf-modal { position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.2); backdrop-filter:blur(40px); display:none; align-items:center; justify-content:center; opacity:0; transition:0.4s ease; }
+/* MODAL STYLES (Synchronized Premium Style) */
+#pf-modal { position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.92); backdrop-filter:blur(8px); display:none; align-items:center; justify-content:center; opacity:0; transition:0.4s ease; border:none; }
 #pf-modal.open { display:flex; opacity:1; visibility:visible; }
 #pf-modal.open ~ .fixed-actions, #pf-modal.open ~ #film-grain, #pf-modal.open ~ #banner { display:none !important; }
 #pf-modal.open ~ .chat-win { display:none !important; }
@@ -1458,51 +1525,62 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
 #pf-box::-webkit-scrollbar { display: none; }
 #pf-modal.open #pf-box { transform:translateY(0); }
 
-#pf-counter { position:fixed; top:40px; left:40px; color:#fff; font-size:1rem; font-weight:800; letter-spacing:0.1em; z-index:101; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+#pf-counter { position:fixed; top:40px; left:40px; color:#fff; font-size:1rem; font-weight:800; letter-spacing:0.1em; z-index:101; text-shadow: 0 2px 10px rgba(0,0,0,0.5); transition: opacity 0.5s; }
 #pf-close { position:fixed; top:40px; right:40px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); width:60px; height:60px; border-radius:30px; color:#fff; font-size:1.5rem; cursor:pointer; z-index:101; transition:0.3s; display:flex; align-items:center; justify-content:center; backdrop-filter: blur(10px); }
 #pf-close:hover { background:var(--primary); transform:rotate(90deg); border-color: transparent; }
 
 #pf-content { width:100%; height:100vh; position:relative; }
-#pf-media-area { width:100%; height:100vh; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; background: transparent; }
-#pf-slides { display:flex; width:100%; height:100%; }
-.pf-slide-item { flex:0 0 100%; height:100%; display:flex; align-items:center; justify-content:center; padding:0; }
-.pf-slide-item img, .pf-slide-item video { max-width:95%; max-height:90%; width:auto; height:auto; object-fit:contain; border-radius:10px; box-shadow:0 20px 50px rgba(0,0,0,0.5); }
-.pf-slide-item iframe { width:85vw; height:calc(85vw * 9 / 16); max-width:1400px; max-height:80vh; border:none; border-radius:12px; box-shadow:0 30px 60px rgba(0,0,0,0.5); }
+#pf-media-area { width:100%; height:100vh; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; background: transparent; cursor: pointer; }
+#pf-slides { display:flex; width:100%; height:100%; pointer-events: none; }
+.pf-slide-item { flex:0 0 100%; height:100%; display:flex; align-items:center; justify-content:center; padding: 0; transition: padding 0.5s; pointer-events: none; }
+.pf-slide-item img, .pf-slide-item video, .pf-slide-item iframe { pointer-events: auto; }
+.pf-slide-item img, .pf-slide-item video { max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain; border-radius:0; box-shadow:0 30px 100px rgba(0,0,0,0.8); transition: 0.5s; }
+.pf-slide-item iframe { width:100vw; height:100vh; max-width:100%; max-height:100%; border:none; border-radius:0; box-shadow:none; transition: 0.5s; z-index: 10; }
+
+
+/* UI 요소들 (도구, 카운터 등) */
+#pf-tools, #pf-counter { opacity: 0.4; transition: 0.3s; }
+#pf-tools:hover, #pf-counter:hover { opacity: 1; }
+
 @media (max-width: 768px) {
-    .pf-slide-item iframe { width:100vw; height:calc(100vw * 9 / 16); }
-    .pf-slide-item img, .pf-slide-item video { max-width:100%; max-height:80vh; border-radius:0; }
+    .pf-slide-item { padding: 0; }
+    .pf-slide-item iframe { width:100vw; height:100vh; }
+    .pf-slide-item img, .pf-slide-item video { max-width:100%; max-height:100%; border-radius:0; }
 }
 
-.pf-nav { position:fixed; top:50%; transform:translateY(-50%); width:100px; height:100px; background:transparent; border:none; color:rgba(255,255,255,0.2); font-size:2.5rem; cursor:pointer; z-index:90; transition:0.3s; display:flex; align-items:center; justify-content:center; }
-.pf-nav:hover { color:#fff; background:rgba(255,255,255,0.05); }
-#pf-prev { left:20px; } #pf-next { right:20px; }
-
-#pf-info-area { position:absolute; bottom:0; left:0; width:100%; padding:80px 60px 50px; text-align:left; z-index:100; background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 60%, transparent 100%); pointer-events: none; }
-#pf-info-area > * { pointer-events: auto; }
-.pf-meta { display:flex; gap:15px; font-size:0.75rem; font-weight:900; letter-spacing:0.15em; text-transform:uppercase; color:var(--primary); margin-bottom:10px; opacity:0.8; }
-#pf-title { font-size:clamp(2rem, 5vw, 4rem); font-weight:950; letter-spacing:-0.03em; color:#fff; margin-bottom:10px; line-height:1.1; text-shadow: 0 5px 20px rgba(0,0,0,0.5); }
-.pf-desc-block { max-width:700px; }
-.pf-desc-block h3 { display:none; } /* 캡처 스타일을 위해 Summary 제목 숨김 */
-#pf-result { font-size:1.1rem; line-height:1.6; color:rgba(255,255,255,0.8); font-weight:500; word-break:keep-all; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
-
-#pf-tools { position:fixed; top:40px; right:120px; display:flex; gap:10px; z-index:105; background:rgba(255,255,255,0.05); padding:8px 15px; border-radius:30px; border:1px solid rgba(255,255,255,0.1); backdrop-filter:blur(10px); transition: 0.3s; }
-.pf-tool-btn { background:none; border:none; color:rgba(255,255,255,0.6); font-size:1.1rem; cursor:pointer; padding:5px 12px; transition:0.3s; display:flex; align-items:center; gap:8px; }
-.pf-tool-btn:hover { color:#fff; }
-.pf-tool-btn i { font-size:0.9rem; }
-.pf-tool-div { width:1px; height:15px; background:rgba(255,255,255,0.1); align-self:center; }
-
-#pf-dots { display:flex; gap:12px; z-index:10; }
-.pf-dot { width:10px; height:10px; border-radius:5px; background:rgba(255,255,255,0.2); border:none; cursor:pointer; transition:0.3s; }
-.pf-dot.on { width:40px; background:var(--primary); }
+.pf-nav { position:fixed; top:50%; transform:translateY(-50%); width:70px; height:70px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.08); border-radius: 35px; color:rgba(255,255,255,0.3); font-size:1.8rem; cursor:pointer; z-index:90; transition:0.3s; display:flex; align-items:center; justify-content:center; pointer-events: auto; backdrop-filter: blur(5px); }
+.pf-nav:hover { color:#fff; background:rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.2); transform: translateY(-50%) scale(1.1); }
+#pf-prev { left:30px; } #pf-next { right:30px; }
+#pf-modal.open:not(:hover) .pf-nav { opacity: 0; }
 
 @media (max-width: 768px) {
-    #pf-counter { top:20px; left:20px; }
-    #pf-close { top:20px; right:20px; width:45px; height:45px; font-size:1.2rem; }
-    #pf-info-area { padding:50px 25px 30px; }
-    #pf-title { font-size:1.8rem; }
-    #pf-result { font-size:0.95rem; }
-    .pf-slide-item { padding:0; }
-    .pf-nav { width:60px; font-size:1.5rem; }
+    .pf-nav { width: 50px; height: 50px; font-size: 1.2rem; background: rgba(0,0,0,0.3); border: none; }
+    #pf-prev { left: 10px; } #pf-next { right: 10px; }
+}
+
+#pf-info-area { position:absolute; bottom:0; left:0; width:100%; padding:140px 60px 60px; text-align:left; z-index:100; background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 40%, transparent 100%); pointer-events: none; opacity:0; transform:translateY(20px); transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+#pf-modal.info-visible #pf-info-area { opacity: 1; transform:translateY(0); pointer-events: auto; }
+#pf-info-area > * { pointer-events: auto; }
+.pf-meta { display:flex; gap:15px; font-size:0.75rem; font-weight:900; letter-spacing:0.15em; text-transform:uppercase; color:var(--primary); margin-bottom:8px; opacity:0.8; }
+#pf-title { font-size:clamp(1.6rem, 4.2vw, 2.8rem); font-weight:950; letter-spacing:-0.03em; color:#fff !important; margin-bottom:8px; line-height:1.2; text-shadow: 0 5px 30px rgba(0,0,0,1); }
+.pf-desc-block { max-width:800px; opacity: 0.8; }
+.pf-desc-block h3 { display:none; }
+#pf-result { font-size:1.05rem; line-height:1.6; color:rgba(255,255,255,0.85); font-weight:500; word-break:keep-all; text-shadow: 0 2px 10px rgba(0,0,0,1); }
+
+#pf-tools { position:fixed; top:40px; right:120px; display:flex; gap:10px; z-index:105; background:rgba(255,255,255,0.08); padding:8px 15px; border-radius:30px; border:1px solid rgba(255,255,255,0.1); backdrop-filter:blur(10px); transition: 0.5s; }
+.pf-tool-btn { background:none; border:none; color:rgba(255,255,255,0.6); font-size:1.1rem; cursor:pointer; padding:5px 12px; transition:0.3s; display:flex; align-items:center; gap:8px; }
+.pf-tool-btn:hover { color:#fff; transform: scale(1.1); }
+.pf-tool-btn i { font-size:0.95rem; }
+.pf-tool-div { width:1px; height:15px; background:rgba(255,255,255,0.1); align-self:center; }
+
+#pf-dots { display:flex; gap:12px; z-index:10; transition: 0.5s; }
+.pf-dot { width:8px; height:8px; border-radius:4px; background:rgba(255,255,255,0.15); border:none; cursor:pointer; transition:0.3s; }
+.pf-dot.on { width:32px; background:var(--primary); opacity:1; }
+
+@media (max-width: 768px) {
+    #pf-tools { display: none; }
+    #pf-info-area { padding: 60px 25px 30px; }
+    #pf-title { font-size: 1.5rem !important; }
 }
 </style>
 
@@ -1512,13 +1590,12 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
     <div id="pf-counter">1 / 1</div>
     
     <div id="pf-tools">
-      <button class="pf-tool-btn" onclick="pfZoom(-0.2)" title="축소"><i class="fa fa-minus"></i></button>
+      <button class="pf-tool-btn" onclick="pfToggleInfo()" title="상세 정보"><i class="fa fa-info-circle"></i></button>
       <div class="pf-tool-div"></div>
+      <button class="pf-tool-btn" onclick="pfZoom(-0.2)" title="축소"><i class="fa fa-minus"></i></button>
       <button class="pf-tool-btn" onclick="pfZoom(0.2)" title="확대"><i class="fa fa-plus"></i></button>
       <div class="pf-tool-div"></div>
-      <button class="pf-tool-btn" onclick="pfZoom(0)" title="원본 크기"><i class="fa fa-expand"></i></button>
-      <div class="pf-tool-div"></div>
-      <button class="pf-tool-btn" onclick="pfToggleFullscreen()" title="전체화면"><i class="fa fa-maximize"></i></button>
+      <button class="pf-tool-btn" onclick="pfToggleFullscreen()" title="전체화면"><i class="fa fa-expand"></i></button>
     </div>
 
     <button id="pf-close"><i class="fa fa-times"></i></button>
@@ -1700,9 +1777,20 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
   
   const isVideo = (path) => {
       if(!path) return false;
-      const cleanPath = path.split('?')[0].split('#')[0];
-      return /\.(mp4|webm|mov|avi)$/i.test(cleanPath);
+      return /\.(mp4|webm|mov|avi)$/i.test(String(path).split('?')[0]);
   };
+  const isYouTube = (url) => {
+      if(!url) return false;
+      return /(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/|live\/)|youtu\.be\/)([\w-]{11})/.test(url);
+  };
+  const getYouTubeId = (url) => {
+      if(!url) return null;
+      const m = url.match(/(?:https?:)?\/\/(?:www\.)?(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/|live\/)|youtu\.be\/)([\w-]{11})/);
+      return m ? m[1] : null;
+  };
+  const cleanPath = (p) => (!String(p).startsWith('http') && !String(p).startsWith('/')) ? '/' + p : p;
+
+
 
   let drag = {
     isSc:false, cardIdx:null, hasMoved:false,
@@ -1855,12 +1943,13 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
           const getYTID = (url) => url.match(/(?:https?:)?\/\/(?:www\.)?(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/|live\/)|youtu\.be\/)([\w-]{11})/)?.[1];
           
           let ytId = getYTID(thumb);
-          // 만약 썸네일이 비어있다면 images 배열에서 첫 번째 유튜브 주소를 찾아봅니다.
+          // [THUMBNAIL FALLBACK] 만약 썸네일이 비어있다면 images에서 첫 번째 항목을 사용합니다.
           if (!thumb && item.images && item.images.length) {
-              for (const img of item.images) {
-                  const src = (typeof img === 'string') ? img : (img.image_path || img.url || '');
-                  const id = getYTID(src);
-                  if (id) { ytId = id; break; }
+              const first = item.images[0];
+              const src = (typeof first === 'string') ? first : (first.image_path || first.url || '');
+              if (src) {
+                  thumb = src;
+                  ytId = getYTID(thumb);
               }
           }
 
@@ -2147,18 +2236,22 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
       portfolioSnap.forEach(doc => {
         const data = doc.data();
         if(data.status !== 'Draft') {
-          // PC/모바일 환경에 따른 갤러리 노출 여부 체크 (더 관대하게 체크하여 누락 방지)
+          // PC/모바일 환경에 따른 갤러리 노출 여부 체크
           const isShow = isM ? 
             (data.show_in_gallery_mobile !== '0' && data.show_in_gallery_mobile !== 0 && data.show_in_gallery_mobile !== false) : 
             (data.show_in_gallery !== '0' && data.show_in_gallery !== 0 && data.show_in_gallery !== false);
           
-          if (isShow !== false) { // 명시적 false가 아니면 일단 노출 시도
+          if (isShow !== false) {
             items.push({ ...data, id: doc.id });
           }
         }
       });
 
+      // [FIX] 관리자 설정과 동일하게 큰 숫자가 우선순위를 갖도록 정렬
+      items.sort((a,b) => (parseInt(b.sort_order)||0) - (parseInt(a.sort_order)||0));
+
       cachedPortfolioItems = items;
+
       
       // Firestore에서 영구 저장된 좌표(placements 컬렉션) 가져오기
       try {
@@ -2253,8 +2346,9 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
         let heroItems = [];
         qSnap.forEach(doc => { heroItems.push({ ...doc.data(), id: doc.id }); });
         
-        // Sort by sort_order
-        heroItems.sort((a,b) => (parseInt(a.sort_order)||0) - (parseInt(b.sort_order)||0));
+        // Sort by sort_order (Descending - Larger number first)
+        heroItems.sort((a,b) => (parseInt(b.sort_order)||0) - (parseInt(a.sort_order)||0));
+
         
         // 1. 수동 등록한 히어로 슬라이드(hero_slides) 가져오기
         let displayItems = [];
@@ -2271,8 +2365,15 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
                 const pSnap = await getDocs(collection(db, 'portfolio'));
                 pSnap.forEach(d => { if(d.data().status !== 'Draft') pSource.push({ ...d.data(), id: d.id }); });
             }
-            const featured = pSource.filter(it => String(it.is_featured) === '1' && it.thumbnail);
-            const extra = featured.map(it => ({ thumbnail: it.thumbnail, title: it.title, slug: it.slug, sort: 999 }));
+            const featured = pSource.filter(it => String(it.is_featured) === '1' && (it.thumbnail || (it.images && it.images.length > 0)));
+            const extra = featured.map(it => {
+              let thumb = it.thumbnail;
+              if (!thumb && it.images && it.images.length > 0) {
+                const first = it.images[0];
+                thumb = (typeof first === 'string') ? first : (first.image_path || first.url || '');
+              }
+              return { thumbnail: thumb, title: it.title, slug: it.slug, sort: 999 };
+            });
             
             // 기존 수동 슬라이드와 병합 (중복 방지는 간단하게 처리)
             displayItems = [...displayItems, ...extra];
@@ -2280,7 +2381,14 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
 
         // 3. 그래도 없으면 전체 포트폴리오에서 가져오기
         if(displayItems.length === 0) {
-            displayItems = cachedPortfolioItems.slice(0, 5).map(it => ({ thumbnail: it.thumbnail, title: it.title, slug: it.slug }));
+            displayItems = cachedPortfolioItems.slice(0, 5).map(it => {
+              let thumb = it.thumbnail;
+              if (!thumb && it.images && it.images.length > 0) {
+                const first = it.images[0];
+                thumb = (typeof first === 'string') ? first : (first.image_path || first.url || '');
+              }
+              return { thumbnail: thumb, title: it.title, slug: it.slug };
+            });
         }
 
         if(displayItems && displayItems.length > 0) {
@@ -2297,7 +2405,12 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
                 
                 let mediaHtml = '';
                 if(thumb) {
-                    if(isVideo(thumb)) {
+                    const ytId = getYTID(thumb);
+                    if(ytId) {
+                        const ytThumb = `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`;
+                        mediaHtml = `<img src="${ytThumb}" alt="Hero" style="width:100%;height:100%;object-fit:cover;">
+                                     <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.2);"><i class="fa-brands fa-youtube" style="color:#ff0000;font-size:3rem;opacity:0.8;"></i></div>`;
+                    } else if(isVideo(thumb)) {
                         mediaHtml = `<video src="${thumb}" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;"></video>`;
                     } else {
                         mediaHtml = `<img src="${thumb}" alt="Hero" style="width:100%;height:100%;object-fit:cover;">`;
@@ -2328,8 +2441,9 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
         const items = [];
         qSnap.forEach(d => items.push({...d.data(), id: d.id}));
         
-        // 정렬 순서가 있다면 적용 (sort_order 필드 가정)
-        items.sort((a,b) => (parseInt(a.sort_order)||0) - (parseInt(b.sort_order)||0));
+        // 정렬 순서 적용 (Descending - 큰 숫자가 먼저 나오도록)
+        items.sort((a,b) => (parseInt(b.sort_order)||0) - (parseInt(a.sort_order)||0));
+
 
         if(items.length > 0) {
             items.forEach(it => {
@@ -2488,21 +2602,70 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
     }
   };
 
+  window.pfToggleInfo = function() {
+    const modal = document.getElementById('pf-modal');
+    if(modal) modal.classList.toggle('info-visible');
+  };
+
   window.pfToggleFullscreen = function() {
-    const area = document.getElementById('pf-media-area');
-    if(!document.fullscreenElement) {
-      area.requestFullscreen().catch(err => console.warn(err));
+    const modal = document.getElementById('pf-modal');
+    if (!document.fullscreenElement) {
+      if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen();
+      } else if (document.documentElement.webkitRequestFullscreen) {
+        document.documentElement.webkitRequestFullscreen();
+      }
     } else {
-      if (document.exitFullscreen) document.exitFullscreen();
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
     }
   };
 
   window.closePF = function(){
+    if (document.fullscreenElement) {
+      if (document.exitFullscreen) document.exitFullscreen();
+    }
     document.querySelectorAll('#pf-slides video').forEach(v => v.pause());
     const modal = document.getElementById('pf-modal');
-    if(modal) modal.classList.remove('open');
+    if(modal) {
+      modal.classList.remove('open');
+      modal.classList.remove('info-visible');
+    }
     document.body.style.overflow='';
     document.getElementById('index-page').style.transform = '';
+  };
+
+  // [CARD SLIDER] 전역 제어 함수
+  window.moveCardSlide = function(btn, dir) {
+      const card = btn.closest('.work-card');
+      const mediaBox = card.querySelector('.card-media-box');
+      const images = JSON.parse(card.getAttribute('data-card-images'));
+      let cur = parseInt(card.getAttribute('data-current-idx'));
+      
+      cur = (cur + dir + images.length) % images.length;
+      card.setAttribute('data-current-idx', cur);
+      
+      const src = images[cur];
+      const ytId = url => url.match(/(?:https?:)?\/\/(?:www\.)?(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/|live\/)|youtu\.be\/)([\w-]{11})/)?.[1];
+      const isF = (p) => /\.(mp4|webm|avi|mov)$/i.test(p.split('?')[0]);
+      
+      let html = '';
+      const yid = ytId(src);
+      if (yid) {
+          const ytThumb = `https://img.youtube.com/vi/${yid}/hqdefault.jpg`;
+          html = `<img src="${ytThumb}" alt="" onerror="_imgFallback(this)"><div class="yt-play-icon"><i class="fa fa-circle-play"></i></div>`;
+      } else if (isF(src)) {
+          html = `<video src="${src}" muted loop autoplay playsinline style="width:100%;height:100%;object-fit:cover;"></video>`;
+      } else {
+          html = `<img src="${src}" alt="" onerror="_imgFallback(this)">`;
+      }
+      
+      mediaBox.style.opacity = '0';
+      setTimeout(() => {
+          mediaBox.innerHTML = html;
+          mediaBox.style.opacity = '1';
+      }, 150);
   };
 
   window.openPortfolioDetail = async function(slug){
@@ -2537,26 +2700,21 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
       const resEl = document.getElementById('pf-result');
       if (resEl) resEl.textContent = d.result || d.title || '혁신적인 결과물로 비즈니스의 가치를 증명합니다.';
       
-      const getYTID = (url) => {
-          if(!url) return null;
-          const m = url.match(/(?:https?:)?\/\/(?:www\.)?(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/|live\/)|youtu\.be\/)([\w-]{11})/);
-          return m ? m[1] : null;
-      };
-      const isVid = (p) => /\.(mp4|webm|mov|avi)$/i.test(String(p).split('?')[0]);
-      const cleanPath = (p) => (!String(p).startsWith('http') && !String(p).startsWith('/')) ? '/' + p : p;
+
       
-      let slides = [];
-      if(d.thumbnail) {
-          const ytId = getYTID(d.thumbnail);
-          slides.push({ src: cleanPath(d.thumbnail), type: ytId ? 'youtube' : (isVid(d.thumbnail)?'video':'image'), ytId });
-      }
+      let allUrls = [];
+      if(d.thumbnail) allUrls.push(cleanPath(d.thumbnail));
       if(d.images && d.images.length) {
           d.images.forEach(i => {
-              const src = (typeof i === 'string') ? i : (i.image_path || i.url || '');
-              const ytId = getYTID(src);
-              slides.push({ src: cleanPath(src), type: ytId ? 'youtube' : (isVid(src)?'video':'image'), ytId });
+              const src = cleanPath((typeof i === 'string') ? i : (i.image_path || i.url || ''));
+              if(src && !allUrls.includes(src)) allUrls.push(src);
           });
       }
+
+      const slides = allUrls.map(url => {
+          const ytId = getYouTubeId(url);
+          return { src: url, type: ytId ? 'youtube' : (isVideo(url)?'video':'image'), ytId };
+      });
 
       slideCount = slides.length; slideIdx = 0;
       const se=document.getElementById('pf-slides');
@@ -2587,6 +2745,27 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
   document.getElementById('pf-close')?.addEventListener('click',closePF);
   document.getElementById('pf-modal')?.addEventListener('click',e=>{ if(e.target===e.currentTarget) closePF(); });
   document.addEventListener('keydown',e=>{ if(e.key==='Escape') closePF(); });
+
+  // ── Cinema Mode Media Click Navigation ──
+  document.getElementById('pf-media-area')?.addEventListener('click', e => {
+      // 도구 버튼이나 네비게이션 버튼 클릭 시에는 무시
+      if (e.target.closest('button')) return;
+      const rect = e.currentTarget.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      if (x < rect.width / 3) pfGoSlide(slideIdx - 1);
+      else if (x > rect.width * 2 / 3) pfGoSlide(slideIdx + 1);
+  });
+
+  // ── Touch Swipe Support (Mobile) ──
+  let touchStartX = 0;
+  document.getElementById('pf-media-area')?.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+  document.getElementById('pf-media-area')?.addEventListener('touchend', e => {
+      let touchEndX = e.changedTouches[0].screenX;
+      if (touchStartX - touchEndX > 50) pfGoSlide(slideIdx + 1);
+      if (touchEndX - touchStartX > 50) pfGoSlide(slideIdx - 1);
+  }, { passive: true });
 
   // Parallax Effect for index background (Disabled in single view)
   /*
