@@ -522,9 +522,17 @@ body.light-mode .impact-main-text, body.light-mode .impact-info-name { color: #1
 .pf-chips{display:flex;flex-wrap:wrap;gap:.5rem;}
 .pf-chip{padding:4px 12px;border:1px solid rgba(255,255,255,.1);border-radius:999px;font-size:.75rem;color:rgba(255,255,255,.4);}
 
-/* CHATBOT */
-.chat-suite{position:fixed;bottom:30px;right:30px;z-index:2000;}
-.chat-win{position:absolute;bottom:76px;right:0;width:340px;height:490px;background:#0d0d0d;border:1px solid rgba(255,255,255,.1);border-radius:20px;display:flex;flex-direction:column;transform:translateY(20px);opacity:0;pointer-events:none;transition:.4s cubic-bezier(.175,.885,.32,1.275);overflow:hidden;}
+/* CHATBOT & FIXED ACTIONS */
+.fixed-actions { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 15px; z-index: 10001; opacity: 0.3; transition: all 0.3s ease; }
+.fixed-actions:hover, .fixed-actions:active { opacity: 1; }
+.action-btn { width: 58px; height: 58px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: #fff; border: none; cursor: pointer; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 10px 20px rgba(0,0,0,0.3); text-decoration: none; position: relative; }
+.kakao-btn { background: #FEE500; color: #3C1E1E; }
+.top-btn { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); opacity: 0; visibility: hidden; transform: translateY(20px); }
+.top-btn.on { opacity: 1; visibility: visible; transform: translateY(0); }
+body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+.action-btn:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 15px 30px rgba(0,0,0,0.4); }
+
+.chat-win{position:fixed;bottom:106px;right:30px;width:340px;height:490px;background:#0d0d0d;border:1px solid rgba(255,255,255,.1);border-radius:20px;display:flex;flex-direction:column;transform:translateY(20px);opacity:0;pointer-events:none;transition:.4s cubic-bezier(.175,.885,.32,1.275);overflow:hidden;z-index:10002;}
 .chat-win.on{transform:translateY(0);opacity:1;pointer-events:all;}
 .chat-hd{padding:1.2rem 1.5rem;background:#111;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,255,255,.06);}
 .chat-av{width:36px;height:36px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.7rem;color:#fff;}
@@ -539,8 +547,7 @@ body.light-mode .impact-main-text, body.light-mode .impact-info-name { color: #1
 .chat-opts button:hover{background:rgba(0,136,255,0.15);border-color:#0088ff;color:#fff;transform:translateY(-2px);}
 .chat-close{margin-left:auto;background:none;border:none;color:rgba(255,255,255,0.4);font-size:1.4rem;cursor:pointer;transition:.2s;}
 .chat-close:hover{color:#fff;}
-.chat-toggle{width:58px;height:58px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;cursor:pointer;position:relative;transition:.3s;box-shadow: 0 4px 20px rgba(230,57,70, 0.4);}
-.chat-toggle:hover{transform:scale(1.08);}
+.chat-toggle{background:var(--primary); box-shadow: 0 4px 20px rgba(230,57,70, 0.4);}
 .pulse-r{position:absolute;inset:0;border-radius:50%;border:2px solid rgba(230,57,70, 0.5);animation:pr 2s infinite;}
 @keyframes pr{0%{transform:scale(1);opacity:.7;}100%{transform:scale(1.5);opacity:0;}}
 
@@ -982,9 +989,9 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
     <li><a href="#journey">스토리</a></li>
     <li><a href="#contact">문의하기</a></li>
   </ul>
-  <a href="#contact" class="nav-cta">문의하기</a>
   <button id="nav-toggle" class="nav-toggle"><i class="fa fa-bars"></i></button>
 </nav>
+<div id="index-page">
 
 <!-- MOBILE MENU OVERLAY -->
 <div class="mobile-menu" id="mobile-menu">
@@ -1298,107 +1305,143 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
         <span>SEOUL, SOUTH KOREA</span>
     </div>
 </footer>
+  </div> <!-- #index-page wrapper end -->
 
 <!-- PORTFOLIO MODAL (PREMIUM WIDE VISUAL-FIRST) -->
 <style>
-/* MODAL STYLES (MATCHING WORK.HTML FULL IMMERSIVE) */
-#pf-modal { position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.95); backdrop-filter:blur(30px); display:none; align-items:center; justify-content:center; opacity:0; transition:0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+/* MODAL STYLES (Soojin Immersive Style - Synchronized) */
+#pf-modal { position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.2); backdrop-filter:blur(40px); display:none; align-items:center; justify-content:center; opacity:0; transition:0.4s ease; }
 #pf-modal.open { display:flex; opacity:1; visibility:visible; }
-#pf-box { width:95%; max-width:1600px; height:90vh; background:#050505; border:1px solid rgba(255,255,255,0.1); border-radius:40px; position:relative; overflow-y:auto; overflow-x:hidden; transform:translateY(50px); transition:0.6s cubic-bezier(0.16, 1, 0.3, 1); box-shadow:0 100px 200px rgba(0,0,0,0.8); }
+#pf-modal.open ~ .fixed-actions, #pf-modal.open ~ #film-grain, #pf-modal.open ~ #banner { display:none !important; }
+#pf-modal.open ~ .chat-win { display:none !important; }
+#pf-box { width:100%; height:100vh; position:relative; overflow:hidden; transform:translateY(30px); transition:0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+#pf-box::-webkit-scrollbar { display: none; }
 #pf-modal.open #pf-box { transform:translateY(0); }
-#pf-close { position:absolute; top:40px; right:40px; background:rgba(255,255,255,0.1); border:none; width:60px; height:60px; border-radius:30px; color:#fff; font-size:1.5rem; cursor:pointer; z-index:100; transition:0.3s; display:flex; align-items:center; justify-content:center; }
-#pf-close:hover { background:var(--primary); transform:rotate(90deg); }
 
-#pf-content { display:flex; flex-direction:column; width:100%; }
-#pf-media-area { width:100%; height:80vh; position:relative; overflow:hidden; background:#000; }
-#pf-slides { display:flex; width:100%; height:100%; transition:0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
-.pf-slide-item { flex:0 0 100%; height:100%; display:flex; align-items:center; justify-content:center; overflow:hidden; }
-.pf-slide-item img, .pf-slide-item video, .pf-slide-item iframe { width:100%; height:100%; object-fit:contain; }
-.pf-nav { position:absolute; top:50%; transform:translateY(-50%); width:80px; height:80px; background:rgba(0,0,0,0.3); border:none; color:#fff; font-size:1.5rem; cursor:pointer; z-index:10; border-radius:50%; transition:0.3s; display:flex; align-items:center; justify-content:center; }
-.pf-nav:hover { background:var(--primary); }
-#pf-prev { left:40px; } #pf-next { right:40px; }
-#pf-dots { position:absolute; bottom:40px; left:50%; transform:translateX(-50%); display:flex; gap:10px; z-index:10; }
-.pf-dot { width:8px; height:8px; border-radius:4px; background:rgba(255,255,255,0.3); border:none; cursor:pointer; transition:0.3s; }
+#pf-counter { position:fixed; top:40px; left:40px; color:#fff; font-size:1rem; font-weight:800; letter-spacing:0.1em; z-index:101; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+#pf-close { position:fixed; top:40px; right:40px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); width:60px; height:60px; border-radius:30px; color:#fff; font-size:1.5rem; cursor:pointer; z-index:101; transition:0.3s; display:flex; align-items:center; justify-content:center; backdrop-filter: blur(10px); }
+#pf-close:hover { background:var(--primary); transform:rotate(90deg); border-color: transparent; }
+
+#pf-content { width:100%; height:100vh; position:relative; }
+#pf-media-area { width:100%; height:100vh; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; background: transparent; }
+#pf-slides { display:flex; width:100%; height:100%; }
+.pf-slide-item { flex:0 0 100%; height:100%; display:flex; align-items:center; justify-content:center; padding:0; }
+.pf-slide-item img, .pf-slide-item video { max-width:95%; max-height:90%; width:auto; height:auto; object-fit:contain; border-radius:10px; box-shadow:0 20px 50px rgba(0,0,0,0.5); }
+.pf-slide-item iframe { width:85vw; height:calc(85vw * 9 / 16); max-width:1400px; max-height:80vh; border:none; border-radius:12px; box-shadow:0 30px 60px rgba(0,0,0,0.5); }
+@media (max-width: 768px) {
+    .pf-slide-item iframe { width:100vw; height:calc(100vw * 9 / 16); }
+    .pf-slide-item img, .pf-slide-item video { max-width:100%; max-height:80vh; border-radius:0; }
+}
+
+.pf-nav { position:fixed; top:50%; transform:translateY(-50%); width:100px; height:100px; background:transparent; border:none; color:rgba(255,255,255,0.2); font-size:2.5rem; cursor:pointer; z-index:90; transition:0.3s; display:flex; align-items:center; justify-content:center; }
+.pf-nav:hover { color:#fff; background:rgba(255,255,255,0.05); }
+#pf-prev { left:20px; } #pf-next { right:20px; }
+
+#pf-info-area { position:absolute; bottom:0; left:0; width:100%; padding:80px 60px 50px; text-align:left; z-index:100; background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 60%, transparent 100%); pointer-events: none; }
+#pf-info-area > * { pointer-events: auto; }
+.pf-meta { display:flex; gap:15px; font-size:0.75rem; font-weight:900; letter-spacing:0.15em; text-transform:uppercase; color:var(--primary); margin-bottom:10px; opacity:0.8; }
+#pf-title { font-size:clamp(2rem, 5vw, 4rem); font-weight:950; letter-spacing:-0.03em; color:#fff; margin-bottom:10px; line-height:1.1; text-shadow: 0 5px 20px rgba(0,0,0,0.5); }
+.pf-desc-block { max-width:700px; }
+.pf-desc-block h3 { display:none; } /* 캡처 스타일을 위해 Summary 제목 숨김 */
+#pf-result { font-size:1.1rem; line-height:1.6; color:rgba(255,255,255,0.8); font-weight:500; word-break:keep-all; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+
+#pf-tools { position:fixed; top:40px; right:120px; display:flex; gap:10px; z-index:105; background:rgba(255,255,255,0.05); padding:8px 15px; border-radius:30px; border:1px solid rgba(255,255,255,0.1); backdrop-filter:blur(10px); transition: 0.3s; }
+.pf-tool-btn { background:none; border:none; color:rgba(255,255,255,0.6); font-size:1.1rem; cursor:pointer; padding:5px 12px; transition:0.3s; display:flex; align-items:center; gap:8px; }
+.pf-tool-btn:hover { color:#fff; }
+.pf-tool-btn i { font-size:0.9rem; }
+.pf-tool-div { width:1px; height:15px; background:rgba(255,255,255,0.1); align-self:center; }
+
+#pf-dots { display:flex; gap:12px; z-index:10; }
+.pf-dot { width:10px; height:10px; border-radius:5px; background:rgba(255,255,255,0.2); border:none; cursor:pointer; transition:0.3s; }
 .pf-dot.on { width:40px; background:var(--primary); }
 
-#pf-info-area { padding:100px 80px; max-width:1000px; margin:0 auto; text-align:center; }
-.pf-meta { display:flex; justify-content:center; gap:20px; font-size:0.9rem; font-weight:800; letter-spacing:0.2em; text-transform:uppercase; color:var(--primary); margin-bottom:30px; }
-#pf-title { font-size:4rem; font-weight:950; letter-spacing:-0.05em; color:#fff; margin-bottom:60px; line-height:1.1; }
-.pf-desc-block { background:rgba(255,255,255,0.03); padding:60px; border-radius:30px; border:1px solid rgba(255,255,255,0.05); }
-.pf-desc-block h3 { color:var(--primary); font-size:0.8rem; font-weight:900; letter-spacing:0.3em; text-transform:uppercase; margin-bottom:20px; }
-#pf-result { font-size:1.5rem; line-height:1.6; color:rgba(255,255,255,0.7); font-weight:600; }
-.pf-scroll-guide { margin-top:60px; color:rgba(255,255,255,0.2); font-size:0.8rem; font-weight:800; text-transform:uppercase; letter-spacing:0.1em; }
-.pf-scroll-guide i { display:block; margin-top:10px; animation: modal-bounce-new 2s infinite; }
-
-@keyframes modal-bounce-new { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
-
-@media (max-width: 1024px) {
-    #pf-box { height:100vh; width:100%; border-radius:0; }
-    #pf-title { font-size:2.5rem; }
-    #pf-info-area { padding:60px 30px; }
-    .pf-desc-block { padding:30px; }
-    #pf-prev, #pf-next { width:50px; height:50px; font-size:1rem; }
+@media (max-width: 768px) {
+    #pf-counter { top:20px; left:20px; }
+    #pf-close { top:20px; right:20px; width:45px; height:45px; font-size:1.2rem; }
+    #pf-info-area { padding:50px 25px 30px; }
+    #pf-title { font-size:1.8rem; }
+    #pf-result { font-size:0.95rem; }
+    .pf-slide-item { padding:0; }
+    .pf-nav { width:60px; font-size:1.5rem; }
 }
 </style>
 
 <div id="pf-modal">
   <div id="pf-box">
+    <!-- UI Elements -->
+    <div id="pf-counter">1 / 1</div>
+    
+    <div id="pf-tools">
+      <button class="pf-tool-btn" onclick="pfZoom(-0.2)" title="축소"><i class="fa fa-minus"></i></button>
+      <div class="pf-tool-div"></div>
+      <button class="pf-tool-btn" onclick="pfZoom(0.2)" title="확대"><i class="fa fa-plus"></i></button>
+      <div class="pf-tool-div"></div>
+      <button class="pf-tool-btn" onclick="pfZoom(0)" title="원본 크기"><i class="fa fa-expand"></i></button>
+      <div class="pf-tool-div"></div>
+      <button class="pf-tool-btn" onclick="pfToggleFullscreen()" title="전체화면"><i class="fa fa-maximize"></i></button>
+    </div>
+
     <button id="pf-close"><i class="fa fa-times"></i></button>
+    
     <div id="pf-content">
       <div id="pf-media-area">
         <div id="pf-slides"></div>
         <button id="pf-prev" class="pf-nav"><i class="fa fa-chevron-left"></i></button>
         <button id="pf-next" class="pf-nav"><i class="fa fa-chevron-right"></i></button>
-        <div id="pf-dots"></div>
       </div>
+      
       <div id="pf-info-area">
         <div class="pf-meta">
           <span id="pf-tag">Category</span>
-          <span id="pf-client">Client Info</span>
+          <span id="pf-client" style="color:rgba(255,255,255,0.4)">Client Info</span>
         </div>
         <h2 id="pf-title">Project Title</h2>
         <div class="pf-desc-block">
-          <h3>The Result</h3>
-          <p id="pf-result">비즈니스 성장의 결과물을 시원한 비주얼로 확인하세요.</p>
+          <h3>Summary</h3>
+          <p id="pf-result">사업의 가치를 증명하는 창의적인 결과물입니다.</p>
         </div>
-        <div class="pf-scroll-guide">
-          <span>Scroll down to see more</span>
-          <i class="fa fa-chevron-down"></i>
-        </div>
+        <div id="pf-dots" style="margin-top:40px; justify-content:flex-start;"></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- CHATBOT -->
-<div class="chat-suite">
-  <div id="chat-win" class="chat-win">
-    <div class="chat-hd">
-      <div class="chat-av">THE3</div>
-      <div>
-        <strong style="display:block;font-size:.9rem;color:#fff;">THE3 도우미</strong>
-        <span style="font-size:.7rem;color:rgba(255,255,255,.35);">답변이 빨라요!</span>
-      </div>
-      <button class="chat-close" id="close-chat">✕</button>
+<!-- FLOATING SUITE -->
+<div id="chat-win" class="chat-win">
+  <div class="chat-hd">
+    <div class="chat-av">THE3</div>
+    <div>
+      <strong style="display:block;font-size:.9rem;color:#fff;">THE3 도우미</strong>
+      <span style="font-size:.7rem;color:rgba(255,255,255,.35);">답변이 빨라요!</span>
     </div>
-    <div class="chat-msgs" id="chat-messages">
-      <div class="msg bot">안녕하세요 사장님! 😊 THE3 STUDIO가 사장님의 성장을 함께 책임지겠습니다!</div>
-    </div>
-    <div id="chat-input-area" class="chat-inp" style="display:none;">
-      <input type="text" id="chat-input" placeholder="성함을 입력해 주세요...">
-      <button id="send-chat">전송</button>
-    </div>
-    <div id="chat-options" class="chat-opts">
-      <button onclick="chatOpt('가격')">💰 가격 궁금해요</button>
-      <button onclick="chatOpt('기간')">⏱ 얼마나 걸려요?</button>
-      <button onclick="chatOpt('효과')">📈 효과 있나요?</button>
-      <button onclick="chatOpt('상담')">💬 상담 신청</button>
-    </div>
+    <button class="chat-close" id="close-chat">✕</button>
   </div>
-  <a href="javascript:void(0)" id="chat-toggle" class="chat-toggle">
+  <div class="chat-msgs" id="chat-messages">
+    <div class="msg bot">안녕하세요 사장님! 😊 THE3 STUDIO가 사장님의 성장을 함께 책임지겠습니다!</div>
+  </div>
+  <div id="chat-input-area" class="chat-inp" style="display:none;">
+    <input type="text" id="chat-input" placeholder="성함을 입력해 주세요...">
+    <button id="send-chat">전송</button>
+  </div>
+  <div id="chat-options" class="chat-opts">
+    <button onclick="chatOpt('가격')">💰 가격 궁금해요</button>
+    <button onclick="chatOpt('기간')">⏱ 얼마나 걸려요?</button>
+    <button onclick="chatOpt('효과')">📈 효과 있나요?</button>
+    <button onclick="chatOpt('상담')">💬 상담 신청</button>
+  </div>
+</div>
+
+<div class="fixed-actions">
+  <a href="http://pf.kakao.com/_xxxx" target="_blank" class="action-btn kakao-btn" title="카카오톡 상담">
+    <i class="fa-solid fa-comment"></i>
+  </a>
+  <a href="javascript:void(0)" id="chat-toggle" class="action-btn chat-toggle" title="문의하기">
     <span class="pulse-r"></span>
     <i class="fa-solid fa-comment-dots" style="font-size:1.4rem;color:#fff;position:relative;z-index:1;"></i>
   </a>
+  <button id="scroll-top" class="action-btn top-btn" title="위로 올라가기">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
 </div>
 
 <!-- BANNER -->
@@ -2231,16 +2274,59 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
     }
   });
 
-  // ── PORTFOLIO MODAL (CARD NEWS STYLE) ──
-  let slideIdx=0, slideCount=0;
+  // ── PORTFOLIO MODAL (Soojin Style - Instant Swap) ──
+  let slideIdx=0, slideCount=0, currentZoom=1;
   window.pfGoSlide = function(n){
-    document.querySelectorAll('#pf-slides video').forEach(v => v.pause());
+    const slides = document.querySelectorAll('#pf-slides video');
+    slides.forEach(v => v.pause());
     slideIdx=(n+slideCount)%slideCount;
+    
+    // Reset Zoom on slide change
+    currentZoom = 1;
+    window.updatePfZoom();
+
     const se = document.getElementById('pf-slides');
-    if(se) se.style.transform=`translateX(-${slideIdx*100}%)`;
+    if(se) {
+        se.style.transition = 'none';
+        se.style.transform=`translateX(-${slideIdx*100}%)`;
+        se.style.opacity = '0';
+        requestAnimationFrame(() => {
+            se.style.transition = 'opacity 0.3s ease';
+            se.style.opacity = '1';
+        });
+    }
+    
+    const counter = document.getElementById('pf-counter');
+    if(counter) counter.textContent = `${slideIdx + 1} / ${slideCount}`;
+    
     document.querySelectorAll('.pf-dot').forEach((d,i)=>d.classList.toggle('on',i===slideIdx));
     const cur = document.querySelectorAll('#pf-slides video, #pf-slides img')[slideIdx];
     if(cur && cur.tagName==='VIDEO') cur.play().catch(()=>{});
+  };
+
+  window.pfZoom = function(delta) {
+    if(delta === 0) currentZoom = 1;
+    else currentZoom = Math.max(0.5, Math.min(3, currentZoom + delta));
+    window.updatePfZoom();
+  };
+
+  window.updatePfZoom = function() {
+    const activeSlide = document.querySelectorAll('.pf-slide-item')[slideIdx];
+    if(!activeSlide) return;
+    const media = activeSlide.querySelector('img, video, iframe');
+    if(media) {
+      media.style.transition = 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)';
+      media.style.transform = `scale(${currentZoom})`;
+    }
+  };
+
+  window.pfToggleFullscreen = function() {
+    const area = document.getElementById('pf-media-area');
+    if(!document.fullscreenElement) {
+      area.requestFullscreen().catch(err => console.warn(err));
+    } else {
+      if (document.exitFullscreen) document.exitFullscreen();
+    }
   };
 
   window.closePF = function(){
@@ -2248,6 +2334,7 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
     const modal = document.getElementById('pf-modal');
     if(modal) modal.classList.remove('open');
     document.body.style.overflow='';
+    document.getElementById('index-page').style.transform = '';
   };
 
   window.openPortfolioDetail = async function(slug){
@@ -2274,13 +2361,13 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
 
       if(titleEl) titleEl.textContent=d.title||'';
       const clientEl = document.getElementById('pf-client');
-      if(clientEl) clientEl.textContent=d.client?`Client: ${d.client}${d.year?' · '+d.year:''}`:d.year||'';
+      if(clientEl) clientEl.textContent=d.client || d.year || '';
       
       const tagEl = document.getElementById('pf-tag');
       if(tagEl) tagEl.textContent={branding:'Branding',consulting:'Consulting',video:'Video',integrated:'Integrated'}[d.category]||d.category;
       
       const resEl = document.getElementById('pf-result');
-      if (resEl) resEl.textContent = d.result || d.title || '성공적인 비즈니스 파트너십의 결과물입니다.';
+      if (resEl) resEl.textContent = d.result || d.title || '혁신적인 결과물로 비즈니스의 가치를 증명합니다.';
       
       const getYTID = (url) => {
           if(!url) return null;
@@ -2304,12 +2391,12 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
       }
 
       slideCount = slides.length; slideIdx = 0;
-      const se=document.getElementById('pf-slides'), de=document.getElementById('pf-dots');
-      const pv=document.getElementById('pf-prev'), nx=document.getElementById('pf-next');
+      const se=document.getElementById('pf-slides');
+      const counter = document.getElementById('pf-counter');
       
       if(!slideCount){
         se.innerHTML='<div class="pf-slide-item"><i class="fa-solid fa-image fa-3x" style="opacity:0.1;"></i></div>';
-        de.innerHTML=''; if(pv) pv.style.display='none'; if(nx) nx.style.display='none';
+        if(counter) counter.textContent = '';
       } else {
         se.style.transform='translateX(0)';
         se.innerHTML = slides.map(s => {
@@ -2319,10 +2406,11 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
           else media = `<img src="${s.src}" alt="">`;
           return `<div class="pf-slide-item">${media}</div>`;
         }).join('');
-        de.innerHTML = slides.map((_,i) => `<button class="pf-dot${i===0?' on':''}" onclick="pfGoSlide(${i})"></button>`).join('');
-        if(pv) pv.style.display=slideCount>1?'flex':'none';
-        if(nx) nx.style.display=slideCount>1?'flex':'none';
+        if(counter) counter.textContent = `1 / ${slideCount}`;
       }
+      
+      const de = document.getElementById('pf-dots');
+      if(de) de.innerHTML = slides.map((_,i) => `<button class="pf-dot${i===0?' on':''}" onclick="pfGoSlide(${i})"></button>`).join('');
     } catch(err) { console.error(err); closePF(); }
   };
 
@@ -2331,6 +2419,15 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
   document.getElementById('pf-close')?.addEventListener('click',closePF);
   document.getElementById('pf-modal')?.addEventListener('click',e=>{ if(e.target===e.currentTarget) closePF(); });
   document.addEventListener('keydown',e=>{ if(e.key==='Escape') closePF(); });
+
+  // Parallax Effect for index background (Disabled in single view)
+  /*
+  document.getElementById('pf-box')?.addEventListener('scroll', function() {
+      const scrolled = this.scrollTop;
+      const bg = document.getElementById('index-page');
+      if(bg) bg.style.transform = `translateY(${scrolled * -0.15}px)`;
+  });
+  */
 
   // ── IMPACT STORIES LOADING (CONVERSATIONAL VERSION) ──
   (async function loadImpactStories() {
@@ -2400,6 +2497,16 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
   document.getElementById('chat-toggle')?.addEventListener('click',()=>cwin.classList.toggle('on'));
   document.getElementById('close-chat')?.addEventListener('click',()=>cwin.classList.remove('on'));
   document.getElementById('open-chat')?.addEventListener('click',e=>{e.preventDefault();cwin.classList.add('on');});
+
+  // ── FLOATING ACTIONS ──
+  const topBtn = document.getElementById('scroll-top');
+  if (topBtn) {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 500) topBtn.classList.add('on');
+      else topBtn.classList.remove('on');
+    });
+    topBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  }
 
   let cState='idle', lead={name:'',phone:''};
   window.chatOpt=function(t){
