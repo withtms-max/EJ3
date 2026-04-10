@@ -75,13 +75,19 @@ body{background:var(--bg-main);color:var(--text-main);font-family:'Pretendard', 
 
 /* NAV */
 nav{position:fixed;top:0;width:100%;display:flex;justify-content:space-between;align-items:center;padding:1.5rem 3rem;z-index:1000;transition:.3s;}
-nav.scrolled{background:var(--bg-card);backdrop-filter:blur(12px);padding:1rem 3rem;box-shadow:0 4px 20px rgba(0,0,0,.3);border-bottom:1px solid var(--border);}
-.nav-logo{font-family:'Outfit',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:-.05em;text-transform:uppercase;color:inherit;text-decoration:none;}
-.nav-links{display:flex;gap:2rem;list-style:none;}
-.nav-links li a{color:var(--text-dim);font-size:.85rem;font-weight:700;text-decoration:none;transition:.2s;}
-.nav-links li a:hover, .nav-links li a.active{color:var(--primary);}
-.nav-cta{display:inline-block;background:linear-gradient(135deg, #007aff 0%, #00c6ff 100%);color:#fff;padding:.7rem 1.8rem;border-radius:999px;font-size:.85rem;font-weight:800;text-decoration:none;letter-spacing:.05em;text-transform:uppercase;transition:.3s;box-shadow: 0 10px 20px rgba(0, 102, 255, 0.25);border: none;}
-.nav-cta:hover{transform: translateY(-2px); box-shadow: 0 15px 30px rgba(0, 102, 255, 0.4);}
+nav.scrolled{background: var(--bg-card); backdrop-filter:blur(12px);padding:1rem 3rem;box-shadow:0 10px 30px rgba(0,0,0,.3);}
+/* Nav items when NOT scrolled */
+nav:not(.scrolled) .nav-logo { color: var(--text-main); }
+nav:not(.scrolled) .nav-links li a { color: var(--text-dim) !important; font-weight: 800; }
+.nav-logo{font-family:'Outfit',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:-.05em;text-transform:uppercase;color: var(--text-main);border:none;padding:0;text-decoration:none;}
+.nav-logo span { color: var(--primary); }
+.nav-links{display:flex;gap:2rem;list-style:none;align-items:center;z-index: 1001;}
+.nav-links li a{color: var(--text-main) !important;font-size:0.85rem;font-weight:800;text-decoration:none;transition:.2s;letter-spacing:0.05rem;text-transform:uppercase; opacity: 1 !important;}
+nav.scrolled .nav-links li a{color: var(--text-main) !important;}
+nav.scrolled .nav-logo{color: var(--text-main) !important;}
+.nav-links li a:hover, .nav-links li a.active{color:var(--primary) !important;}
+.nav-cta{display:inline-block;background:var(--primary);color:#fff !important;padding:.7rem 1.8rem;border-radius:999px;font-size:.85rem;font-weight:800;text-decoration:none;letter-spacing:.02em;text-transform:uppercase;transition:.4s cubic-bezier(0.16, 1, 0.3, 1);box-shadow: 0 10px 20px rgba(200, 16, 46, 0.3);border:none;}
+.nav-cta:hover{transform: translateY(-2px); box-shadow: 0 15px 30px rgba(200, 16, 46, 0.4); filter: brightness(1.2);}
 
 /* HERO */
 .work-hero { 
@@ -219,13 +225,24 @@ footer { padding: 4rem 2rem; border-top: 1px solid var(--border); text-align: ce
 
 /* MOBILE MENU & RESPONSIVE FIXES */
 .nav-toggle { display: none; background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; z-index: 1001; }
-.mobile-menu { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.95); backdrop-filter: blur(20px); z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center; transform: translateY(-100%); transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); opacity: 0; visibility: hidden; }
+.mobile-menu { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transform: translateY(-100%); transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1); opacity: 0; visibility: hidden; }
 .mobile-menu.on { transform: translateY(0); opacity: 1; visibility: visible; }
 .mobile-links { list-style: none; padding: 0; text-align: center; }
-.mobile-links li { margin: 2rem 0; }
-.mobile-links li a { color: #fff; font-size: 1.8rem; font-weight: 800; text-decoration: none; transition: 0.3s; }
+.mobile-links li { margin: 1.5rem 0; opacity: 0; transform: translateY(20px); transition: 0.4s ease; }
+.mobile-menu.on .mobile-links li { opacity: 1; transform: translateY(0); transition-delay: calc(0.1s * var(--item-index)); }
+.mobile-links li a { color: #fff; font-size: 2.2rem; font-weight: 950; text-decoration: none; transition: 0.3s; letter-spacing: -0.05em; display: flex; align-items: baseline; gap: 1rem; }
+.mobile-links li a small { font-family: 'Outfit', sans-serif; font-size: 0.9rem; font-weight: 400; color: var(--primary); opacity: 0.8; }
 .mobile-links li a:active { color: var(--primary); }
-.close-mobile { position: absolute; top: 2rem; right: 2rem; background: none; border: none; color: #fff; font-size: 2rem; cursor: pointer; }
+.close-mobile { position: absolute; top: 2rem; right: 2rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; width: 54px; height: 54px; border-radius: 50%; font-size: 1.8rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+
+@media(max-width: 768px) {
+  .nav-links, .nav-cta { display: none !important; }
+  .nav-toggle { display: block !important; }
+}
+
+body.light-mode .mobile-menu { background: rgba(255,255,255,0.98); }
+body.light-mode .mobile-links li a { color: #111; }
+body.light-mode .close-mobile { color: #111; border-color: rgba(0,0,0,0.1); background: rgba(0,0,0,0.05); }
 
 @media(max-width: 640px) {
   nav { position: absolute; padding: 1.5rem; }
@@ -280,12 +297,13 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
 <script type="module" src="js/theme.js"></script>
 
 <nav id="navbar">
-  <a href="index.html" class="nav-logo">THE 3 STUDIO</a>
+  <a href="index.html" class="nav-logo">THE <span style="color:var(--primary);">3</span> STUDIO</a>
   <ul class="nav-links">
     <li><a href="index.html#home">홈</a></li>
-    <li><a href="work.html">포트폴리오</a></li>
-    <li><a href="index.html#team">전문가 서비스</a></li>
+    <li><a href="index.html#team">전문가&서비스</a></li>
+    <li><a href="work.html" class="active">포트폴리오</a></li>
     <li><a href="index.html#journey">스토리</a></li>
+    <li><a href="index.html#contact">문의하기</a></li>
   </ul>
   <button id="nav-toggle" class="nav-toggle"><i class="fa fa-bars"></i></button>
 </nav>
@@ -295,11 +313,11 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
 <div class="mobile-menu" id="mobile-menu">
   <button class="close-mobile" id="close-mobile">&times;</button>
   <ul class="mobile-links">
-    <li><a href="index.html#home" onclick="toggleMobileMenu()">홈</a></li>
-    <li><a href="work.html" onclick="toggleMobileMenu()">포트폴리오</a></li>
-    <li><a href="index.html#team" onclick="toggleMobileMenu()">전문가 서비스</a></li>
-    <li><a href="index.html#journey" onclick="toggleMobileMenu()">스토리</a></li>
-    <li><a href="index.html#contact" onclick="toggleMobileMenu()">문의하기</a></li>
+    <li style="--item-index:1;"><a href="index.html#home" onclick="toggleMobileMenu()"><small>01</small> 홈</a></li>
+    <li style="--item-index:2;"><a href="index.html#team" onclick="toggleMobileMenu()"><small>02</small> 전문가&서비스</a></li>
+    <li style="--item-index:3;"><a href="work.html" onclick="toggleMobileMenu()"><small>03</small> 포트폴리오</a></li>
+    <li style="--item-index:4;"><a href="index.html#journey" onclick="toggleMobileMenu()"><small>04</small> 스토리</a></li>
+    <li style="--item-index:5;"><a href="index.html#contact" onclick="toggleMobileMenu()"><small>05</small> 문의하기</a></li>
   </ul>
 </div>
 
@@ -348,7 +366,7 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
     });
 
     // Mobile Menu Toggle
-    const toggleMobileMenu = () => {
+    window.toggleMobileMenu = () => {
       const mobileMenu = document.getElementById('mobile-menu');
       if (mobileMenu) { // Check if mobileMenu exists
         mobileMenu.classList.toggle('on');
