@@ -86,13 +86,8 @@
     </header>
 
     <div class="filter-section">
-        <div class="tabs-container">
-            <button class="tab-btn active" data-cat="all">All</button>
-            <button class="tab-btn" data-cat="calligraphy">캘리그라피 상호디자인</button>
-            <button class="tab-btn" data-cat="video">내가게 돈되는 영상만들기</button>
-            <button class="tab-btn" data-cat="storyboard">우리매장 스토리보드</button>
-            <button class="tab-btn" data-cat="photo">내가게의 사진촬영</button>
-            <button class="tab-btn" data-cat="character">내가게의 캐릭터만들기</button>
+        <div class="tabs-container" id="filter-tabs">
+            <div style="padding:10px; opacity:0.5;">Loading categories...</div>
         </div>
     </div>
 
@@ -112,6 +107,45 @@
 
         const grid = document.getElementById('pf-grid');
         const tabBtns = document.querySelectorAll('.tab-btn');
+
+        window.currentCat = 'all';
+        async function renderDynamicCategories() {
+            const tabsContainer = document.getElementById('filter-tabs');
+            if (!tabsContainer) return;
+            
+            let cats = [];
+            try {
+                const { getDoc, doc } = await import('./js/firebase-init.js');
+                const snap = await getDoc(doc(window.db || db, 'settings', 'categories'));
+                if(snap.exists() && snap.data().list) cats = snap.data().list;
+            } catch(e) {}
+            
+            window.categoryLabel = {};
+            let html = '';
+            cats.forEach((c, index) => {
+                window.categoryLabel[c.id] = c.label.replace(/^\d+>\s*/, '');
+                html += `<button class="tab-btn ${index === 0 ? 'active' : ''}" data-cat="${c.id}">${c.label.replace(/^\d+>\s*/, '')}</button>`;
+            });
+            tabsContainer.innerHTML = html;
+            
+            if (cats.length > 0 && window.currentCat === 'all') {
+                window.currentCat = cats[0].id;
+            }
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    window.currentCat = btn.dataset.cat;
+                    loadWorks(window.currentCat);
+                });
+            });
+            
+            if(cats.length > 0) {
+                window.currentCat = cats[0].id;
+                loadWorks(window.currentCat);
+            }
+        }
 
         async function loadWorks(filter = 'all') {
             try {
@@ -156,15 +190,9 @@
             } catch (err) { console.error(err); }
         }
 
-        tabBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                tabBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                loadWorks(btn.dataset.cat);
-            });
-        });
+        
 
-        loadWorks();
+        renderDynamicCategories();
     </script>
 </body>
 </html>

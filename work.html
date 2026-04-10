@@ -268,21 +268,26 @@ body.light-mode .close-mobile { color: #111; border-color: rgba(0,0,0,0.1); back
 body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
 .action-btn:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 15px 30px rgba(0,0,0,0.4); }
 
+.chat-toggle { background: var(--primary); box-shadow: 0 4px 20px rgba(230,57,70, 0.4); }
+.pulse-r { position: absolute; inset: 0; border-radius: 50%; border: 2px solid rgba(230,57,70, 0.5); animation: pr 2s infinite; }
+@keyframes pr { 0% { transform: scale(1); opacity: .7; } 100% { transform: scale(1.5); opacity: 0; } }
+
 .chat-win{position:fixed;bottom:106px;right:30px;width:340px;height:490px;background:#0d0d0d;border:1px solid rgba(255,255,255,.1);border-radius:20px;display:flex;flex-direction:column;transform:translateY(20px);opacity:0;pointer-events:none;transition:.4s cubic-bezier(.175,.885,.32,1.275);overflow:hidden;z-index:10002;}
 .chat-win.on{transform:translateY(0);opacity:1;pointer-events:all;}
 .chat-hd{padding:1.2rem 1.5rem;background:#111;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,255,255,.06);}
-.chat-av{width:36px;height:36px;background:#C8102E;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.7rem;color:#fff;}
+.chat-av{width:36px;height:36px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.7rem;color:#fff;}
 .chat-msgs{flex:1;padding:1.2rem;overflow-y:auto;display:flex;flex-direction:column;gap:12px;background:#080808;}
 .msg{max-width:85%;padding:10px 16px;border-radius:16px;font-size:.88rem;line-height:1.5;}
 .bot{background:#1a1a1a;color:#fff;align-self:flex-start;border-bottom-left-radius:4px;border:1px solid rgba(255,255,255,.06);}
-.usr{background:#C8102E;color:#fff;align-self:flex-end;border-bottom-right-radius:4px;}
+.usr{background:var(--primary);color:#fff;align-self:flex-end;border-bottom-right-radius:4px;}
 .chat-inp{padding:16px;display:flex;gap:8px;border-top:1px solid rgba(255,255,255,.06);background:#111;}
 .chat-inp input{flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#fff;padding:10px 15px;border-radius:10px;font-size:0.85rem;outline:none;}
-.chat-inp button{background:#C8102E;color:#fff;border:none;padding:0 20px;border-radius:10px;font-weight:800;cursor:pointer;}
+.chat-inp button{background:var(--primary);color:#fff;border:none;padding:0 20px;border-radius:10px;font-weight:800;cursor:pointer;}
 .chat-opts{padding:16px;display:flex;flex-wrap:wrap;gap:8px;border-top:1px solid rgba(255,255,255,.06);background:#111;}
 .chat-opts button{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);padding:8px 16px;border-radius:999px;font-size:.78rem;font-weight:600;cursor:pointer;transition:.3s;white-space:nowrap;}
-.chat-opts button:hover{background:rgba(200,16,46,0.15);border-color:#C8102E;color:#fff;transform:translateY(-2px);}
+.chat-opts button:hover{background:rgba(200,16,46,0.15);border-color:var(--primary);color:#fff;transform:translateY(-2px);}
 .chat-close{margin-left:auto;background:none;border:none;color:rgba(255,255,255,0.4);font-size:1.4rem;cursor:pointer;transition:.2s;}
+
     box-shadow: 0 4px 20px rgba(200,16,46, 0.4); 
 }
 </style>
@@ -755,6 +760,59 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
     });
     */
 
+    
+    // FETCH AND RENDER DYNAMIC CATEGORIES
+    async function renderDynamicCategories() {
+        const tabsContainer = document.getElementById('filter-tabs');
+        if (!tabsContainer) return;
+        
+        let cats = [];
+        try {
+            const { getDoc, doc } = await import('./js/firebase-init.js');
+            const snap = await getDoc(doc(window.db || db, 'settings', 'categories'));
+            if(snap.exists() && snap.data().list) {
+                cats = snap.data().list;
+            }
+        } catch(e) {}
+        
+        if(!cats.length) {
+            cats = [
+                { id: 'calligraphy', label: '캘리그라피 상호디자인' },
+                { id: 'video', label: '내가게 돈되는 영상만들기' },
+                { id: 'storyboard', label: '우리매장 스토리보드' },
+                { id: 'photo', label: '내가게의 사진촬영' },
+                { id: 'character', label: '내가게의 캐릭터만들기' }
+            ];
+        }
+
+        
+        // Override categoryLabel mapping dynamically!
+        window.categoryLabel = {};
+        let html = '';
+        cats.forEach((c, index) => {
+            window.categoryLabel[c.id] = c.label.replace(/^\d+>\s*/, ''); // Store without prefix
+            html += `<button class="filter-tab ${index === 0 ? 'active' : ''}" data-cat="${c.id}">${c.label.replace(/^\d+>\s*/, '')}</button>`;
+        });
+        
+        tabsContainer.innerHTML = html;
+        if(cats.length > 0 && currentCat === 'all') {
+            currentCat = cats[0].id; // update the module scope variable
+        }
+    
+        // Reattach event listeners
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.addEventListener('click', function () {
+                document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                currentCat = this.dataset.cat;
+                if(typeof applyFilterAndSort === 'function') applyFilterAndSort();
+                if(typeof updateCinematicHero === 'function') updateCinematicHero(currentCat);
+            });
+        });
+    }
+    
+    // override loadWork or DOM load
+
     async function loadWork() {
         try {
             if (!allItems.length) {
@@ -767,6 +825,7 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
                     }
                 });
             }
+            await renderDynamicCategories();
             applyFilterAndSort();
         } catch (e) {
             document.getElementById('work-grid').innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:100px;color:rgba(255,255,255,.2)">데이터를 불러오지 못했습니다.</div>';
