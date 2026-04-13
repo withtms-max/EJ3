@@ -136,6 +136,9 @@ nav.scrolled .nav-logo{color: var(--text-main) !important;}
 @media (max-width: 768px) {
   .hero-video.video-mobile, .gallery-video.video-mobile {
     display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover !important;
   }
 }
 .hero-overlay {
@@ -611,7 +614,7 @@ body.light-mode .impact-main-text, body.light-mode .impact-info-name { color: #1
 .pf-close-btn:hover{background:var(--primary);color:#fff;}
 .pf-gallery{position:relative;width:100%;height:min(55vw,420px);overflow:hidden;border-radius:1.5rem 1.5rem 0 0;background:#000;}
 .pf-slides{display:flex;height:100%;transition:transform .45s cubic-bezier(.16,1,.3,1);}
-.pf-slide{min-width:100%;height:100%;object-fit:contain;}
+.pf-slide{min-width:100%;height:100%;object-fit:cover;}
 .pf-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1);color:#fff;width:44px;height:44px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.2rem;transition:.2s;z-index:5;}
 .pf-btn:hover{background:rgba(230,57,70, 0.3);color:#fff;}
 .pf-btn.prev{left:14px;} .pf-btn.next{right:14px;}
@@ -1534,7 +1537,7 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
 #pf-slides { display:flex; width:100%; height:100%; pointer-events: none; }
 .pf-slide-item { flex:0 0 100%; height:100%; display:flex; align-items:center; justify-content:center; padding: 0; transition: padding 0.5s; pointer-events: none; }
 .pf-slide-item img, .pf-slide-item video, .pf-slide-item iframe { pointer-events: auto; }
-.pf-slide-item img, .pf-slide-item video { max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain; border-radius:0; box-shadow:0 30px 100px rgba(0,0,0,0.8); transition: 0.5s; }
+.pf-slide-item img, .pf-slide-item video { width:100%; height:100%; object-fit:cover; border-radius:0; box-shadow:0 30px 100px rgba(0,0,0,0.8); transition: 0.5s; }
 .pf-slide-item iframe { width:100vw; height:100vh; max-width:100%; max-height:100%; border:none; border-radius:0; box-shadow:none; transition: 0.5s; z-index: 10; }
 
 
