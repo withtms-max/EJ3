@@ -44,12 +44,21 @@ body.light-mode {
 }
 
 *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
-html{scroll-behavior:smooth;}
+html {
+  scroll-behavior: smooth;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
 body{
   background: var(--bg-main);
   color: var(--text-main);
   font-family: 'Pretendard Variable', 'Pretendard', 'Inter', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
-  overflow-x:hidden;
   word-break:keep-all;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -1246,11 +1255,11 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
 
   <div class="fh-title" id="fh-title" style="z-index: 100; position: relative; opacity: 1 !important;">
     <!-- 1. hero-sub (Label) - admin: top:30% -->
-    <h3 id="hero-sub" style="font-weight:900; font-size:0.9rem; color:#E63946; letter-spacing:0.4rem; text-transform:uppercase; text-align:center; text-shadow:0 2px 8px rgba(0,0,0,0.8); white-space:nowrap;">The Premier Creative Agency</h3>
+    <h3 id="hero-sub" style="font-weight:900; font-size:0.9rem; color:#E63946; letter-spacing:0.4rem; text-transform:uppercase; text-align:center; text-shadow:0 2px 8px rgba(0,0,0,0.8); width: 100%;">The Premier Creative Agency</h3>
     <!-- 2. hero-subline - admin: top:42% -->
-    <div id="hero-subline" style="font-family:'Pretendard'; font-size:1.5rem; font-weight:700; color:rgba(255,255,255,0.85); letter-spacing:0.1em; text-align:center; white-space:nowrap; text-shadow:0 2px 8px rgba(0,0,0,0.8);">장사도 바쁜데,</div>
+    <div id="hero-subline" style="font-family:'Pretendard'; font-size:1.5rem; font-weight:700; color:rgba(255,255,255,0.85); letter-spacing:0.1em; text-align:center; text-shadow:0 2px 8px rgba(0,0,0,0.8); width: 100%;">장사도 바쁜데,</div>
     <!-- 3. hero-accent - admin: top:50%, min-width:800px -->
-    <div id="hero-accent" style="font-family:'Pretendard'; font-size:4rem; font-weight:900; line-height:1.15; text-align:center; word-break:keep-all; min-width:800px;">
+    <div id="hero-accent" style="font-family:'Pretendard'; font-size:4rem; font-weight:900; line-height:1.15; text-align:center; word-break:keep-all; width: 100%;">
       <span class="the3-accent">콘텐츠까지 고민하시나요?</span>
     </div>
     <!-- 4. hero-desc - admin: top:65% -->
@@ -2118,13 +2127,13 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
           const isAdminMode = window.location.hash.includes('admin');
 
           // 어드민 에디터와 1:1 동일 포지션 매핑
-          const posMap = [
-              { id: 'hero-sub',         top: '30%', key: 'off_label',   fsKey: 'off_label_fs',   defaultFS: 0.9,  nowrap: true },
-              { id: 'hero-subline',     top: '42%', key: 'off_subline', fsKey: 'off_subline_fs', defaultFS: 1.5,  nowrap: true },
-              { id: 'hero-accent',      top: '50%', key: 'off_main',   fsKey: 'off_main_fs',    defaultFS: 4,    minW: isMobile ? '90%' : '800px' },
-              { id: 'hero-desc',        top: '65%', key: 'off_desc',   fsKey: 'off_desc_fs',    defaultFS: 1.15, w: '85%', maxW: '850px' },
-              { id: 'hero-cta-wrapper', top: '80%', key: 'off_cta',    fsKey: 'off_cta_fs',     defaultFS: null }
-          ];
+              const posMap = [
+                  { id: 'hero-sub',         top: '30%', key: 'off_label',   fsKey: 'off_label_fs',   defaultFS: 0.9,  nowrap: !isMobile },
+                  { id: 'hero-subline',     top: '42%', key: 'off_subline', fsKey: 'off_subline_fs', defaultFS: 1.5,  nowrap: !isMobile },
+                  { id: 'hero-accent',      top: '50%', key: 'off_main',   fsKey: 'off_main_fs',    defaultFS: 4,    minW: isMobile ? '95%' : '800px' },
+                  { id: 'hero-desc',        top: '65%', key: 'off_desc',   fsKey: 'off_desc_fs',    defaultFS: 1.15, w: isMobile ? '90%' : '85%', maxW: '850px' },
+                  { id: 'hero-cta-wrapper', top: '80%', key: 'off_cta',    fsKey: 'off_cta_fs',     defaultFS: null }
+              ];
 
           // ── 3. [NEW] 3D 갤러리 클릭 전역 비활성 설정 ──
           window.globalDisable3DClick = (d.disable_3d_click === true || d.disable_3d_click == '1' || d.disable_3d_click === 1);
