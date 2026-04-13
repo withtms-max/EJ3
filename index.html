@@ -18,6 +18,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="stylesheet" href="css/style.css">
 <style>
+#index-page { width: 100% !important; max-width: 100% !important; margin: 0 !important; padding: 0 !important; overflow-x: hidden; }
 :root { 
     --primary: #C8102E; /* Premium Deep Crimson */ 
     --accent: #FF3C82; /* Dashboard-matching pink-red accent */
@@ -99,12 +100,15 @@ nav.scrolled .nav-logo{color: var(--text-main) !important;}
 /* FAN HERO SECTION (MATCH SCREENSHOT 1) */
 .fan-hero {
   min-height: 100vh;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
   display: flex !important;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 8rem 2rem 2rem;
+  padding: 8rem 0 2rem;
   overflow: hidden;
   position: relative;
   background: #000;
@@ -114,25 +118,25 @@ nav.scrolled .nav-logo{color: var(--text-main) !important;}
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
   transform: translate(-50%, -50%);
   z-index: 0;
   pointer-events: none;
-  display: none; /* 기본 숨김 */
+  display: none;
 }
 .gallery-video {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
   transform: translate(-50%, -50%);
   z-index: 0;
   pointer-events: none;
-  opacity: 0.5; /* 카드와 글자가 잘 보이도록 배경 투명도 조절 */
+  opacity: 0.5;
   display: none;
 }
 /* DESKTOP (Width > 768px) */
@@ -2118,7 +2122,7 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
           // ── 2. 어드민 1:1 절대 배치 시스템 (ABSOLUTE POSITIONING) ──
           const fhTitle = document.getElementById('fh-title');
           if(fhTitle) {
-              fhTitle.style.cssText = 'position:absolute; inset:0; display:block; width:100%; height:100%; max-width:none; padding:0; z-index:100;';
+              fhTitle.style.cssText = 'position:absolute; inset:0; display:block; width:100vw; height:100%; max-width:none; padding:0; z-index:100; left: 50%; transform: translateX(-50%);';
               if(d.text_opacity) fhTitle.style.opacity = (d.text_opacity || 100) / 100;
           }
 
