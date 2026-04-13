@@ -877,7 +877,7 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
   .nav-links li a { font-size: 0.76rem !important; letter-spacing: 0.01em !important; padding: 4px 0; color: #fff !important; opacity: 1 !important; font-weight: 800 !important; }
   .nav-cta, .nav-toggle { display:none !important; }
   .team-sect,.svc-sect,.journey-sect,.footer-sect{padding:3.5rem 1.5rem !important;}
-  .fan-hero { padding: 6rem 1rem 2rem; min-height: 100vh; }
+  .fan-hero { padding: 6rem 0 2rem; min-height: 100vh; }
   .fh-c1 { --fan-pos: translateX(-140px) translateY(30px) rotate(-15deg); }
   .fh-c2 { --fan-pos: translateX(-70px) translateY(10px) rotate(-8deg); }
   .fh-c4 { --fan-pos: translateX(70px) translateY(10px) rotate(8deg); }
@@ -1548,7 +1548,7 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
 @media (max-width: 768px) {
     .pf-slide-item { padding: 0; }
     .pf-slide-item iframe { width:100vw; height:100vh; }
-    .pf-slide-item img, .pf-slide-item video { max-width:100%; max-height:100%; border-radius:0; }
+    .pf-slide-item img, .pf-slide-item video { width:100% !important; height:100% !important; object-fit:cover !important; border-radius:0; }
 }
 
 .pf-nav { position:fixed; top:50%; transform:translateY(-50%); width:70px; height:70px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.08); border-radius: 35px; color:rgba(255,255,255,0.3); font-size:1.8rem; cursor:pointer; z-index:90; transition:0.3s; display:flex; align-items:center; justify-content:center; pointer-events: auto; backdrop-filter: blur(5px); }
