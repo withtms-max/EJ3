@@ -177,6 +177,7 @@
             <div class="nav-item" onclick="switchView('journey')"><i class="fa fa-route"></i> 성공 연혁</div>
             <div class="nav-item" onclick="switchView('impact_stories')"><i class="fa fa-quote-right"></i> 고객 성공 메시지</div>
             <div class="nav-item" onclick="switchView('hero_slides')"><i class="fa fa-images"></i> 히어로 캐러셀</div>
+            <div class="nav-item" onclick="switchView('service_packages')"><i class="fa fa-list-ul"></i> 맞춤 서비스(FAQ) 관리</div>
 
             <div class="nav-group-title">MANAGEMENT</div>
             <div class="nav-item" onclick="switchView('consulting')"><i class="fa fa-envelope"></i> 문의 내역 확인</div>
@@ -573,6 +574,7 @@
         else if(view === 'impact_stories') renderList('impact_stories', '고객 성공 메시지', ['avatar', 'bg_image', 'author', 'result', 'quote']);
         else if(view === 'consulting') renderList('contacts', '문의 내역', ['company_name', 'email', 'service', 'message', 'created_at']);
         else if(view === 'placements') renderPlacements();
+        else if(view === 'service_packages') renderList('service_packages', '서비스 패키지', ['title', 'desc']);
     };
 
     // ───── 카테고리 관리 (NEW) ─────
@@ -686,7 +688,7 @@
             <div class="header-content">
                 <div class="view-title">
                     <h1>히어로 섹션 편집</h1>
-                    <p>메인 카피와 인터랙티브 요소를 관리합니다. <span style="color:var(--accent); font-weight:900;">(Brand Blue: #0066ff)</span></p>
+                    <p>메인 카피와 인터랙티브 요소를 관리합니다. <span style="color:var(--accent); font-weight:900;">(Brand Blue: #C8102E)</span></p>
                 </div>
             </div>
             
@@ -877,6 +879,12 @@
         try {
             const snap = await getDoc(doc(db, 'settings', 'portfolio_hero'));
             const fullData = snap.exists() ? snap.data().themes || {} : {};
+            // 파란색 캐시 보정 처리
+            Object.keys(fullData).forEach(k => {
+                if(fullData[k] && fullData[k].title) {
+                    fullData[k].title = fullData[k].title.replace('#0066ff', '#C8102E').replace('#0044aa', '#A00D25');
+                }
+            });
 
             appView.innerHTML = `
                 <div class="header-content"><h1>포트폴리오 히어로 설정</h1><p>카테고리별 시네마틱 배경과 전용 문구를 관리합니다.</p></div>
@@ -899,7 +907,7 @@
                 
                 // 제가 추천드린 가장 멋진 기본 문안들 (프리셋)
                 const defaultThemes = {
-                    all: { label: 'Selected Works', title: '압도적 성과로 증명하는<br><span style="background:linear-gradient(to right, #fff, #0066ff); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">포트폴리오</span>', desc: '각 프로젝트는 단순한 작업물을 넘어, 브랜드의 성장을 견인하는 강력한 도구입니다.', img: 'https://images.unsplash.com/photo-1544256718-3bcf237f3974?q=80&w=2071' },
+                    all: { label: 'Selected Works', title: '압도적 성과로 증명하는<br><span style="background:linear-gradient(to right, #fff, #C8102E); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">포트폴리오</span>', desc: '각 프로젝트는 단순한 작업물을 넘어, 브랜드의 성장을 견인하는 강력한 도구입니다.', img: 'https://images.unsplash.com/photo-1544256718-3bcf237f3974?q=80&w=2071' },
                     calligraphy: { label: '01 / Branding Face', title: '세상에 단 하나뿐인<br>브랜드의 얼굴', desc: '장인의 필치로 브랜드의 영혼을 담아 독보적인 첫인상을 설계합니다.', img: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=2070' },
                     video: { label: '02 / Performance Reel', title: '매출로 즉시 직결되는<br>영상 마케팅', desc: '단 1초 만에 고객의 욕망을 건드리는 폭발적인 시각적 파괴력을 경험하세요.', img: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2071' },
                     storyboard: { label: '03 / Strategic Story', title: '성공을 위해 치밀하게<br>설계된 기획', desc: '단순한 그림이 아닌, 비즈니스 성장을 위한 가장 완벽한 시나리오를 작성합니다.', img: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2070' },
@@ -1094,13 +1102,29 @@
             const snap = await getDocs(collection(db, col));
             const items = []; snap.forEach(d => items.push({...d.data(), id: d.id}));
             
+            // Auto-seed for service_packages if completely empty or contains only the dummy blank item
+            if (col === 'service_packages' && (items.length === 0 || (items.length === 1 && !items[0].title))) {
+                // Delete invalid items first if any
+                for(let it of items) await deleteDoc(doc(db, col, it.id));
+                items.length = 0; // Clear the array
+                const seedData = [
+                  { sort_order: 40, title: "BRAND STRATEGY CONSULTING", desc: "비전 있는 기업들의 파트너가 되어 전략을 실행으로 완성합니다. 심층적인 데이터 기반 인사이트를 통해 비즈니스 성장을 가속화하며, 시장 분석 및 경쟁력 평가를 통해 최적화된 운영 프로세스를 구축합니다." },
+                  { sort_order: 30, title: "VISUAL IDENTITY DESIGN", desc: "브랜드의 진정한 본질을 발굴하여 압도적인 비주얼 아이덴티티를 구축합니다. 로고 및 BI/BX 디자인부터 브랜드 스타일 가이드까지, 타겟과 깊이 교감할 수 있는 강력한 시각 언어를 제안합니다." },
+                  { sort_order: 20, title: "COMMERCIAL VIDEO & SHORTS", desc: "영화 같은 정교함으로 브랜드 스토리에 생명력을 불어넣습니다. 기업 홍보 필름, 제품 쇼케이스, 숏폼 콘텐츠 등 하이엔드 비주얼 마스터피스를 통해 브랜드의 가치를 시각적으로 증명합니다." },
+                  { sort_order: 10, title: "PERFORMANCE MARKETING", desc: "실질적인 구매와 전환을 일으키는 데이터 기반 마케팅을 지향합니다. 소셜 미디어 광고 운영부터 정밀한 성과 분석까지, 사장님의 비즈니스 매출 성장을 최우선 목표로 캠페인을 운영합니다." }
+                ];
+                for(let x of seedData) await setDoc(doc(collection(db, col)), x);
+                // Refetch after seeding
+                const newSnap = await getDocs(collection(db, col));
+                newSnap.forEach(d => items.push({...d.data(), id: d.id}));
+            }
+
             // 신규 문의 상단 노출
             if(items.length > 0 && items[0].created_at) {
                 items.sort((a,b) => (b.created_at || '').localeCompare(a.created_at || ''));
             } else if(items.length > 0 && items[0].sort_order !== undefined) {
                 items.sort((a,b) => (parseInt(b.sort_order)||0) - (parseInt(a.sort_order)||0));
             }
-
 
             const isContact = (col === 'contacts');
             appView.innerHTML = `
@@ -1373,6 +1397,18 @@
                         <p style="font-size:0.6rem; color:var(--text-dim); margin-bottom:8px;">채팅 리스트 배경에 은은하게 깔립니다.</p>
                         ${renderUploadUI('bg_image', 'impact', data?.bg_image)}
                     </div>
+                </div>
+                <div class="form-group"><label class="form-label">노출 순서</label><input name="sort_order" class="form-input" type="number" value="${data?.sort_order||0}"></div>
+            `;
+        } else if(col === 'service_packages') {
+            html = `
+                <div class="form-group">
+                    <label class="form-label">패키지 이름 (Title)</label>
+                    <input name="title" class="form-input" value="${data?.title||''}" placeholder="예: BRAND STRATEGY CONSULTING" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">상세 설명 (Description)</label>
+                    <textarea name="desc" class="form-input" style="min-height:120px;" placeholder="상세 내용을 입력하세요" required>${data?.desc||''}</textarea>
                 </div>
                 <div class="form-group"><label class="form-label">노출 순서</label><input name="sort_order" class="form-input" type="number" value="${data?.sort_order||0}"></div>
             `;

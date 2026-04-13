@@ -2533,6 +2533,36 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
     } catch(e) { console.error('Team Load Error:', e); }
   })();
 
+  
+  // --- Service Packages Render ---
+  (async function renderServicePackages() {
+      try {
+          const listSnap = await getDocs(query(collection(db, 'service_packages'), orderBy('sort_order')));
+          let packages = [];
+          if(!listSnap.empty) {
+              listSnap.forEach(doc => packages.push(doc.data()));
+          }
+          if(packages.length > 0) {
+              const pkgList = document.querySelector('.pkg-list');
+              if(pkgList) {
+                  pkgList.innerHTML = packages.map(p => `
+                    <div class="pkg-item" style="padding:2rem 0; border-bottom:1px solid rgba(255,255,255,0.1); cursor:pointer;">
+                      <div style="display:flex; justify-content:space-between; align-items:center;">
+                         <span style="font-size:1.2rem; font-weight:900; color:inherit; letter-spacing:0.02em;">${p.title}</span>
+                         <i class="fa fa-plus pkg-toggle" style="color:inherit; font-size:1.1rem; transition:0.3s;"></i>
+                      </div>
+                      <div class="pkg-desc" style="max-height:0; overflow:hidden; transition:0.4s ease; color:rgba(255,255,255,0.5); font-size:1rem; line-height:1.7;">
+                        <p style="padding-top:1.5rem;">${p.desc}</p>
+                      </div>
+                    </div>
+                  `).join('');
+              }
+          }
+      } catch(e) {
+          console.error("Service Packages Load Error:", e);
+      }
+  })();
+
   // ── SERVICE PACKAGE TOGGLE ──
   document.addEventListener('click', e => {
       const item = e.target.closest('.pkg-item');

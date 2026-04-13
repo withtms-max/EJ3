@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 :root {
-    --primary: #0066ff;
+    --primary: #C8102E;
     --transition: .3s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
@@ -123,7 +123,7 @@ nav.scrolled .nav-logo{color: var(--text-main) !important;}
     z-index: 1;
 }
 .hero-content { position: relative; z-index: 2; transition: 0.5s; }
-.hero-label { color: var(--primary); font-size: 0.85rem; font-weight: 900; letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 2rem; display: block; text-shadow: 0 0 20px rgba(0,102,255,0.4); }
+.hero-label { color: var(--primary); font-size: 0.85rem; font-weight: 900; letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 2rem; display: block; text-shadow: 0 0 20px rgba(200, 16, 46, 0.4); }
 .hero-title { font-family: 'Outfit', sans-serif; font-size: clamp(2.5rem, 7vw, 5.5rem); font-weight: 950; line-height: 1.1; margin-bottom: 2rem; letter-spacing: -0.05em; }
 .hero-desc { font-size: 1.2rem; color: var(--text-dim); line-height: 1.8; max-width: 800px; margin: 0 auto; font-weight: 500; word-break: keep-all; letter-spacing: 0.02em; }
 
@@ -132,8 +132,10 @@ nav.scrolled .nav-logo{color: var(--text-main) !important;}
 body.light-mode .filter-sect { background: rgba(255,255,255,0.55); }
 .filter-tabs { display: flex; justify-content: center; gap: 0.8rem; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; scrollbar-width: none; }
 .filter-tabs::-webkit-scrollbar { display: none; }
-.filter-tab { background: transparent; border: 1px solid var(--border); color: var(--text-dim); padding: 0.6rem 1.5rem; border-radius: 999px; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: 0.2s; white-space: nowrap; }
-.filter-tab.active { background: linear-gradient(135deg, #fff 0%, var(--primary) 100%); border-color: var(--primary); color: #000; box-shadow: 0 0 15px rgba(200, 16, 46, 0.3); }
+.filter-tab { background: transparent; border: 1px solid var(--border); color: var(--text-dim); padding: 12px 24px; border-radius: 15px; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); white-space: nowrap; }
+.filter-tab:hover { background: rgba(255,255,255,0.05); border-color: var(--primary); color: var(--primary); transform: translateY(-3px); }
+body.light-mode .filter-tab:hover { background: #fff; }
+.filter-tab.active { background: var(--primary); border-color: var(--primary); color: #fff; box-shadow: 0 10px 30px rgba(200, 16, 46, 0.2); }
 
 /* GRID */
 /* GRID 개편 (Cinematic Gallery Style) */
@@ -331,19 +333,14 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
     <div class="hero-overlay"></div>
     <div class="hero-content fu">
         <p class="hero-label" id="h-label">Selected Works</p>
-        <h1 class="hero-title" id="h-title">압도적 성과로 증명하는<br><span style="background:linear-gradient(to right, #fff, #0066ff); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">포트폴리오</span></h1>
+        <h1 class="hero-title" id="h-title">압도적 성과로 증명하는<br><span style="background:linear-gradient(to right, #fff, #C8102E); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">포트폴리오</span></h1>
         <p class="hero-desc" id="h-desc">각 프로젝트는 단순한 작업물을 넘어, 브랜드의 성장을 견인하는 강력한 도구입니다.</p>
     </div>
 </section>
 
 <section class="filter-sect">
     <div class="filter-tabs" id="filter-tabs">
-        <button class="filter-tab active" data-cat="all">All</button>
-        <button class="filter-tab" data-cat="calligraphy">캘리그라피 상호디자인</button>
-        <button class="filter-tab" data-cat="video">내가게 돈되는 영상만들기</button>
-        <button class="filter-tab" data-cat="storyboard">우리매장 스토리보드</button>
-        <button class="filter-tab" data-cat="photo">내가게의 사진촬영</button>
-        <button class="filter-tab" data-cat="character">내가게의 캐릭터만들기</button>
+        <!-- Categories loaded dynamically from DB (Skeleton prevents flickering) -->
     </div>
 </section>
 
@@ -843,7 +840,7 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
     });
 
     let heroThemes = {
-        all: { label: 'Selected Works', title: '압도적 성과로 증명하는<br><span style="background:linear-gradient(to right, #fff, #0066ff); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">포트폴리오</span>', desc: '각 프로젝트는 단순한 작업물을 넘어, 브랜드의 성장을 견인하는 강력한 도구입니다.', img: 'https://images.unsplash.com/photo-1544256718-3bcf237f3974?q=80&w=2071' },
+        all: { label: 'Selected Works', title: '압도적 성과로 증명하는<br><span style="background:linear-gradient(to right, #fff, #C8102E); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">포트폴리오</span>', desc: '각 프로젝트는 단순한 작업물을 넘어, 브랜드의 성장을 견인하는 강력한 도구입니다.', img: 'https://images.unsplash.com/photo-1544256718-3bcf237f3974?q=80&w=2071' },
         calligraphy: { label: '01 / Branding Face', title: '세상에 단 하나뿐인<br>브랜드의 얼굴', desc: '장인의 필치로 브랜드의 영혼을 담아 독보적인 첫인상을 설계합니다.', img: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=2070' },
         video: { label: '02 / Performance Reel', title: '매출로 즉시 직결되는<br>영상 마케팅', desc: '단 1초 만에 고객의 욕망을 건드리는 폭발적인 시각적 파괴력을 경험하세요.', img: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2071' },
         storyboard: { label: '03 / Strategic Story', title: '성공을 위해 치밀하게<br>설계된 기획', desc: '단순한 그림이 아닌, 비즈니스 성장을 위한 가장 완벽한 시나리오를 작성합니다.', img: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2070' },
@@ -857,9 +854,14 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
             const snap = await getDoc(doc(db, 'settings', 'portfolio_hero'));
             if(snap.exists()) {
                 const cloudThemes = snap.data().themes;
-                // 클라우드 데이터가 있다면 기본값 덮어쓰기
+                // 클라우드 데이터가 있다면 기본값 덮어쓰기, 예전 파란색 캐시(DB) 데이터가 무작위로 덮어씌워지는 것을 방지
                 Object.keys(cloudThemes).forEach(k => {
-                    if(cloudThemes[k]) heroThemes[k] = cloudThemes[k];
+                    if(cloudThemes[k]) {
+                        if(cloudThemes[k].title) {
+                            cloudThemes[k].title = cloudThemes[k].title.replace('#0066ff', '#C8102E').replace('#0044aa', '#A00D25');
+                        }
+                        heroThemes[k] = cloudThemes[k];
+                    }
                 });
             }
         } catch(e) { console.warn('Hero Settings Sync Failed:', e); }
@@ -1104,19 +1106,13 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
 .pf-dot { width:8px; height:8px; border-radius:4px; background:rgba(255,255,255,0.15); border:none; cursor:pointer; transition:0.3s; }
 .pf-dot.on { width:32px; background:var(--primary); opacity:1; }
 
+.pf-dot.on { width:40px; background:var(--primary); }
 @media (max-width: 768px) {
     #pf-tools { display: none; }
-    #pf-info-area { padding: 60px 25px 30px; }
-    #pf-title { font-size: 1.5rem !important; }
-}
-</style>
-.pf-dot.on { width:40px; background:var(--primary); }
-
-@media (max-width: 768px) {
     #pf-counter { top:20px; left:20px; }
     #pf-close { top:20px; right:20px; width:45px; height:45px; font-size:1.2rem; }
     #pf-info-area { padding:50px 25px 30px; }
-    #pf-title { font-size:1.8rem; }
+    #pf-title { font-size:1.8rem !important; }
     #pf-result { font-size:0.95rem; }
     .pf-slide-item { padding:0; }
     .pf-nav { width:60px; font-size:1.5rem; }
