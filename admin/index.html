@@ -171,6 +171,7 @@
             <div class="nav-item" onclick="switchView('manage_categories')" style="background: rgba(100,50,200,0.1); border: 1px solid rgba(100,50,200,0.3);"><i class="fa fa-tags" style="color:#b57bff;"></i> <b>카테고리명/순서 관리</b></div>
             <div class="nav-item" onclick="switchView('portfolio')"><i class="fa fa-folder"></i> 포트폴리오(3D 카드) 관리</div>
             <div class="nav-item" onclick="switchView('portfolio_hero')"><i class="fa fa-clapperboard"></i> 카테고리 시네마틱 관리</div>
+            <div class="nav-item" onclick="switchView('the3cut_config')"><i class="fa fa-magic" style="color: #b57bff;"></i> <b>THE3컷 인증키 설정</b></div>
             <div class="nav-item" onclick="switchView('global')"><i class="fa fa-globe"></i> 전역 설정 (테마/컬러)</div>
             <div class="nav-item" onclick="switchView('hero')"><i class="fa fa-tv"></i> 히어로 섹션 마스터</div>
             <div class="nav-item" onclick="switchView('team')"><i class="fa fa-users"></i> 팀 멤버 컨설팅</div>
@@ -569,6 +570,7 @@
         else if(view === 'journey') renderList(view, '성공 연혁', ['period', 'title', 'subtitle', 'description']);
         else if(view === 'clients') renderList(view, '고객사', ['logo', 'name']);
         else if(view === 'contact_settings') renderContactSettings();
+        else if(view === 'the3cut_config') renderThe3CutConfig();
         else if(view === 'manage_categories') renderManageCategories();
         else if(view === 'portfolio_hero') renderPortfolioHeroSettings();
         else if(view === 'impact_stories') renderList('impact_stories', '고객 성공 메시지', ['avatar', 'bg_image', 'author', 'result', 'quote']);
@@ -633,6 +635,45 @@
             renderManageCategories();
         };
         window.renderCatRows();
+    }
+
+    async function renderThe3CutConfig() {
+        appView.innerHTML = '<div style="text-align:center; padding:10rem;"><i class="fa fa-spinner fa-spin"></i></div>';
+        const docRef = doc(db, 'settings', 'the3cut');
+        const s = await getDoc(docRef);
+        const data = s.exists() ? s.data() : { api_key: '', pin: '' };
+        
+        appView.innerHTML = `
+            <div class="header-content"><div class="view-title"><h1>THE3 컷 AI 설정</h1><p>THE3 컷에 사용되는 핵심 API 키와 6자리 접속 PIN 번호를 설정합니다.</p></div></div>
+            <div class="table-container" style="padding:3rem;">
+                <form id="the3cut-settings-form">
+                    <div style="background:rgba(200, 16, 46, 0.05); padding:20px; border-radius:15px; margin-bottom:2rem; border:1px solid var(--border);">
+                         <p style="font-size:0.75rem; color:var(--accent); font-weight:800; margin-bottom:5px;"><i class="fa fa-lock"></i> 보안 안내</p>
+                         <p style="font-size:0.75rem; color:var(--text-dim); line-height: 1.5;">API 키는 일반인에게 절대 노출되지 않도록, 고객 접속 시 <strong>6자리 PIN 숫자</strong> 만을 입력받습니다. 여기서 실제 구글 API Key와 인증용 PIN을 설정하세요.</p>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:3rem;">
+                        <label class="form-label" style="font-size:1rem;color:var(--text-main);">Google Gemini API Key (실제 키)</label>
+                        <input name="api_key" type="password" class="form-input" value="${data.api_key||''}" placeholder="AIzaSy...">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:2rem;">
+                        <label class="form-label" style="font-size:1rem;color:var(--accent);">고객 접속 PIN (숫자 6자리)</label>
+                        <input name="pin" type="text" maxlength="6" class="form-input" value="${data.pin||''}" placeholder="예: 000000" style="font-size:2rem; letter-spacing:0.5em; text-align:center; font-weight:900;">
+                    </div>
+
+                    <button type="submit" class="btn" style="width:100%; margin-top:2rem; box-shadow: var(--glow);">
+                        <i class="fa fa-save"></i> 보안 설정 서버에 안전하게 저장
+                    </button>
+                </form>
+            </div>
+        `;
+        document.getElementById('the3cut-settings-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const formData = Object.fromEntries(new FormData(e.target).entries());
+            await setDoc(docRef, formData);
+            alert('THE3 컷 보안 설정이 안전하게 유지 및 저장되었습니다!');
+        };
     }
 
     function renderDashboard() {
