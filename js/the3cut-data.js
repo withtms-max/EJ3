@@ -1,50 +1,44 @@
+window.THE3CUT_DATA = {
+  SHOP_CATEGORIES: [
+    {
+      id: 'food',
+      name: '식당 / 밥집',
+      description: '맛있는 음식 사진',
+      prompt: 'Professional ultra-high-end food photography, commercial studio lighting, macro lens for texture, bokeh background, steaming fresh food, appetizing color palette, high-resolution details.'
+    },
+    {
+      id: 'cafe',
+      name: '카페 / 제과',
+      description: '커피와 빵 사진',
+      prompt: 'Aesthetic cafe lifestyle photography, soft natural morning window light, warm and cozy bakery atmosphere, minimalist composition, creamy and rich textures, professional social media style.'
+    },
+    {
+      id: 'clothes',
+      name: '옷가게 / 패션',
+      description: '의류 및 패션 잡화',
+      prompt: 'High-end fashion retail photography, professional studio strobe lighting, crisp fabric texture, clean and elegant background, sophisticated boutique atmosphere, commercial-grade look.'
+    },
+    {
+      id: 'etc',
+      name: '기타 매장',
+      description: '모든 업종 가능',
+      prompt: 'Professional commercial business photography, clean and polished look.'
+    },
+    {
+      id: 'portrait',
+      name: '사장님컷 👔',
+      description: '인물사진 전문 보정',
+      prompt: 'Professional portrait photography for business owners. Clean background or natural bokeh, flattering skin tones, sharp eye detail, soft studio lighting, confident and approachable expression, business-appropriate atmosphere.'
+    },
+    {
+      id: 'beauty',
+      name: '헤어 / 뷰티',
+      description: '미용실·뷰티샵 사진',
+      prompt: 'High-end beauty and hair salon photography. Glamorous lighting, perfect skin retouching, vivid hair colors, polished styling, professional cosmetic product shots, elegant and luxurious salon atmosphere.'
+    }
+  ],
 
-const SHOP_CATEGORIES = [
-  {
-    id: 'food',
-    name: '식당 / 밥집',
-    description: '맛있는 음식 사진',
-    prompt: 'Professional ultra-high-end food photography, commercial studio lighting, macro lens for texture, bokeh background, steaming fresh food, appetizing color palette, high-resolution details.'
-  },
-  {
-    id: 'cafe',
-    name: '카페 / 제과',
-    description: '커피와 빵 사진',
-    prompt: 'Aesthetic cafe lifestyle photography, soft natural morning window light, warm and cozy bakery atmosphere, minimalist composition, creamy and rich textures, professional social media style.'
-  },
-  {
-    id: 'clothes',
-    name: '옷가게 / 패션',
-    description: '의류 및 패션 잡화',
-    prompt: 'High-end fashion retail photography, professional studio strobe lighting, crisp fabric texture, clean and elegant background, sophisticated boutique atmosphere, commercial-grade look.'
-  },
-  {
-    id: 'etc',
-    name: '기타 매장',
-    description: '모든 업종 가능',
-    prompt: 'Professional commercial business photography, clean and polished look.'
-  },
-  {
-    id: 'portrait',
-    name: '사장님컷 👔',
-    description: '인물사진 전문 보정',
-    prompt: 'Professional portrait photography for business owners. Clean background or natural bokeh, flattering skin tones, sharp eye detail, soft studio lighting, confident and approachable expression, business-appropriate atmosphere.'
-  },
-  {
-    id: 'beauty',
-    name: '헤어 / 뷰티',
-    description: '미용실·뷰티샵 사진',
-    prompt: 'High-end beauty and hair salon photography. Glamorous lighting, perfect skin retouching, vivid hair colors, polished styling, professional cosmetic product shots, elegant and luxurious salon atmosphere.'
-  },
-  {
-    id: 'style_master',
-    name: '1만개 전문가 스타일 🎨',
-    description: '1만 개 이상의 화보 스타일',
-    prompt: 'Professional artistic photography, high-end commercial style, cinematic lighting.'
-  }
-];
-
-const PHOTO_STYLES = [
+  PHOTO_STYLES: [
   {
     id: 'clean_bg',
     name: '깔끔한 배경',
@@ -122,9 +116,9 @@ Keywords: [Photorealistic, Ghost mannequin, 3D clothing render, Unreal Engine 5,
     description: '식물과 함께하는 상쾌한 무드',
     prompt: 'Organic and eco-friendly photography, surrounded by greenery and plants, fresh earth tones, sustainable brand image.'
   }
-];
+  ],
 
-const PORTRAIT_STYLES_MALE = [
+  PORTRAIT_STYLES_MALE: [
   {
     id: 'pm_id_photo',
     name: '증명사진 / 여권사진',
@@ -203,9 +197,9 @@ const PORTRAIT_STYLES_MALE = [
     description: '중후한 무드 · 로우키',
     prompt: `첨부된 사진의 얼굴 특징을 유지하며, 묵직한 질감이 느껴지는 다크 챠콜 울 코트를 입혀 줘. 조명은 얼굴의 굵직한 선을 강조하는 로우키 조명을 사용하고, 배경은 차분한 그레이 톤의 콘크리트 질감 스튜디오 배경으로 설정해. 지적이면서도 고독한 분위기의 깊이 있는 표정을 강조해 줘. [Identity Lock] 얼굴 특징 절대 유지. Format: 4:5 고해상도.`
   }
-];
+  ],
 
-const PORTRAIT_STYLES_FEMALE = [
+  PORTRAIT_STYLES_FEMALE: [
   {
     id: 'pf_id_photo',
     name: '증명사진 / 여권사진',
@@ -278,9 +272,9 @@ const PORTRAIT_STYLES_FEMALE = [
     description: '시네마틱 조명 (여성)',
     prompt: `첨부된 사진의 얼굴 특징을 정확히 유지한 하이패션 화보 스타일을 생성해 줘. 빛나는 하이라이트와 정제된 그림자가 얼굴을 자연스럽게 조각하는 시네마틱 조명을 사용해 줘. 어깨를 살짝 튼 차분한 포즈로 자신감과 세련미를 보여줘. 시선은 차분하지만 강렬하고 매혹적이어야 해. 의상은 세련된 수트나 모던한 블레이저를 입혀 우아함과 권위를 강조해 줘. 배경은 순수한 아이보리 화이트의 무배경으로 처리하여 시대를 초월한 우아함을 줘. [Identity Lock] 얼굴 특징 절대 유지. Format: 4:5 고해상도.`
   }
-];
+  ],
 
-const BEAUTY_STYLES_MALE = [
+  BEAUTY_STYLES_MALE: [
   {
     id: 'bm_buzz',
     name: '클린 버즈컷',
@@ -401,9 +395,9 @@ const BEAUTY_STYLES_MALE = [
     description: '광택 블랙 · 레드카펫 럭셔리',
     prompt: `[Role] Professional AI Barber & Stylist\n[Identity] STRICTLY MAINTAIN the person's IDENTICAL FACIAL FEATURES.\n[Task] Apply Style 20: (Luxury) Silk Straight Part.\n[Style] Glossy jet-black hair, perfectly straight with precise clean parting, ultra-smooth silk texture. Luxury suit outfit, red carpet or penthouse background.\n[Constraints] Head-and-shoulders crop, 8K photorealistic. FACE UNCHANGED.`
   }
-];
+  ],
 
-const BEAUTY_STYLES_FEMALE = [
+  BEAUTY_STYLES_FEMALE: [
   {
     id: 'bf_pixie',
     name: '픽시컷',
@@ -524,13 +518,6 @@ const BEAUTY_STYLES_FEMALE = [
     description: '소프트 웨이브 · 청순 무드',
     prompt: `[Role] Professional AI Hair Designer & Makeup Artist\n[Identity] STRICTLY KEEP the facial features and identity of the uploaded image.\n[Task] Apply Style 20: (Natural) Half-up Half-down.\n[Style] Top half of hair tied up with delicate ribbon or clip, bottom flows in soft natural waves, bridal or romantic dewy skin makeup, beautiful garden background.\n[Constraints] 8K resolution, realistic hair fiber, identical face, portrait framing. FACE UNCHANGED.`
   }
-];
-
-window.THE3CUT_DATA = {
-    SHOP_CATEGORIES,
-    PHOTO_STYLES,
-    PORTRAIT_STYLES_MALE,
-    PORTRAIT_STYLES_FEMALE,
-    BEAUTY_STYLES_MALE,
-    BEAUTY_STYLES_FEMALE
+  ]
 };
+console.log("THE3CUT_DATA Object structure completed.");
