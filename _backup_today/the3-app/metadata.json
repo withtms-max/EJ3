@@ -1,0 +1,7 @@
+{
+  "name": "사장님 만능 사진관",
+  "description": "소상공인 어르신들을 위한 쉽고 간편한 AI 제품 사진 생성기입니다. 몇 번의 터치만으로 우리 가게 제품을 멋지게 바꿀 수 있습니다.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}

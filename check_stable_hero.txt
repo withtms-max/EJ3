@@ -1,0 +1,55 @@
+<section class="fan-hero" id="home">
+  <!-- RESPONSIVE VIDEO BACKGROUND -->
+  <!-- Desktop Version -->
+  <video id="h-video-desktop" class="hero-video video-desktop" autoplay loop muted playsinline>
+    <source src="hero-desktop.mp4?v=1.2" type="video/mp4">
+  </video>
+  <!-- Mobile Version -->
+  <video id="h-video-mobile" class="hero-video video-mobile" autoplay loop muted playsinline>
+    <source src="hero-mobile.mp4?v=1.2" type="video/mp4">
+  </video>
+  <div class="hero-overlay"></div>
+
+  <div class="fh-title" style="max-width: 1200px; padding: 0 20px; z-index: 100; position: relative; opacity: 1 !important;">
+    <h3 id="hero-sub" style="font-weight:900; font-size: 0.9rem; color:#E63946; letter-spacing:0.4rem; text-transform:uppercase; margin-bottom:1.5rem; text-align:center;">The Premier Creative Agency</h3>
+    
+    <div class="the3-hero-wrap" style="width: 100%; max-width: 1200px; margin: 0 auto; text-align:center;">
+      <h1 id="the3-headline-main" style="margin-bottom: 2rem; color:#fff;">
+        <span id="hero-subline" class="headline-subline" style="margin-bottom: 1rem; display:block;">?μ궗??諛붿걶??</span>
+        <span id="hero-accent" class="the3-accent" style="display:block;">肄섑뀗痢좉퉴吏 怨좊??섏떆?섏슂?</span>
+      </h1>
+    </div>
+    
+    <p id="hero-desc" style="color:rgba(255,255,255,0.8); font-weight:600; margin-bottom: 3rem; text-align:center;">
+       留ㅼ텧 ?곸듅? 肄섑뀗痢좉? 寃곗젙?⑸땲?? 吏꾨떒, 湲고쉷, ?쒖옉源뚯?<br class="hide-pc"> ?먯뒪???꾨Ц媛 吏묐떒 &lt;THE3 ?ㅽ뒠?붿삤&gt;
+    </p>
+
+    <div id="hero-cta-wrapper" style="text-align:center;">
+      <a href="#contact" class="gallery-btn">
+        ?곕━ 媛寃뚮룄 諛붾????덉쓣源? 臾대즺 吏꾨떒諛쏄린
+        <i class="fa fa-arrow-right"></i>
+      </a>
+    </div>
+
+    <!-- SCROLL GUIDE (REOVED STRAY LINE) -->
+  </div>
+  
+  <!-- BACKGROUND ATMOSPHERE (REPLACED BY VIDEO BUT REMAINING HIDDEN JUST IN CASE) -->
+</section>
+
+<!-- TEAM & SERVICES (INTEGRATED) -->
+<section class="team-sect" id="team" style="background:var(--bg-card); padding:10rem 1.5rem; border-top:1px solid rgba(255,255,255,0.05);">
+  <div class="team-inner" style="max-width:1200px; margin:0 auto;">
+    <p class="sect-label" style="text-align:center; color:var(--primary); font-weight:900;">THE EXPERTS</p>
+    <h2 class="sect-h2" style="color:#fff; text-align:center; margin-bottom:5rem;">THE 3: ?ъ옣?섏쓽 ?깆옣???뺣뒗 ?꾨Ц媛??/h2>
+    
+    <div class="team-grid" id="team-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:2.5rem; padding:1rem;">
+      <!-- ? 硫ㅻ쾭 ?곗씠?곌? ?낅줈?쒕릺硫??ш린???숈쟻?쇰줈 濡쒕뱶?⑸땲?? -->
+      <div style="grid-column: 1/-1; text-align: center; padding: 5rem; color: rgba(255,255,255,0.2);">
+        <i class="fa fa-spinner fa-spin fa-2x"></i><br><br>?꾨Ц媛 ?뺣낫瑜?遺덈윭?ㅺ퀬 ?덉뒿?덈떎...
+      </div>
+    </div>
+
+    <!-- SERVICE PACKAGES (As per Screenshot) -->
+    <div class="svc-packages" style="margin-top:6rem; padding:0 1rem;">
+      <p class="sect-label" style="text-align:left; color:var
