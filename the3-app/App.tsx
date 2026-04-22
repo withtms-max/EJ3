@@ -23,6 +23,7 @@ const App: React.FC = () => {
       else if (targetView === 'home') setCurrentView('HOME');
       else if (targetView === 'portfolio') setCurrentView('PORTFOLIO');
       else if (targetView === 'sns') setCurrentView('SNS_CONTENT');
+      else if (targetView === 'editor') setCurrentView('EDITOR');
   }, []);
 
   const [snsInitialTab, setSnsInitialTab] = useState<ContentTab | undefined>(undefined);

@@ -1215,7 +1215,7 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
     <li><a href="#home">홈</a></li>
     <li><a href="#team">전문가&서비스</a></li>
     <li><a href="#gallery">포트폴리오</a></li>
-    <li><a href="javascript:void(0)" onclick="openThe3Cut()" style="color:var(--primary) !important;">THE3 CUT</a></li>
+    <li><a href="javascript:void(0)" onclick="window.openThe3Cut()" style="color:var(--primary) !important;">THE3 CUT</a></li>
     <li><a href="#journey">스토리</a></li>
     <li><a href="#contact">문의하기</a></li>
   </ul>
@@ -1230,61 +1230,14 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
     <li style="--item-index:1;"><a href="#home" onclick="toggleMobileMenu()"><small>01</small> 홈</a></li>
     <li style="--item-index:2;"><a href="#team" onclick="toggleMobileMenu()"><small>02</small> 전문가&서비스</a></li>
     <li style="--item-index:3;"><a href="#gallery" onclick="toggleMobileMenu()"><small>03</small> 포트폴리오</a></li>
-    <li style="--item-index:3.5;"><a href="javascript:void(0)" onclick="openThe3Cut(); toggleMobileMenu();" style="color:var(--primary) !important;"><small>AI</small> THE3 CUT</a></li>
+    <li style="--item-index:3.5;"><a href="javascript:void(0)" onclick="window.openThe3Cut(); toggleMobileMenu();" style="color:var(--primary) !important;"><small>AI</small> THE3 CUT</a></li>
     <li style="--item-index:4;"><a href="#journey" onclick="toggleMobileMenu()"><small>04</small> 스토리</a></li>
     <li style="--item-index:5;"><a href="#contact" onclick="toggleMobileMenu()"><small>05</small> 문의하기</a></li>
   </ul>
 </div>
 
-<!-- THE3 CUT MODAL OVERLAY -->
-<div id="the3cut-modal" style="display:none; position:fixed; inset:0; z-index:99999; background:#F4F6F8; animation: fadeIn 0.4s ease;">
-  <div style="position:absolute; top:20px; right:30px; z-index:100000; display:flex; gap:15px; align-items:center;">
-    <span style="color:#666; font-weight:900; font-size:0.8rem; letter-spacing:0.2em; text-transform:uppercase; opacity:0.5;">THE3 CUT AI EDITOR</span>
-    <button onclick="closeThe3Cut()" style="background:#C8102E; color:#fff; border:none; width:44px; height:44px; border-radius:50%; font-size:1.5rem; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 10px 20px rgba(200,16,46,0.3); transition:0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
-      &times;
-    </button>
-  </div>
-  <iframe id="the3cut-iframe" src="" style="width:100%; height:100%; border:none;"></iframe>
-</div>
+<script src="js/the3cut-modal.js"></script>
 
-<script>
-  function openThe3Cut() {
-    const modal = document.getElementById('the3cut-modal');
-    const iframe = document.getElementById('the3cut-iframe');
-    iframe.src = 'the3cut/index.html'; 
-    modal.style.display = 'block';
-    document.body.style.overflow = 'hidden'; 
-    sessionStorage.setItem('the3cut_open', 'true');
-  }
-  function closeThe3Cut() {
-    if (confirm("정말 편집기를 닫으시겠습니까?\n진행 중인 모든 작업 내용이 사라질 수 있습니다.")) {
-      const modal = document.getElementById('the3cut-modal');
-      const iframe = document.getElementById('the3cut-iframe');
-      modal.style.display = 'none';
-      if (iframe) iframe.src = 'about:blank'; 
-      document.body.style.overflow = 'auto'; 
-      sessionStorage.setItem('the3cut_open', 'false');
-    }
-  }
-
-  // [안전장치] 새로고침 경고 및 자동 복구
-  window.addEventListener('beforeunload', function (e) {
-    if (sessionStorage.getItem('the3cut_open') === 'true') {
-      e.preventDefault();
-      e.returnValue = '';
-    }
-  });
-
-  window.addEventListener('load', function() {
-    if (sessionStorage.getItem('the3cut_open') === 'true') {
-      openThe3Cut();
-    }
-  });
-</script>
-
-<style>
-@keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
-</style>
 
 <!-- SVG FILTER FOR DUST EFFECT -->
 
