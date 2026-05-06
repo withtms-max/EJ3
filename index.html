@@ -505,6 +505,36 @@ body.light-mode .archive-pill{ border-color: rgba(0,0,0,0.1); color:#555; }
 body.light-mode .archive-pill:hover{ background:#fff; }
 body.light-mode .archive-pill.is-active{ color:#fff; }
 
+/* 페이지 인디케이터 (자동 순환 표시) */
+.archive-page-indicator{
+  display:flex; align-items:center; gap:8px;
+  margin: 0 0 .9rem auto;
+  width: fit-content;
+  padding: 6px 14px;
+  background: rgba(30,95,204,0.08);
+  border: 1px solid rgba(30,95,204,0.2);
+  border-radius: 999px;
+  font-family:'Outfit',sans-serif;
+  font-size: .72rem; font-weight: 800;
+  letter-spacing: .15em;
+  color: var(--primary);
+}
+.archive-page-indicator::before{
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--primary);
+  animation: archive-page-pulse 1.6s ease-in-out infinite;
+}
+@keyframes archive-page-pulse{
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: .35; transform: scale(.7); }
+}
+body.light-mode .archive-page-indicator{
+  background: rgba(0,71,171,0.06);
+  border-color: rgba(0,71,171,0.18);
+}
+
 /* Works Grid (4장 정사각, 부드러운 fade 전환) */
 .archive-works-grid{
   display: grid;
@@ -2232,6 +2262,9 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
       <div style="opacity:0.3; padding:1rem;">카테고리를 불러오는 중...</div>
     </div>
 
+    <!-- 페이지 인디케이터 (작품이 4개 초과인 카테고리만 노출) -->
+    <div class="archive-page-indicator" id="archive-page-indicator" style="display:none;"></div>
+
     <!-- 활성 카테고리의 작품 4장 (탭 전환 시 부드럽게 교체) -->
     <div class="archive-works-grid" id="archive-works-grid">
       <div style="grid-column:1/-1; text-align:center; padding:4rem 0; color:rgba(255,255,255,.2);">
@@ -3404,12 +3437,41 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
       const ytThumb = (id) => `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
       const isVideoExt = (u) => /\.(mp4|webm|mov|m4v)(\?|$)/i.test(u||'');
 
-      // 4) 카테고리별 작품 4장 picker
-      const getWorks = (catId) => {
-        return allWorks
-          .filter(w => w.category === catId)
-          .sort((a,b) => (parseInt(b.sort_order)||0) - (parseInt(a.sort_order)||0))
-          .slice(0, 4);
+      // 페이지네이션 상태
+      const PAGE_SIZE = 4;
+      const ROTATION_MS = 5000; // 5초마다 다음 페이지로
+      let currentCatId = items[0].id;
+      let currentPage  = 0;
+      let rotationTimer = null;
+      let isPausedHover = false;
+      let isVisible = true;
+
+      // 카테고리별 모든 작품 (정렬 적용)
+      const getAllWorks = (catId) => allWorks
+        .filter(w => w.category === catId)
+        .sort((a,b) => (parseInt(b.sort_order)||0) - (parseInt(a.sort_order)||0));
+
+      const getTotalPages = (catId) => {
+        const len = getAllWorks(catId).length;
+        return len === 0 ? 1 : Math.ceil(len / PAGE_SIZE);
+      };
+
+      // 특정 페이지의 4작품 (모자라면 빈 슬롯)
+      const getWorksPage = (catId, page) => {
+        const all = getAllWorks(catId);
+        if(all.length === 0) return [];
+        const total = getTotalPages(catId);
+        const safe = ((page % total) + total) % total;
+        return all.slice(safe * PAGE_SIZE, safe * PAGE_SIZE + PAGE_SIZE);
+      };
+
+      const updatePageIndicator = () => {
+        const ind = document.getElementById('archive-page-indicator');
+        if(!ind) return;
+        const total = getTotalPages(currentCatId);
+        if(total <= 1){ ind.style.display = 'none'; return; }
+        ind.style.display = 'flex';
+        ind.textContent = `${String(currentPage+1).padStart(2,'0')} / ${String(total).padStart(2,'0')}`;
       };
       // thumbnail / images / video_url / image_path 어떤 위치에 있어도 추출
       // YouTube URL이면 hqdefault 썸네일로 자동 변환
@@ -3435,10 +3497,10 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
         return { url: '', isVideo: false };
       };
 
-      const renderWorks = (catId) => {
-        const works = getWorks(catId);
+      const renderWorks = (catId, page = 0) => {
+        const works = getWorksPage(catId, page);
         const cells = [];
-        for(let i = 0; i < 4; i++){
+        for(let i = 0; i < PAGE_SIZE; i++){
           const w = works[i];
           if(w){
             const thumb = resolveThumb(w);
@@ -3478,10 +3540,52 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
           img.onerror = () => card.classList.add('is-loaded');
           img.src = url;
         });
+
+        updatePageIndicator();
+      };
+
+      // fade-out → 새 페이지 렌더 → fade-in
+      const swapToPage = (catId, page) => {
+        gridEl.classList.add('is-fading');
+        setTimeout(() => {
+          renderWorks(catId, page);
+          gridEl.classList.remove('is-fading');
+        }, 300);
+      };
+
+      // 자동 순환 엔진 — 5초마다 다음 페이지로
+      const stopRotation = () => {
+        if(rotationTimer){ clearInterval(rotationTimer); rotationTimer = null; }
+      };
+      const startRotation = () => {
+        stopRotation();
+        if(isPausedHover || !isVisible) return;
+        if(getTotalPages(currentCatId) <= 1) return; // 페이지 1개면 순환 불필요
+        rotationTimer = setInterval(() => {
+          currentPage = (currentPage + 1) % getTotalPages(currentCatId);
+          swapToPage(currentCatId, currentPage);
+        }, ROTATION_MS);
       };
 
       // 5) 초기 렌더 (첫 번째 카테고리 활성)
-      renderWorks(items[0].id);
+      renderWorks(currentCatId, 0);
+      startRotation();
+
+      // hover 시 일시정지 — 작품을 자세히 볼 때 멈춤
+      gridEl.addEventListener('mouseenter', () => { isPausedHover = true; stopRotation(); });
+      gridEl.addEventListener('mouseleave', () => { isPausedHover = false; startRotation(); });
+
+      // 화면 밖이면 정지 (리소스 절약 + 안 보이는데 돌릴 필요 없음)
+      const sectionEl = document.querySelector('.archive-sect');
+      if(sectionEl && 'IntersectionObserver' in window){
+        new IntersectionObserver(entries => {
+          entries.forEach(en => {
+            isVisible = en.isIntersecting;
+            if(isVisible) startRotation();
+            else stopRotation();
+          });
+        }, { threshold: 0.15 }).observe(sectionEl);
+      }
 
       // 카드 클릭 인터셉트 → 페이지 이동 대신 홈 자체 모달 오픈
       gridEl.addEventListener('click', (e) => {
@@ -3494,17 +3598,16 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
         }
       });
 
-      // 6) Pills 클릭 → fade-out → swap → fade-in
+      // 6) Pills 클릭 → 카테고리 전환 + 페이지 0 리셋 + 자동 순환 재시작
       pillsEl.addEventListener('click', (e) => {
         const pill = e.target.closest('.archive-pill');
         if(!pill || pill.classList.contains('is-active')) return;
         pillsEl.querySelectorAll('.archive-pill').forEach(p => p.classList.remove('is-active'));
         pill.classList.add('is-active');
-        gridEl.classList.add('is-fading');
-        setTimeout(() => {
-          renderWorks(pill.dataset.cat);
-          gridEl.classList.remove('is-fading');
-        }, 300);
+        currentCatId = pill.dataset.cat;
+        currentPage = 0;
+        swapToPage(currentCatId, 0);
+        startRotation(); // 새 카테고리에 맞춰 타이머 재시작 (페이지 1개면 자동으로 정지)
       });
     }catch(e){
       console.error('Archive Load Error:', e);
