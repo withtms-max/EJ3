@@ -9,11 +9,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --accent: #C8102E; 
+            --accent: #0047AB; 
             --sidebar-w: 280px;
             --danger: #ff3b30; 
             --success: #28cd41;
-            --glow: 0 0 20px rgba(200, 16, 46, 0.4);
+            --glow: 0 0 20px rgba(0, 71, 171, 0.4);
             --transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
@@ -45,7 +45,7 @@
             --modal-overlay: rgba(255,255,255,0.85);
         }
         body.light-mode .nav-item:hover, body.light-mode .nav-item.active { background: rgba(0,0,0,0.05); color: #111; }
-        body.light-mode .nav-item.active { background: var(--accent); color: #fff; box-shadow: 0 10px 20px rgba(230, 57, 70, 0.15); }
+        body.light-mode .nav-item.active { background: var(--accent); color: #fff; box-shadow: 0 10px 20px rgba(30, 95, 204, 0.15); }
         body.light-mode th { background: rgba(0,0,0,0.02); color: #495057; }
         body.light-mode .thumb-cell { background: #f8f9fa; }
         body.light-mode .btn-s { background: rgba(0,0,0,0.05); color: #111; }
@@ -73,7 +73,7 @@
         .nav-item i { font-size: 1.1rem; opacity: 0.7; transition: 0.3s; }
         .nav-item:hover { background: rgba(255,255,255,0.03); color: var(--text-main); transform: translateX(5px); }
         .nav-item:hover i { color: var(--accent); opacity: 1; }
-        .nav-item.active { background: linear-gradient(135deg, #B91C1C 0%, #E11D48 100%); color: #fff; box-shadow: 0 15px 30px rgba(185,28,28, 0.25); }
+        .nav-item.active { background: linear-gradient(135deg, #1E3A8A 0%, #2563EB 100%); color: #fff; box-shadow: 0 15px 30px rgba(30, 58, 138, 0.25); }
         .nav-item.active i { opacity: 1; color: #fff; }
 
         .main-content { flex: 1; display: flex; flex-direction: column; overflow-y: auto; background: var(--bg-main); transition: background var(--transition); }
@@ -82,11 +82,11 @@
 
         .header-content { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem; }
         .view-title h1 { font-family: 'Outfit'; font-size: 2.2rem; font-weight: 900; color: var(--text-main); letter-spacing: -0.03em; }
-        .btn { background: linear-gradient(135deg, #B91C1C 0%, #E11D48 100%); color: #fff; border: none; padding: 14px 28px; border-radius: 14px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; font-size: 0.9rem; transition: var(--transition); box-shadow: 0 10px 20px rgba(185,28,28, 0.2); }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(185,28,28, 0.35); filter: brightness(1.1); }
+        .btn { background: linear-gradient(135deg, #1E3A8A 0%, #2563EB 100%); color: #fff; border: none; padding: 14px 28px; border-radius: 14px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; font-size: 0.9rem; transition: var(--transition); box-shadow: 0 10px 20px rgba(30, 58, 138, 0.2); }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(30, 58, 138, 0.35); filter: brightness(1.1); }
         .btn-s { background: rgba(255,255,255,0.06); padding: 10px 18px; border-radius: 10px; color: var(--text-dim); font-weight: 700; font-size: 0.8rem; }
         .btn-s:hover { background: rgba(255,255,255,0.1); color: #fff; }
-        .btn-danger { color: #fff; background: #dc2626; box-shadow: 0 10px 20px rgba(220,38,38,0.2); }
+        .btn-danger { color: #fff; background: #1D4ED8; box-shadow: 0 10px 20px rgba(29, 78, 216,0.2); }
         .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-main); }
         .btn-outline:hover { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.2); }
 
@@ -104,7 +104,7 @@
         .form-group { margin-bottom: 2rem; }
         .form-label { display: block; color: var(--text-dim); font-size: 0.75rem; font-weight: 900; text-transform: uppercase; margin-bottom: 10px; letter-spacing: 0.05em; }
         .form-input { width: 100%; background: var(--input-bg); border: 1px solid var(--border); border-radius: 14px; padding: 16px; color: var(--text-main); font-size: 0.95rem; transition: var(--transition); font-weight: 500; }
-        .form-input:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 20px rgba(200,16,46,0.1); }
+        .form-input:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 20px rgba(0, 71, 171,0.1); }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
         textarea.form-input { min-height: 120px; line-height: 1.6; }
 
@@ -125,7 +125,7 @@
             display: flex; flex-direction: column; align-items: center; justify-content: center; 
             cursor: pointer; transition: 0.3s; position: relative; gap: 10px;
         }
-        .upload-box:hover { border-color: var(--accent); background: rgba(230, 57, 70, 0.05); }
+        .upload-box:hover { border-color: var(--accent); background: rgba(30, 95, 204, 0.05); }
         .upload-box i { font-size: 2rem; color: var(--text-dim); }
         .upload-box span { font-size: 0.75rem; font-weight: 700; color: var(--text-dim); }
         .preview-pane { 
@@ -137,7 +137,7 @@
         .gallery-item { position: relative; aspect-ratio: 1; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: var(--input-bg); }
         .gallery-item img, .gallery-item video { width: 100%; height: 100%; object-fit: cover; }
         .add-gallery-btn { aspect-ratio: 1; border: 2px dashed var(--border); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; color: var(--text-dim); background: var(--bg-card); }
-        .add-gallery-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(230, 57, 70, 0.05); }
+        .add-gallery-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(30, 95, 204, 0.05); }
         .nav-group-title { margin:1.5rem 0 0.5rem 1.5rem; font-size:0.6rem; font-weight:900; color:var(--text-dim); letter-spacing:0.1em; text-transform:uppercase; opacity: 0.5; }
         .extra-menu { display:none; flex-direction:column; background: rgba(0,0,0,0.1); border-radius:10px; margin: 0 10px; padding: 5px 0; }
         .extra-menu.show { display:flex; }
@@ -164,29 +164,32 @@
             <div class="nav-item" onclick="window.open('../', '_blank')" style="border: 1px solid rgba(255,255,255,0.05); margin-bottom: 2rem;"><i class="fa fa-external-link" style="color:var(--accent);"></i> 홈페이지 바로가기</div>
             
             <div class="nav-group-title">DIRECT LIVE EDITOR (1:1 배치)</div>
-            <div class="nav-item active" onclick="switchView('placements')" style="background: rgba(200, 16, 46, 0.1); border: 1px solid var(--accent);"><i class="fa fa-th-large" style="color:var(--accent);"></i> <b>3D 갤러리 1:1 배치 마스터</b></div>
+            <div class="nav-item active" onclick="switchView('placements')" style="background: rgba(0, 71, 171, 0.1); border: 1px solid var(--accent);"><i class="fa fa-th-large" style="color:var(--accent);"></i> <b>3D 갤러리 1:1 배치 마스터</b></div>
             
             <div class="nav-group-title">MAIN CONTENT</div>
             
-            <div class="nav-item" onclick="switchView('manage_categories')" style="background: rgba(100,50,200,0.1); border: 1px solid rgba(100,50,200,0.3);"><i class="fa fa-tags" style="color:#b57bff;"></i> <b>카테고리명/순서 관리</b></div>
-            <div class="nav-item" onclick="switchView('portfolio')"><i class="fa fa-folder"></i> 포트폴리오(3D 카드) 관리</div>
-            <div class="nav-item" onclick="switchView('portfolio_hero')"><i class="fa fa-clapperboard"></i> 카테고리 시네마틱 관리</div>
+            <div class="nav-item" onclick="switchView('portfolio')"><i class="fa fa-folder"></i> 우리가게컨턴츠만들기 작업물</div>
             <div class="nav-item" onclick="switchView('the3cut_config')"><i class="fa fa-magic" style="color: #b57bff;"></i> <b>THE3컷 인증키 설정</b></div>
             <div class="nav-item" onclick="switchView('global')"><i class="fa fa-globe"></i> 전역 설정 (테마/컬러)</div>
             <div class="nav-item" onclick="switchView('hero')"><i class="fa fa-tv"></i> 히어로 섹션 마스터</div>
-            <div class="nav-item" onclick="switchView('team')"><i class="fa fa-users"></i> 팀 멤버 컨설팅</div>
-            <div class="nav-item" onclick="switchView('journey')"><i class="fa fa-route"></i> 성공 연혁</div>
-            <div class="nav-item" onclick="switchView('impact_stories')"><i class="fa fa-quote-right"></i> 고객 성공 메시지</div>
-            <div class="nav-item" onclick="switchView('hero_slides')"><i class="fa fa-images"></i> 히어로 캐러셀</div>
-            <div class="nav-item" onclick="switchView('service_packages')"><i class="fa fa-list-ul"></i> 맞춤 서비스(FAQ) 관리</div>
+            <div class="nav-group-title">EXPERTS · 전문가 섹션</div>
+            <div class="nav-item" onclick="switchView('team')"><i class="fa fa-users"></i> 팀 멤버 (3명 카드)</div>
+            <div class="nav-item" onclick="switchView('experts_copy')"><i class="fa fa-quote-left"></i> 섹션 카피 / ABOUT 블록</div>
+
+            <div class="nav-group-title">JOURNEY · 타임라인</div>
+            <div class="nav-item" onclick="switchView('journey_copy')"><i class="fa fa-clock"></i> 타임라인 헤더/뱃지</div>
+            <div class="nav-item" onclick="switchView('journey')"><i class="fa fa-route"></i> 타임라인 노드 (점)</div>
+
+            <div class="nav-group-title">ARCHIVE · 카테고리 타일</div>
+            <div class="nav-item" onclick="switchView('archive_copy')"><i class="fa fa-th-large"></i> 섹션 카피 (헤더/CTA)</div>
+            <div class="nav-item" onclick="switchView('manage_categories')" style="background: rgba(100,50,200,0.1); border: 1px solid rgba(100,50,200,0.3);"><i class="fa fa-tags" style="color:#b57bff;"></i> <b>카테고리명/순서</b></div>
+            <div class="nav-item" onclick="switchView('portfolio_hero')"><i class="fa fa-clapperboard"></i> 카테고리 시네마틱 이미지</div>
 
             <div class="nav-group-title">MANAGEMENT</div>
             <div class="nav-item" onclick="switchView('consulting')"><i class="fa fa-envelope"></i> 문의 내역 확인</div>
             <div class="nav-item" onclick="switchView('contact_settings')"><i class="fa fa-address-book"></i> 연락처/서비스 설정</div>
-            <div class="nav-item" onclick="switchView('stats')"><i class="fa fa-chart-bar"></i> 성과 수치 (Stats)</div>
-            <div class="nav-item" onclick="switchView('clients')"><i class="fa fa-building"></i> 고객사 로고</div>
         </nav>
-        <div class="nav-item" style="margin-top:2rem; background: rgba(220,38,38,0.1); color: #dc2626; border-radius: 12px; font-weight:900;" onclick="logout()"><i class="fa fa-sign-out"></i> 로그아웃</div>
+        <div class="nav-item" style="margin-top:2rem; background: rgba(29, 78, 216,0.1); color: #1D4ED8; border-radius: 12px; font-weight:900;" onclick="logout()"><i class="fa fa-sign-out"></i> 로그아웃</div>
     </aside>
 
     <main class="main-content">
@@ -210,7 +213,7 @@
     <div id="live-preview-container" style="width:100%; height:100%; position:relative; overflow:hidden;"></div>
     <style>
         .draggable { transition: outline 0.2s, background 0.2s; }
-        .draggable:hover { outline: 2px dashed var(--accent); background:rgba(230,57,70,0.1); }
+        .draggable:hover { outline: 2px dashed var(--accent); background:rgba(30, 95, 204,0.1); }
         .draggable.dragging { opacity:0.5; outline: 2px solid #fff !important; pointer-events: none; }
     </style>
 </div>
@@ -342,7 +345,7 @@
 
     const modal = document.getElementById('modal');
     const itemForm = document.getElementById('item-form');
-    let currentPortfolioFilter = 'all'; // 포트폴리오 필터 상태 유지용
+    let currentPortfolioFilter = 'all'; // 우리가게컨턴츠만들기 필터 상태 유지용
     // uploader는 전역 변수로 관리됨
 
     onAuthStateChanged(auth, (user) => {
@@ -563,17 +566,16 @@
         if(view === 'dashboard') renderDashboard();
         else if(view === 'global') renderGlobalSettings();
         else if(view === 'hero') renderHeroSettings();
-        else if(view === 'hero_slides') renderList('hero_slides', '히어로 캐러셀', ['image_path', 'sort_order']);
-        else if(view === 'stats') renderStatsSettings();
         else if(view === 'portfolio') renderPortfolio('all');
         else if(view === 'team') renderList(view, '팀 멤버', ['photo', 'name', 'role']);
         else if(view === 'journey') renderList(view, '성공 연혁', ['period', 'title', 'subtitle', 'description']);
-        else if(view === 'clients') renderList(view, '고객사', ['logo', 'name']);
         else if(view === 'contact_settings') renderContactSettings();
+        else if(view === 'experts_copy') renderExpertsCopy();
+        else if(view === 'journey_copy') renderJourneyCopy();
+        else if(view === 'archive_copy') renderArchiveCopy();
         else if(view === 'the3cut_config') renderThe3CutConfig();
         else if(view === 'manage_categories') renderManageCategories();
         else if(view === 'portfolio_hero') renderPortfolioHeroSettings();
-        else if(view === 'impact_stories') renderList('impact_stories', '고객 성공 메시지', ['avatar', 'bg_image', 'author', 'result', 'quote']);
         else if(view === 'consulting') renderList('contacts', '문의 내역', ['company_name', 'email', 'service', 'message', 'created_at']);
         else if(view === 'placements') renderPlacements();
         else if(view === 'service_packages') renderList('service_packages', '서비스 패키지', ['title', 'desc']);
@@ -614,7 +616,7 @@
                     <input type="number" class="form-input" style="width:70px; padding:10px; font-size:0.9rem;" value="${i+1}" id="c-order-${i}" title="순서">
                     <input type="text" class="form-input" style="width:140px; padding:10px; font-size:0.9rem; opacity:${i<5?0.6:1}" value="${c.id}" id="c-id-${i}" placeholder="고유 ID (영문)" ${i<5?'readonly':''}>
                     <input type="text" class="form-input" style="flex:1; padding:10px; font-size:0.9rem;" value="${c.label}" id="c-label-${i}" placeholder="표시명 (예: 브랜드 디자인)">
-                    <button class="btn-s" style="background:#dc2626; color:#fff; padding:6px 12px;" onclick="window.catListMem.splice(${i}, 1); renderCatRows();"><i class="fa fa-trash"></i></button>
+                    <button class="btn-s" style="background:#1D4ED8; color:#fff; padding:6px 12px;" onclick="window.catListMem.splice(${i}, 1); renderCatRows();"><i class="fa fa-trash"></i></button>
                 </div>
             `).join('');
         };
@@ -647,7 +649,7 @@
             <div class="header-content"><div class="view-title"><h1>THE3 컷 AI 설정</h1><p>THE3 컷에 사용되는 핵심 API 키와 6자리 접속 PIN 번호를 설정합니다.</p></div></div>
             <div class="table-container" style="padding:3rem;">
                 <form id="the3cut-settings-form">
-                    <div style="background:rgba(200, 16, 46, 0.05); padding:20px; border-radius:15px; margin-bottom:2rem; border:1px solid var(--border);">
+                    <div style="background:rgba(0, 71, 171, 0.05); padding:20px; border-radius:15px; margin-bottom:2rem; border:1px solid var(--border);">
                          <p style="font-size:0.75rem; color:var(--accent); font-weight:800; margin-bottom:5px;"><i class="fa fa-lock"></i> 보안 안내</p>
                          <p style="font-size:0.75rem; color:var(--text-dim); line-height: 1.5;">API 키는 일반인에게 절대 노출되지 않도록, 고객 접속 시 <strong>6자리 PIN 숫자</strong> 만을 입력받습니다. 여기서 실제 구글 API Key와 인증용 PIN을 설정하세요.</p>
                     </div>
@@ -729,7 +731,7 @@
             <div class="header-content">
                 <div class="view-title">
                     <h1>히어로 섹션 편집</h1>
-                    <p>메인 카피와 인터랙티브 요소를 관리합니다. <span style="color:var(--accent); font-weight:900;">(Brand Blue: #C8102E)</span></p>
+                    <p>메인 카피와 인터랙티브 요소를 관리합니다. <span style="color:var(--accent); font-weight:900;">(Brand Blue: #0047AB)</span></p>
                 </div>
             </div>
             
@@ -751,7 +753,7 @@
                             <input name="main_copy" class="form-input" value="${data.main_copy||''}" placeholder="예: 장사도 바쁜데,">
                         </div>
                         <div class="form-group">
-                            <label class="form-label">강조 포인트 문구 (빨간색+크게) <span style="color:#C8102E">(Crimson: #C8102E)</span></label>
+                            <label class="form-label">강조 포인트 문구 (빨간색+크게) <span style="color:#0047AB">(Crimson: #0047AB)</span></label>
                             <input name="accent_copy" class="form-input" value="${data.accent_copy||''}" placeholder="예: 콘텐츠까지 고민하시나요?">
                         </div>
                     </div>
@@ -820,6 +822,254 @@
         };
     }
 
+    // ───── 2-0. 전문가 섹션 카피 + THE 3 소개 블록 마스터 ─────
+    async function renderExpertsCopy() {
+        appView.innerHTML = '<div style="text-align:center; padding:10rem;"><i class="fa fa-spinner fa-spin"></i></div>';
+        try {
+            const s = await getDoc(doc(db, 'settings', 'experts_copy'));
+            const data = s.exists() ? s.data() : {};
+            const def = {
+                section_eyebrow: 'THE EXPERTS',
+                section_title:   'THE 3: 사장님의 성장을 돕는 전문가들',
+                intro_html:      '이 바닥에 <b>10년 이상의 업력</b>을 가지고 있는 전문가 집단 3명이 모였습니다.',
+                about_eyebrow:   'ABOUT THE 3 STUDIO',
+                about_title:     '더삼은 <b>소상공인의 토탈 콘텐츠 파트너</b>입니다',
+                about_desc:      '영상 · 컨설팅 · 디자인, 각 분야에서 <b>10년 이상의 업력</b>을 쌓은 3개 전문 집단이 하나로 모였습니다.<br>사장님의 브랜드를 위한 <b>A부터 Z까지의 모든 콘텐츠 솔루션</b>을 한 곳에서 책임집니다.',
+                cta_hint:        '▾ 각 분야를 클릭하면 상세 서비스가 펼쳐집니다',
+                pillars:         '영상 콘텐츠 개발 | 소상공인 컨설팅 | 디자인 콘텐츠 개발'
+            };
+            const v = (k) => (data[k] !== undefined ? data[k] : def[k]) || '';
+
+            appView.innerHTML = `
+                <div class="header-content">
+                    <div class="view-title"><h1>전문가 섹션 / THE 3 소개 카피</h1><p>홈페이지 전문가 카드 상단 한 줄, 그리고 THE 3 통합 소개 블록의 모든 텍스트를 관리합니다.</p></div>
+                </div>
+                <div class="settings-card" style="max-width:820px;">
+                    <form id="experts-copy-form">
+                        <div style="background:rgba(0,71,171,0.05); padding:14px 16px; border-radius:12px; margin-bottom:24px; border:1px solid rgba(0,71,171,0.15);">
+                            <p style="font-size:0.72rem; color:var(--accent); font-weight:900; margin-bottom:6px;"><i class="fa fa-info-circle"></i> 작성 가이드</p>
+                            <p style="font-size:0.7rem; color:var(--text-dim); line-height:1.6;">
+                                <b>&lt;b&gt;강조 단어&lt;/b&gt;</b> = 굵은 흰색/코발트 강조 · <b>&lt;br&gt;</b> = 줄바꿈<br>
+                                3개 필러는 <b>|</b>(파이프)로 구분해서 입력하세요. (예: 영상 | 컨설팅 | 디자인)
+                            </p>
+                        </div>
+
+                        <h3 style="font-size:0.85rem; font-weight:900; color:var(--accent); margin:0 0 14px; padding-bottom:10px; border-bottom:1px solid var(--border); letter-spacing:0.05em;">① 섹션 헤더 (가장 위 — 큰 타이틀)</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">섹션 라벨 (eyebrow)</label>
+                                <input name="section_eyebrow" class="form-input" value="${v('section_eyebrow')}" placeholder="예) THE EXPERTS">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">섹션 메인 타이틀</label>
+                            <input name="section_title" class="form-input" value="${v('section_title')}" placeholder="예) THE 3: 사장님의 성장을 돕는 전문가들">
+                        </div>
+
+                        <h3 style="font-size:0.85rem; font-weight:900; color:var(--accent); margin:28px 0 14px; padding-bottom:10px; border-bottom:1px solid var(--border); letter-spacing:0.05em;">② 카드 상단 인트로</h3>
+                        <div class="form-group">
+                            <label class="form-label">인트로 한 줄 (전문가 카드 위)</label>
+                            <textarea name="intro_html" class="form-input" style="min-height:80px;" placeholder="예) 이 바닥에 <b>10년 이상의 업력</b>을 가지고 있는 전문가 집단 3명이 모였습니다.">${v('intro_html')}</textarea>
+                        </div>
+
+                        <h3 style="font-size:0.85rem; font-weight:900; color:var(--accent); margin:28px 0 14px; padding-bottom:10px; border-bottom:1px solid var(--border); letter-spacing:0.05em;">③ THE 3 통합 소개 블록 (전문가 카드 아래)</h3>
+                        <div class="form-group">
+                            <label class="form-label">소제목 라벨 (eyebrow)</label>
+                            <input name="about_eyebrow" class="form-input" value="${v('about_eyebrow')}" placeholder="예) ABOUT THE 3 STUDIO">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">메인 타이틀 (큰 글자)</label>
+                            <textarea name="about_title" class="form-input" style="min-height:70px;" placeholder="예) 더삼은 <b>소상공인의 토탈 콘텐츠 파트너</b>입니다">${v('about_title')}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">소개 본문 (2~3줄 권장 · 줄바꿈은 &lt;br&gt;)</label>
+                            <textarea name="about_desc" class="form-input" style="min-height:110px;" placeholder="예) 영상 · 컨설팅 · 디자인, 각 분야에서 <b>10년 이상의 업력</b>을 쌓은 3개 전문 집단이 하나로 모였습니다.<br>사장님의 브랜드를 위한 <b>A부터 Z까지의 모든 콘텐츠 솔루션</b>을 한 곳에서 책임집니다.">${v('about_desc')}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">3개 핵심 분야 필러 라벨 (| 로 구분)</label>
+                            <input name="pillars" class="form-input" value="${v('pillars')}" placeholder="예) 영상 콘텐츠 개발 | 소상공인 컨설팅 | 디자인 콘텐츠 개발">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">클릭 안내 문구 (필러 위 작은 텍스트)</label>
+                            <input name="cta_hint" class="form-input" value="${v('cta_hint')}" placeholder="예) ▾ 각 분야를 클릭하면 상세 서비스가 펼쳐집니다">
+                        </div>
+
+                        <h3 style="font-size:0.85rem; font-weight:900; color:var(--accent); margin:28px 0 14px; padding-bottom:10px; border-bottom:1px solid var(--border); letter-spacing:0.05em;">④ 필러 클릭 시 펼쳐지는 상세 카피 (각 분야별)</h3>
+                        <div class="form-group">
+                            <label class="form-label">필러 ① 상세 — 영상 콘텐츠 개발</label>
+                            <textarea name="pillar_1_detail" class="form-input" style="min-height:90px;" placeholder="해당 분야의 핵심 서비스를 1-2문장으로 작성하세요.">${v('pillar_1_detail')}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">필러 ② 상세 — 소상공인 컨설팅</label>
+                            <textarea name="pillar_2_detail" class="form-input" style="min-height:90px;" placeholder="해당 분야의 핵심 서비스를 1-2문장으로 작성하세요.">${v('pillar_2_detail')}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">필러 ③ 상세 — 디자인 콘텐츠 개발</label>
+                            <textarea name="pillar_3_detail" class="form-input" style="min-height:90px;" placeholder="해당 분야의 핵심 서비스를 1-2문장으로 작성하세요.">${v('pillar_3_detail')}</textarea>
+                        </div>
+
+                        <button type="submit" class="btn" style="width:100%; margin-top:1.5rem;"><i class="fa fa-save"></i> 카피 즉시 저장</button>
+                    </form>
+                </div>
+            `;
+            document.getElementById('experts-copy-form').addEventListener('submit', async (e)=>{
+                e.preventDefault();
+                const fd = new FormData(e.target);
+                const payload = {
+                    section_eyebrow: fd.get('section_eyebrow') || '',
+                    section_title:   fd.get('section_title')   || '',
+                    intro_html:      fd.get('intro_html')      || '',
+                    about_eyebrow:   fd.get('about_eyebrow')   || '',
+                    about_title:     fd.get('about_title')     || '',
+                    about_desc:      fd.get('about_desc')      || '',
+                    cta_hint:        fd.get('cta_hint')        || '',
+                    pillars:         fd.get('pillars')         || '',
+                    pillar_1_detail: fd.get('pillar_1_detail') || '',
+                    pillar_2_detail: fd.get('pillar_2_detail') || '',
+                    pillar_3_detail: fd.get('pillar_3_detail') || '',
+                    updated_at: new Date().toISOString()
+                };
+                try{
+                    await setDoc(doc(db, 'settings', 'experts_copy'), payload, { merge:true });
+                    alert('✅ 전문가 섹션 카피가 저장되었습니다.');
+                }catch(err){
+                    console.error(err);
+                    alert('❌ 저장 실패: ' + err.message);
+                }
+            });
+        } catch(e){
+            appView.innerHTML = `<div style="padding:3rem; color:#ff6b6b;">로드 실패: ${e.message}</div>`;
+        }
+    }
+
+    // ───── 2-0-B. Journey 타임라인 카피 마스터 ─────
+    async function renderJourneyCopy() {
+        appView.innerHTML = '<div style="text-align:center; padding:10rem;"><i class="fa fa-spinner fa-spin"></i></div>';
+        try {
+            const s = await getDoc(doc(db, 'settings', 'journey_copy'));
+            const data = s.exists() ? s.data() : {};
+            const def = {
+                eyebrow: 'OUR JOURNEY',
+                title:   '28년의 누적 업력으로 만들어진 팀',
+                badge:   'SINCE 1998 · 28년 누적 업력'
+            };
+            const v = (k) => (data[k] !== undefined ? data[k] : def[k]) || '';
+
+            appView.innerHTML = `
+                <div class="header-content">
+                    <div class="view-title"><h1>Journey 타임라인 카피</h1><p>홈페이지 OUR JOURNEY 타임라인 섹션의 헤더 텍스트와 누적 업력 뱃지를 관리합니다. 타임라인 노드(연도·라벨)는 <b>'성공 연혁'</b> 메뉴에서 편집하세요.</p></div>
+                </div>
+                <div class="settings-card" style="max-width:780px;">
+                    <form id="journey-copy-form">
+                        <div style="background:rgba(0,71,171,0.05); padding:14px 16px; border-radius:12px; margin-bottom:24px; border:1px solid rgba(0,71,171,0.15);">
+                            <p style="font-size:0.72rem; color:var(--accent); font-weight:900; margin-bottom:6px;"><i class="fa fa-info-circle"></i> 작성 가이드</p>
+                            <p style="font-size:0.7rem; color:var(--text-dim); line-height:1.6;">
+                                홈페이지 타임라인은 가로 스트립(점 4개) 형태로 표시됩니다.<br>
+                                각 점의 <b>연도</b>는 '성공 연혁' 메뉴의 <b>기간</b> 필드에서 자동 추출됩니다 (예: "1998 - Present" → <b>1998</b>).
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">섹션 라벨 (eyebrow)</label>
+                            <input name="eyebrow" class="form-input" value="${v('eyebrow')}" placeholder="예) OUR JOURNEY">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">메인 타이틀</label>
+                            <input name="title" class="form-input" value="${v('title')}" placeholder="예) 28년의 누적 업력으로 만들어진 팀">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">누적 업력 뱃지 (타임라인 아래)</label>
+                            <input name="badge" class="form-input" value="${v('badge')}" placeholder="예) SINCE 1998 · 28년 누적 업력">
+                        </div>
+                        <button type="submit" class="btn" style="width:100%; margin-top:1.5rem;"><i class="fa fa-save"></i> 카피 즉시 저장</button>
+                    </form>
+                </div>
+            `;
+            document.getElementById('journey-copy-form').addEventListener('submit', async (e)=>{
+                e.preventDefault();
+                const fd = new FormData(e.target);
+                const payload = {
+                    eyebrow: fd.get('eyebrow') || '',
+                    title:   fd.get('title')   || '',
+                    badge:   fd.get('badge')   || '',
+                    updated_at: new Date().toISOString()
+                };
+                try{
+                    await setDoc(doc(db, 'settings', 'journey_copy'), payload, { merge:true });
+                    alert('✅ Journey 카피가 저장되었습니다.');
+                }catch(err){
+                    console.error(err);
+                    alert('❌ 저장 실패: ' + err.message);
+                }
+            });
+        } catch(e){
+            appView.innerHTML = `<div style="padding:3rem; color:#ff6b6b;">로드 실패: ${e.message}</div>`;
+        }
+    }
+
+    // ───── 2-0-C. ARCHIVE 섹션 카피 마스터 ─────
+    async function renderArchiveCopy() {
+        appView.innerHTML = '<div style="text-align:center; padding:10rem;"><i class="fa fa-spinner fa-spin"></i></div>';
+        try {
+            const s = await getDoc(doc(db, 'settings', 'archive_copy'));
+            const data = s.exists() ? s.data() : {};
+            const def = {
+                eyebrow:    'ARCHIVE',
+                mini_title: '우리가게 콘텐츠 만들기 · 카테고리',
+                cta_label:  '전체 작품 보기'
+            };
+            const v = (k) => (data[k] !== undefined ? data[k] : def[k]) || '';
+
+            appView.innerHTML = `
+                <div class="header-content">
+                    <div class="view-title"><h1>ARCHIVE 섹션 카피</h1><p>홈페이지 5장 카테고리 타일 위 헤더와 CTA 버튼 텍스트를 관리합니다. 카테고리 5개와 시네마틱 이미지는 <b>'카테고리명/순서 관리'</b>와 <b>'카테고리 시네마틱 관리'</b>에서 편집하세요.</p></div>
+                </div>
+                <div class="settings-card" style="max-width:780px;">
+                    <form id="archive-copy-form">
+                        <div style="background:rgba(0,71,171,0.05); padding:14px 16px; border-radius:12px; margin-bottom:24px; border:1px solid rgba(0,71,171,0.15);">
+                            <p style="font-size:0.72rem; color:var(--accent); font-weight:900; margin-bottom:6px;"><i class="fa fa-info-circle"></i> 작성 가이드</p>
+                            <p style="font-size:0.7rem; color:var(--text-dim); line-height:1.6;">
+                                홈페이지 ARCHIVE 섹션은 <b>한 줄 미니멀 헤더 + 카테고리 5장</b>으로 구성됩니다.<br>
+                                헤더는 <b>"라벨 · 미니 타이틀"</b> 형태로 한 줄에 노출되어 카테고리가 즉시 보이게 합니다.
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">섹션 라벨 (eyebrow · 코발트 색)</label>
+                            <input name="eyebrow" class="form-input" value="${v('eyebrow')}" placeholder="예) ARCHIVE">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">미니 타이틀 (한 줄 부제 · 라벨 옆 표시)</label>
+                            <input name="mini_title" class="form-input" value="${v('mini_title')}" placeholder="예) 우리가게 콘텐츠 만들기 · 카테고리">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">CTA 버튼 라벨 (타일 아래 큰 버튼)</label>
+                            <input name="cta_label" class="form-input" value="${v('cta_label')}" placeholder="예) 전체 작품 보기">
+                        </div>
+                        <button type="submit" class="btn" style="width:100%; margin-top:1.5rem;"><i class="fa fa-save"></i> 카피 즉시 저장</button>
+                    </form>
+                </div>
+            `;
+            document.getElementById('archive-copy-form').addEventListener('submit', async (e)=>{
+                e.preventDefault();
+                const fd = new FormData(e.target);
+                const payload = {
+                    eyebrow:    fd.get('eyebrow')    || '',
+                    mini_title: fd.get('mini_title') || '',
+                    cta_label:  fd.get('cta_label')  || '',
+                    updated_at: new Date().toISOString()
+                };
+                try{
+                    await setDoc(doc(db, 'settings', 'archive_copy'), payload, { merge:true });
+                    alert('✅ ARCHIVE 카피가 저장되었습니다.');
+                }catch(err){
+                    console.error(err);
+                    alert('❌ 저장 실패: ' + err.message);
+                }
+            });
+        } catch(e){
+            appView.innerHTML = `<div style="padding:3rem; color:#ff6b6b;">로드 실패: ${e.message}</div>`;
+        }
+    }
+
     // ───── 2-1. 연락처 정보 마스터 (NEW) ─────
     async function renderContactSettings() {
         appView.innerHTML = '<div style="text-align:center; padding:10rem;"><i class="fa fa-spinner fa-spin"></i></div>';
@@ -865,39 +1115,7 @@
     }
 
 
-    // ───── 3. 성과 수치 마스터 (RESTORED STATS) ─────
-    async function renderStatsSettings() {
-        appView.innerHTML = '<div style="text-align:center; padding:10rem;"><i class="fa fa-spinner fa-spin"></i></div>';
-        const snap = await getDocs(query(collection(db, 'stats'), orderBy('sort_order', 'desc')));
-        const items = []; snap.forEach(d => items.push({...d.data(), id: d.id}));
-        appView.innerHTML = `
-            <div class="header-content"><div class="view-title"><h1>성과 수치 관리 (Stats)</h1><p>웹사이트에 표시되는 실적 수치를 편집합니다.</p></div><button class="btn" onclick="openEditModal('stats')"><i class="fa fa-plus"></i> 항목 추가</button></div>
-            <p style="font-size:0.7rem; color:var(--accent); font-weight:900; margin-bottom:1.5rem;"><i class="fa fa-info-circle"></i> 순서 숫자가 클수록 홈페이지 상단에 먼저 노출됩니다.</p>
-            <div class="stats-grid">
-                ${items.map(it => `
-                    <div class="stat-card">
-                        <div style="display:flex; justify-content:space-between;">
-                             <label>${it.label || '제목 없음'}</label>
-                             <div style="display:flex; gap:10px;">
-                                <i class="fa fa-edit" style="cursor:pointer" onclick="editItem('stats','${it.id}')"></i>
-                                <i class="fa fa-trash" style="cursor:pointer; color:var(--danger)" onclick="deleteItem('stats','${it.id}')"></i>
-                             </div>
-                        </div>
-                        <input value="${it.value || '0'}" readonly disabled>
-                        <div style="margin-top:15px; padding-top:15px; border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between;">
-                            <span style="font-size:0.6rem; color:var(--text-dim); font-weight:800;">노출 순서</span>
-                            <input type="number" value="${it.sort_order || 0}" 
-                                   style="width:50px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:6px; color:#fff; text-align:center; font-size:0.8rem; padding:4px;"
-                                   onchange="window.updateItemOrder('stats', '${it.id}', this.value)">
-                        </div>
-                    </div>
-                `).join('')}
-            </div>
-        `;
-    }
-
-
-    // ───── 4-1. 포트폴리오 히어로 시네마틱 설정 (NEW) ─────
+    // ───── 4-1. 우리가게컨턴츠만들기 히어로 시네마틱 설정 (NEW) ─────
     async function renderPortfolioHeroSettings() {
         appView.innerHTML = '<div style="text-align:center; padding:10rem;"><i class="fa fa-spinner fa-spin"></i></div>';
         const catSnap = await getDoc(doc(db, 'settings', 'categories'));
@@ -923,12 +1141,12 @@
             // 파란색 캐시 보정 처리
             Object.keys(fullData).forEach(k => {
                 if(fullData[k] && fullData[k].title) {
-                    fullData[k].title = fullData[k].title.replace('#0066ff', '#C8102E').replace('#0044aa', '#A00D25');
+                    fullData[k].title = fullData[k].title.replace('#0066ff', '#0047AB').replace('#0044aa', '#A00D25');
                 }
             });
 
             appView.innerHTML = `
-                <div class="header-content"><h1>포트폴리오 히어로 설정</h1><p>카테고리별 시네마틱 배경과 전용 문구를 관리합니다.</p></div>
+                <div class="header-content"><h1>우리가게컨턴츠만들기 히어로 설정</h1><p>카테고리별 시네마틱 배경과 전용 문구를 관리합니다.</p></div>
                 <div style="display:grid; grid-template-columns: 320px 1fr; gap:30px;">
                     <div class="table-container" style="padding:1rem; height:fit-content;">
                         ${cats.map(c => `
@@ -948,7 +1166,7 @@
                 
                 // 제가 추천드린 가장 멋진 기본 문안들 (프리셋)
                 const defaultThemes = {
-                    all: { label: 'Selected Works', title: '압도적 성과로 증명하는<br><span style="background:linear-gradient(to right, #fff, #C8102E); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">포트폴리오</span>', desc: '각 프로젝트는 단순한 작업물을 넘어, 브랜드의 성장을 견인하는 강력한 도구입니다.', img: 'https://images.unsplash.com/photo-1544256718-3bcf237f3974?q=80&w=2071' },
+                    all: { label: 'Selected Works', title: '압도적 성과로 증명하는<br><span style="background:linear-gradient(to right, #fff, #0047AB); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">우리가게컨턴츠만들기</span>', desc: '각 프로젝트는 단순한 작업물을 넘어, 브랜드의 성장을 견인하는 강력한 도구입니다.', img: 'https://images.unsplash.com/photo-1544256718-3bcf237f3974?q=80&w=2071' },
                     calligraphy: { label: '01 / Branding Face', title: '세상에 단 하나뿐인<br>브랜드의 얼굴', desc: '장인의 필치로 브랜드의 영혼을 담아 독보적인 첫인상을 설계합니다.', img: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=2070' },
                     video: { label: '02 / Performance Reel', title: '매출로 즉시 직결되는<br>영상 마케팅', desc: '단 1초 만에 고객의 욕망을 건드리는 폭발적인 시각적 파괴력을 경험하세요.', img: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2071' },
                     storyboard: { label: '03 / Strategic Story', title: '성공을 위해 치밀하게<br>설계된 기획', desc: '단순한 그림이 아닌, 비즈니스 성장을 위한 가장 완벽한 시나리오를 작성합니다.', img: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2070' },
@@ -1012,7 +1230,7 @@
         } catch (err) { alert(err.message); }
     }
 
-    // ───── 4-2. 포트폴리오 (FILTERED VIEW) ─────
+    // ───── 4-2. 우리가게컨턴츠만들기 (FILTERED VIEW) ─────
     window.renderPortfolio = async (filter = 'all') => {
         currentPortfolioFilter = filter;
         if (filter === 'all' && window.GLOBAL_CATS && window.GLOBAL_CATS.length > 0) {
@@ -1049,7 +1267,7 @@
             appView.innerHTML = `
                 <div class="header-content">
                     <div class="view-title">
-                        <h1>포트폴리오 총괄</h1>
+                        <h1>우리가게컨턴츠만들기 총괄</h1>
                         <p>현재 <b>${filter === 'all' ? '전체' : cats.find(c=>c.id===filter)?.label}</b> 항목을 리스트업 중입니다.</p>
                     </div>
                     <button class="btn" onclick="openEditModal('portfolio')"><i class="fa fa-plus"></i> 작업물 신규 등록</button>
@@ -1089,7 +1307,7 @@
                                       </div>
                                     </td>
                                     <td><strong>${it.title || '제목 없음'}</strong><br><small style="color:var(--text-dim);">${it.client || 'Client 미지정'}</small></td>
-                                    <td style="text-transform:capitalize;"><span class="tag-badge" style="background:rgba(200,16,46,0.1); color:var(--accent);">${it.category || 'Standard'}</span></td>
+                                    <td style="text-transform:capitalize;"><span class="tag-badge" style="background:rgba(0, 71, 171,0.1); color:var(--accent);">${it.category || 'Standard'}</span></td>
                                     <td style="font-weight:700; color:${(it.status==='Published')?'#28cd41':'#ff3b30'}; opacity:0.8;">${it.status || 'Draft'}</td>
                                     <td>
                                         <input type="number" value="${it.sort_order || 0}" 
@@ -1193,8 +1411,8 @@
                                     let cellVal = it[f] || '-';
                                     if(f==='photo'||f==='logo'||f==='image_path'||f==='thumbnail'||f==='avatar') return `<td style="padding:15px;"><div class="thumb-cell" style="width:60px; height:60px; border-radius:12px;">${isVideo(cellVal)?`<video src="${getMediaSrc(cellVal)}"></video>`:`<img src="${getMediaSrc(cellVal)}">`}</div></td>`;
                                     if(f==='created_at' && cellVal) return `<td style="padding:15px;"><span style="font-size:0.85rem; color:var(--text-dim);">${cellVal.split('T')[0]}</span></td>`;
-                                    if(f==='company_name' && isContact) return `<td style="padding:15px;"><div style="display:flex; align-items:center; gap:8px;"><span style="font-weight:900; font-size:1.1rem; color:var(--text-primary); text-shadow:none;">${cellVal}</span>${idx < 2 ? '<span style="background:var(--accent); color:#fff; font-size:0.6rem; padding:2px 6px; border-radius:4px; font-weight:900; box-shadow:0 4px 10px rgba(200,16,46,0.3);">NEW</span>' : ''}</div></td>`;
-                                    if(f==='service' && isContact) return `<td style="padding:15px;"><span style="background:rgba(200,16,46,0.1); padding:6px 12px; border-radius:8px; font-size:0.8rem; font-weight:900; color:var(--accent);">${cellVal}</span></td>`;
+                                    if(f==='company_name' && isContact) return `<td style="padding:15px;"><div style="display:flex; align-items:center; gap:8px;"><span style="font-weight:900; font-size:1.1rem; color:var(--text-primary); text-shadow:none;">${cellVal}</span>${idx < 2 ? '<span style="background:var(--accent); color:#fff; font-size:0.6rem; padding:2px 6px; border-radius:4px; font-weight:900; box-shadow:0 4px 10px rgba(0, 71, 171,0.3);">NEW</span>' : ''}</div></td>`;
+                                    if(f==='service' && isContact) return `<td style="padding:15px;"><span style="background:rgba(0, 71, 171,0.1); padding:6px 12px; border-radius:8px; font-size:0.8rem; font-weight:900; color:var(--accent);">${cellVal}</span></td>`;
                                     if(f==='sort_order') return `<td style="padding:15px;"><input type="number" value="${cellVal}" style="width:50px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:6px; color:var(--text-main); text-align:center; font-size:0.8rem; padding:4px;" onchange="window.updateItemOrder('${col}', '${it.id}', this.value)"></td>`;
                                     return `<td style="padding:15px; font-weight:500; font-size:0.95rem; color:var(--text-primary);">${cellVal}</td>`;
 
@@ -1243,7 +1461,7 @@
         let html = '';
         if(col === 'portfolio') {
             html = `
-                <div style="background:rgba(200,16,46,0.05); padding:15px; border-radius:12px; margin-bottom:20px; border:1px solid rgba(200,16,46,0.1);">
+                <div style="background:rgba(0, 71, 171,0.05); padding:15px; border-radius:12px; margin-bottom:20px; border:1px solid rgba(0, 71, 171,0.1);">
                     <p style="font-size:0.75rem; color:var(--accent); font-weight:900; margin-bottom:5px;"><i class="fa fa-check-circle"></i> 프로젝트 핵심 정보 관리</p>
                     <p style="font-size:0.7rem; color:var(--text-dim); line-height:1.5;">작품의 제목, 카테고리, 그리고 상세 갤러리에 들어갈 미디어들만 관리하세요.</p>
                 </div>
@@ -1316,28 +1534,28 @@
                     </div>
                 </div>
                 
-                <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:15px; margin-top:20px; padding:20px; background:rgba(200,16,46,0.05); border-radius:15px; border:1px solid rgba(200,16,46,0.1);">
+                <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:15px; margin-top:20px; padding:20px; background:rgba(0, 71, 171,0.05); border-radius:15px; border:1px solid rgba(0, 71, 171,0.1);">
                     <label class="switch-wrap"><input type="checkbox" name="show_in_gallery" value="1" hidden ${(data && data.show_in_gallery==='1')?'checked':''}> <div class="switch-box"></div> <span style="font-size:0.75rem; font-weight:800;">3D 갤러리(PC) 노출</span></label>
                     <label class="switch-wrap"><input type="checkbox" name="show_in_gallery_mobile" value="1" hidden ${(data && data.show_in_gallery_mobile==='1')?'checked':''}> <div class="switch-box"></div> <span style="font-size:0.75rem; font-weight:800; color:var(--accent);">3D 갤러리(M) 노출</span></label>
                     <label class="switch-wrap"><input type="checkbox" name="show_in_list" value="1" hidden ${(!data || data.show_in_list!=='0')?'checked':''}> <div class="switch-box"></div> <span style="font-size:0.75rem; font-weight:800;">데이터 리스트 노출</span></label>
                     <label class="switch-wrap"><input type="checkbox" name="disable_detail_click" value="1" hidden ${(data?.disable_detail_click==='1' || data?.disable_detail_click === 1)?'checked':''}> <div class="switch-box"></div> <span style="font-size:0.75rem; font-weight:800; color:#ff6b6b;">상세보기 잠금</span></label>
                 </div>
             `;
-        } else if(col === 'stats') {
-            html = `<div class="form-group"><label class="form-label">수치 제목</label><input name="label" class="form-input" value="${data?.label||''}"></div><div class="form-group"><label class="form-label">수치 (숫자/텍스트)</label><input name="value" class="form-input" value="${data?.value||''}"></div><div class="form-group"><label class="form-label">정렬 순서</label><input name="sort_order" class="form-input" value="${data?.sort_order||0}"></div>`;
-        } else if(col === 'hero_slides') {
-            html = `
-                <div class="form-group">
-                    <label class="form-label">히어로 이미지/영상</label>
-                    ${renderUploadUI('image_path', 'hero', data?.image_path)}
-                </div>
-                <div class="form-group"><label class="form-label">정렬 순서</label><input name="sort_order" class="form-input" value="${data?.sort_order||0}"></div>
-            `;
         } else if(col === 'team') {
             html = `
-                <div class="form-group"><label class="form-label">이름</label><input name="name" class="form-input" value="${data?.name||''}"></div>
-                <div class="form-group"><label class="form-label">역할/직책 (예: 기획 전문가, 브랜딩 디렉터)</label><input name="role" class="form-input" value="${data?.role||''}"></div>
-                <div class="form-group"><label class="form-label">전문 분야 설명 (Bio)</label><textarea name="bio" class="form-input" style="min-height:80px;" placeholder="어떤 업무를 전문적으로 수행하는지 설명해주세요.">${data?.bio||''}</textarea></div>
+                <div style="background:rgba(0,71,171,0.05); padding:12px 14px; border-radius:10px; margin-bottom:18px; border:1px solid rgba(0,71,171,0.15);">
+                    <p style="font-size:0.7rem; color:var(--accent); font-weight:900; margin-bottom:4px;"><i class="fa fa-info-circle"></i> 홈페이지 노출 형식</p>
+                    <p style="font-size:0.68rem; color:var(--text-dim); line-height:1.55;">
+                        <b>분야</b>(상단 코발트 라벨) → <b>소속 회사명 + 이름</b>(큰 타이틀) → <b>BIO</b> 한 줄 → <b>업무 칩</b> 순으로 표시됩니다.
+                    </p>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">이름 (직함 포함 가능)</label><input name="name" class="form-input" value="${data?.name||''}" placeholder="예: 김상훈 소장"></div>
+                    <div class="form-group"><label class="form-label">소속 회사명 (브랜드)</label><input name="company" class="form-input" value="${data?.company||''}" placeholder="예: 스타트 컨설팅"></div>
+                </div>
+                <div class="form-group"><label class="form-label">분야 (한글 — 상단 라벨)</label><input name="field" class="form-input" value="${data?.field||''}" placeholder="예: 소상공인 컨설팅 전문가"></div>
+                <div class="form-group"><label class="form-label">역할/직책 (영문 백업 — 분야 미입력 시 사용)</label><input name="role" class="form-input" value="${data?.role||''}" placeholder="예: STRATEGY / CONSULTING"></div>
+                <div class="form-group"><label class="form-label">한 줄 핵심 카피 (Bio)</label><textarea name="bio" class="form-input" style="min-height:80px;" placeholder="예: 사장님의 브랜드가 이길 수밖에 없는 뼈대 설계">${data?.bio||''}</textarea></div>
                 <div class="form-group">
                     <label class="form-label">상세 업무 리스트 (Tasks)</label>
                     <p style="font-size:0.6rem; color:var(--text-dim); margin-bottom:8px;">각 항목을 <b>줄바꿈(Enter)</b>으로 구분하여 입력해주세요. 웹사이트에 불렛 포인트로 표시됩니다.</p>
@@ -1356,50 +1574,37 @@
             `;
         } else if(col === 'journey') {
              html = `
-                <div class="form-group"><label class="form-label">기간</label><input name="period" class="form-input" value="${data?.period||''}" placeholder="예: 1998 - 현재"></div>
-                <div class="form-group"><label class="form-label">타이틀 (상단 라벨)</label><input name="title" class="form-input" value="${data?.title||''}" placeholder="예: 기획 & 전략"></div>
-                <div class="form-group"><label class="form-label">요약 (메인 제목)</label><input name="subtitle" class="form-input" value="${data?.subtitle||''}" placeholder="예: 대형 광고대행사 출신 기획"></div>
-                <div class="form-group"><label class="form-label">상세 설명 (하단 본문)</label><textarea name="description" class="form-input" style="min-height:120px;" placeholder="상세 내용을 입력하세요...">${data?.description||''}</textarea></div>
-             `;
-        } else if(col === 'clients') {
-            html = `
-                <div style="background:rgba(200,16,46,0.05); padding:15px; border-radius:12px; margin-bottom:20px; border:1px solid rgba(200,16,46,0.1);">
-                    <p style="font-size:0.75rem; color:var(--accent); font-weight:900; margin-bottom:5px;"><i class="fa fa-lock"></i> 100% 관리자 전용 내부 기록창</p>
-                    <p style="font-size:0.7rem; color:var(--text-dim); line-height:1.5;">이곳에 입력하는 모든 정보는 **우리 팀원들만 확인**할 수 있으며,<br>홈페이지 그 어디에도 노출되지 않으니 자유롭게 기록해 주세요.</p>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">기업명 (고객사 이름)</label>
-                    <input name="name" class="form-input" value="${data?.name||''}" placeholder="예: (주)더쓰리스튜디오" required>
+                <div style="background:rgba(0,71,171,0.05); padding:14px 16px; border-radius:12px; margin-bottom:20px; border:1px solid rgba(0,71,171,0.15);">
+                    <p style="font-size:0.72rem; color:var(--accent); font-weight:900; margin-bottom:6px;"><i class="fa fa-info-circle"></i> 타임라인 노드 표시 가이드</p>
+                    <p style="font-size:0.7rem; color:var(--text-dim); line-height:1.6;">
+                        홈페이지 OUR JOURNEY 가로 타임라인의 <b>점 1개</b>에 해당합니다.<br>
+                        <b>분야 라벨</b>은 점 위, <b>연도</b>는 점 아래 큰 숫자, <b>한 줄 설명</b>은 점 아래 작은 글씨로 표시됩니다.<br>
+                        <b>정렬 순서</b>가 작을수록 왼쪽(과거), 클수록 오른쪽(현재) 방향으로 배치됩니다.
+                    </p>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label class="form-label">핵심 담당자 (관리자 메모용)</label>
-                        <input name="rep_name" class="form-input" value="${data?.rep_name||''}" placeholder="예: 김철수 팀장">
+                        <label class="form-label">분야 라벨 (점 위 표시)</label>
+                        <input name="title" class="form-input" value="${data?.title||''}" placeholder="예: 기획 & 전략" required>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">담당자 연락처 (내부용)</label>
-                        <input name="rep_contact" class="form-input" value="${data?.rep_contact||''}" placeholder="예: 010-1234-5678">
+                        <label class="form-label">연도/기간 (점 아래 — 첫 4자리만 자동 표시)</label>
+                        <input name="period" class="form-input" value="${data?.period||''}" placeholder="예: 1998 - Present  또는  Now">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">현재 비즈니스 상태</label>
-                    <select name="status" class="form-input">
-                        <option value="대기" ${data?.status==='대기'?'selected':''}>⏳ 대기/검토중</option>
-                        <option value="진행중" ${data?.status==='진행중'?'selected':''}>🚀 프로젝트 진행중</option>
-                        <option value="완료" ${data?.status==='완료'?'selected':''}>✅ 프로젝트 완료</option>
-                        <option value="유지보수" ${data?.status==='유지보수'?'selected':''}>🛠️ 유지보수중</option>
-                        <option value="보류" ${data?.status==='보류'?'selected':''}>⏸️ 보류/중단</option>
-                    </select>
+                    <label class="form-label">한 줄 설명 (점 아래 작은 글씨 · 모바일 비표시)</label>
+                    <input name="subtitle" class="form-input" value="${data?.subtitle||''}" placeholder="예: 대형 광고대행사 출신 기획">
                 </div>
                 <div class="form-group">
-                    <label class="form-label">참조 이미지 / 로고 (내부 기록용)</label>
-                    ${renderUploadUI('logo', 'clients', data?.logo)}
+                    <label class="form-label">정렬 순서 (작을수록 왼쪽)</label>
+                    <input name="sort_order" class="form-input" type="number" value="${data?.sort_order||0}" placeholder="0">
                 </div>
                 <div class="form-group">
-                    <label class="form-label">내부 히스토리 및 특이사항 (상세 기록)</label>
-                    <textarea name="memo" class="form-input" style="min-height:150px;" placeholder="계약 체결일, 주요 요구사항, 특이사항 등을 우리끼리만 볼 수 있도록 기록하세요.">${data?.memo||''}</textarea>
+                    <label class="form-label">추가 설명 (보관용 — 현재 타임라인에서 비표시)</label>
+                    <textarea name="description" class="form-input" style="min-height:80px;" placeholder="필요 시 더 긴 설명을 보관해 두세요. 현재 타임라인 UI에는 표시되지 않습니다.">${data?.description||''}</textarea>
                 </div>
-            `;
+             `;
         } else if(col === 'contacts') {
              html = `
                 <div class="form-group"><label class="form-label">성함/회사명</label><input class="form-input" value="${data?.company_name||''}" readonly></div>
@@ -1408,39 +1613,6 @@
                 <div class="form-group"><label class="form-label">문의 내용</label><textarea class="form-input" style="min-height:150px;" readonly>${data?.message||''}</textarea></div>
                  <div class="form-group"><label class="form-label">문의 날짜</label><input class="form-input" value="${data?.created_at||''}" readonly></div>
              `;
-        } else if(col === 'impact_stories') {
-            html = `
-                <div style="background:rgba(200,16,46,0.05); padding:15px; border-radius:12px; margin-bottom:20px; border:1px solid rgba(200,16,46,0.1);">
-                    <p style="font-size:0.75rem; color:var(--accent); font-weight:900; margin-bottom:5px;"><i class="fa fa-info-circle"></i> 대화형 UI 가이드</p>
-                    <p style="font-size:0.7rem; color:var(--text-dim); line-height:1.5;">홈페이지 하단에서 <b>카카오톡 대화 형식</b>으로 노출됩니다.<br>'성과 뱃지'는 THE 3 STUDIO의 답변 메시지 안에 자동으로 포함됩니다.</p>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">고객 메시지 (인용구)</label>
-                    <textarea name="quote" class="form-input" style="min-height:80px;" placeholder="예: 'THE 3 덕분에 매출이 3배 올랐어요!'" required>${data?.quote||''}</textarea>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">고객명 / 직함</label>
-                        <input name="author" class="form-input" value="${data?.author||''}" placeholder="예: 일품각 장양꼬 사장님" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">성과 뱃지 (Bot 답변용)</label>
-                        <input name="result" class="form-input" value="${data?.result||''}" placeholder="예: 방문자 리뷰 1,000개 돌파" required>
-                    </div>
-                </div>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
-                    <div class="form-group">
-                        <label class="form-label">고객 프로필 (Avatar)</label>
-                        ${renderUploadUI('avatar', 'impact', data?.avatar)}
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">배경 이미지 (Optional)</label>
-                        <p style="font-size:0.6rem; color:var(--text-dim); margin-bottom:8px;">채팅 리스트 배경에 은은하게 깔립니다.</p>
-                        ${renderUploadUI('bg_image', 'impact', data?.bg_image)}
-                    </div>
-                </div>
-                <div class="form-group"><label class="form-label">노출 순서</label><input name="sort_order" class="form-input" type="number" value="${data?.sort_order||0}"></div>
-            `;
         } else if(col === 'service_packages') {
             html = `
                 <div class="form-group">
@@ -1515,9 +1687,9 @@
             
             <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:60vh; text-align:center; background:#050505; border-radius:40px; border:1px solid rgba(255,255,255,0.05); margin-top:2rem; padding: 5rem 2rem; position:relative; overflow:hidden;">
                 <!-- Subtle Decorative Background -->
-                <div style="position:absolute; top:0; left:50%; transform:translateX(-50%); width:100%; height:100%; background:radial-gradient(circle at center, rgba(200,16,46,0.05) 0%, transparent 70%); pointer-events:none;"></div>
+                <div style="position:absolute; top:0; left:50%; transform:translateX(-50%); width:100%; height:100%; background:radial-gradient(circle at center, rgba(0, 71, 171,0.05) 0%, transparent 70%); pointer-events:none;"></div>
 
-                <div style="font-size:5.5rem; color:var(--primary); margin-bottom:2.5rem; filter: drop-shadow(0 0 20px rgba(200,16,46,0.3)); animate: float 3s ease-in-out infinite;">
+                <div style="font-size:5.5rem; color:var(--primary); margin-bottom:2.5rem; filter: drop-shadow(0 0 20px rgba(0, 71, 171,0.3)); animate: float 3s ease-in-out infinite;">
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
                 </div>
                 
@@ -1543,13 +1715,13 @@
                     </a>
                 </div>
 
-                <div style="margin-top:4rem; padding:20px 40px; background:rgba(200,16,46,0.1); border-radius:100px; border:1px solid rgba(200,16,46,0.2); color:var(--primary); font-weight:800; font-size:0.9rem;">
+                <div style="margin-top:4rem; padding:20px 40px; background:rgba(0, 71, 171,0.1); border-radius:100px; border:1px solid rgba(0, 71, 171,0.2); color:var(--primary); font-weight:800; font-size:0.9rem;">
                     <i class="fa-solid fa-circle-info"></i> 팁: 접속 후 '3D 갤러리' 영역까지 슥 내리면 카드가 나타납니다!
                 </div>
             </div>
 
             <style>
-                .editor-card:hover { transform: translateY(-10px); border-color: var(--primary) !important; background: rgba(200,16,46,0.05) !important; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+                .editor-card:hover { transform: translateY(-10px); border-color: var(--primary) !important; background: rgba(0, 71, 171,0.05) !important; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
                 @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
             </style>
         `;
@@ -1603,7 +1775,7 @@
                         
                         <!-- 1. hero-sub (Label) -->
                         <div class="draggable resizable" data-id="hero-sub" data-key="off_label${suffix}" 
-                             style="position:absolute; top:30%; left:50%; transform:translate(-50%, ${d['off_label'+suffix]||0}px); color:#E63946; font-weight:900; letter-spacing:0.4rem; padding:15px; cursor:move; font-size:${d['off_label_fs'+suffix]||0.9}rem; text-transform:uppercase; text-shadow:0 2px 8px rgba(0,0,0,0.8); user-select:none; white-space:nowrap; border:1px dashed rgba(255,255,255,0.1);">
+                             style="position:absolute; top:30%; left:50%; transform:translate(-50%, ${d['off_label'+suffix]||0}px); color:#1E5FCC; font-weight:900; letter-spacing:0.4rem; padding:15px; cursor:move; font-size:${d['off_label_fs'+suffix]||0.9}rem; text-transform:uppercase; text-shadow:0 2px 8px rgba(0,0,0,0.8); user-select:none; white-space:nowrap; border:1px dashed rgba(255,255,255,0.1);">
                              ${document.querySelector('[name="subtitle"]')?.value || d.subtitle || 'THE PREMIER CREATIVE AGENCY'}
                              <div class="resize-handle" style="position:absolute; right:-5px; bottom:-5px; width:10px; height:10px; background:#4488ff; cursor:nwse-resize; z-index:30;"></div>
                         </div>
@@ -1618,7 +1790,7 @@
                         <!-- 3. hero-accent -->
                         <div class="draggable resizable" data-id="hero-accent" data-key="off_main${suffix}" 
                              style="position:absolute; top:50%; left:50%; transform:translate(-50%, ${d['off_main'+suffix]||0}px); font-family:'Pretendard'; font-size:${d['off_main_fs'+suffix]||4}rem; font-weight:900; line-height:1.15; cursor:move; padding:10px; user-select:none; word-break:keep-all; text-align:center; min-width:800px; border:1px dashed rgba(255,255,255,0.1);">
-                             <span style="background:linear-gradient(135deg,#fff 0%,#E63946 50%,#8b0000 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; filter:drop-shadow(0 0 30px rgba(230,57,70,0.5));">
+                             <span style="background:linear-gradient(135deg,#fff 0%,#1E5FCC 50%,#8b0000 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; filter:drop-shadow(0 0 30px rgba(30, 95, 204,0.5));">
                                 ${document.querySelector('[name="accent_copy"]')?.value || d.accent_copy || '콘텐츠까지 고민하시나요?'}
                              </span>
                              <div class="resize-handle" style="position:absolute; right:10%; bottom:0; width:15px; height:15px; background:#4488ff; cursor:nwse-resize; z-index:30;"></div>
