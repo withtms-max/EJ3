@@ -78,10 +78,10 @@ const Portfolio: React.FC = () => {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
         <div>
           <h2 className="text-[32px] md:text-[48px] font-black text-slate-900 leading-tight mb-4" style={{ fontFamily: "'Pretendard', sans-serif" }}>
-            성장의 결과를<br /><span className="text-[#C8102E]">증명합니다</span>
+            성장의 결과를<br /><span className="text-[#0047AB]">증명합니다</span>
           </h2>
           <p className="text-slate-500 font-medium max-w-md">
-            지난 5년 간 수많은 브랜드와 함께 고민하며 만들어낸<br />THE3 STUDIO만의 독보적인 포트폴리오입니다.
+            지난 5년 간 수많은 브랜드와 함께 고민하며 만들어낸<br />THE3 STUDIO만의 독보적인 우리가게콘텐츠만들기입니다.
           </p>
         </div>
 
@@ -93,7 +93,7 @@ const Portfolio: React.FC = () => {
               onClick={() => setFilter(cat)}
               className={`px-5 py-2 rounded-full text-sm font-bold transition-all duration-300 ${
                 filter === cat 
-                ? 'bg-[#C8102E] text-white shadow-lg shadow-red-500/20' 
+                ? 'bg-[#0047AB] text-white shadow-lg shadow-red-500/20' 
                 : 'bg-white text-slate-500 border border-slate-200 hover:border-red-200 hover:text-slate-900'
               }`}
             >
@@ -120,7 +120,7 @@ const Portfolio: React.FC = () => {
               />
               {/* Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-10">
-                <p className="text-[#C8102E] font-black text-xs tracking-widest mb-2 uppercase">{item.category}</p>
+                <p className="text-[#0047AB] font-black text-xs tracking-widest mb-2 uppercase">{item.category}</p>
                 <h3 className="text-white text-2xl font-black mb-2">{item.title}</h3>
                 <p className="text-white/60 text-sm font-medium line-clamp-2 mb-6">{item.description}</p>
                 <div className="inline-flex items-center text-white font-bold text-sm">
@@ -153,8 +153,8 @@ const Portfolio: React.FC = () => {
             </div>
 
             <div className="w-full md:w-1/3 p-10 md:p-16 overflow-y-auto flex flex-col justify-center">
-              <div className="inline-flex items-center gap-2 text-[#C8102E] font-black text-xs tracking-[0.2em] mb-6 uppercase">
-                <span className="w-2 h-2 rounded-full bg-[#C8102E]"></span>
+              <div className="inline-flex items-center gap-2 text-[#0047AB] font-black text-xs tracking-[0.2em] mb-6 uppercase">
+                <span className="w-2 h-2 rounded-full bg-[#0047AB]"></span>
                 {selectedItem.category} Project
               </div>
               
@@ -173,7 +173,7 @@ const Portfolio: React.FC = () => {
                 </div>
               </div>
 
-              <button className="w-full py-5 bg-slate-900 text-white rounded-2xl font-black hover:bg-[#C8102E] transition-all duration-300 shadow-xl shadow-slate-200">
+              <button className="w-full py-5 bg-slate-900 text-white rounded-2xl font-black hover:bg-[#0047AB] transition-all duration-300 shadow-xl shadow-slate-200">
                 Contact for Similar Project
               </button>
             </div>

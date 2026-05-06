@@ -163,12 +163,9 @@
         <nav class="nav-menu">
             <div class="nav-item" onclick="window.open('../', '_blank')" style="border: 1px solid rgba(255,255,255,0.05); margin-bottom: 2rem;"><i class="fa fa-external-link" style="color:var(--accent);"></i> 홈페이지 바로가기</div>
             
-            <div class="nav-group-title">DIRECT LIVE EDITOR (1:1 배치)</div>
-            <div class="nav-item active" onclick="switchView('placements')" style="background: rgba(0, 71, 171, 0.1); border: 1px solid var(--accent);"><i class="fa fa-th-large" style="color:var(--accent);"></i> <b>3D 갤러리 1:1 배치 마스터</b></div>
-            
             <div class="nav-group-title">MAIN CONTENT</div>
             
-            <div class="nav-item" onclick="switchView('portfolio')"><i class="fa fa-folder"></i> 우리가게컨턴츠만들기 작업물</div>
+            <div class="nav-item" onclick="switchView('portfolio')"><i class="fa fa-folder"></i> 우리가게콘텐츠만들기 작업물</div>
             <div class="nav-item" onclick="switchView('the3cut_config')"><i class="fa fa-magic" style="color: #b57bff;"></i> <b>THE3컷 인증키 설정</b></div>
             <div class="nav-item" onclick="switchView('global')"><i class="fa fa-globe"></i> 전역 설정 (테마/컬러)</div>
             <div class="nav-item" onclick="switchView('hero')"><i class="fa fa-tv"></i> 히어로 섹션 마스터</div>
@@ -183,6 +180,7 @@
             <div class="nav-group-title">ARCHIVE · 카테고리 타일</div>
             <div class="nav-item" onclick="switchView('archive_copy')"><i class="fa fa-th-large"></i> 섹션 카피 (헤더/CTA)</div>
             <div class="nav-item" onclick="switchView('manage_categories')" style="background: rgba(100,50,200,0.1); border: 1px solid rgba(100,50,200,0.3);"><i class="fa fa-tags" style="color:#b57bff;"></i> <b>카테고리명/순서</b></div>
+            <div class="nav-item" onclick="switchView('manage_industries')"><i class="fa fa-briefcase"></i> 하위 카테고리 (업종)</div>
             <div class="nav-item" onclick="switchView('portfolio_hero')"><i class="fa fa-clapperboard"></i> 카테고리 시네마틱 이미지</div>
 
             <div class="nav-group-title">MANAGEMENT</div>
@@ -341,11 +339,26 @@
         }
     });
 
+    // FETCH INDUSTRIES (하위 카테고리 / 업종) FOR GLOBALS
+    window.GLOBAL_INDUSTRIES = [];
+    getDoc(doc(db, 'settings', 'industries')).then(snap => {
+        if(snap.exists() && snap.data().list) {
+            window.GLOBAL_INDUSTRIES = snap.data().list;
+        } else {
+            window.GLOBAL_INDUSTRIES = [
+                { id: 'restaurant', label: '외식업 (음식점)' },
+                { id: 'retail',     label: '도소매' },
+                { id: 'service',    label: '서비스업' },
+                { id: 'corporate',  label: '기업' }
+            ];
+        }
+    });
+
     const appView = document.getElementById('app-view');
 
     const modal = document.getElementById('modal');
     const itemForm = document.getElementById('item-form');
-    let currentPortfolioFilter = 'all'; // 우리가게컨턴츠만들기 필터 상태 유지용
+    let currentPortfolioFilter = 'all'; // 우리가게콘텐츠만들기 필터 상태 유지용
     // uploader는 전역 변수로 관리됨
 
     onAuthStateChanged(auth, (user) => {
@@ -575,6 +588,7 @@
         else if(view === 'archive_copy') renderArchiveCopy();
         else if(view === 'the3cut_config') renderThe3CutConfig();
         else if(view === 'manage_categories') renderManageCategories();
+        else if(view === 'manage_industries') renderManageIndustries();
         else if(view === 'portfolio_hero') renderPortfolioHeroSettings();
         else if(view === 'consulting') renderList('contacts', '문의 내역', ['company_name', 'email', 'service', 'message', 'created_at']);
         else if(view === 'placements') renderPlacements();
@@ -637,6 +651,77 @@
             renderManageCategories();
         };
         window.renderCatRows();
+    }
+
+    // ───── 하위 카테고리 (업종) 마스터 ─────
+    async function renderManageIndustries() {
+        appView.innerHTML = '<div style="text-align:center; padding:10rem;"><i class="fa fa-spinner fa-spin"></i></div>';
+        const s = await getDoc(doc(db, 'settings', 'industries'));
+        let inds = [];
+        if(s.exists() && s.data().list) {
+            inds = s.data().list;
+        } else {
+            inds = [
+                { id: 'restaurant', label: '외식업 (음식점)' },
+                { id: 'retail',     label: '도소매' },
+                { id: 'service',    label: '서비스업' },
+                { id: 'corporate',  label: '기업' }
+            ];
+        }
+
+        appView.innerHTML = `
+            <div class="header-content"><div class="view-title"><h1>하위 카테고리 (업종) 관리</h1><p>각 메인 카테고리 아래 노출되는 <b>업종 필터</b>를 관리합니다. 작품 등록 시 이 목록에서 업종을 선택할 수 있습니다.</p></div></div>
+            <div class="table-container" style="padding:3rem;">
+                <div style="background:rgba(0,71,171,0.05); padding:14px 16px; border-radius:12px; margin-bottom:1.4rem; border:1px solid rgba(0,71,171,0.15);">
+                    <p style="font-size:0.7rem; color:var(--text-dim); line-height:1.6;">
+                        <b>ID</b>는 영문/숫자만 사용하세요 (예: restaurant, retail). 작품 데이터에 저장되는 코드값입니다.<br>
+                        <b>표시명</b>은 사용자에게 보이는 한글 라벨입니다 (예: 외식업 (음식점)).<br>
+                        <b>순서</b>가 작을수록 왼쪽에 먼저 노출됩니다.
+                    </p>
+                </div>
+                <div id="ind-wrap" style="display:flex; flex-direction:column; gap:10px;"></div>
+                <button class="btn-s" style="margin-top:20px; background:rgba(255,255,255,0.05); color:var(--text-dim);" onclick="addIndRow()"><i class="fa fa-plus"></i> 새 업종 추가</button>
+                <button class="btn" style="margin-top:20px; width:100%; box-shadow:var(--glow);" onclick="saveInds()"><i class="fa fa-save"></i> 업종 구성 저장</button>
+            </div>
+        `;
+
+        window.indListMem = inds;
+        window.renderIndRows = function() {
+            document.getElementById('ind-wrap').innerHTML = window.indListMem.map((c, i) => `
+                <div style="display:flex; gap:10px; align-items:center; background:rgba(255,255,255,0.02); padding:10px 15px; border-radius:10px; border:1px solid var(--border);">
+                    <i class="fa fa-bars" style="color:var(--text-dim); opacity:0.5;"></i>
+                    <input type="number" class="form-input" style="width:70px; padding:10px; font-size:0.9rem;" value="${i+1}" id="i-order-${i}" title="순서">
+                    <input type="text" class="form-input" style="width:160px; padding:10px; font-size:0.9rem;" value="${c.id||''}" id="i-id-${i}" placeholder="고유 ID (영문)">
+                    <input type="text" class="form-input" style="flex:1; padding:10px; font-size:0.9rem;" value="${c.label||''}" id="i-label-${i}" placeholder="표시명 (예: 외식업)">
+                    <button class="btn-s" style="background:#1D4ED8; color:#fff; padding:6px 12px;" onclick="window.indListMem.splice(${i}, 1); renderIndRows();" title="삭제"><i class="fa fa-trash"></i></button>
+                </div>
+            `).join('');
+        };
+        window.addIndRow = function() { window.indListMem.push({ id:'', label:'' }); renderIndRows(); };
+        window.saveInds = async function() {
+            let newList = [];
+            for(let i=0; i<window.indListMem.length; i++) {
+                const id = document.getElementById('i-id-'+i).value.trim();
+                const label = document.getElementById('i-label-'+i).value.trim();
+                if(!id || !label) continue; // 빈 행 무시
+                newList.push({
+                    order: parseInt(document.getElementById('i-order-'+i).value)||99,
+                    id: id,
+                    label: label
+                });
+            }
+            newList.sort((a,b) => a.order - b.order);
+            const fin = newList.map(c => ({ id: c.id, label: c.label }));
+            try {
+                await setDoc(doc(db, 'settings', 'industries'), { list: fin });
+                window.GLOBAL_INDUSTRIES = fin;
+                alert('✅ 업종이 저장되었습니다. 홈페이지와 작품 등록 폼에 자동 반영됩니다.');
+                renderManageIndustries();
+            } catch(e) {
+                alert('❌ 저장 실패: ' + e.message);
+            }
+        };
+        window.renderIndRows();
     }
 
     async function renderThe3CutConfig() {
@@ -784,17 +869,6 @@
 
                     <div class="form-row" style="margin-top:1rem; padding-top:1rem; border-top:1px solid rgba(255,255,255,0.05);">
                         <div class="form-group">
-                            <label class="form-label">3D 갤러리 배경 시네마틱 (데스크탑)</label>
-                            ${renderUploadUI('gallery_video_desktop', 'hero', data.gallery_video_desktop)}
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">3D 갤러리 배경 시네마틱 (모바일)</label>
-                            ${renderUploadUI('gallery_video_mobile', 'hero', data.gallery_video_mobile)}
-                        </div>
-                    </div>
-
-                    <div class="form-row" style="margin-top:1rem; padding-top:1rem;">
-                        <div class="form-group">
                             <label class="form-label">남은 상담 슬롯 (Slots Left)</label>
                             <input name="slots_left" class="form-input" type="number" value="${data.slots_left||3}">
                         </div>
@@ -814,10 +888,7 @@
             // 수동으로 업로드된 비디오 URL 수집 (renderUploadUI에서 생성한 hidden input id 활용)
             formData.hero_video_desktop = document.getElementById('path-hero_video_desktop') ? document.getElementById('path-hero_video_desktop').value : '';
             formData.hero_video_mobile = document.getElementById('path-hero_video_mobile') ? document.getElementById('path-hero_video_mobile').value : '';
-            formData.gallery_video_desktop = document.getElementById('path-gallery_video_desktop') ? document.getElementById('path-gallery_video_desktop').value : '';
-            formData.gallery_video_mobile = document.getElementById('path-gallery_video_mobile') ? document.getElementById('path-gallery_video_mobile').value : '';
-            
-            await setDoc(doc(db, 'settings', 'hero'), formData); 
+            await setDoc(doc(db, 'settings', 'hero'), formData);
             alert('히어로 섹션 설정이 명품 무드로 저장되었습니다! ✨🏙️'); 
         };
     }
@@ -1115,7 +1186,7 @@
     }
 
 
-    // ───── 4-1. 우리가게컨턴츠만들기 히어로 시네마틱 설정 (NEW) ─────
+    // ───── 4-1. 우리가게콘텐츠만들기 히어로 시네마틱 설정 (NEW) ─────
     async function renderPortfolioHeroSettings() {
         appView.innerHTML = '<div style="text-align:center; padding:10rem;"><i class="fa fa-spinner fa-spin"></i></div>';
         const catSnap = await getDoc(doc(db, 'settings', 'categories'));
@@ -1146,7 +1217,7 @@
             });
 
             appView.innerHTML = `
-                <div class="header-content"><h1>우리가게컨턴츠만들기 히어로 설정</h1><p>카테고리별 시네마틱 배경과 전용 문구를 관리합니다.</p></div>
+                <div class="header-content"><h1>우리가게콘텐츠만들기 히어로 설정</h1><p>카테고리별 시네마틱 배경과 전용 문구를 관리합니다.</p></div>
                 <div style="display:grid; grid-template-columns: 320px 1fr; gap:30px;">
                     <div class="table-container" style="padding:1rem; height:fit-content;">
                         ${cats.map(c => `
@@ -1166,7 +1237,7 @@
                 
                 // 제가 추천드린 가장 멋진 기본 문안들 (프리셋)
                 const defaultThemes = {
-                    all: { label: 'Selected Works', title: '압도적 성과로 증명하는<br><span style="background:linear-gradient(to right, #fff, #0047AB); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">우리가게컨턴츠만들기</span>', desc: '각 프로젝트는 단순한 작업물을 넘어, 브랜드의 성장을 견인하는 강력한 도구입니다.', img: 'https://images.unsplash.com/photo-1544256718-3bcf237f3974?q=80&w=2071' },
+                    all: { label: 'Selected Works', title: '압도적 성과로 증명하는<br><span style="background:linear-gradient(to right, #fff, #0047AB); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">우리가게콘텐츠만들기</span>', desc: '각 프로젝트는 단순한 작업물을 넘어, 브랜드의 성장을 견인하는 강력한 도구입니다.', img: 'https://images.unsplash.com/photo-1544256718-3bcf237f3974?q=80&w=2071' },
                     calligraphy: { label: '01 / Branding Face', title: '세상에 단 하나뿐인<br>브랜드의 얼굴', desc: '장인의 필치로 브랜드의 영혼을 담아 독보적인 첫인상을 설계합니다.', img: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=2070' },
                     video: { label: '02 / Performance Reel', title: '매출로 즉시 직결되는<br>영상 마케팅', desc: '단 1초 만에 고객의 욕망을 건드리는 폭발적인 시각적 파괴력을 경험하세요.', img: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2071' },
                     storyboard: { label: '03 / Strategic Story', title: '성공을 위해 치밀하게<br>설계된 기획', desc: '단순한 그림이 아닌, 비즈니스 성장을 위한 가장 완벽한 시나리오를 작성합니다.', img: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2070' },
@@ -1230,7 +1301,7 @@
         } catch (err) { alert(err.message); }
     }
 
-    // ───── 4-2. 우리가게컨턴츠만들기 (FILTERED VIEW) ─────
+    // ───── 4-2. 우리가게콘텐츠만들기 (FILTERED VIEW) ─────
     window.renderPortfolio = async (filter = 'all') => {
         currentPortfolioFilter = filter;
         if (filter === 'all' && window.GLOBAL_CATS && window.GLOBAL_CATS.length > 0) {
@@ -1267,7 +1338,7 @@
             appView.innerHTML = `
                 <div class="header-content">
                     <div class="view-title">
-                        <h1>우리가게컨턴츠만들기 총괄</h1>
+                        <h1>우리가게콘텐츠만들기 총괄</h1>
                         <p>현재 <b>${filter === 'all' ? '전체' : cats.find(c=>c.id===filter)?.label}</b> 항목을 리스트업 중입니다.</p>
                     </div>
                     <button class="btn" onclick="openEditModal('portfolio')"><i class="fa fa-plus"></i> 작업물 신규 등록</button>
@@ -1486,6 +1557,13 @@
 
                 <div class="form-row">
                     <div class="form-group">
+                        <label class="form-label">업종 (하위 카테고리)</label>
+                        <select name="industry" class="form-input">
+                            <option value="" ${!data?.industry?'selected':''}>— 선택 안 함 —</option>
+                            ${(window.GLOBAL_INDUSTRIES||[]).map(c => `<option value="${c.id}" ${data?.industry===c.id?'selected':''}>${c.label}</option>`).join('')}
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label class="form-label">클라이언트명</label>
                         <input name="client" class="form-input" value="${data?.client||''}" placeholder="예: 삼성전자">
                     </div>
@@ -1534,11 +1612,8 @@
                     </div>
                 </div>
                 
-                <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:15px; margin-top:20px; padding:20px; background:rgba(0, 71, 171,0.05); border-radius:15px; border:1px solid rgba(0, 71, 171,0.1);">
-                    <label class="switch-wrap"><input type="checkbox" name="show_in_gallery" value="1" hidden ${(data && data.show_in_gallery==='1')?'checked':''}> <div class="switch-box"></div> <span style="font-size:0.75rem; font-weight:800;">3D 갤러리(PC) 노출</span></label>
-                    <label class="switch-wrap"><input type="checkbox" name="show_in_gallery_mobile" value="1" hidden ${(data && data.show_in_gallery_mobile==='1')?'checked':''}> <div class="switch-box"></div> <span style="font-size:0.75rem; font-weight:800; color:var(--accent);">3D 갤러리(M) 노출</span></label>
-                    <label class="switch-wrap"><input type="checkbox" name="show_in_list" value="1" hidden ${(!data || data.show_in_list!=='0')?'checked':''}> <div class="switch-box"></div> <span style="font-size:0.75rem; font-weight:800;">데이터 리스트 노출</span></label>
-                    <label class="switch-wrap"><input type="checkbox" name="disable_detail_click" value="1" hidden ${(data?.disable_detail_click==='1' || data?.disable_detail_click === 1)?'checked':''}> <div class="switch-box"></div> <span style="font-size:0.75rem; font-weight:800; color:#ff6b6b;">상세보기 잠금</span></label>
+                <div style="display:flex; gap:15px; margin-top:20px; padding:20px; background:rgba(0, 71, 171,0.05); border-radius:15px; border:1px solid rgba(0, 71, 171,0.1);">
+                    <label class="switch-wrap"><input type="checkbox" name="show_in_list" value="1" hidden ${(!data || data.show_in_list!=='0')?'checked':''}> <div class="switch-box"></div> <span style="font-size:0.75rem; font-weight:800;">리스트 노출</span></label>
                 </div>
             `;
         } else if(col === 'team') {
@@ -1658,10 +1733,7 @@
         if (col === 'portfolio') {
             const galleryImages = fd.getAll('images').filter(u => u && u.trim() !== '');
             o.images = galleryImages;
-            o.show_in_gallery = fd.get('show_in_gallery') || '0';
-            o.show_in_gallery_mobile = fd.get('show_in_gallery_mobile') || '0';
             o.show_in_list = fd.get('show_in_list') || '0';
-            o.disable_detail_click = fd.get('disable_detail_click') || '0';
         }
         try {
             if(id) await updateDoc(doc(db, col, id), o); 

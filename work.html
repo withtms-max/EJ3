@@ -11,7 +11,7 @@
   })();
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>THE 3 STUDIO | Work 우리가게컨턴츠만들기</title>
+<title>THE 3 STUDIO | Work 우리가게콘텐츠만들기</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -136,6 +136,16 @@ body.light-mode .filter-sect { background: rgba(255,255,255,0.55); }
 .filter-tab:hover { background: rgba(255,255,255,0.05); border-color: var(--primary); color: var(--primary); transform: translateY(-3px); }
 body.light-mode .filter-tab:hover { background: #fff; }
 .filter-tab.active { background: var(--primary); border-color: var(--primary); color: #fff; box-shadow: 0 10px 30px rgba(0, 71, 171, 0.2); }
+
+/* SUB-FILTER (업종) */
+.sub-filter-wrap { display:flex; justify-content:center; gap:6px; flex-wrap:wrap; max-width:1200px; margin:0.8rem auto 0; padding:0 1.5rem; }
+.sub-filter-wrap:empty { display:none; }
+.sub-tab { background:transparent; border:1px solid var(--border); color:var(--text-dim); padding:7px 16px; border-radius:999px; font-weight:600; font-size:0.82rem; cursor:pointer; transition:0.3s; white-space:nowrap; }
+.sub-tab:hover { border-color:var(--primary); color:var(--primary); }
+.sub-tab.active { background:rgba(0,71,171,0.12); border-color:var(--primary); color:var(--primary); font-weight:800; }
+body.light-mode .sub-tab { color:#888; border-color:rgba(0,0,0,0.08); }
+body.light-mode .sub-tab:hover { background:#fff; color:var(--primary); }
+body.light-mode .sub-tab.active { background:rgba(0,71,171,0.08); color:var(--primary); }
 
 /* GRID */
 /* GRID 개편 (Cinematic Gallery Style) */
@@ -308,7 +318,7 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
   <ul class="nav-links">
     <li><a href="index.html#home">홈</a></li>
     <li><a href="index.html#team">전문가&서비스</a></li>
-    <li><a href="work.html" class="active">우리가게컨턴츠만들기</a></li>
+    <li><a href="work.html" class="active">우리가게콘텐츠만들기</a></li>
     <li><a href="javascript:void(0)" onclick="window.openThe3Cut()">THE3 컷</a></li>
     <li><a href="index.html#journey">스토리</a></li>
     <li><a href="index.html#contact">문의하기</a></li>
@@ -323,7 +333,7 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
   <ul class="mobile-links">
     <li style="--item-index:1;"><a href="index.html#home" onclick="toggleMobileMenu()"><small>01</small> 홈</a></li>
     <li style="--item-index:2;"><a href="index.html#team" onclick="toggleMobileMenu()"><small>02</small> 전문가&서비스</a></li>
-    <li style="--item-index:3;"><a href="work.html" onclick="toggleMobileMenu()"><small>03</small> 우리가게컨턴츠만들기</a></li>
+    <li style="--item-index:3;"><a href="work.html" onclick="toggleMobileMenu()"><small>03</small> 우리가게콘텐츠만들기</a></li>
     <li style="--item-index:3.5;"><a href="javascript:void(0)" onclick="window.openThe3Cut(); toggleMobileMenu();"><small>AI</small> THE3 컷</a></li>
     <li style="--item-index:4;"><a href="index.html#journey" onclick="toggleMobileMenu()"><small>04</small> 스토리</a></li>
     <li style="--item-index:5;"><a href="index.html#contact" onclick="toggleMobileMenu()"><small>05</small> 문의하기</a></li>
@@ -335,15 +345,14 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
     <div class="hero-overlay"></div>
     <div class="hero-content fu">
         <p class="hero-label" id="h-label">Selected Works</p>
-        <h1 class="hero-title" id="h-title">압도적 성과로 증명하는<br><span style="background:linear-gradient(to right, #fff, #0047AB); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">우리가게컨턴츠만들기</span></h1>
+        <h1 class="hero-title" id="h-title">압도적 성과로 증명하는<br><span style="background:linear-gradient(to right, #fff, #0047AB); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">우리가게콘텐츠만들기</span></h1>
         <p class="hero-desc" id="h-desc">각 프로젝트는 단순한 작업물을 넘어, 브랜드의 성장을 견인하는 강력한 도구입니다.</p>
     </div>
 </section>
 
 <section class="filter-sect">
-    <div class="filter-tabs" id="filter-tabs">
-        <!-- Categories loaded dynamically from DB (Skeleton prevents flickering) -->
-    </div>
+    <div class="filter-tabs" id="filter-tabs"></div>
+    <div class="sub-filter-wrap" id="sub-filter-tabs"></div>
 </section>
 
 <div class="work-grid" id="work-grid">
@@ -429,10 +438,13 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
 
 
     let currentCat = 'all';
+    let currentSub = 'all';
     let currentSort = 'latest';
+    let globalIndustries = [];
 
     async function applyFilterAndSort() {
         let filtered = currentCat === 'all' ? allItems : allItems.filter(i => i.category === currentCat);
+        if(currentSub !== 'all') filtered = filtered.filter(i => i.industry === currentSub);
         
         // Sorting logic
         if (currentSort === 'latest') {
@@ -804,13 +816,53 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
                 document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
                 this.classList.add('active');
                 currentCat = this.dataset.cat;
+                currentSub = 'all';
+                renderSubPills();
                 if(typeof applyFilterAndSort === 'function') applyFilterAndSort();
                 if(typeof updateCinematicHero === 'function') updateCinematicHero(currentCat);
             });
         });
     }
     
-    // override loadWork or DOM load
+    async function loadIndustries() {
+        try {
+            const { getDoc, doc } = await import('./js/firebase-init.js');
+            const snap = await getDoc(doc(window.db || db, 'settings', 'industries'));
+            if(snap.exists() && snap.data().list) {
+                globalIndustries = snap.data().list;
+            }
+        } catch(e) {}
+        if(!globalIndustries.length) {
+            globalIndustries = [
+                { id: 'restaurant', label: '외식업 (음식점)' },
+                { id: 'retail', label: '도소매' },
+                { id: 'service', label: '서비스업' },
+                { id: 'corporate', label: '기업' }
+            ];
+        }
+    }
+
+    function renderSubPills() {
+        const wrap = document.getElementById('sub-filter-tabs');
+        if(!wrap) return;
+        const catWorks = allItems.filter(w => w.category === currentCat);
+        const present = new Set(catWorks.map(w => w.industry).filter(Boolean));
+        const visible = globalIndustries.filter(ind => present.has(ind.id));
+        if(!visible.length) { wrap.innerHTML = ''; return; }
+        wrap.innerHTML =
+            `<button class="sub-tab ${currentSub==='all'?'active':''}" data-sub="all">전체</button>` +
+            visible.map(ind =>
+                `<button class="sub-tab ${currentSub===ind.id?'active':''}" data-sub="${ind.id}">${ind.label}</button>`
+            ).join('');
+        wrap.querySelectorAll('.sub-tab').forEach(btn => {
+            btn.addEventListener('click', function() {
+                wrap.querySelectorAll('.sub-tab').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentSub = this.dataset.sub;
+                applyFilterAndSort();
+            });
+        });
+    }
 
     async function loadWork() {
         try {
@@ -825,6 +877,8 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
                 });
             }
             await renderDynamicCategories();
+            await loadIndustries();
+            renderSubPills();
             applyFilterAndSort();
         } catch (e) {
             document.getElementById('work-grid').innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:100px;color:rgba(255,255,255,.2)">데이터를 불러오지 못했습니다.</div>';
@@ -842,7 +896,7 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
     });
 
     let heroThemes = {
-        all: { label: 'Selected Works', title: '압도적 성과로 증명하는<br><span style="background:linear-gradient(to right, #fff, #0047AB); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">우리가게컨턴츠만들기</span>', desc: '각 프로젝트는 단순한 작업물을 넘어, 브랜드의 성장을 견인하는 강력한 도구입니다.', img: 'https://images.unsplash.com/photo-1544256718-3bcf237f3974?q=80&w=2071' },
+        all: { label: 'Selected Works', title: '압도적 성과로 증명하는<br><span style="background:linear-gradient(to right, #fff, #0047AB); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">우리가게콘텐츠만들기</span>', desc: '각 프로젝트는 단순한 작업물을 넘어, 브랜드의 성장을 견인하는 강력한 도구입니다.', img: 'https://images.unsplash.com/photo-1544256718-3bcf237f3974?q=80&w=2071' },
         calligraphy: { label: '01 / Branding Face', title: '세상에 단 하나뿐인<br>브랜드의 얼굴', desc: '장인의 필치로 브랜드의 영혼을 담아 독보적인 첫인상을 설계합니다.', img: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=2070' },
         video: { label: '02 / Performance Reel', title: '매출로 즉시 직결되는<br>영상 마케팅', desc: '단 1초 만에 고객의 욕망을 건드리는 폭발적인 시각적 파괴력을 경험하세요.', img: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2071' },
         storyboard: { label: '03 / Strategic Story', title: '성공을 위해 치밀하게<br>설계된 기획', desc: '단순한 그림이 아닌, 비즈니스 성장을 위한 가장 완벽한 시나리오를 작성합니다.', img: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2070' },
@@ -988,7 +1042,7 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
                 lead.phone=v; cState='idle';
                 document.getElementById('chat-input-area').style.display='none';
                 addDoc(collection(db, 'contacts'), {
-                    company_name: lead.name, email: lead.phone, service: '챗봇 문의(우리가게컨턴츠만들기)',
+                    company_name: lead.name, email: lead.phone, service: '챗봇 문의(우리가게콘텐츠만들기)',
                     message: `챗봇을 통해 남겨진 연락처입니다: ${lead.phone}`, status: 'new', created_at: new Date().toISOString()
                 }).catch(err => console.error('Chatbot Save Error:', err))
                 .finally(() => {
@@ -1138,7 +1192,7 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
     <button class="chat-close" id="close-chat">✕</button>
   </div>
   <div class="chat-msgs" id="chat-messages">
-    <div class="msg bot">안녕하세요 사장님! 😊 우리가게컨턴츠만들기를 보시다가 궁금한 점이 생기셨나요?</div>
+    <div class="msg bot">안녕하세요 사장님! 😊 우리가게콘텐츠만들기를 보시다가 궁금한 점이 생기셨나요?</div>
   </div>
   <div id="chat-input-area" class="chat-inp" style="display:none;">
     <input type="text" id="chat-input" placeholder="성함을 입력해 주세요...">

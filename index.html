@@ -505,6 +505,7 @@ body.light-mode .archive-pill{ border-color: rgba(0,0,0,0.1); color:#555; }
 body.light-mode .archive-pill:hover{ background:#fff; }
 body.light-mode .archive-pill.is-active{ color:#fff; }
 
+
 /* 페이지 인디케이터 (자동 순환 표시) */
 .archive-page-indicator{
   display:flex; align-items:center; gap:8px;
@@ -1547,7 +1548,7 @@ body.light-mode .j-node-desc{ color:#555; }
 .fixed-actions { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 15px; z-index: 10001; opacity: 0.3; transition: all 0.3s ease; }
 .fixed-actions:hover, .fixed-actions:active { opacity: 1; }
 .action-btn { width: 58px; height: 58px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: #fff; border: none; cursor: pointer; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 10px 20px rgba(0,0,0,0.3); text-decoration: none; position: relative; }
-.kakao-btn { background: #FEE500; color: #3C1E1E; }
+.call-btn { background: #34C759; color: #fff; }
 .top-btn { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); opacity: 0; visibility: hidden; transform: translateY(20px); }
 .top-btn.on { opacity: 1; visibility: visible; transform: translateY(0); }
 body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
@@ -2103,7 +2104,7 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
   <ul class="nav-links">
     <li><a href="#home">홈</a></li>
     <li><a href="#team">전문가&서비스</a></li>
-    <li><a href="work.html">우리가게컨턴츠만들기</a></li>
+    <li><a href="work.html">우리가게콘텐츠만들기</a></li>
     <li><a href="javascript:void(0)" onclick="window.openThe3Cut()" style="color:var(--primary) !important;">THE3 CUT</a></li>
     <li><a href="#journey">스토리</a></li>
     <li><a href="#contact">문의하기</a></li>
@@ -2118,7 +2119,7 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
   <ul class="mobile-links">
     <li style="--item-index:1;"><a href="#home" onclick="toggleMobileMenu()"><small>01</small> 홈</a></li>
     <li style="--item-index:2;"><a href="#team" onclick="toggleMobileMenu()"><small>02</small> 전문가&서비스</a></li>
-    <li style="--item-index:3;"><a href="work.html" onclick="toggleMobileMenu()"><small>03</small> 우리가게컨턴츠만들기</a></li>
+    <li style="--item-index:3;"><a href="work.html" onclick="toggleMobileMenu()"><small>03</small> 우리가게콘텐츠만들기</a></li>
     <li style="--item-index:3.5;"><a href="javascript:void(0)" onclick="window.openThe3Cut(); toggleMobileMenu();" style="color:var(--primary) !important;"><small>AI</small> THE3 CUT</a></li>
     <li style="--item-index:4;"><a href="#journey" onclick="toggleMobileMenu()"><small>04</small> 스토리</a></li>
     <li style="--item-index:5;"><a href="#contact" onclick="toggleMobileMenu()"><small>05</small> 문의하기</a></li>
@@ -2262,6 +2263,8 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
       <div style="opacity:0.3; padding:1rem;">카테고리를 불러오는 중...</div>
     </div>
 
+    <!-- Sub-category pills removed from home — only on work.html -->
+
     <!-- 페이지 인디케이터 (작품이 4개 초과인 카테고리만 노출) -->
     <div class="archive-page-indicator" id="archive-page-indicator" style="display:none;"></div>
 
@@ -2272,7 +2275,7 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
       </div>
     </div>
 
-    <a href="work.html" class="archive-cta">전체 작품 보기 <i class="fa fa-arrow-right"></i></a>
+    <a href="work.html" class="archive-cta">더 많은 콘텐츠 보러가기 <i class="fa fa-arrow-right"></i></a>
   </div>
 </section>
 
@@ -2430,7 +2433,7 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
 #pf-slides { display:flex; width:100%; height:100%; pointer-events: none; }
 .pf-slide-item { flex:0 0 100%; height:100%; display:flex; align-items:center; justify-content:center; padding: 0; transition: padding 0.5s; pointer-events: none; }
 .pf-slide-item img, .pf-slide-item video, .pf-slide-item iframe { pointer-events: auto; }
-.pf-slide-item img, .pf-slide-item video { width:100%; height:100%; object-fit:cover; border-radius:0; box-shadow:0 30px 100px rgba(0,0,0,0.8); transition: 0.5s; }
+.pf-slide-item img, .pf-slide-item video { max-width:90vw; max-height:85vh; width:auto; height:auto; object-fit:contain; border-radius:8px; box-shadow:0 30px 100px rgba(0,0,0,0.8); transition: 0.5s; }
 .pf-slide-item iframe { width:100vw; height:100vh; max-width:100%; max-height:100%; border:none; border-radius:0; box-shadow:none; transition: 0.5s; z-index: 10; }
 
 
@@ -2441,7 +2444,9 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
 @media (max-width: 768px) {
     .pf-slide-item { padding: 0; }
     .pf-slide-item iframe { width:100vw; height:100vh; }
-    .pf-slide-item img, .pf-slide-item video { width:100% !important; height:100% !important; object-fit:cover !important; border-radius:0; }
+    .pf-slide-item img, .pf-slide-item video { max-width:92vw; max-height:75vh; width:auto !important; height:auto !important; object-fit:contain !important; border-radius:6px; }
+    #pf-counter { top:16px; left:16px; font-size:0.85rem; }
+    #pf-close { top:16px; right:16px; width:44px; height:44px; font-size:1.1rem; }
 }
 
 .pf-nav { position:fixed; top:50%; transform:translateY(-50%); width:70px; height:70px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.08); border-radius: 35px; color:rgba(255,255,255,0.3); font-size:1.8rem; cursor:pointer; z-index:90; transition:0.3s; display:flex; align-items:center; justify-content:center; pointer-events: auto; backdrop-filter: blur(5px); }
@@ -2545,8 +2550,8 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
 </div>
 
 <div class="fixed-actions">
-  <a href="http://pf.kakao.com/_xxxx" target="_blank" class="action-btn kakao-btn" title="카카오톡 상담">
-    <i class="fa-solid fa-comment"></i>
+  <a href="tel:01032604223" class="action-btn call-btn" title="전화 상담">
+    <i class="fa-solid fa-phone"></i>
   </a>
   <a href="javascript:void(0)" id="chat-toggle" class="action-btn chat-toggle" title="문의하기">
     <span class="pulse-r"></span>
@@ -3049,7 +3054,7 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
              el.style.transform = `translate3d(${t.x}px,${t.y}px,${t.z}px) rotateX(${t.rx}deg) rotateY(${t.ry}deg) rotateZ(${t.rz}deg)`;
           });
 
-          // [FIX] 카드 클릭 시 우리가게컨턴츠만들기 상세 모달 오픈 (페이지 이동 대신)
+          // [FIX] 카드 클릭 시 우리가게콘텐츠만들기 상세 모달 오픈 (페이지 이동 대신)
           el.addEventListener('click', e => {
             if (!drag.hasMoved) {
               e.stopPropagation();
@@ -3405,8 +3410,11 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
         }
       }catch(_){}
 
-      // 2) 포트폴리오 데이터만 로드 (카테고리는 CANONICAL 사용)
-      const pfSnap = await getDocs(collection(db, 'portfolio'));
+      // 2) 포트폴리오 + 업종 데이터 동시 로드
+      const [pfSnap, indSnap] = await Promise.all([
+        getDocs(collection(db, 'portfolio')),
+        getDoc(doc(db, 'settings', 'industries'))
+      ]);
       const allWorks = [];
       pfSnap.forEach(d => {
         const data = d.data();
@@ -3414,6 +3422,17 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
       });
       // 모달이 작품을 찾을 수 있도록 전역 노출
       window.cachedPortfolioItemsAll = allWorks;
+
+      // 업종(하위 카테고리) 목록 — Firestore 우선, 없으면 기본 4개
+      let industries = indSnap.exists() ? (indSnap.data().list || []) : [];
+      if(!industries.length){
+        industries = [
+          { id: 'restaurant', label: '외식업 (음식점)' },
+          { id: 'retail',     label: '도소매' },
+          { id: 'service',    label: '서비스업' },
+          { id: 'corporate',  label: '기업' }
+        ];
+      }
 
       // CANONICAL 순서대로 5개 노출 (라벨이 영문 ID여도 한글로 자동 치환)
       let items = CANONICAL.map(c => ({
@@ -3437,7 +3456,7 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
       const ytThumb = (id) => `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
       const isVideoExt = (u) => /\.(mp4|webm|mov|m4v)(\?|$)/i.test(u||'');
 
-      // 페이지네이션 상태
+      // 페이지네이션 + 필터 상태
       const PAGE_SIZE = 4;
       const ROTATION_MS = 5000; // 5초마다 다음 페이지로
       let currentCatId = items[0].id;
@@ -3446,7 +3465,6 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
       let isPausedHover = false;
       let isVisible = true;
 
-      // 카테고리별 모든 작품 (정렬 적용)
       const getAllWorks = (catId) => allWorks
         .filter(w => w.category === catId)
         .sort((a,b) => (parseInt(b.sort_order)||0) - (parseInt(a.sort_order)||0));
@@ -3456,11 +3474,10 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
         return len === 0 ? 1 : Math.ceil(len / PAGE_SIZE);
       };
 
-      // 특정 페이지의 4작품 (모자라면 빈 슬롯)
       const getWorksPage = (catId, page) => {
         const all = getAllWorks(catId);
         if(all.length === 0) return [];
-        const total = getTotalPages(catId);
+        const total = Math.ceil(all.length / PAGE_SIZE);
         const safe = ((page % total) + total) % total;
         return all.slice(safe * PAGE_SIZE, safe * PAGE_SIZE + PAGE_SIZE);
       };
@@ -3473,6 +3490,7 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
         ind.style.display = 'flex';
         ind.textContent = `${String(currentPage+1).padStart(2,'0')} / ${String(total).padStart(2,'0')}`;
       };
+
       // thumbnail / images / video_url / image_path 어떤 위치에 있어도 추출
       // YouTube URL이면 hqdefault 썸네일로 자동 변환
       const resolveThumb = (w) => {
@@ -3598,7 +3616,7 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
         }
       });
 
-      // 6) Pills 클릭 → 카테고리 전환 + 페이지 0 리셋 + 자동 순환 재시작
+      // 6) Pills 클릭 → 카테고리 전환 + sub 'all' 리셋 + sub-pills 재구성 + 페이지 0 + 타이머 재시작
       pillsEl.addEventListener('click', (e) => {
         const pill = e.target.closest('.archive-pill');
         if(!pill || pill.classList.contains('is-active')) return;
@@ -3607,7 +3625,7 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
         currentCatId = pill.dataset.cat;
         currentPage = 0;
         swapToPage(currentCatId, 0);
-        startRotation(); // 새 카테고리에 맞춰 타이머 재시작 (페이지 1개면 자동으로 정지)
+        startRotation();
       });
     }catch(e){
       console.error('Archive Load Error:', e);
@@ -3616,7 +3634,7 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
   })();
 
   let cachedPortfolioItems = [];
-  // Firestore에서 모든 우리가게컨턴츠만들기(portfolio 컬렉션) 데이터를 직접 가져옵니다.
+  // Firestore에서 모든 우리가게콘텐츠만들기(portfolio 컬렉션) 데이터를 직접 가져옵니다.
   (async function loadPortfolioFromFirestore() {
     try {
       const portfolioSnap = await getDocs(collection(db, 'portfolio'));
@@ -3746,7 +3764,7 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
                 .map(h => ({ thumbnail: h.image_path, title: 'Hero', slug: h.slug || '', sort: parseInt(h.sort_order)||0 }));
         }
 
-        // 2. 만약 히어로 슬라이드가 없거나 부족하면 '홈페이지 추천' 우리가게컨턴츠만들기로 채우기
+        // 2. 만약 히어로 슬라이드가 없거나 부족하면 '홈페이지 추천' 우리가게콘텐츠만들기로 채우기
         if(displayItems.length < 5) {
             let pSource = cachedPortfolioItems;
             if (pSource.length === 0) {
@@ -3767,7 +3785,7 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
             displayItems = [...displayItems, ...extra];
         }
 
-        // 3. 그래도 없으면 전체 우리가게컨턴츠만들기에서 가져오기
+        // 3. 그래도 없으면 전체 우리가게콘텐츠만들기에서 가져오기
         if(displayItems.length === 0) {
             displayItems = cachedPortfolioItems.slice(0, 5).map(it => {
               let thumb = it.thumbnail;
@@ -4567,15 +4585,15 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
 @media (max-width: 768px) {
     .pf-slide-item { padding: 0; }
     .pf-slide-item iframe { width:100vw; height:100vh; }
-    .pf-slide-item img, .pf-slide-item video { max-width:100%; max-height:100%; border-radius:0; }
+    .pf-slide-item img, .pf-slide-item video { max-width:92vw; max-height:75vh; width:auto !important; height:auto !important; object-fit:contain !important; border-radius:6px; }
     #pf-tools { display: none; }
-    #pf-counter { top:20px; left:20px; }
-    #pf-close { top:20px; right:20px; width:45px; height:45px; font-size:1.2rem; }
+    #pf-counter { top:16px; left:16px; font-size:0.85rem; }
+    #pf-close { top:16px; right:16px; width:44px; height:44px; font-size:1.1rem; }
     #pf-info-area { padding:50px 25px 30px; }
     #pf-title { font-size:1.8rem !important; }
     #pf-result { font-size:0.95rem; }
-    .pf-nav { width:50px; height:50px; font-size:1.2rem; background: rgba(0,0,0,0.3); border:none; }
-    #pf-prev { left: 10px; } #pf-next { right: 10px; }
+    .pf-nav { width:44px; height:44px; font-size:1.1rem; background: rgba(0,0,0,0.4); border:none; }
+    #pf-prev { left: 8px; } #pf-next { right: 8px; }
 }
 </style>
 

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE 3 STUDIO | Archive 포트폴리오 아카이브</title>
+    <title>THE 3 STUDIO | Archive 우리가게콘텐츠만들기 아카이브</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@700;900&display=swap"
         rel="stylesheet">
@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="css/style.css">
     <style>
         :root {
-            --primary: #C8102E;
+            --primary: #0047AB;
             --bg: #000;
             --surface: #0a0a0a;
             --border: rgba(255, 255, 255, 0.08);
@@ -449,7 +449,7 @@
         body.light-mode { background: #fff; color: #111; }
         body.light-mode nav:not(.scrolled) .nav-logo { color: #111 !important; }
         body.light-mode nav:not(.scrolled) .nav-links li a { color: rgba(0,0,0,0.6) !important; }
-        body.light-mode nav:not(.scrolled) .nav-links li a:hover, body.light-mode nav:not(.scrolled) .nav-links li a.active { color: #C8102E !important; }
+        body.light-mode nav:not(.scrolled) .nav-links li a:hover, body.light-mode nav:not(.scrolled) .nav-links li a.active { color: #0047AB !important; }
         body.light-mode nav.scrolled { background: rgba(255,255,255,0.95) !important; box-shadow: 0 4px 20px rgba(0,0,0,0.05) !important; border-bottom-color: rgba(0,0,0,0.05) !important; }
         body.light-mode nav.scrolled .nav-logo { color: #111 !important; }
         body.light-mode nav.scrolled .nav-links li a { color: rgba(0,0,0,0.6) !important; }
@@ -458,7 +458,7 @@
 
         body.light-mode nav.scrolled { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border-bottom-color: rgba(0,0,0,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
         body.light-mode .nav-logo, body.light-mode .nav-links li a { color: #111; }
-        body.light-mode .nav-cta { background: linear-gradient(135deg, #111 0%, #C8102E 100%); color: #fff; border: none; }
+        body.light-mode .nav-cta { background: linear-gradient(135deg, #111 0%, #0047AB 100%); color: #fff; border: none; }
         
         body.light-mode .about-hero { background: radial-gradient(circle at 50% 50%, rgba(0, 102, 255, 0.05) 0%, transparent 75%); }
         body.light-mode .hero-title { color: #111; }
@@ -469,7 +469,7 @@
 
         body.light-mode .filter-sect { background: #fff; border-color: rgba(0,0,0,0.05); }
         body.light-mode .filter-tab { border-color: rgba(0,0,0,0.08); color: #666; background: #fff; }
-        body.light-mode .filter-tab.active { background: #C8102E; color: #fff; border-color: #C8102E; box-shadow: 0 10px 20px rgba(0,102,255,0.2); }
+        body.light-mode .filter-tab.active { background: #0047AB; color: #fff; border-color: #0047AB; box-shadow: 0 10px 20px rgba(0,102,255,0.2); }
         
         body.light-mode .work-card { background: #fff; border-color: rgba(0,0,0,0.04); box-shadow: 0 20px 40px rgba(0,0,0,0.03); }
         body.light-mode .work-title { color: #111; }
@@ -504,7 +504,7 @@
         <ul class="nav-links">
             <li><a href="index.html">홈</a></li>
             <li><a href="index.html#team">전문가 서비스</a></li>
-            <li><a href="index.html#gallery">포트폴리오</a></li>
+            <li><a href="index.html#gallery">우리가게콘텐츠만들기</a></li>
     <li><a href="javascript:void(0)" onclick="window.openThe3Cut()">THE3 컷</a></li>
             <li><a href="about.html" class="active">스토리</a></li>
             <li><a href="index.html#contact">문의하기</a></li>
@@ -613,7 +613,7 @@
             const grid = document.getElementById('work-grid');
             try {
                 if (!allItems.length) {
-                    // Firestore에서 직접 포트폴리오 데이터를 가져옵니다.
+                    // Firestore에서 직접 우리가게콘텐츠만들기 데이터를 가져옵니다.
                     const qSnap = await getDocs(collection(db, 'portfolio'));
                     allItems = [];
                     qSnap.forEach(doc => {
