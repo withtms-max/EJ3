@@ -2141,30 +2141,38 @@
                         
                         <!-- 1. hero-sub (Label) -->
                         <div class="draggable resizable" data-id="hero-sub" data-key="off_label${suffix}"
-                             style="position:absolute; top:30%; left:50%; transform:translate(-50%, ${d['off_label'+suffix]||0}px); color:#fff; font-weight:900; letter-spacing:${isMob?'0.2rem':'0.4rem'}; padding:${subtitleV?'15px':'4px 10px'}; cursor:move; font-size:${d['off_label_fs'+suffix]||(isMob?0.7:0.9)}rem; text-transform:uppercase; text-shadow:0 2px 8px rgba(0,0,0,0.8); user-select:none; white-space:normal; max-width:${isMob?'90%':'80%'}; text-align:center; line-height:1.4; border:1px dashed rgba(255,255,255,${subtitleV?0.1:0.15}); ${subtitleV?'':'opacity:0.25;'}">
+                             style="position:absolute; top:30%; left:50%; transform:translate(-50%, ${d['off_label'+suffix]||0}px); color:#fff; font-weight:900; letter-spacing:${isMob?'0.2rem':'0.4rem'}; padding:${subtitleV?'15px':'4px 10px'}; cursor:move; font-size:${d['off_label_fs'+suffix]||(isMob?0.7:0.9)}rem; text-transform:uppercase; text-shadow:0 2px 8px rgba(0,0,0,0.8); user-select:none; white-space:normal; width:${d['off_label_w'+suffix]?d['off_label_w'+suffix]+'px':'auto'}; max-width:${d['off_label_w'+suffix]?'none':(isMob?'90%':'80%')}; text-align:center; line-height:1.4; border:1px dashed rgba(255,255,255,${subtitleV?0.1:0.15}); ${subtitleV?'':'opacity:0.25;'}">
                              ${subtitleV || `<span style="font-size:0.55rem; color:rgba(255,255,255,0.5); letter-spacing:0;">상단 라벨</span>`}
-                             <div class="resize-handle" style="position:absolute; right:-5px; bottom:-5px; width:10px; height:10px; background:#4488ff; cursor:nwse-resize; z-index:30;"></div>
+                             <div class="width-handle width-handle-left" style="position:absolute; left:-7px; top:50%; transform:translateY(-50%); width:14px; height:32px; background:#4488ff; border:2px solid #fff; border-radius:4px; cursor:ew-resize; z-index:31; box-shadow:0 2px 8px rgba(0,0,0,0.4);"></div>
+                             <div class="width-handle width-handle-right" style="position:absolute; right:-7px; top:50%; transform:translateY(-50%); width:14px; height:32px; background:#4488ff; border:2px solid #fff; border-radius:4px; cursor:ew-resize; z-index:31; box-shadow:0 2px 8px rgba(0,0,0,0.4);"></div>
+                             <div class="resize-handle" style="position:absolute; right:-5px; bottom:-5px; width:10px; height:10px; background:#fbbf24; border:1.5px solid #fff; cursor:nwse-resize; z-index:30; border-radius:2px;"></div>
                         </div>
 
                         <!-- 2. hero-subline -->
                         <div class="draggable resizable" data-id="hero-subline" data-key="off_subline${suffix}"
-                             style="position:absolute; top:42%; left:50%; transform:translate(-50%, ${d['off_subline'+suffix]||0}px); font-family:'Pretendard'; font-size:${d['off_subline_fs'+suffix]||(isMob?1:1.5)}rem; font-weight:700; color:rgba(255,255,255,0.85); letter-spacing:0.05em; display:block; cursor:move; padding:${mainCopyV?'10px':'4px 10px'}; user-select:none; text-shadow:0 2px 8px rgba(0,0,0,0.8); white-space:normal; max-width:${isMob?'90%':'80%'}; text-align:center; line-height:1.4; border:1px dashed rgba(255,255,255,${mainCopyV?0.1:0.15}); ${mainCopyV?'':'opacity:0.25;'}">
+                             style="position:absolute; top:42%; left:50%; transform:translate(-50%, ${d['off_subline'+suffix]||0}px); font-family:'Pretendard'; font-size:${d['off_subline_fs'+suffix]||(isMob?1:1.5)}rem; font-weight:700; color:rgba(255,255,255,0.85); letter-spacing:0.05em; display:block; cursor:move; padding:${mainCopyV?'10px':'4px 10px'}; user-select:none; text-shadow:0 2px 8px rgba(0,0,0,0.8); white-space:normal; width:${d['off_subline_w'+suffix]?d['off_subline_w'+suffix]+'px':'auto'}; max-width:${d['off_subline_w'+suffix]?'none':(isMob?'90%':'80%')}; text-align:center; line-height:1.4; border:1px dashed rgba(255,255,255,${mainCopyV?0.1:0.15}); ${mainCopyV?'':'opacity:0.25;'}">
                              ${mainCopyV || `<span style="font-size:0.6rem; color:rgba(255,255,255,0.5);">메인 문구</span>`}
-                             <div class="resize-handle" style="position:absolute; right:-5px; bottom:-5px; width:10px; height:10px; background:#4488ff; cursor:nwse-resize; z-index:30;"></div>
+                             <div class="width-handle width-handle-left" style="position:absolute; left:-7px; top:50%; transform:translateY(-50%); width:14px; height:32px; background:#4488ff; border:2px solid #fff; border-radius:4px; cursor:ew-resize; z-index:31; box-shadow:0 2px 8px rgba(0,0,0,0.4);"></div>
+                             <div class="width-handle width-handle-right" style="position:absolute; right:-7px; top:50%; transform:translateY(-50%); width:14px; height:32px; background:#4488ff; border:2px solid #fff; border-radius:4px; cursor:ew-resize; z-index:31; box-shadow:0 2px 8px rgba(0,0,0,0.4);"></div>
+                             <div class="resize-handle" style="position:absolute; right:-5px; bottom:-5px; width:10px; height:10px; background:#fbbf24; border:1.5px solid #fff; cursor:nwse-resize; z-index:30; border-radius:2px;"></div>
                         </div>
 
                         <!-- 3. hero-accent -->
                         <div class="draggable resizable" data-id="hero-accent" data-key="off_main${suffix}"
-                             style="position:absolute; top:50%; left:50%; transform:translate(-50%, ${d['off_main'+suffix]||0}px); font-family:'Pretendard'; font-size:${d['off_main_fs'+suffix]||(isMob?2:4)}rem; font-weight:900; line-height:1.2; cursor:move; padding:${accentCopyV?'10px':'4px 10px'}; user-select:none; word-break:keep-all; text-align:center; white-space:normal; max-width:${isMob?'92%':'90%'}; border:1px dashed rgba(255,255,255,${accentCopyV?0.1:0.15}); ${accentCopyV?'':'opacity:0.25;'}">
+                             style="position:absolute; top:50%; left:50%; transform:translate(-50%, ${d['off_main'+suffix]||0}px); font-family:'Pretendard'; font-size:${d['off_main_fs'+suffix]||(isMob?2:4)}rem; font-weight:900; line-height:1.2; cursor:move; padding:${accentCopyV?'10px':'4px 10px'}; user-select:none; word-break:keep-all; text-align:center; white-space:normal; width:${d['off_main_w'+suffix]?d['off_main_w'+suffix]+'px':'auto'}; max-width:${d['off_main_w'+suffix]?'none':(isMob?'92%':'90%')}; border:1px dashed rgba(255,255,255,${accentCopyV?0.1:0.15}); ${accentCopyV?'':'opacity:0.25;'}">
                              ${accentCopyV || `<span style="font-size:0.6rem; color:rgba(255,255,255,0.5); font-weight:600;">강조 문구 (비어있음 → 홈에 안 보임)</span>`}
-                             <div class="resize-handle" style="position:absolute; right:10%; bottom:0; width:15px; height:15px; background:#4488ff; cursor:nwse-resize; z-index:30;"></div>
+                             <div class="width-handle width-handle-left" style="position:absolute; left:-7px; top:50%; transform:translateY(-50%); width:14px; height:32px; background:#4488ff; border:2px solid #fff; border-radius:4px; cursor:ew-resize; z-index:31; box-shadow:0 2px 8px rgba(0,0,0,0.4);"></div>
+                             <div class="width-handle width-handle-right" style="position:absolute; right:-7px; top:50%; transform:translateY(-50%); width:14px; height:32px; background:#4488ff; border:2px solid #fff; border-radius:4px; cursor:ew-resize; z-index:31; box-shadow:0 2px 8px rgba(0,0,0,0.4);"></div>
+                             <div class="resize-handle" style="position:absolute; right:10%; bottom:0; width:15px; height:15px; background:#fbbf24; border:1.5px solid #fff; cursor:nwse-resize; z-index:30; border-radius:2px;"></div>
                         </div>
 
                         <!-- 4. hero-desc -->
                         <div class="draggable resizable" data-id="hero-desc" data-key="off_desc${suffix}"
-                             style="position:absolute; top:${isMob?'65%':'65%'}; left:50%; transform:translate(-50%, ${d['off_desc'+suffix]||0}px); color:rgba(255,255,255,0.9); font-size:${d['off_desc_fs'+suffix]||(isMob?0.78:1.15)}rem; width:${descriptionV ? (isMob?'92%':'80%') : 'auto'}; max-width:${isMob?'92%':'850px'}; padding:${descriptionV?(isMob?'10px':'15px'):'4px 10px'}; cursor:move; line-height:1.7; word-break:keep-all; font-weight:600; text-shadow:0 2px 8px rgba(0,0,0,0.8); user-select:none; text-align:center; border:1px dashed rgba(255,255,255,${descriptionV?0.1:0.15}); ${descriptionV?'':'opacity:0.25;'}">
+                             style="position:absolute; top:${isMob?'65%':'65%'}; left:50%; transform:translate(-50%, ${d['off_desc'+suffix]||0}px); color:rgba(255,255,255,0.9); font-size:${d['off_desc_fs'+suffix]||(isMob?0.78:1.15)}rem; width:${d['off_desc_w'+suffix]?d['off_desc_w'+suffix]+'px':(descriptionV ? (isMob?'92%':'80%') : 'auto')}; max-width:${d['off_desc_w'+suffix]?'none':(isMob?'92%':'850px')}; padding:${descriptionV?(isMob?'10px':'15px'):'4px 10px'}; cursor:move; line-height:1.7; word-break:keep-all; font-weight:600; text-shadow:0 2px 8px rgba(0,0,0,0.8); user-select:none; text-align:center; border:1px dashed rgba(255,255,255,${descriptionV?0.1:0.15}); ${descriptionV?'':'opacity:0.25;'}">
                              ${descriptionV || `<span style="font-size:0.6rem; color:rgba(255,255,255,0.5);">중간 요약</span>`}
-                             <div class="resize-handle" style="position:absolute; right:0; bottom:0; width:10px; height:10px; background:#4488ff; cursor:nwse-resize; z-index:30;"></div>
+                             <div class="width-handle width-handle-left" style="position:absolute; left:-7px; top:50%; transform:translateY(-50%); width:14px; height:32px; background:#4488ff; border:2px solid #fff; border-radius:4px; cursor:ew-resize; z-index:31; box-shadow:0 2px 8px rgba(0,0,0,0.4);"></div>
+                             <div class="width-handle width-handle-right" style="position:absolute; right:-7px; top:50%; transform:translateY(-50%); width:14px; height:32px; background:#4488ff; border:2px solid #fff; border-radius:4px; cursor:ew-resize; z-index:31; box-shadow:0 2px 8px rgba(0,0,0,0.4);"></div>
+                             <div class="resize-handle" style="position:absolute; right:0; bottom:0; width:10px; height:10px; background:#fbbf24; border:1.5px solid #fff; cursor:nwse-resize; z-index:30; border-radius:2px;"></div>
                         </div>
 
                     </div>
@@ -2218,6 +2226,30 @@
                 let sy, sv, startFS, resizing = false;
                 
                 el.onmousedown = (e) => {
+                    // 좌우 너비 핸들 (이전 페이지)
+                    const widthHandle = e.target.closest('.width-handle');
+                    if (widthHandle) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        const isLeft = widthHandle.classList.contains('width-handle-left');
+                        const startX = e.clientX;
+                        const startW = el.offsetWidth;
+                        const wMove = (me) => {
+                            const dx = me.clientX - startX;
+                            // 양쪽 모두 가운데 기준 대칭으로 늘리려면 *2
+                            // 좌측 핸들은 반대 방향으로
+                            const newW = Math.max(60, startW + (isLeft ? -dx*2 : dx*2));
+                            el.style.width = newW + 'px';
+                            el.style.maxWidth = 'none';
+                        };
+                        const wUp = () => {
+                            window.removeEventListener('mousemove', wMove);
+                            window.removeEventListener('mouseup', wUp);
+                        };
+                        window.addEventListener('mousemove', wMove);
+                        window.addEventListener('mouseup', wUp);
+                        return;
+                    }
                     const handle = e.target.closest('.resize-handle');
                     if (handle) {
                         resizing = true;
@@ -2225,7 +2257,7 @@
                         e.stopPropagation();
                         sy = e.clientY;
                         startFS = parseFloat(window.getComputedStyle(el).fontSize);
-                        
+
                         const rMove = (me) => {
                             const delta = me.clientY - sy;
                             el.style.fontSize = `${startFS + delta * 0.1}px`;
@@ -2303,10 +2335,20 @@
             const key = el.dataset.key;
             const matches = el.style.transform.match(/translate\(-50%,\s*(-?\d+\.?\d*)px\)/);
             updates[key] = matches ? parseFloat(matches[1]) : 0;
-            
+
             // SAVE CUSTOM FONT SIZE
             const fs = window.getComputedStyle(el).fontSize;
             updates[key + '_fs'] = parseFloat(fs) / 16; // Save as rem
+
+            // SAVE CUSTOM WIDTH (left/right 핸들로 조절한 px 너비)
+            // key 패턴: off_label_pc / off_label_mobile → off_label_w_pc / off_label_w_mobile
+            const inlineWidth = el.style.width;
+            if (inlineWidth && inlineWidth.endsWith('px')) {
+                // off_main_pc → off_main_w_pc
+                const baseKey = key.replace(/_(pc|mobile)$/, '');
+                const suffixKey = key.match(/_(pc|mobile)$/)?.[0] || '';
+                updates[baseKey + '_w' + suffixKey] = parseInt(inlineWidth);
+            }
         });
 
         try {

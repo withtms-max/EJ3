@@ -3311,18 +3311,27 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
               
               const offset = d[cfg.key + suffix] !== undefined ? d[cfg.key + suffix] : (d[cfg.key] || 0);
               const fsVal = d[cfg.fsKey + suffix] || d[cfg.key + '_fs' + suffix] || d[cfg.key + suffix + '_fs'];
-              
+              // 사용자가 라이브 배치에서 좌우 핸들로 조절한 너비 (예: off_label_w_mobile)
+              const wVal = d[cfg.key + '_w' + suffix];
+
               el.style.position = 'absolute';
               el.style.top = cfg.top;
               el.style.left = '50%';
               el.style.transform = `translate(-50%, ${offset}px)`;
               el.style.textAlign = 'center';
               el.style.zIndex = '101'; // 텍스트를 전면으로
-              
-              if (cfg.nowrap) el.style.whiteSpace = 'nowrap';
-              if (cfg.minW) el.style.minWidth = cfg.minW;
-              if (cfg.w) el.style.width = cfg.w;
-              if (cfg.maxW) el.style.maxWidth = cfg.maxW;
+
+              // 사용자 너비 우선, 없으면 cfg 기본값
+              if (wVal) {
+                  el.style.width = wVal + 'px';
+                  el.style.maxWidth = 'none';
+                  el.style.whiteSpace = 'normal';
+              } else {
+                  if (cfg.nowrap) el.style.whiteSpace = 'nowrap';
+                  if (cfg.minW) el.style.minWidth = cfg.minW;
+                  if (cfg.w) el.style.width = cfg.w;
+                  if (cfg.maxW) el.style.maxWidth = cfg.maxW;
+              }
               if (fsVal) el.style.fontSize = `${fsVal}rem`;
               else if (cfg.defaultFS) el.style.fontSize = `${cfg.defaultFS}rem`;
 
