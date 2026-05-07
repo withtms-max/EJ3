@@ -809,6 +809,114 @@
         };
     }
 
+    // ───── 텍스트 에디터 툴바 함수 (renderHeroSettings 외부에 정의) ─────
+    const HERO_COLORS = [
+        {name:'코발트',  hex:'#0047AB'},
+        {name:'스카이',  hex:'#1E5FCC'},
+        {name:'크림슨',  hex:'#B91C1C'},
+        {name:'블러시',  hex:'#F8B4B4'},
+        {name:'골드',    hex:'#D4AF37'},
+        {name:'에메랄드',hex:'#10B981'},
+        {name:'화이트',  hex:'rgba(255,255,255,0.85)'},
+        {name:'블랙',    hex:'#111111'}
+    ];
+    window.HERO_COLORS = HERO_COLORS;
+    const HERO_GRADIENTS = [
+        {name:'시그니처',  css:'linear-gradient(135deg,#fff 0%,#1E5FCC 50%,#8b0000 100%)', preview:'linear-gradient(135deg,#fff,#1E5FCC,#8b0000)'},
+        {name:'블루',      css:'linear-gradient(135deg,#1E5FCC 0%,#0047AB 100%)',          preview:'linear-gradient(135deg,#1E5FCC,#0047AB)'},
+        {name:'레드',      css:'linear-gradient(135deg,#E11D48 0%,#7F1D1D 100%)',          preview:'linear-gradient(135deg,#E11D48,#7F1D1D)'},
+        {name:'골드',      css:'linear-gradient(135deg,#FFD700 0%,#D4AF37 50%,#A67C00 100%)', preview:'linear-gradient(135deg,#FFD700,#A67C00)'},
+        {name:'선셋',      css:'linear-gradient(135deg,#FF6B6B 0%,#F8B4B4 50%,#FFD700 100%)', preview:'linear-gradient(135deg,#FF6B6B,#FFD700)'},
+        {name:'오로라',    css:'linear-gradient(135deg,#10B981 0%,#1E5FCC 50%,#8B5CF6 100%)', preview:'linear-gradient(135deg,#10B981,#8B5CF6)'}
+    ];
+    window.HERO_GRADIENTS = HERO_GRADIENTS;
+    function renderTextToolbar(id) {
+        const colorBtns = HERO_COLORS.map(c =>
+            `<button type="button" class="tt-color" data-name="${c.name}" style="background:${c.hex};" onclick="ttApplyColor('${id}','${c.hex.replace(/'/g,"\\'")}')"></button>`
+        ).join('');
+        const gradBtns = HERO_GRADIENTS.map((g, i) =>
+            `<button type="button" class="tt-grad" data-name="${g.name}" style="background:${g.preview};" onclick="ttApplyGradient('${id}',${i})"></button>`
+        ).join('');
+        return `<div class="text-toolbar" data-target="${id}">
+            <span class="tt-label">🎨 색상:</span>
+            ${colorBtns}
+            <span class="tt-divider"></span>
+            <span class="tt-label">🌈 그라데이션:</span>
+            ${gradBtns}
+            <span class="tt-divider"></span>
+            <button type="button" class="tt-btn" onclick="ttApplyBold('${id}')" title="굵게"><b>B</b></button>
+            <button type="button" class="tt-btn" onclick="ttApplyTag('${id}','br')" title="줄바꿈">↵ 줄바꿈</button>
+            <button type="button" class="tt-btn" onclick="ttClear('${id}')" title="서식 제거" style="margin-left:auto; background:transparent; color:var(--text-dim);">↻ 초기화</button>
+        </div>`;
+    }
+    window.renderTextToolbar = renderTextToolbar;
+    window.ttApplyColor = (id, color) => {
+        const el = document.getElementById('ti-'+id);
+        if(!el) return;
+        const start = el.selectionStart, end = el.selectionEnd, val = el.value;
+        const sel = val.substring(start, end);
+        if(!sel){ alert('💡 강조하고 싶은 글자를 먼저 드래그로 선택하세요.'); return; }
+        const replaced = `<span style="color:${color};">${sel}</span>`;
+        el.value = val.substring(0,start) + replaced + val.substring(end);
+        el.focus();
+        el.setSelectionRange(start, start + replaced.length);
+        ttUpdatePreview(id);
+    };
+    window.ttApplyTag = (id, tag) => {
+        const el = document.getElementById('ti-'+id);
+        if(!el) return;
+        const start = el.selectionStart, end = el.selectionEnd, val = el.value;
+        if(tag === 'br'){
+            el.value = val.substring(0,start) + '<br>' + val.substring(end);
+            el.focus();
+            el.setSelectionRange(start+4, start+4);
+        } else {
+            const sel = val.substring(start, end);
+            if(!sel){ alert('💡 처리할 글자를 먼저 드래그로 선택하세요.'); return; }
+            const replaced = `<${tag}>${sel}</${tag}>`;
+            el.value = val.substring(0,start) + replaced + val.substring(end);
+            el.focus();
+            el.setSelectionRange(start, start + replaced.length);
+        }
+        ttUpdatePreview(id);
+    };
+    window.ttApplyBold = (id) => window.ttApplyTag(id,'strong');
+    window.ttApplyGradient = (id, gradIdx) => {
+        const el = document.getElementById('ti-'+id);
+        if(!el) return;
+        const g = window.HERO_GRADIENTS[gradIdx];
+        if(!g) return;
+        const start = el.selectionStart, end = el.selectionEnd, val = el.value;
+        const sel = val.substring(start, end);
+        if(!sel){ alert('💡 그라데이션을 적용할 글자를 먼저 드래그로 선택하세요.'); return; }
+        const replaced = `<span style="background:${g.css}; -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:transparent;">${sel}</span>`;
+        el.value = val.substring(0,start) + replaced + val.substring(end);
+        el.focus();
+        el.setSelectionRange(start, start + replaced.length);
+        ttUpdatePreview(id);
+    };
+    window.ttClear = (id) => {
+        const el = document.getElementById('ti-'+id);
+        if(!el) return;
+        if(!confirm('모든 색상/서식을 초기화하시겠어요? (텍스트는 유지)')) return;
+        el.value = el.value.replace(/<[^>]+>/g,'');
+        ttUpdatePreview(id);
+    };
+    window.ttUpdatePreview = (id) => {
+        const el = document.getElementById('ti-'+id);
+        const pv = document.getElementById('tp-'+id);
+        if(!el || !pv) return;
+        pv.innerHTML = el.value || '<span style="color:rgba(255,255,255,0.3); font-size:0.75rem;">(빈 값 — 홈에 표시되지 않음)</span>';
+    };
+    if(!window._ttInputBound){
+        window._ttInputBound = true;
+        document.addEventListener('input', (e) => {
+            if(e.target && e.target.id && e.target.id.startsWith('ti-')){
+                ttUpdatePreview(e.target.id.replace('ti-',''));
+            }
+        });
+    }
+
     // ───── 2. 히어로 섹션 마스터 (UPGRADED FOR MINIMAL LUXURY) ─────
     async function renderHeroSettings() {
         appView.innerHTML = '<div style="text-align:center; padding:10rem;"><i class="fa fa-spinner fa-spin"></i></div>';
@@ -851,25 +959,54 @@
                          </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="form-label">상단 보조 라벨 <span style="color:var(--accent)">(Small Color: var(--accent))</span></label>
-                        <input name="subtitle" class="form-input" value="${data.subtitle||''}" placeholder="예: The Premier Creative Agency">
+                    <style>
+                      .text-toolbar { display:flex; flex-wrap:wrap; gap:6px; padding:8px 10px; background:rgba(0,0,0,0.04); border:1px solid var(--border); border-bottom:none; border-radius:12px 12px 0 0; align-items:center; }
+                      .text-toolbar .tt-label { font-size:0.7rem; color:var(--text-dim); font-weight:700; margin-right:4px; }
+                      .text-toolbar .tt-color { width:26px; height:26px; border-radius:50%; border:2px solid rgba(255,255,255,0.6); cursor:pointer; transition:transform .15s; padding:0; box-shadow:0 2px 6px rgba(0,0,0,0.15); position:relative; }
+                      .text-toolbar .tt-color:hover { transform:scale(1.15); }
+                      .text-toolbar .tt-color::after, .text-toolbar .tt-grad::after { content:attr(data-name); position:absolute; bottom:-22px; left:50%; transform:translateX(-50%); background:#111; color:#fff; padding:2px 8px; border-radius:4px; font-size:0.65rem; white-space:nowrap; opacity:0; pointer-events:none; transition:.2s; z-index:10; }
+                      .text-toolbar .tt-color:hover::after, .text-toolbar .tt-grad:hover::after { opacity:1; }
+                      .text-toolbar .tt-grad { width:32px; height:26px; border-radius:6px; border:2px solid rgba(255,255,255,0.6); cursor:pointer; transition:transform .15s; padding:0; box-shadow:0 2px 6px rgba(0,0,0,0.15); position:relative; }
+                      .text-toolbar .tt-grad:hover { transform:scale(1.12); }
+                      .text-toolbar .tt-btn { background:#fff; border:1px solid var(--border); color:#333; padding:4px 10px; border-radius:6px; font-size:0.78rem; font-weight:800; cursor:pointer; transition:.15s; }
+                      .text-toolbar .tt-btn:hover { background:var(--accent); color:#fff; border-color:var(--accent); }
+                      .text-toolbar .tt-divider { width:1px; height:18px; background:var(--border); margin:0 4px; }
+                      .text-with-toolbar .form-input { border-top-left-radius:0; border-top-right-radius:0; }
+                      .text-preview { margin-top:6px; padding:10px 14px; background:#0B1939; color:#fff; border-radius:10px; font-size:0.82rem; line-height:1.6; min-height:28px; word-break:keep-all; }
+                      .text-preview-label { font-size:0.65rem; color:var(--text-dim); font-weight:700; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; }
+                    </style>
+
+                    <div class="form-group text-with-toolbar">
+                        <label class="form-label">상단 보조 라벨</label>
+                        ${renderTextToolbar('subtitle')}
+                        <input name="subtitle" id="ti-subtitle" class="form-input" value="${(data.subtitle||'').replace(/"/g,'&quot;')}" placeholder="예: THE PREMIER CREATIVE AGENCY">
+                        <div class="text-preview-label" style="margin-top:8px;">미리보기</div>
+                        <div class="text-preview" id="tp-subtitle"></div>
                     </div>
 
                     <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">메인 기본 문구 (흰색) <span style="color:#fff">(White: #ffffff)</span></label>
-                            <input name="main_copy" class="form-input" value="${data.main_copy||''}" placeholder="예: 장사도 바쁜데,">
+                        <div class="form-group text-with-toolbar">
+                            <label class="form-label">메인 기본 문구</label>
+                            ${renderTextToolbar('main_copy')}
+                            <input name="main_copy" id="ti-main_copy" class="form-input" value="${(data.main_copy||'').replace(/"/g,'&quot;')}" placeholder="예: 장사도 바쁜데,">
+                            <div class="text-preview-label" style="margin-top:8px;">미리보기</div>
+                            <div class="text-preview" id="tp-main_copy"></div>
                         </div>
-                        <div class="form-group">
-                            <label class="form-label">강조 포인트 문구 (빨간색+크게) <span style="color:#0047AB">(Crimson: #0047AB)</span></label>
-                            <input name="accent_copy" class="form-input" value="${data.accent_copy||''}" placeholder="예: 콘텐츠까지 고민하시나요?">
+                        <div class="form-group text-with-toolbar">
+                            <label class="form-label">강조 포인트 문구</label>
+                            ${renderTextToolbar('accent_copy')}
+                            <input name="accent_copy" id="ti-accent_copy" class="form-input" value="${(data.accent_copy||'').replace(/"/g,'&quot;')}" placeholder="예: 콘텐츠가 매출을 만든다">
+                            <div class="text-preview-label" style="margin-top:8px;">미리보기</div>
+                            <div class="text-preview" id="tp-accent_copy"></div>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="form-label">중간 요약 설명 (Sub-description) <span style="color:rgba(255,255,255,0.4)">(Dimmed: #ffffff66)</span></label>
-                        <textarea name="description" class="form-input" placeholder="예: 매출 상승은 콘텐츠가 결정합니다...">${data.description||''}</textarea>
+                    <div class="form-group text-with-toolbar">
+                        <label class="form-label">중간 요약 설명</label>
+                        ${renderTextToolbar('description')}
+                        <textarea name="description" id="ti-description" class="form-input" placeholder="예: 매출 상승은 콘텐츠가 결정합니다...">${data.description||''}</textarea>
+                        <div class="text-preview-label" style="margin-top:8px;">미리보기</div>
+                        <div class="text-preview" id="tp-description"></div>
                     </div>
 
 
@@ -897,7 +1034,11 @@
                 </form>
             </div>
         `;
-        document.getElementById('hero-form').onsubmit = async (e) => { 
+        // 4개 입력란 미리보기 자동 채우기
+        ['subtitle','main_copy','accent_copy','description'].forEach(id => {
+            if(typeof ttUpdatePreview === 'function') ttUpdatePreview(id);
+        });
+        document.getElementById('hero-form').onsubmit = async (e) => {
             e.preventDefault(); 
             const formData = Object.fromEntries(new FormData(e.target).entries());
             
@@ -2015,7 +2156,7 @@
                         <!-- 3. hero-accent -->
                         <div class="draggable resizable" data-id="hero-accent" data-key="off_main${suffix}"
                              style="position:absolute; top:50%; left:50%; transform:translate(-50%, ${d['off_main'+suffix]||0}px); font-family:'Pretendard'; font-size:${d['off_main_fs'+suffix]||(isMob?2:4)}rem; font-weight:900; line-height:1.15; cursor:move; padding:${accentCopyV?'10px':'4px 10px'}; user-select:none; word-break:keep-all; text-align:center; ${accentCopyV ? (isMob?'max-width:92%; width:92%;':'min-width:800px;') : 'width:auto;'} border:1px dashed rgba(255,255,255,${accentCopyV?0.1:0.15}); ${accentCopyV?'':'opacity:0.25;'}">
-                             ${accentCopyV ? `<span style="background:linear-gradient(135deg,#fff 0%,#1E5FCC 50%,#8b0000 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; filter:drop-shadow(0 0 30px rgba(30, 95, 204,0.5));">${accentCopyV}</span>` : `<span style="font-size:0.6rem; color:rgba(255,255,255,0.5); font-weight:600;">강조 문구 (비어있음 → 홈에 안 보임)</span>`}
+                             ${accentCopyV || `<span style="font-size:0.6rem; color:rgba(255,255,255,0.5); font-weight:600;">강조 문구 (비어있음 → 홈에 안 보임)</span>`}
                              <div class="resize-handle" style="position:absolute; right:10%; bottom:0; width:15px; height:15px; background:#4488ff; cursor:nwse-resize; z-index:30;"></div>
                         </div>
 

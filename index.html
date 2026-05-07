@@ -3269,7 +3269,7 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
               const v = (d.accent_copy || '').toString().trim();
               if (el) {
                   if (!v) { el.style.display = 'none'; }
-                  else { el.style.display = ''; el.innerHTML = `<span class="the3-accent">${v}</span>`; }
+                  else { el.style.display = ''; el.innerHTML = v; }
               }
           }
           {
