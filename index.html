@@ -3376,20 +3376,26 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
           
           const applyVideo = (v, customSrc, defaultSrc) => {
               if (!v) return;
+              const isMobileVideo = v.id && v.id.includes('mobile');
               // [FIX] 우선순위: Firestore 데이터 -> 기본 로컬 자산 순으로 확실히 할당
               let targetSrc = (customSrc && customSrc.trim() !== '') ? customSrc : defaultSrc;
-              
+
+              // [FIX] 모바일: .webm 자동 차단 (iOS/카카오 미지원) → 로컬 mp4 fallback
+              if (isMobileVideo && targetSrc.toLowerCase().includes('.webm')) {
+                  targetSrc = defaultSrc.includes('.mp4') ? defaultSrc : 'hero-mobile.mp4?v=2';
+              }
+
               // [FIX] 속성 강제 부여 및 루프 최적화
               v.muted = true; v.autoplay = true; v.loop = true;
               v.setAttribute('muted', ''); v.setAttribute('autoplay', ''); v.setAttribute('loop', '');
               v.setAttribute('playsinline', ''); v.setAttribute('webkit-playsinline', '');
-              
-              const videoType = targetSrc.toLowerCase().endsWith('.webm') ? 'video/webm' : 'video/mp4';
+
+              const videoType = targetSrc.toLowerCase().includes('.webm') ? 'video/webm' : 'video/mp4';
               const newSourceHTML = `<source src="${targetSrc}" type="${videoType}">`;
-              
+
               if (v.innerHTML !== newSourceHTML) {
-                  v.removeAttribute('src'); 
-                  v.innerHTML = newSourceHTML; 
+                  v.removeAttribute('src');
+                  v.innerHTML = newSourceHTML;
                   v.load();
                   // [FIX] 브라우저 자동재생 정책 대응을 위한 강제 재생
                   const playPromise = v.play();
