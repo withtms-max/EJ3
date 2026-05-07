@@ -110,7 +110,10 @@ nav.scrolled .nav-logo{color: var(--text-main) !important;}
   padding: 8rem 0 2rem;
   overflow: hidden;
   position: relative;
-  background: #000;
+  /* 비디오 못 나올 때 폴백 배경 (카카오 인앱 브라우저 등 webm 미지원 환경) */
+  background:
+    radial-gradient(ellipse at center, rgba(30,95,204,0.18) 0%, transparent 60%),
+    linear-gradient(180deg, #0B1939 0%, #050B1F 100%);
   border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 .hero-video {
@@ -2243,11 +2246,13 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
 <section class="fan-hero" id="home">
   <!-- RESPONSIVE VIDEO BACKGROUND -->
   <!-- Desktop Version -->
-  <video id="h-video-desktop" class="hero-video video-desktop" autoplay loop muted playsinline>
+  <video id="h-video-desktop" class="hero-video video-desktop" autoplay loop muted playsinline webkit-playsinline x5-playsinline preload="auto" disableRemotePlayback>
+    <source src="hero-desktop.mp4?v=1" type="video/mp4">
     <source src="hero-desktop.webm?v=1.5" type="video/webm">
   </video>
   <!-- Mobile Version -->
-  <video id="h-video-mobile" class="hero-video video-mobile" autoplay loop muted playsinline>
+  <video id="h-video-mobile" class="hero-video video-mobile" autoplay loop muted playsinline webkit-playsinline x5-playsinline preload="auto" disableRemotePlayback>
+    <source src="hero-mobile.mp4?v=1" type="video/mp4">
     <source src="hero-mobile.webm?v=1.5" type="video/webm">
   </video>
   <div class="hero-overlay"></div>
