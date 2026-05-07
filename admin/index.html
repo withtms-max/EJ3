@@ -166,7 +166,7 @@
             <div class="nav-group-title">MAIN CONTENT</div>
             
             <div class="nav-item" onclick="switchView('portfolio')"><i class="fa fa-folder"></i> 우리가게콘텐츠만들기 작업물</div>
-            <div class="nav-item" onclick="switchView('the3cut_config')"><i class="fa fa-magic" style="color: #b57bff;"></i> <b>THE3컷 인증키 설정</b></div>
+            <div class="nav-item" onclick="switchView('the3cut_config')"><i class="fa fa-magic" style="color: #b57bff;"></i> <b>AI 체험해보기 설정</b></div>
             <div class="nav-item" onclick="switchView('global')"><i class="fa fa-globe"></i> 전역 설정 (테마/컬러)</div>
             <div class="nav-item" onclick="switchView('hero')"><i class="fa fa-tv"></i> 히어로 섹션 마스터</div>
             <div class="nav-group-title">EXPERTS · 전문가 섹션</div>
@@ -581,7 +581,7 @@
         else if(view === 'hero') renderHeroSettings();
         else if(view === 'portfolio') renderPortfolio('all');
         else if(view === 'team') renderList(view, '팀 멤버', ['photo', 'name', 'role']);
-        else if(view === 'journey') renderList(view, '성공 연혁', ['period', 'title', 'subtitle', 'description']);
+        else if(view === 'journey') renderList(view, '성공 연혁', ['period', 'title', 'subtitle']);
         else if(view === 'contact_settings') renderContactSettings();
         else if(view === 'experts_copy') renderExpertsCopy();
         else if(view === 'journey_copy') renderJourneyCopy();
@@ -731,7 +731,7 @@
         const data = s.exists() ? s.data() : { api_key: '', pin: '' };
         
         appView.innerHTML = `
-            <div class="header-content"><div class="view-title"><h1>THE3 컷 AI 설정</h1><p>THE3 컷에 사용되는 핵심 API 키와 6자리 접속 PIN 번호를 설정합니다.</p></div></div>
+            <div class="header-content"><div class="view-title"><h1>AI 체험해보기 설정</h1><p>AI 체험해보기에 사용되는 핵심 API 키와 6자리 접속 PIN 번호를 설정합니다.</p></div></div>
             <div class="table-container" style="padding:3rem;">
                 <form id="the3cut-settings-form">
                     <div style="background:rgba(0, 71, 171, 0.05); padding:20px; border-radius:15px; margin-bottom:2rem; border:1px solid var(--border);">
@@ -759,7 +759,7 @@
             e.preventDefault();
             const formData = Object.fromEntries(new FormData(e.target).entries());
             await setDoc(docRef, formData);
-            alert('THE3 컷 보안 설정이 안전하게 유지 및 저장되었습니다!');
+            alert('AI 체험해보기 보안 설정이 안전하게 유지 및 저장되었습니다!');
         };
     }
 
@@ -823,8 +823,30 @@
             <div class="table-container" style="padding:3rem;">
                 <form id="hero-form">
                     <div style="background:rgba(0,102,255,0.05); padding:20px; border-radius:15px; margin-bottom:2rem; border:1px solid rgba(0,102,255,0.1);">
-                         <p style="font-size:0.75rem; color:var(--accent); font-weight:800; margin-bottom:5px;"><i class="fa fa-info-circle"></i> 디자인 가이드</p>
-                         <p style="font-size:0.7rem; color:var(--text-dim);">홈페이지의 핵심 포인트 컬러는 <b>var(--accent)</b> 입니다. 텍스트 강조나 버튼 효과에 동일하게 적용됩니다.</p>
+                         <p style="font-size:0.85rem; color:var(--accent); font-weight:900; margin-bottom:8px;"><i class="fa fa-info-circle"></i> 디자인 가이드 — 텍스트 컬러 직접 지정 가능</p>
+                         <p style="font-size:0.78rem; color:var(--text-dim); line-height:1.7; margin-bottom:14px;">
+                           각 입력란에 <code style="background:rgba(0,71,171,0.08); padding:3px 8px; border-radius:5px; color:#0047AB; font-weight:700;">&lt;span style="color:#원하는색"&gt;강조할 글자&lt;/span&gt;</code> 형식으로 작성하면 그 부분만 색상이 적용됩니다.<br>
+                           예: <code style="background:rgba(255,255,255,0.06); padding:2px 6px; border-radius:4px; color:#FF6B6B;">콘텐츠까지 &lt;span style="color:#FF6B6B"&gt;고민&lt;/span&gt;하시나요?</code>
+                         </p>
+                         <p style="font-size:0.72rem; color:var(--text-dim); font-weight:800; margin-bottom:8px; letter-spacing:0.05em;">▼ 클릭하면 색상 코드가 복사됩니다</p>
+                         <div id="hero-color-palette" style="display:grid; grid-template-columns:repeat(10, 1fr); gap:6px;">
+                           ${[
+                             {name:'코발트',  hex:'#0047AB'},
+                             {name:'스카이',  hex:'#1E5FCC'},
+                             {name:'네이비',  hex:'#1E3A8A'},
+                             {name:'크림슨',  hex:'#B91C1C'},
+                             {name:'로즈',    hex:'#E11D48'},
+                             {name:'앰버',    hex:'#F59E0B'},
+                             {name:'에메랄드',hex:'#10B981'},
+                             {name:'보라',    hex:'#8B5CF6'},
+                             {name:'화이트',  hex:'#FFFFFF'},
+                             {name:'블랙',    hex:'#111111'}
+                           ].map(c => `
+                             <button type="button" onclick="navigator.clipboard.writeText('${c.hex}'); this.querySelector('span').textContent='복사됨'; setTimeout(()=>this.querySelector('span').textContent='${c.name}', 1200);" title="${c.hex} 클릭해서 복사" style="background:${c.hex}; border:1px solid rgba(255,255,255,0.15); border-radius:8px; padding:14px 4px; color:${c.hex==='#FFFFFF'?'#111':'#fff'}; font-size:0.65rem; font-weight:800; cursor:pointer; text-shadow:${c.hex==='#FFFFFF'?'none':'0 1px 2px rgba(0,0,0,0.4)'}; transition:transform 0.15s;" onmouseover="this.style.transform='translateY(-2px) scale(1.04)'" onmouseout="this.style.transform=''">
+                               <span>${c.name}</span>
+                             </button>
+                           `).join('')}
+                         </div>
                     </div>
 
                     <div class="form-group">
@@ -1675,10 +1697,6 @@
                     <label class="form-label">정렬 순서 (작을수록 왼쪽)</label>
                     <input name="sort_order" class="form-input" type="number" value="${data?.sort_order||0}" placeholder="0">
                 </div>
-                <div class="form-group">
-                    <label class="form-label">추가 설명 (보관용 — 현재 타임라인에서 비표시)</label>
-                    <textarea name="description" class="form-input" style="min-height:80px;" placeholder="필요 시 더 긴 설명을 보관해 두세요. 현재 타임라인 UI에는 표시되지 않습니다.">${data?.description||''}</textarea>
-                </div>
              `;
         } else if(col === 'contacts') {
              html = `
@@ -1819,6 +1837,18 @@
             currentMode = mode;
             const suffix = '_' + mode;
             const isMob = mode === 'mobile';
+
+            // 빈 값이면 placeholder 안 띄우고 빈 string으로 (실제 홈과 동일)
+            const _val = (name, fbField) => {
+                const formVal = (document.querySelector(`[name="${name}"]`)?.value || '').trim();
+                if (formVal) return formVal;
+                const dbVal = ((d[fbField] || d[name]) || '').toString().trim();
+                return dbVal;
+            };
+            const subtitleV    = _val('subtitle',    'subtitle');
+            const mainCopyV    = _val('main_copy',   'main_copy');
+            const accentCopyV  = _val('accent_copy', 'accent_copy');
+            const descriptionV = _val('description', 'description');
             
             container.innerHTML = `
                 <!-- [MODE SWITCHER] -->
@@ -1833,7 +1863,7 @@
                     <!-- BACKGROUND VIDEO & LOGO -->
                     <div style="position:absolute; inset:0;">
                         <!-- ACTUAL UPLOADED VIDEO LINK (Sync with Form Inputs) -->
-                        <video id="editor-video-bg" src="${isMob ? (document.getElementById('path-hero_video_mobile')?.value || d.hero_video_mobile || '../hero-mobile.mp4') : (document.getElementById('path-hero_video_desktop')?.value || d.hero_video_desktop || '../hero-desktop.mp4')}" autoplay muted loop style="width:100%; height:100%; object-fit:cover; opacity:0.5; pointer-events:none;"></video>
+                        <video id="editor-video-bg" src="${isMob ? (document.getElementById('path-hero_video_mobile')?.value || d.hero_video_mobile || '../hero-mobile.mp4') : (document.getElementById('path-hero_video_desktop')?.value || d.hero_video_desktop || '../hero-desktop.mp4')}" autoplay muted loop style="width:100%; height:100%; object-fit:cover; opacity:0.75; pointer-events:none;"></video>
                         
                         <!-- HIGH SCALE LOGO SYNC (Mirroring Actual Site) -->
                         <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); color:rgba(255,255,255,0.06); font-size:${isMob?'60vw':'75vw'}; font-weight:950; letter-spacing:-0.05em; pointer-events:none; white-space:nowrap; text-align:center; filter:blur(2px);">THE 3</div>
@@ -1846,32 +1876,30 @@
                     <div id="editor-cinematic-wrap" style="position:absolute; inset:0; z-index:20; background:transparent;">
                         
                         <!-- 1. hero-sub (Label) -->
-                        <div class="draggable resizable" data-id="hero-sub" data-key="off_label${suffix}" 
-                             style="position:absolute; top:30%; left:50%; transform:translate(-50%, ${d['off_label'+suffix]||0}px); color:#1E5FCC; font-weight:900; letter-spacing:0.4rem; padding:15px; cursor:move; font-size:${d['off_label_fs'+suffix]||0.9}rem; text-transform:uppercase; text-shadow:0 2px 8px rgba(0,0,0,0.8); user-select:none; white-space:nowrap; border:1px dashed rgba(255,255,255,0.1);">
-                             ${document.querySelector('[name="subtitle"]')?.value || d.subtitle || 'THE PREMIER CREATIVE AGENCY'}
+                        <div class="draggable resizable" data-id="hero-sub" data-key="off_label${suffix}"
+                             style="position:absolute; top:30%; left:50%; transform:translate(-50%, ${d['off_label'+suffix]||0}px); color:#fff; font-weight:900; letter-spacing:${isMob?'0.2rem':'0.4rem'}; padding:${subtitleV?'15px':'4px 10px'}; cursor:move; font-size:${d['off_label_fs'+suffix]||(isMob?0.7:0.9)}rem; text-transform:uppercase; text-shadow:0 2px 8px rgba(0,0,0,0.8); user-select:none; ${isMob?'white-space:normal; max-width:90%; text-align:center;':'white-space:nowrap;'} border:1px dashed rgba(255,255,255,${subtitleV?0.1:0.15}); ${subtitleV?'':'opacity:0.25;'}">
+                             ${subtitleV || `<span style="font-size:0.55rem; color:rgba(255,255,255,0.5); letter-spacing:0;">상단 라벨</span>`}
                              <div class="resize-handle" style="position:absolute; right:-5px; bottom:-5px; width:10px; height:10px; background:#4488ff; cursor:nwse-resize; z-index:30;"></div>
                         </div>
-                        
+
                         <!-- 2. hero-subline -->
-                        <div class="draggable resizable" data-id="hero-subline" data-key="off_subline${suffix}" 
-                             style="position:absolute; top:42%; left:50%; transform:translate(-50%, ${d['off_subline'+suffix]||0}px); font-family:'Pretendard'; font-size:${d['off_subline_fs'+suffix]||1.5}rem; font-weight:700; color:rgba(255,255,255,0.85); letter-spacing:0.1em; display:block; cursor:move; padding:10px; user-select:none; text-shadow:0 2px 8px rgba(0,0,0,0.8); white-space:nowrap; border:1px dashed rgba(255,255,255,0.1);">
-                             ${document.querySelector('[name="main_copy"]')?.value || d.main_copy || '장사도 바쁜데,'}
+                        <div class="draggable resizable" data-id="hero-subline" data-key="off_subline${suffix}"
+                             style="position:absolute; top:42%; left:50%; transform:translate(-50%, ${d['off_subline'+suffix]||0}px); font-family:'Pretendard'; font-size:${d['off_subline_fs'+suffix]||(isMob?1:1.5)}rem; font-weight:700; color:rgba(255,255,255,0.85); letter-spacing:0.05em; display:block; cursor:move; padding:${mainCopyV?'10px':'4px 10px'}; user-select:none; text-shadow:0 2px 8px rgba(0,0,0,0.8); ${isMob?'white-space:normal; max-width:90%; text-align:center;':'white-space:nowrap;'} border:1px dashed rgba(255,255,255,${mainCopyV?0.1:0.15}); ${mainCopyV?'':'opacity:0.25;'}">
+                             ${mainCopyV || `<span style="font-size:0.6rem; color:rgba(255,255,255,0.5);">메인 문구</span>`}
                              <div class="resize-handle" style="position:absolute; right:-5px; bottom:-5px; width:10px; height:10px; background:#4488ff; cursor:nwse-resize; z-index:30;"></div>
                         </div>
 
                         <!-- 3. hero-accent -->
-                        <div class="draggable resizable" data-id="hero-accent" data-key="off_main${suffix}" 
-                             style="position:absolute; top:50%; left:50%; transform:translate(-50%, ${d['off_main'+suffix]||0}px); font-family:'Pretendard'; font-size:${d['off_main_fs'+suffix]||4}rem; font-weight:900; line-height:1.15; cursor:move; padding:10px; user-select:none; word-break:keep-all; text-align:center; min-width:800px; border:1px dashed rgba(255,255,255,0.1);">
-                             <span style="background:linear-gradient(135deg,#fff 0%,#1E5FCC 50%,#8b0000 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; filter:drop-shadow(0 0 30px rgba(30, 95, 204,0.5));">
-                                ${document.querySelector('[name="accent_copy"]')?.value || d.accent_copy || '콘텐츠까지 고민하시나요?'}
-                             </span>
+                        <div class="draggable resizable" data-id="hero-accent" data-key="off_main${suffix}"
+                             style="position:absolute; top:50%; left:50%; transform:translate(-50%, ${d['off_main'+suffix]||0}px); font-family:'Pretendard'; font-size:${d['off_main_fs'+suffix]||(isMob?2:4)}rem; font-weight:900; line-height:1.15; cursor:move; padding:${accentCopyV?'10px':'4px 10px'}; user-select:none; word-break:keep-all; text-align:center; ${accentCopyV ? (isMob?'max-width:92%; width:92%;':'min-width:800px;') : 'width:auto;'} border:1px dashed rgba(255,255,255,${accentCopyV?0.1:0.15}); ${accentCopyV?'':'opacity:0.25;'}">
+                             ${accentCopyV ? `<span style="background:linear-gradient(135deg,#fff 0%,#1E5FCC 50%,#8b0000 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; filter:drop-shadow(0 0 30px rgba(30, 95, 204,0.5));">${accentCopyV}</span>` : `<span style="font-size:0.6rem; color:rgba(255,255,255,0.5); font-weight:600;">강조 문구 (비어있음 → 홈에 안 보임)</span>`}
                              <div class="resize-handle" style="position:absolute; right:10%; bottom:0; width:15px; height:15px; background:#4488ff; cursor:nwse-resize; z-index:30;"></div>
                         </div>
 
                         <!-- 4. hero-desc -->
-                        <div class="draggable resizable" data-id="hero-desc" data-key="off_desc${suffix}" 
-                             style="position:absolute; top:65%; left:50%; transform:translate(-50%, ${d['off_desc'+suffix]||0}px); color:rgba(255,255,255,0.9); font-size:${d['off_desc_fs'+suffix]||1.15}rem; width:80%; max-width:850px; padding:15px; cursor:move; line-height:1.8; word-break:keep-all; font-weight:600; text-shadow:0 2px 8px rgba(0,0,0,0.8); user-select:none; text-align:center; border:1px dashed rgba(255,255,255,0.1);">
-                             ${document.querySelector('[name="description"]')?.value || d.description || ''}
+                        <div class="draggable resizable" data-id="hero-desc" data-key="off_desc${suffix}"
+                             style="position:absolute; top:${isMob?'65%':'65%'}; left:50%; transform:translate(-50%, ${d['off_desc'+suffix]||0}px); color:rgba(255,255,255,0.9); font-size:${d['off_desc_fs'+suffix]||(isMob?0.78:1.15)}rem; width:${descriptionV ? (isMob?'92%':'80%') : 'auto'}; max-width:${isMob?'92%':'850px'}; padding:${descriptionV?(isMob?'10px':'15px'):'4px 10px'}; cursor:move; line-height:1.7; word-break:keep-all; font-weight:600; text-shadow:0 2px 8px rgba(0,0,0,0.8); user-select:none; text-align:center; border:1px dashed rgba(255,255,255,${descriptionV?0.1:0.15}); ${descriptionV?'':'opacity:0.25;'}">
+                             ${descriptionV || `<span style="font-size:0.6rem; color:rgba(255,255,255,0.5);">중간 요약</span>`}
                              <div class="resize-handle" style="position:absolute; right:0; bottom:0; width:10px; height:10px; background:#4488ff; cursor:nwse-resize; z-index:30;"></div>
                         </div>
 
@@ -1879,8 +1907,47 @@
 
                     <!-- BG Logo -->
                     <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:rgba(255,255,255,0.02); font-size:60vw; font-weight:950; letter-spacing:-0.05em; pointer-events:none; white-space:nowrap; z-index:1;">THE 3</div>
+
+                    <!-- 그리드 가이드라인 (1/4, 1/2, 3/4) -->
+                    <div id="snap-guides" style="position:absolute; inset:0; pointer-events:none; z-index:50;">
+                      <div style="position:absolute; top:25%; left:0; right:0; border-top:1px dashed rgba(68,136,255,0.18);"></div>
+                      <div style="position:absolute; top:50%; left:0; right:0; border-top:1px dashed rgba(68,136,255,0.28);"></div>
+                      <div style="position:absolute; top:75%; left:0; right:0; border-top:1px dashed rgba(68,136,255,0.18);"></div>
+                      <div id="snap-line" style="position:absolute; left:0; right:0; height:0; border-top:2px solid #4488ff; opacity:0; transition:opacity .15s; box-shadow:0 0 12px rgba(68,136,255,0.6);"></div>
+                    </div>
+                </div>
+
+                <!-- 프리셋 버튼 (상단/중앙/하단 자동 정렬) -->
+                <div style="position:absolute; bottom:30px; left:50%; transform:translateX(-50%); display:flex; gap:8px; z-index:100001; background:rgba(0,0,0,0.6); padding:6px; border-radius:30px; border:1px solid rgba(255,255,255,0.1); backdrop-filter:blur(10px);">
+                  <button onclick="applyPreset('top')" type="button" class="btn btn-s" style="background:transparent; border:none; padding:6px 14px; font-size:0.78rem; color:#fff;">⬆ 상단 정렬</button>
+                  <button onclick="applyPreset('middle')" type="button" class="btn btn-s" style="background:transparent; border:none; padding:6px 14px; font-size:0.78rem; color:#fff;">⏺ 중앙 정렬</button>
+                  <button onclick="applyPreset('bottom')" type="button" class="btn btn-s" style="background:transparent; border:none; padding:6px 14px; font-size:0.78rem; color:#fff;">⬇ 하단 정렬</button>
                 </div>
             `;
+
+            // 프리셋 적용 함수 (transform offset 기반 — 저장됨)
+            // 각 텍스트의 기본 top%를 기준으로 원하는 위치까지의 offset(px) 계산
+            window.applyPreset = (mode) => {
+              const simFrame = container.querySelector('#sim-frame');
+              if (!simFrame) return;
+              const frameH = simFrame.getBoundingClientRect().height;
+              // 기본 top%는 30/42/50/65 — 모드별 목표 % 정의
+              const baseTop = { 'hero-sub': 30, 'hero-subline': 42, 'hero-accent': 50, 'hero-desc': 65 };
+              const targets = {
+                top:    { 'hero-sub': 15, 'hero-subline': 23, 'hero-accent': 32, 'hero-desc': 48 },
+                middle: { 'hero-sub': 30, 'hero-subline': 42, 'hero-accent': 50, 'hero-desc': 65 },
+                bottom: { 'hero-sub': 45, 'hero-subline': 55, 'hero-accent': 65, 'hero-desc': 82 }
+              };
+              const p = targets[mode];
+              Object.keys(p).forEach(id => {
+                const el = container.querySelector(`[data-id="${id}"]`);
+                if (el) {
+                  // 목표 % - 기본 % 차이를 px로 환산
+                  const offsetPx = Math.round((p[id] - baseTop[id]) / 100 * frameH);
+                  el.style.transform = `translate(-50%, ${offsetPx}px)`;
+                }
+              });
+            };
 
             const draggables = container.querySelectorAll('.draggable');
             draggables.forEach(el => {
@@ -1910,17 +1977,48 @@
 
                     e.preventDefault();
                     e.stopPropagation();
-                    
+
                     sy = e.clientY;
                     const matches = el.style.transform.match(/translate\(-50%,\s*(-?\d+\.?\d*)px\)/);
                     sv = matches ? parseFloat(matches[1]) : 0;
-                    
-                    const move = (me) => { 
-                        el.style.transform = `translate(-50%, ${sv + me.clientY - sy}px)`; 
+                    const simFrame = container.querySelector('#sim-frame');
+                    const snapLine = container.querySelector('#snap-line');
+                    const SNAP_THRESHOLD = 8; // px 이내로 다가가면 스냅
+
+                    const move = (me) => {
+                        let newY = sv + me.clientY - sy;
+                        // 스냅 가이드: 부모 sim-frame 기준 1/4, 1/2, 3/4 지점으로 스냅
+                        if (simFrame) {
+                            const frameRect = simFrame.getBoundingClientRect();
+                            const elRect    = el.getBoundingClientRect();
+                            const elCenterY = elRect.top + elRect.height / 2;
+                            const targetY   = elCenterY + (me.clientY - sy) - (sv === 0 ? 0 : 0); // current center
+                            const snapPoints = [
+                                { y: frameRect.top + frameRect.height * 0.25, label: '25%' },
+                                { y: frameRect.top + frameRect.height * 0.50, label: '50%' },
+                                { y: frameRect.top + frameRect.height * 0.75, label: '75%' }
+                            ];
+                            let snapped = false;
+                            for (const sp of snapPoints) {
+                                if (Math.abs(elCenterY + (me.clientY - sy) - sp.y) < SNAP_THRESHOLD) {
+                                    const adjust = sp.y - elCenterY;
+                                    newY = sv + adjust;
+                                    if (snapLine) {
+                                        snapLine.style.top = ((sp.y - frameRect.top) / frameRect.height * 100) + '%';
+                                        snapLine.style.opacity = '1';
+                                    }
+                                    snapped = true;
+                                    break;
+                                }
+                            }
+                            if (!snapped && snapLine) snapLine.style.opacity = '0';
+                        }
+                        el.style.transform = `translate(-50%, ${newY}px)`;
                     };
                     const up = () => {
                         window.removeEventListener('mousemove', move);
                         window.removeEventListener('mouseup', up);
+                        if (snapLine) snapLine.style.opacity = '0';
                     };
                     window.addEventListener('mousemove', move);
                     window.addEventListener('mouseup', up);
