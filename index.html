@@ -3262,8 +3262,8 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
               else if (mode === 'innerText') el.innerText = v;
               else el.textContent = v;
           };
-          setOrHide('hero-sub',     d.subtitle);
-          setOrHide('hero-subline', d.main_copy);
+          setOrHide('hero-sub',     d.subtitle,  'html');
+          setOrHide('hero-subline', d.main_copy, 'html');
           {
               const el = document.getElementById('hero-accent');
               const v = (d.accent_copy || '').toString().trim();
@@ -4649,8 +4649,8 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
     if (typeof gsap === 'undefined') {
         console.warn('GSAP not loaded. Skipping typewriter.');
         sub.style.opacity = 1; acc.style.opacity = 1; desc.style.opacity = 1; cta.style.opacity = 1;
-        sub.textContent = subRaw;
-        acc.textContent = accRaw;
+        sub.innerHTML = subRaw;
+        acc.innerHTML = accRaw;
         return;
     }
 
