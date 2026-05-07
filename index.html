@@ -2738,10 +2738,6 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
 <div id="banner" class="banner" style="transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);">
   <p>
     <span id="banner-main-text">내 가게의 <strong style="color:var(--primary);">매출 상승</strong>을 위한 콘텐츠개발 전문가 집단, <strong>더삼스튜디오</strong>입니다</span><br class="hide-pc">
-    <span id="banner-slots-wrap" style="display:none;" class="slots-badge">
-      <span class="slots-dot"></span>
-      현재 <span id="banner-slots-count" style="margin:0 4px;">2</span>자리 남음
-    </span>
     <span id="banner-sub-text" style="display:block; font-size:0.75rem; color:rgba(255,255,255,0.4); margin-top:8px;">지금 바로 상담을 신청하세요.</span>
   </p>
   <div class="banner-btns">
@@ -3285,7 +3281,6 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
               }
           }
           setOrHide('hero-cta-text', d.cta_text, 'innerText');
-          setOrHide('slots-count',   d.slots_left, 'innerText');
 
           // ── 2. 어드민 1:1 절대 배치 시스템 (ABSOLUTE POSITIONING) ──
           const fhTitle = document.getElementById('fh-title');
