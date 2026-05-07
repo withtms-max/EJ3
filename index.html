@@ -3402,9 +3402,10 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
               }
           };
 
-          // [FIX] 어드민 필드(hero_video_desktop) + 구버전 필드(video_url_pc) 모두 지원, 로컬 폴백은 .webm
+          // [FIX] 어드민 필드(hero_video_desktop) + 구버전 필드(video_url_pc) 모두 지원
+          // 모바일은 mp4 우선 (iOS/카카오 호환), admin 커스텀이 없을 때만 적용
           applyVideo(vHeroPC, d.hero_video_desktop || d.video_url_pc, 'hero-desktop.webm?v=1.5');
-          applyVideo(vHeroMB, d.hero_video_mobile || d.video_url_mobile, 'hero-mobile.webm?v=1.5');
+          applyVideo(vHeroMB, d.hero_video_mobile || d.video_url_mobile, 'hero-mobile.mp4?v=2');
           applyVideo(vGallPC, d.gallery_video_desktop || d.gallery_url_pc, 'gallery-desktop.webm?v=1.5');
           applyVideo(vGallMB, d.gallery_video_mobile || d.gallery_url_mobile, 'gallery-mobile.webm?v=1.5');
       }
