@@ -2737,12 +2737,12 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
 <!-- BANNER -->
 <div id="banner" class="banner" style="transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);">
   <p>
-    THE <span style="color:var(--primary); font-weight:900;">3</span> STUDIO는 한 달에 단 <strong style="color:var(--primary);">3곳의 브랜드</strong>만 집중 컨설팅합니다.<br class="hide-pc">
+    <span id="banner-main-text">내 가게의 <strong style="color:var(--primary);">매출 상승</strong>을 위한 콘텐츠개발 전문가 집단, <strong>더삼스튜디오</strong>입니다</span><br class="hide-pc">
     <span id="banner-slots-wrap" style="display:none;" class="slots-badge">
       <span class="slots-dot"></span>
       현재 <span id="banner-slots-count" style="margin:0 4px;">2</span>자리 남음
     </span>
-    <span style="display:block; font-size:0.75rem; color:rgba(255,255,255,0.4); margin-top:8px;">지금 바로 상담을 신청하세요.</span>
+    <span id="banner-sub-text" style="display:block; font-size:0.75rem; color:rgba(255,255,255,0.4); margin-top:8px;">지금 바로 상담을 신청하세요.</span>
   </p>
   <div class="banner-btns">
     <button class="bb1" onclick="location.href='#contact';">문의하기</button>
@@ -4046,6 +4046,19 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
     } catch(e) { console.error('Hero Load Error:', e); }
   })();
   
+  // Banner Copy (Firestore: settings/banner)
+  (async function loadBannerCopy(){
+    try {
+      const snap = await getDoc(doc(db, 'settings', 'banner'));
+      if(!snap.exists()) return;
+      const d = snap.data() || {};
+      const $main = document.getElementById('banner-main-text');
+      const $sub  = document.getElementById('banner-sub-text');
+      if(d.main_text && $main) $main.innerHTML = d.main_text;
+      if(d.sub_text  && $sub)  $sub.textContent = d.sub_text;
+    } catch(e){ console.warn('Banner copy load failed:', e.message); }
+  })();
+
   // Experts Intro Copy + THE 3 Identity (Firestore: settings/experts_copy)
   (async function loadExpertsCopy(){
     try{

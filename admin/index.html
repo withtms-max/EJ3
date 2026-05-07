@@ -179,6 +179,7 @@
 
             <div class="nav-group-title">ARCHIVE · 카테고리 타일</div>
             <div class="nav-item" onclick="switchView('archive_copy')"><i class="fa fa-th-large"></i> 섹션 카피 (헤더/CTA)</div>
+            <div class="nav-item" onclick="switchView('banner_copy')"><i class="fa fa-bullhorn"></i> 하단 배너 카피</div>
             <div class="nav-item" onclick="switchView('manage_categories')" style="background: rgba(100,50,200,0.1); border: 1px solid rgba(100,50,200,0.3);"><i class="fa fa-tags" style="color:#b57bff;"></i> <b>카테고리명/순서</b></div>
             <div class="nav-item" onclick="switchView('manage_industries')"><i class="fa fa-briefcase"></i> 하위 카테고리 (업종)</div>
             <div class="nav-item" onclick="switchView('portfolio_hero')"><i class="fa fa-clapperboard"></i> 카테고리 시네마틱 이미지</div>
@@ -586,6 +587,7 @@
         else if(view === 'experts_copy') renderExpertsCopy();
         else if(view === 'journey_copy') renderJourneyCopy();
         else if(view === 'archive_copy') renderArchiveCopy();
+        else if(view === 'banner_copy') renderBannerCopy();
         else if(view === 'the3cut_config') renderThe3CutConfig();
         else if(view === 'manage_categories') renderManageCategories();
         else if(view === 'manage_industries') renderManageIndustries();
@@ -1153,6 +1155,65 @@
                 try{
                     await setDoc(doc(db, 'settings', 'archive_copy'), payload, { merge:true });
                     alert('✅ ARCHIVE 카피가 저장되었습니다.');
+                }catch(err){
+                    console.error(err);
+                    alert('❌ 저장 실패: ' + err.message);
+                }
+            });
+        } catch(e){
+            appView.innerHTML = `<div style="padding:3rem; color:#ff6b6b;">로드 실패: ${e.message}</div>`;
+        }
+    }
+
+    // ───── 2-0-D. 하단 배너 카피 마스터 ─────
+    async function renderBannerCopy() {
+        appView.innerHTML = '<div style="text-align:center; padding:10rem;"><i class="fa fa-spinner fa-spin"></i></div>';
+        try {
+            const s = await getDoc(doc(db, 'settings', 'banner'));
+            const data = s.exists() ? s.data() : {};
+            const def = {
+                main_text: '내 가게의 <strong style="color:var(--primary);">매출 상승</strong>을 위한 콘텐츠개발 전문가 집단, <strong>더삼스튜디오</strong>입니다',
+                sub_text:  '지금 바로 상담을 신청하세요.'
+            };
+            const v = (k) => (data[k] !== undefined ? data[k] : def[k]) || '';
+
+            appView.innerHTML = `
+                <div class="header-content">
+                    <div class="view-title"><h1>하단 배너 카피</h1><p>홈페이지 화면 하단에 항상 떠 있는 띠 배너의 메인 문구와 보조 문구를 관리합니다.</p></div>
+                </div>
+                <div class="settings-card" style="max-width:780px;">
+                    <form id="banner-copy-form">
+                        <div style="background:rgba(0,71,171,0.05); padding:14px 16px; border-radius:12px; margin-bottom:24px; border:1px solid rgba(0,71,171,0.15);">
+                            <p style="font-size:0.72rem; color:var(--accent); font-weight:900; margin-bottom:6px;"><i class="fa fa-info-circle"></i> 작성 가이드</p>
+                            <p style="font-size:0.7rem; color:var(--text-dim); line-height:1.7;">
+                                <b>HTML 태그 사용 가능</b> — 강조하고 싶은 부분에 컬러나 굵기 적용:<br>
+                                <code style="background:rgba(255,255,255,0.06); padding:2px 6px; border-radius:4px; color:#0047AB;">&lt;strong style="color:var(--primary);"&gt;강조 글자&lt;/strong&gt;</code> ← 코발트 블루 굵게<br>
+                                <code style="background:rgba(255,255,255,0.06); padding:2px 6px; border-radius:4px;">&lt;strong&gt;강조 글자&lt;/strong&gt;</code> ← 흰색 굵게
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">메인 문구 (큰 글씨)</label>
+                            <textarea name="main_text" class="form-input" rows="3" placeholder="예) 내 가게의 매출 상승을 위한 콘텐츠개발 전문가 집단, 더삼스튜디오입니다">${v('main_text')}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">보조 문구 (작은 회색 글씨)</label>
+                            <input name="sub_text" class="form-input" value="${v('sub_text')}" placeholder="예) 지금 바로 상담을 신청하세요.">
+                        </div>
+                        <button type="submit" class="btn" style="width:100%; margin-top:1.5rem;"><i class="fa fa-save"></i> 배너 카피 즉시 저장</button>
+                    </form>
+                </div>
+            `;
+            document.getElementById('banner-copy-form').addEventListener('submit', async (e)=>{
+                e.preventDefault();
+                const fd = new FormData(e.target);
+                const payload = {
+                    main_text: fd.get('main_text') || '',
+                    sub_text:  fd.get('sub_text')  || '',
+                    updated_at: new Date().toISOString()
+                };
+                try{
+                    await setDoc(doc(db, 'settings', 'banner'), payload, { merge:true });
+                    alert('✅ 배너 카피가 저장되었습니다.');
                 }catch(err){
                     console.error(err);
                     alert('❌ 저장 실패: ' + err.message);
