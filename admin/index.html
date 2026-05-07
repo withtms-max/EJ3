@@ -184,7 +184,7 @@
             <div class="nav-item" onclick="switchView('portfolio_hero')"><i class="fa fa-clapperboard"></i> 카테고리 시네마틱 이미지</div>
 
             <div class="nav-group-title">MANAGEMENT</div>
-            <div class="nav-item" onclick="switchView('consulting')"><i class="fa fa-envelope"></i> 문의 내역 확인</div>
+            <div class="nav-item" onclick="switchView('consulting')" style="position:relative;"><i class="fa fa-envelope"></i> 문의 내역 확인 <span id="contacts-badge" style="position:absolute; top:50%; right:14px; transform:translateY(-50%); background:#E11D48; color:#fff; font-size:0.7rem; font-weight:900; min-width:20px; height:20px; padding:0 6px; border-radius:10px; display:none; align-items:center; justify-content:center; box-shadow:0 4px 10px rgba(225,29,72,0.4); animation: pulse 2s infinite;"></span></div>
             <div class="nav-item" onclick="switchView('contact_settings')"><i class="fa fa-address-book"></i> 연락처/서비스 설정</div>
         </nav>
         <div class="nav-item" style="margin-top:2rem; background: rgba(29, 78, 216,0.1); color: #1D4ED8; border-radius: 12px; font-weight:900;" onclick="logout()"><i class="fa fa-sign-out"></i> 로그아웃</div>
@@ -253,7 +253,7 @@
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { getFirestore, collection, getDocs, getDoc, setDoc, updateDoc, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, collection, getDocs, getDoc, setDoc, updateDoc, deleteDoc, doc, query, orderBy, onSnapshot, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
     import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
 
     const firebaseConfig = {
@@ -1819,6 +1819,76 @@
 
 
     switchView('global');
+
+    // ───── 새 문의 실시간 알림 (사이드바 뱃지 + 토스트) ─────
+    (function setupContactsNotifier(){
+      // 토스트 컨테이너 + CSS
+      if (!document.getElementById('toast-style')) {
+        const st = document.createElement('style');
+        st.id = 'toast-style';
+        st.textContent = `
+          @keyframes pulse { 0%, 100%{ transform: translateY(-50%) scale(1); } 50%{ transform: translateY(-50%) scale(1.12); } }
+          @keyframes slideInRight { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+          @keyframes slideOutRight { from { transform: translateX(0); opacity: 1; } to { transform: translateX(120%); opacity: 0; } }
+          #toast-container { position: fixed; top: 24px; right: 24px; z-index: 999999; display: flex; flex-direction: column; gap: 12px; pointer-events: none; }
+          .toast-card { pointer-events: auto; min-width: 320px; max-width: 380px; background: linear-gradient(135deg, #1D4ED8 0%, #1E3A8A 100%); color: #fff; padding: 16px 20px; border-radius: 14px; box-shadow: 0 20px 50px rgba(29,78,216,0.4); animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1); cursor: pointer; transition: transform 0.2s; }
+          .toast-card:hover { transform: translateY(-2px); }
+          .toast-card.closing { animation: slideOutRight 0.3s forwards; }
+          .toast-title { font-size: 0.75rem; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.9; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+          .toast-msg { font-size: 0.9rem; font-weight: 700; line-height: 1.4; }
+          .toast-meta { font-size: 0.72rem; opacity: 0.75; margin-top: 4px; }
+        `;
+        document.head.appendChild(st);
+        const tc = document.createElement('div');
+        tc.id = 'toast-container';
+        document.body.appendChild(tc);
+      }
+      const showToast = (data) => {
+        const tc = document.getElementById('toast-container');
+        if (!tc) return;
+        const card = document.createElement('div');
+        card.className = 'toast-card';
+        card.innerHTML = `
+          <div class="toast-title"><i class="fa fa-bell"></i> 새 문의 도착</div>
+          <div class="toast-msg">${data.company_name || '익명'} — ${data.service || '서비스 미지정'}</div>
+          <div class="toast-meta">${data.email || ''} · 클릭하면 확인</div>
+        `;
+        card.onclick = () => { switchView('consulting'); card.classList.add('closing'); setTimeout(()=>card.remove(), 300); };
+        tc.appendChild(card);
+        setTimeout(() => { card.classList.add('closing'); setTimeout(()=>card.remove(), 300); }, 6000);
+      };
+
+      // 사이드바 미확인 뱃지 업데이트
+      const updateBadge = (count) => {
+        const badge = document.getElementById('contacts-badge');
+        if (!badge) return;
+        if (count > 0) { badge.textContent = count > 99 ? '99+' : count; badge.style.display = 'flex'; }
+        else { badge.style.display = 'none'; }
+      };
+
+      // Firestore 실시간 감시 (status가 'new'이거나 status 필드가 없는 문서)
+      let isInitialLoad = true;
+      const knownIds = new Set();
+      try {
+        const q = query(collection(db, 'contacts'), orderBy('created_at', 'desc'));
+        onSnapshot(q, (snap) => {
+          let unread = 0;
+          const newDocs = [];
+          snap.forEach(d => {
+            const data = d.data();
+            const status = data.status || 'new';
+            if (status === 'new' || status === 'unread') unread++;
+            if (!knownIds.has(d.id)) {
+              if (!isInitialLoad && (status === 'new' || status === 'unread')) newDocs.push(data);
+              knownIds.add(d.id);
+            }
+          });
+          updateBadge(unread);
+          if (!isInitialLoad) newDocs.forEach(showToast);
+          isInitialLoad = false;
+        }, (err) => console.warn('contacts watcher error:', err.message));
+      } catch (e) { console.warn('contacts notifier setup failed:', e.message); }
+    })();
 
     // ───── 1:1 LIVE LAYOUT EDITOR ─────
     // ───── 1:1 LIVE LAYOUT EDITOR (DUAL PC/MOBILE) ─────
