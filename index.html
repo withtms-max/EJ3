@@ -818,19 +818,31 @@ body.light-mode .archive-tile{ background:#eee; }
 /* Mobile */
 @media (max-width: 768px){
   .archive-sect{ padding: 4.5rem 1rem; }
-  /* Pills: 2줄 자동 줄바꿈 (가운데 정렬) */
+  /* Pills: 가로 스와이프 스크롤 (한 줄) */
   .archive-pills{
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 6px;
-    padding: 0 .5rem;
-    margin-bottom: 2rem;
+    flex-wrap: nowrap !important;
+    justify-content: flex-start !important;
+    gap: 8px;
+    padding: 4px 1rem 12px;
+    margin: 0 -1rem 1.6rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    mask-image: linear-gradient(to right, transparent 0, #000 14px, #000 calc(100% - 28px), transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 14px, #000 calc(100% - 28px), transparent 100%);
   }
+  .archive-pills::-webkit-scrollbar{ display:none; }
   .archive-pill{
-    padding: 9px 14px;
-    font-size: .8rem;
+    padding: 10px 16px;
+    font-size: .82rem;
     flex: 0 0 auto;
+    scroll-snap-align: start;
+    white-space: nowrap;
   }
+  .archive-pill.is-active{ box-shadow: 0 6px 18px rgba(30, 95, 204, 0.28); }
   /* Works Grid: 2x2 */
   .archive-works-grid{ grid-template-columns: repeat(2, 1fr); gap: 8px; min-height: 0; margin-bottom: 2.5rem; }
   .archive-work-meta{ padding: .75rem .85rem; }
@@ -933,7 +945,7 @@ body.light-mode .impact-main-text, body.light-mode .impact-info-name { color: #1
 /* TEAM ─ Editorial Row Cards */
 .team-sect{background: var(--bg-main); padding:8rem 6rem; border-top:1px solid var(--border);}
 .team-inner{max-width:1400px; margin:0 auto;}
-.sect-label{color:var(--primary); font-size:.75rem; font-weight:900; letter-spacing:.25em; text-transform:uppercase; margin-bottom:.8rem; opacity:.8;}
+.sect-label{color:#B91C1C; font-size:.75rem; font-weight:900; letter-spacing:.25em; text-transform:uppercase; margin-bottom:.8rem; opacity:.85;}
 .sect-h2{font-family:'Outfit',sans-serif; font-size:clamp(2.5rem,4.5vw,3.5rem); font-weight:900; letter-spacing:-0.05em; text-transform:uppercase; margin-bottom:4.5rem; text-align:center; line-height:1.1;}
 
 .team-grid{
@@ -952,6 +964,8 @@ body.light-mode .impact-main-text, body.light-mode .impact-info-name { color: #1
   letter-spacing: -.01em;
 }
 .team-intro-copy b{ color:#fff; font-weight:900; }
+body.light-mode .team-intro-copy{ color: #555; }
+body.light-mode .team-intro-copy b{ color: var(--primary); }
 
 /* THE 3 IDENTITY BLOCK ─ 더삼 소개 통합 카드 */
 .the3-about{
@@ -1130,15 +1144,7 @@ body.light-mode .the3-about-cta{ color: rgba(0,71,171,0.9); }
   padding: 2.2rem 2.8rem;
   transition: .4s cubic-bezier(.2,.8,.2,1);
 }
-.team-card::before{
-  content: attr(data-index);
-  position:absolute;
-  top: 1.6rem; right: 2rem;
-  font-family:'Outfit',sans-serif;
-  font-size: .7rem; font-weight: 900;
-  letter-spacing: .3em;
-  color: rgba(255,255,255,0.18);
-}
+.team-card::before{ display:none; }
 .team-card:hover{
   border-color: rgba(30,95,204,.35);
   transform: translateY(-3px);
@@ -1174,13 +1180,16 @@ body.light-mode .the3-about-cta{ color: rgba(0,71,171,0.9); }
   justify-content:center; gap: .85rem;
   min-width:0;
 }
+.team-card .team-info .team-role,
+.team-info p.team-role,
 .team-role{
-  color: var(--primary);
+  color: #B91C1C !important;
   font-family:'Pretendard','Outfit',sans-serif;
   font-size: .82rem; font-weight: 800;
   letter-spacing: .04em;
   margin: 0;
 }
+.sect-label, #team-section-eyebrow, #journey-eyebrow { color: #B91C1C !important; }
 .team-name{
   font-family:'Pretendard',sans-serif;
   font-size: 1.85rem; font-weight: 900;
@@ -1461,7 +1470,7 @@ body.light-mode .j-node-desc{ color:#555; }
   .journey-sect{ padding: 4rem 1rem; }
   .journey-timeline{ padding: 0; margin-top: 2.5rem; }
   .journey-timeline::before{
-    left: 30px; right: auto; top: 0; bottom: 0;
+    left: 24px; right: auto; top: 0; bottom: 0;
     width: 2px; height: auto;
     background: linear-gradient(180deg,
       rgba(30,95,204,0) 0%,
@@ -1478,24 +1487,25 @@ body.light-mode .j-node-desc{ color:#555; }
     flex-direction: row;
     align-items: center;
     text-align: left;
-    gap: 14px;
-    padding-left: 18px;
+    gap: 0;
+    padding-left: 24px;
+    min-height: 36px;
   }
-  .j-node-dot{ order: 1; flex-shrink: 0; margin: 0 12px 0 0; }
-  .j-node-year{ order: 2; margin: 0 14px 0 0; font-size: 1.1rem; min-width: 60px; }
-  .j-node-label{ order: 3; margin: 0; flex: 1; font-size: .9rem; min-height: 0; }
+  .j-node-dot{ order: 1; flex-shrink: 0; margin: 0 18px 0 -6px; width:12px; height:12px; border-width:2px; box-shadow:0 0 0 2px rgba(30,95,204,0.12), 0 0 12px rgba(30,95,204,0.3); }
+  .j-node-year{ order: 2; margin: 0 16px 0 0; font-size: 1rem; min-width: 50px; line-height: 1; }
+  .j-node-label{ order: 3; margin: 0; flex: 1; font-size: .85rem; min-height: 0; line-height: 1.3; }
   .j-node-desc{ display: none; }
 
   /* Mobile: 세로 방향 애니메이션 */
   .journey-timeline-progress{
-    left: 30px; top: 0;
+    left: 24px; top: 0;
     width: 2px; height: 0;
     transform: none;
     background: linear-gradient(180deg, var(--primary), rgba(30,95,204,0.75));
     transition: height 3s cubic-bezier(.4, 0, .2, 1);
   }
   .journey-timeline.is-running .journey-timeline-progress{ width: 2px; height: 92%; }
-  .journey-ball{ left: 30px; top: 4%; transform: translate(-50%, -50%); }
+  .journey-ball{ left: 24px; top: 4%; transform: translate(-50%, -50%); }
   .journey-timeline.is-running .journey-ball{
     animation: ballRollV 3s cubic-bezier(.4, 0, .2, 1) forwards;
   }
@@ -1553,6 +1563,11 @@ body.light-mode .j-node-desc{ color:#555; }
 .top-btn.on { opacity: 1; visibility: visible; transform: translateY(0); }
 body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
 .action-btn:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 15px 30px rgba(0,0,0,0.4); }
+
+@media (max-width: 768px) {
+  .fixed-actions { bottom: 16px; right: 16px; gap: 8px; opacity: 0.35; }
+  .action-btn { width: 42px; height: 42px; font-size: 0.95rem; box-shadow: 0 4px 12px rgba(0,0,0,0.25); }
+}
 
 .chat-win{position:fixed;bottom:106px;right:30px;width:340px;height:490px;background:#0d0d0d;border:1px solid rgba(255,255,255,.1);border-radius:20px;display:flex;flex-direction:column;transform:translateY(20px);opacity:0;pointer-events:none;transition:.4s cubic-bezier(.175,.885,.32,1.275);overflow:hidden;z-index:10002;}
 .chat-win.on{transform:translateY(0);opacity:1;pointer-events:all;}
@@ -1723,7 +1738,7 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
 }
 
 @media(max-width:768px){
-  nav{padding:1.2rem 1.5rem; width:100%; transform:none; left:0; justify-content: space-between; align-items: center;}
+  nav{padding:1.2rem 1.5rem; width:100%; transform:none; left:0; justify-content: space-between; align-items: center; background: var(--bg-card); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); box-shadow:0 4px 20px rgba(0,0,0,.15);}
   .nav-logo{font-size:1.1rem; border:none; padding:0; flex: 1;}
   .nav-links{ display: none !important; }
   .nav-cta { display: none !important; }
@@ -1731,12 +1746,12 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
     display: flex !important; 
     align-items: center; 
     justify-content: center;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 50%;
     width: 44px;
     height: 44px;
-    color: #fff;
+    color: #111;
     cursor: pointer;
     z-index: 10002;
     transition: 0.3s;
@@ -1788,7 +1803,12 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
   .nav-links::-webkit-scrollbar { display: none; }
   .nav-links li a { font-size: 0.76rem !important; letter-spacing: 0.01em !important; padding: 4px 0; color: #fff !important; opacity: 1 !important; font-weight: 800 !important; }
   .nav-cta, .nav-toggle { display:none !important; }
-  .team-sect,.svc-sect,.journey-sect,.footer-sect{padding:3.5rem 1.5rem !important;}
+  .team-sect,.svc-sect,.journey-sect,.footer-sect{padding:2.5rem 1.5rem !important;}
+  .archive-sect{padding:3rem 1rem !important;}
+  .the3-about{padding:2.5rem 1.5rem !important;}
+  .journey-inline{padding:2.5rem 1.5rem !important;}
+  .team-grid{gap:1rem !important;}
+  .team-card{padding:1.5rem !important;}
   .fan-hero { padding: 6rem 0 2rem; min-height: 100vh; }
   .fh-c1 { --fan-pos: translateX(-140px) translateY(30px) rotate(-15deg); }
   .fh-c2 { --fan-pos: translateX(-70px) translateY(10px) rotate(-8deg); }
@@ -1822,6 +1842,20 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
   .gallery-btn { padding: 1rem 1.6rem !important; font-size: 0.82rem !important; width: 90%; justify-content: center; margin-bottom: 4rem !important; }
   .fan-hero { padding-bottom: 3rem !important; }
   .scroll-guide { margin-top: 2rem !important; }
+
+  /* 챗봇 입력창 모바일 최적화 */
+  .chat-win{ width: calc(100vw - 24px) !important; right: 12px !important; bottom: 70px !important; height: 70vh !important; max-height: 460px !important; border-radius: 16px !important; }
+  .chat-msgs{ padding: 0.9rem !important; gap: 8px !important; }
+  .chat-hd{ padding: 0.9rem 1.1rem !important; }
+  .chat-input-wrap, .chat-form, .chat-foot{ padding: 0.7rem !important; }
+  .chat-input, .chat-form input{ padding: 10px 12px !important; font-size: 0.85rem !important; }
+  .msg{ font-size: 0.82rem !important; padding: 8px 12px !important; }
+
+  /* 본문 가독성: line-height 살짝 증가 */
+  p, .team-bio, .j-desc, .svc-desc p { line-height: 1.7 !important; }
+
+  /* CTA 버튼 모바일 통일: 엄지 친화 사이즈 */
+  .archive-cta, .gallery-btn, .nav-cta, .pkg-toggle{ min-height: 48px; }
 }
 
 /* FINAL THEME STABILIZATION (LIGHT MODE OVERRIDES) */
@@ -1849,7 +1883,7 @@ body.light-mode .stat-card input { color: #111; }
 .nav-cta, #submit-btn, .pf-btn-main { background: linear-gradient(135deg, var(--primary) 0%, #0099ff 100%) !important; box-shadow: 0 10px 30px rgba(30, 95, 204,0.4) !important; color: #fff !important; border: none !important; font-weight: 900 !important; }
 
 /* MOBILE MENU & RESPONSIVE FIXES */
-.nav-toggle { display: none; background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; z-index: 1001; }
+.nav-toggle { display: none; background: none; border: none; color: #111; font-size: 1.5rem; cursor: pointer; z-index: 1001; }
 .mobile-menu { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transform: translateY(-100%); transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1); opacity: 0; visibility: hidden; }
 .mobile-menu.on { transform: translateY(0); opacity: 1; visibility: visible; }
 .mobile-links { list-style: none; padding: 0; text-align: center; }
@@ -2173,8 +2207,13 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
 <!-- TEAM & SERVICES (INTEGRATED) -->
 <section class="team-sect" id="team" style="background:var(--bg-card); padding:10rem 1.5rem; border-top:1px solid rgba(255,255,255,0.05);">
   <div class="team-inner" style="max-width:1200px; margin:0 auto;">
-    <p class="sect-label" id="team-section-eyebrow" style="text-align:center; color:var(--primary); font-weight:900;">THE EXPERTS</p>
+    <p class="sect-label" id="team-section-eyebrow" style="text-align:center; color:#B91C1C; font-weight:900;">THE EXPERTS</p>
     <h2 class="sect-h2" id="team-section-title" style="color:#fff; text-align:center; margin-bottom:1.8rem;">THE 3: 사장님의 성장을 돕는 전문가들</h2>
+    <style>
+      #team-section-title b, #team-section-title strong { color: var(--primary); font-weight: inherit; }
+      #the3-about-title b, #the3-about-title strong { color: var(--primary); font-weight: inherit; }
+      #team-intro-copy b, #team-intro-copy strong { color: var(--primary); font-weight: 900; }
+    </style>
 
     <p class="team-intro-copy" id="team-intro-copy">
       이 바닥에 <b>10년 이상의 업력</b>을 가지고 있는 전문가 집단 3명이 모였습니다.
@@ -2255,7 +2294,7 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
     <div class="archive-header">
       <span class="archive-eyebrow" id="archive-eyebrow">ARCHIVE</span>
       <span class="archive-divider"></span>
-      <span class="archive-mini-title" id="archive-mini-title">우리가게 콘텐츠 만들기 · 카테고리</span>
+      <span class="archive-mini-title" id="archive-mini-title">우리가게 콘텐츠 만들기</span>
     </div>
 
     <!-- Category Pills (work.html과 동일 룩) -->
@@ -2349,6 +2388,11 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
           }
           #submit-btn:hover { transform:scale(1.02); box-shadow:0 25px 60px rgba(0, 71, 171,0.4); }
           #submit-btn:active { transform:scale(0.98); }
+
+          @media (max-width: 768px) {
+            #service-chips { flex-wrap: nowrap !important; gap: 6px !important; }
+            .svc-chip { flex: 1; padding: 10px 6px !important; font-size: 0.78rem !important; border-radius: 12px !important; text-align: center; min-width: 0; }
+          }
         </style>
         
         <form id="contact-form">
