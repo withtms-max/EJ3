@@ -182,6 +182,7 @@
             <div class="nav-item" onclick="switchView('banner_copy')"><i class="fa fa-bullhorn"></i> 하단 배너 카피</div>
             <div class="nav-item" onclick="switchView('manage_categories')" style="background: rgba(100,50,200,0.1); border: 1px solid rgba(100,50,200,0.3);"><i class="fa fa-tags" style="color:#b57bff;"></i> <b>카테고리명/순서</b></div>
             <div class="nav-item" onclick="switchView('manage_industries')"><i class="fa fa-briefcase"></i> 하위 카테고리 (업종)</div>
+            <div class="nav-item" onclick="switchView('portfolio_hero')"><i class="fa fa-pen-fancy"></i> 카테고리별 히어로 문구</div>
 
             <div class="nav-group-title">MANAGEMENT</div>
             <div class="nav-item" onclick="switchView('consulting')" style="position:relative;"><i class="fa fa-envelope"></i> 문의 내역 확인 <span id="contacts-badge" style="position:absolute; top:50%; right:14px; transform:translateY(-50%); background:#E11D48; color:#fff; font-size:0.7rem; font-weight:900; min-width:20px; height:20px; padding:0 6px; border-radius:10px; display:none; align-items:center; justify-content:center; box-shadow:0 4px 10px rgba(225,29,72,0.4); animation: pulse 2s infinite;"></span></div>
@@ -1432,7 +1433,7 @@
             });
 
             appView.innerHTML = `
-                <div class="header-content"><h1>우리가게콘텐츠만들기 히어로 설정</h1><p>카테고리별 시네마틱 배경과 전용 문구를 관리합니다.</p></div>
+                <div class="header-content"><h1>카테고리별 히어로 문구</h1><p>우리가게콘텐츠만들기 페이지에서 카테고리 선택 시 상단에 표시되는 문구를 관리합니다. (라벨, 타이틀, 설명)</p></div>
                 <div style="display:grid; grid-template-columns: 320px 1fr; gap:30px;">
                     <div class="table-container" style="padding:1rem; height:fit-content;">
                         ${cats.map(c => `
@@ -1483,11 +1484,7 @@
                             <label class="form-label">설명 문구 (Description)</label>
                             <textarea name="desc" class="form-input">${data.desc||''}</textarea>
                         </div>
-                        <div class="form-group">
-                            <label class="form-label">시네마틱 배경 이미지 (또는 영상)</label>
-                            ${renderUploadUI('bg_img', 'themes', data.img)}
-                        </div>
-                        <button type="submit" class="btn" style="width:100%; margin-top:2rem;"><i class="fa fa-save"></i> ${catId} 테마 설정 저장</button>
+                        <button type="submit" class="btn" style="width:100%; margin-top:2rem;"><i class="fa fa-save"></i> ${catId} 테마 문구 저장</button>
                     </form>
                 `;
 
@@ -1495,17 +1492,16 @@
                     e.preventDefault();
                     const fd = new FormData(e.target);
                     const edited = Object.fromEntries(fd.entries());
-                    const finalImg = document.getElementById('path-bg_img').value;
-                    
-                    fullData[catId] = { 
-                        label: edited.label, 
-                        title: edited.title, 
-                        desc: edited.desc, 
-                        img: finalImg 
+
+                    fullData[catId] = {
+                        label: edited.label,
+                        title: edited.title,
+                        desc: edited.desc,
+                        img: data.img || '' // 기존 img 유지 (사용 안 하지만 호환성)
                     };
 
                     await setDoc(doc(db, 'settings', 'portfolio_hero'), { themes: fullData });
-                    alert(`${catId} 테마의 시네마틱 설정이 저장되었습니다! 🎬✨`);
+                    alert(`${catId} 테마의 문구가 저장되었습니다! ✨`);
                 };
             };
 
