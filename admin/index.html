@@ -182,7 +182,6 @@
             <div class="nav-item" onclick="switchView('banner_copy')"><i class="fa fa-bullhorn"></i> 하단 배너 카피</div>
             <div class="nav-item" onclick="switchView('manage_categories')" style="background: rgba(100,50,200,0.1); border: 1px solid rgba(100,50,200,0.3);"><i class="fa fa-tags" style="color:#b57bff;"></i> <b>카테고리명/순서</b></div>
             <div class="nav-item" onclick="switchView('manage_industries')"><i class="fa fa-briefcase"></i> 하위 카테고리 (업종)</div>
-            <div class="nav-item" onclick="switchView('portfolio_hero')"><i class="fa fa-clapperboard"></i> 카테고리 시네마틱 이미지</div>
 
             <div class="nav-group-title">MANAGEMENT</div>
             <div class="nav-item" onclick="switchView('consulting')" style="position:relative;"><i class="fa fa-envelope"></i> 문의 내역 확인 <span id="contacts-badge" style="position:absolute; top:50%; right:14px; transform:translateY(-50%); background:#E11D48; color:#fff; font-size:0.7rem; font-weight:900; min-width:20px; height:20px; padding:0 6px; border-radius:10px; display:none; align-items:center; justify-content:center; box-shadow:0 4px 10px rgba(225,29,72,0.4); animation: pulse 2s infinite;"></span></div>
@@ -1249,7 +1248,7 @@
 
             appView.innerHTML = `
                 <div class="header-content">
-                    <div class="view-title"><h1>ARCHIVE 섹션 카피</h1><p>홈페이지 5장 카테고리 타일 위 헤더와 CTA 버튼 텍스트를 관리합니다. 카테고리 5개와 시네마틱 이미지는 <b>'카테고리명/순서 관리'</b>와 <b>'카테고리 시네마틱 관리'</b>에서 편집하세요.</p></div>
+                    <div class="view-title"><h1>ARCHIVE 섹션 카피</h1><p>홈페이지 5장 카테고리 타일 위 헤더와 CTA 버튼 텍스트를 관리합니다. 카테고리 5개는 <b>'카테고리명/순서 관리'</b>에서 편집하세요.</p></div>
                 </div>
                 <div class="settings-card" style="max-width:780px;">
                     <form id="archive-copy-form">
@@ -2224,20 +2223,19 @@
             const draggables = container.querySelectorAll('.draggable');
             draggables.forEach(el => {
                 let sy, sv, startFS, resizing = false;
-                
-                el.onmousedown = (e) => {
-                    // 좌우 너비 핸들 (이전 페이지)
-                    const widthHandle = e.target.closest('.width-handle');
-                    if (widthHandle) {
+
+                // 좌우 너비 핸들에 직접 이벤트 바인딩 (박스 드래그 이벤트와 분리)
+                el.querySelectorAll('.width-handle').forEach(wh => {
+                    wh.addEventListener('mousedown', (e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        const isLeft = widthHandle.classList.contains('width-handle-left');
+                        e.stopImmediatePropagation();
+                        const isLeft = wh.classList.contains('width-handle-left');
                         const startX = e.clientX;
                         const startW = el.offsetWidth;
                         const wMove = (me) => {
                             const dx = me.clientX - startX;
-                            // 양쪽 모두 가운데 기준 대칭으로 늘리려면 *2
-                            // 좌측 핸들은 반대 방향으로
+                            // 가운데 기준 대칭 (한쪽 드래그 = 양쪽 동시 변경)
                             const newW = Math.max(60, startW + (isLeft ? -dx*2 : dx*2));
                             el.style.width = newW + 'px';
                             el.style.maxWidth = 'none';
@@ -2248,8 +2246,12 @@
                         };
                         window.addEventListener('mousemove', wMove);
                         window.addEventListener('mouseup', wUp);
-                        return;
-                    }
+                    });
+                });
+
+                el.onmousedown = (e) => {
+                    // 너비 핸들 클릭은 위에서 직접 처리됨 → 여기서는 무시
+                    if (e.target.closest('.width-handle')) return;
                     const handle = e.target.closest('.resize-handle');
                     if (handle) {
                         resizing = true;
