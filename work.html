@@ -410,9 +410,8 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
   </ul>
 </div>
 
-<section class="work-hero" id="work-hero">
-    <div class="hero-bg-media" id="hero-bg"></div>
-    <div class="hero-overlay"></div>
+<section class="work-hero" id="work-hero" style="background:linear-gradient(180deg, #0B1939 0%, #050B1F 100%);">
+    <div class="hero-overlay" style="background:radial-gradient(ellipse at center, rgba(30,95,204,0.18) 0%, transparent 70%);"></div>
     <div class="hero-content fu">
         <p class="hero-label" id="h-label">Selected Works</p>
         <h1 class="hero-title" id="h-title">압도적 성과로 증명하는<br><span style="background:linear-gradient(to right, #fff, #0047AB); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">우리가게콘텐츠만들기</span></h1>
@@ -1009,50 +1008,20 @@ body.light-mode .top-btn { background: #fff; color: #000; border: 1px solid rgba
         const hLabel = document.getElementById('h-label');
         const hTitle = document.getElementById('h-title');
         const hDesc = document.getElementById('h-desc');
-        const hBg = document.getElementById('hero-bg');
+        const hBg = document.getElementById('hero-bg'); // 영상 배경 제거됨 (null 가능)
         const hContent = document.querySelector('.hero-content');
 
         // Cinematic Transition Out
-        hContent.style.opacity = '0';
-        hContent.style.transform = 'translateY(15px)';
-        hBg.classList.remove('active');
+        if (hContent) { hContent.style.opacity = '0'; hContent.style.transform = 'translateY(15px)'; }
+        if (hBg) hBg.classList.remove('active');
 
         setTimeout(() => {
             hLabel.innerText = theme.label;
             hTitle.innerHTML = theme.title;
             hDesc.innerText = theme.desc;
             
-            const mediaUrl = theme.img || '';
-            const isVid = /\.(mp4|webm|mov|avi)$/i.test(String(mediaUrl).split('?')[0].split('#')[0]);
-
-            // Clear previous background (image or video)
-            hBg.innerHTML = '';
-            hBg.style.backgroundImage = 'none';
-
-            if (isVid) {
-                const videoEl = document.createElement('video');
-                videoEl.src = mediaUrl;
-                videoEl.autoplay = true;
-                videoEl.muted = true;
-                videoEl.loop = true;
-                videoEl.setAttribute('playsinline', '');
-                videoEl.setAttribute('webkit-playsinline', '');
-                videoEl.style.width = '100%';
-                videoEl.style.height = '100%';
-                videoEl.style.objectFit = 'cover';
-                
-                videoEl.oncanplay = () => {
-                    hBg.classList.add('active');
-                    videoEl.play().catch(e => console.warn('Video play failed:', e));
-                };
-
-                hBg.appendChild(videoEl);
-            } else {
-                hBg.style.backgroundImage = `url('${mediaUrl}')`;
-                hBg.style.backgroundSize = 'cover';
-                hBg.style.backgroundPosition = 'center';
-                setTimeout(() => hBg.classList.add('active'), 100);
-            }
+            // 영상/이미지 배경 비활성화됨 (그라데이션 단색 배경 사용)
+            // hBg가 DOM에서 제거되어 null이라 아래 처리 생략
             
             setTimeout(() => {
                 hContent.style.opacity = '1';
