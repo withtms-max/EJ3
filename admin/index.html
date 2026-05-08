@@ -183,6 +183,7 @@
             <div class="nav-item" onclick="switchView('manage_categories')" style="background: rgba(100,50,200,0.1); border: 1px solid rgba(100,50,200,0.3);"><i class="fa fa-tags" style="color:#b57bff;"></i> <b>카테고리명/순서</b></div>
             <div class="nav-item" onclick="switchView('manage_industries')"><i class="fa fa-briefcase"></i> 하위 카테고리 (업종)</div>
             <div class="nav-item" onclick="switchView('portfolio_hero')"><i class="fa fa-pen-fancy"></i> 카테고리별 히어로 문구</div>
+            <div class="nav-item" onclick="switchView('bulk_upload')" style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.3);"><i class="fa fa-rocket" style="color:#f59e0b;"></i> <b>작품 일괄 업로드</b></div>
 
             <div class="nav-group-title">MANAGEMENT</div>
             <div class="nav-item" onclick="switchView('consulting')" style="position:relative;"><i class="fa fa-envelope"></i> 문의 내역 확인 <span id="contacts-badge" style="position:absolute; top:50%; right:14px; transform:translateY(-50%); background:#E11D48; color:#fff; font-size:0.7rem; font-weight:900; min-width:20px; height:20px; padding:0 6px; border-radius:10px; display:none; align-items:center; justify-content:center; box-shadow:0 4px 10px rgba(225,29,72,0.4); animation: pulse 2s infinite;"></span></div>
@@ -588,6 +589,7 @@
         else if(view === 'journey_copy') renderJourneyCopy();
         else if(view === 'archive_copy') renderArchiveCopy();
         else if(view === 'banner_copy') renderBannerCopy();
+        else if(view === 'bulk_upload') renderBulkUpload();
         else if(view === 'the3cut_config') renderThe3CutConfig();
         else if(view === 'manage_categories') renderManageCategories();
         else if(view === 'manage_industries') renderManageIndustries();
@@ -1299,6 +1301,216 @@
     }
 
     // ───── 2-0-D. 하단 배너 카피 마스터 ─────
+    // ───── 작품 일괄 업로드 (폴더 업로드 → 자동 처리) ─────
+    function _inferIndustry(title) {
+        if (/갈비|추어|칼국수|숯불|뼈집|밥|스시|회|차림|탕|국수|크밥|하루하나|시오당|채윤|율무|육공방|직화|뚱뚜루|니니|릴리온|수수한|당$|고기|카페/.test(title)) return 'restaurant';
+        if (/팜|과일|공방|도예|꽃|마트|샵|스토어/.test(title)) return 'retail';
+        if (/에스테틱|뷰티|학원|미용|숨음악|고요|공유공간|틸로소피|숨사이|데이바이|셀리본/.test(title)) return 'service';
+        if (/엔텍|플랙시블|시스템|코퍼레이션|로지|테크|이엔지|회사|주식회사/.test(title)) return 'corporate';
+        return 'restaurant';
+    }
+    let _bulkFolderData = null;
+
+    async function renderBulkUpload() {
+        appView.innerHTML = `
+            <div class="header-content">
+                <div class="view-title">
+                    <h1>🚀 작품 일괄 업로드</h1>
+                    <p>폴더를 통째로 선택하면 자동으로 폴더명=작품명으로 등록됩니다. 카테고리/업종 자동 추론.</p>
+                </div>
+            </div>
+
+            <div class="settings-card" style="max-width:980px;">
+                <div style="background:rgba(245, 158, 11, 0.08); padding:16px 20px; border-radius:14px; margin-bottom:24px; border:1px solid rgba(245, 158, 11, 0.3);">
+                    <p style="font-size:0.8rem; color:#f59e0b; font-weight:900; margin-bottom:8px;"><i class="fa fa-warning"></i> 사용 방법</p>
+                    <ol style="font-size:0.8rem; color:var(--text-dim); line-height:1.8; padding-left:20px;">
+                        <li>아래에서 <b>카테고리</b> 선택 + <b>업종 자동 추론</b> 선택</li>
+                        <li><b>"폴더 선택"</b> 클릭 → 작품 폴더들이 들어있는 상위 폴더 선택</li>
+                        <li>미리보기 확인 → <b>1단계: 기존 삭제</b> → <b>2단계: 새로 업로드</b></li>
+                    </ol>
+                </div>
+
+                <div class="form-row" style="margin-bottom:1rem;">
+                    <div class="form-group">
+                        <label class="form-label">대상 카테고리 *</label>
+                        <select id="bulk-category" class="form-input">
+                            <option value="calligraphy">캘리그라피 상호디자인</option>
+                            <option value="video">내가게 돈되는 영상만들기</option>
+                            <option value="storyboard">우리매장 스토리보드</option>
+                            <option value="photo">내가게의 사진촬영</option>
+                            <option value="character">내가게의 캐릭터만들기</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">업종 자동 추론</label>
+                        <select id="bulk-industry-mode" class="form-input">
+                            <option value="auto">자동 (작품명으로 추론)</option>
+                            <option value="restaurant">전체 → 외식업</option>
+                            <option value="retail">전체 → 도소매</option>
+                            <option value="service">전체 → 서비스업</option>
+                            <option value="corporate">전체 → 기업</option>
+                            <option value="">설정 안 함</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom:1.5rem;">
+                    <label class="form-label">폴더 선택</label>
+                    <input type="file" id="bulk-folder-input" webkitdirectory directory multiple style="display:none;">
+                    <button type="button" id="bulk-folder-trigger" class="btn" style="background:rgba(245, 158, 11, 0.15); color:#f59e0b; border:2px dashed #f59e0b; width:100%; padding:24px;">
+                        <i class="fa fa-folder-open"></i> 작품 상위 폴더 선택 (각 하위 폴더 = 1개 작품)
+                    </button>
+                    <p id="bulk-folder-info" style="font-size:0.75rem; color:var(--text-dim); margin-top:8px;"></p>
+                </div>
+
+                <div id="bulk-preview" style="margin-bottom:1.5rem;"></div>
+
+                <div style="display:flex; gap:10px;">
+                    <button type="button" id="bulk-delete-btn" style="flex:1; background:#ef4444; color:#fff; padding:14px; border-radius:12px; border:none; font-weight:900; cursor:pointer; opacity:0.5;" disabled>
+                        <i class="fa fa-trash"></i> 1단계: 기존 카테고리 작품 모두 삭제
+                    </button>
+                    <button type="button" id="bulk-upload-btn" class="btn" style="flex:2; padding:14px; opacity:0.5;" disabled>
+                        <i class="fa fa-upload"></i> 2단계: 새 작품 일괄 업로드
+                    </button>
+                </div>
+
+                <div id="bulk-progress" style="margin-top:1.5rem;"></div>
+            </div>
+        `;
+
+        // 폴더 트리거 버튼
+        document.getElementById('bulk-folder-trigger').onclick = () => {
+            document.getElementById('bulk-folder-input').click();
+        };
+
+        // 폴더 선택 처리
+        document.getElementById('bulk-folder-input').addEventListener('change', (e) => {
+            const files = Array.from(e.target.files);
+            if (!files.length) return;
+            const grouped = {};
+            files.forEach(f => {
+                const parts = f.webkitRelativePath.split('/');
+                if (parts.length < 2) return;
+                const folder = parts[1] || parts[0];
+                if (!folder || folder === '.DS_Store' || folder.startsWith('.')) return;
+                if (!/\.(jpg|jpeg|png|gif|webp|mp4|webm|mov)$/i.test(f.name)) return;
+                if (!grouped[folder]) grouped[folder] = [];
+                grouped[folder].push(f);
+            });
+            files.forEach(f => {
+                const parts = f.webkitRelativePath.split('/');
+                if (parts.length === 2 && /\.(jpg|jpeg|png|gif|webp|mp4|webm|mov)$/i.test(f.name)) {
+                    const baseName = f.name.replace(/\.[^.]+$/, '');
+                    if (!grouped[baseName]) grouped[baseName] = [f];
+                }
+            });
+            _bulkFolderData = grouped;
+            const folderNames = Object.keys(grouped);
+            document.getElementById('bulk-folder-info').textContent = `✅ ${folderNames.length}개 작품 인식됨 (총 ${files.length}개 파일)`;
+            const industryMode = document.getElementById('bulk-industry-mode').value;
+            const preview = folderNames.map((name, i) => {
+                const industry = industryMode === 'auto' ? _inferIndustry(name) : industryMode;
+                const indLabel = {restaurant:'외식업', retail:'도소매', service:'서비스업', corporate:'기업', '':'없음'}[industry] || industry;
+                return `<tr style="border-bottom:1px solid var(--border);">
+                    <td style="padding:8px 12px;">${i+1}</td>
+                    <td style="padding:8px 12px; font-weight:700;">${name}</td>
+                    <td style="padding:8px 12px;">${grouped[name].length}장</td>
+                    <td style="padding:8px 12px;"><span style="background:rgba(0,71,171,0.1); color:#0047AB; padding:2px 10px; border-radius:6px; font-size:0.72rem; font-weight:800;">${indLabel}</span></td>
+                </tr>`;
+            }).join('');
+            document.getElementById('bulk-preview').innerHTML = `
+                <div style="max-height:400px; overflow-y:auto; border:1px solid var(--border); border-radius:10px;">
+                    <table style="width:100%; border-collapse:collapse; font-size:0.85rem;">
+                        <thead style="background:rgba(0,0,0,0.04); position:sticky; top:0;"><tr>
+                            <th style="padding:10px 12px; text-align:left;">#</th>
+                            <th style="padding:10px 12px; text-align:left;">작품명</th>
+                            <th style="padding:10px 12px; text-align:left;">파일 수</th>
+                            <th style="padding:10px 12px; text-align:left;">업종</th>
+                        </tr></thead>
+                        <tbody>${preview}</tbody>
+                    </table>
+                </div>`;
+            const dBtn = document.getElementById('bulk-delete-btn');
+            const uBtn = document.getElementById('bulk-upload-btn');
+            dBtn.disabled = false; dBtn.style.opacity = '1';
+            uBtn.disabled = false; uBtn.style.opacity = '1';
+        });
+
+        // 1단계: 기존 카테고리 모두 삭제
+        document.getElementById('bulk-delete-btn').onclick = async () => {
+            const cat = document.getElementById('bulk-category').value;
+            const catLabel = document.getElementById('bulk-category').selectedOptions[0].textContent;
+            if (!confirm(`정말 [${catLabel}] 카테고리의 모든 작품을 삭제할까요?\n\n⚠️ 이 작업은 되돌릴 수 없습니다.`)) return;
+            const progress = document.getElementById('bulk-progress');
+            progress.innerHTML = '<div style="padding:14px; background:rgba(239,68,68,0.08); border-radius:10px; color:#ef4444;"><i class="fa fa-spinner fa-spin"></i> 기존 작품 조회 중...</div>';
+            try {
+                const snap = await getDocs(collection(db, 'portfolio'));
+                const targets = [];
+                snap.forEach(d => { if (d.data().category === cat) targets.push(d.id); });
+                for (let i = 0; i < targets.length; i++) {
+                    await deleteDoc(doc(db, 'portfolio', targets[i]));
+                    progress.innerHTML = `<div style="padding:14px; background:rgba(239,68,68,0.08); border-radius:10px; color:#ef4444;"><i class="fa fa-spinner fa-spin"></i> 삭제 중... ${i+1}/${targets.length}</div>`;
+                }
+                progress.innerHTML = `<div style="padding:14px; background:rgba(16,185,129,0.1); border-radius:10px; color:#10b981; font-weight:700;">✅ ${targets.length}개 작품 삭제 완료! 이제 2단계 업로드 진행하세요.</div>`;
+            } catch (e) {
+                progress.innerHTML = `<div style="padding:14px; background:#fee; border-radius:10px; color:#c00;">❌ 삭제 실패: ${e.message}</div>`;
+            }
+        };
+
+        // 2단계: 일괄 업로드
+        document.getElementById('bulk-upload-btn').onclick = async () => {
+            if (!_bulkFolderData) return alert('먼저 폴더를 선택해주세요.');
+            const grouped = _bulkFolderData;
+            const cat = document.getElementById('bulk-category').value;
+            const industryMode = document.getElementById('bulk-industry-mode').value;
+            const folderNames = Object.keys(grouped);
+            const progress = document.getElementById('bulk-progress');
+            if (!confirm(`${folderNames.length}개 작품을 [${cat}] 카테고리로 업로드합니다. 계속할까요?`)) return;
+            let success = 0, failed = 0;
+            const total = folderNames.length;
+            for (let i = 0; i < total; i++) {
+                const name = folderNames[i];
+                const filesArr = grouped[name];
+                progress.innerHTML = `<div style="padding:14px; background:rgba(0,71,171,0.08); border-radius:10px;"><i class="fa fa-spinner fa-spin"></i> ${i+1}/${total} 업로드 중: <b>${name}</b></div>`;
+                try {
+                    const urls = [];
+                    for (const f of filesArr) {
+                        const ext = f.name.split('.').pop();
+                        const safeName = name.replace(/[^\w가-힣\-]/g, '_') + '_' + Date.now() + '_' + Math.random().toString(36).slice(2,7) + '.' + ext;
+                        const storageRef = ref(storage, `portfolio/${cat}/${safeName}`);
+                        const uploadTask = uploadBytesResumable(storageRef, f);
+                        await new Promise((resolve, reject) => {
+                            uploadTask.on('state_changed', null, reject, async () => {
+                                const url = await getDownloadURL(uploadTask.snapshot.ref);
+                                urls.push(url);
+                                resolve();
+                            });
+                        });
+                    }
+                    const industry = industryMode === 'auto' ? _inferIndustry(name) : industryMode;
+                    await setDoc(doc(collection(db, 'portfolio')), {
+                        title: name,
+                        category: cat,
+                        industry: industry,
+                        client_name: name,
+                        year: new Date().getFullYear().toString(),
+                        thumbnail: urls[0] || '',
+                        images: urls,
+                        show_in_list: '1',
+                        status: 'Published',
+                        sort_order: total - i,
+                        created_at: new Date().toISOString()
+                    });
+                    success++;
+                } catch (e) {
+                    console.error(name, e);
+                    failed++;
+                }
+            }
+            progress.innerHTML = `<div style="padding:14px; background:rgba(16,185,129,0.1); border-radius:10px; color:#10b981; font-weight:700;">✅ 완료! 성공: ${success}개 / 실패: ${failed}개</div>`;
+        };
+    }
+
     async function renderBannerCopy() {
         appView.innerHTML = '<div style="text-align:center; padding:10rem;"><i class="fa fa-spinner fa-spin"></i></div>';
         try {
