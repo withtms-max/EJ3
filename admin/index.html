@@ -582,7 +582,7 @@
         else if(view === 'global') renderGlobalSettings();
         else if(view === 'hero') renderHeroSettings();
         else if(view === 'portfolio') renderPortfolio('all');
-        else if(view === 'team') renderList(view, '팀 멤버', ['sort_order', 'photo', 'name', 'role']);
+        else if(view === 'team') renderTeamManage();
         else if(view === 'journey') renderList(view, '성공 연혁', ['period', 'title', 'subtitle']);
         else if(view === 'contact_settings') renderContactSettings();
         else if(view === 'experts_copy') renderExpertsCopy();
@@ -1848,6 +1848,99 @@
         'quote': '내용',
         'result': '성과/뱃지'
     };
+
+    // ───── 팀 멤버 관리 (순서 변경 + 편집 통합 UI) ─────
+    async function renderTeamManage() {
+        appView.innerHTML = '<div style="text-align:center; padding:10rem;"><i class="fa fa-spinner fa-spin"></i></div>';
+        try {
+            const snap = await getDocs(collection(db, 'team'));
+            const items = [];
+            snap.forEach(d => items.push({...d.data(), id: d.id}));
+            // 큰 숫자가 위
+            items.sort((a, b) => (parseInt(b.sort_order)||0) - (parseInt(a.sort_order)||0));
+
+            appView.innerHTML = `
+                <div class="header-content" style="margin-bottom:2rem;">
+                    <div class="view-title">
+                        <h1 style="font-family:'Outfit'; font-weight:900;">팀 멤버 관리</h1>
+                        <p style="color:var(--text-dim); font-size:0.95rem;">↑↓ 버튼으로 순서를 자유롭게 변경하세요. (위쪽이 홈에서 먼저 노출)</p>
+                    </div>
+                    <button class="btn" onclick="openEditModal('team')"><i class="fa fa-plus"></i> 신규 멤버 등록</button>
+                </div>
+
+                <div id="team-manage-list" style="display:flex; flex-direction:column; gap:12px; max-width:980px;">
+                    ${items.map((it, idx) => {
+                        const photo = it.photo && (it.photo.startsWith('http') || it.photo.startsWith('/')) ? it.photo : (it.photo ? '/'+it.photo : 'https://via.placeholder.com/100');
+                        const isTop = idx === 0;
+                        const isBot = idx === items.length - 1;
+                        return `
+                        <div class="team-row" data-id="${it.id}" style="display:flex; align-items:center; gap:16px; padding:14px 18px; background:#fff; border:1px solid var(--border); border-radius:14px; box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+                            <div style="display:flex; flex-direction:column; gap:4px;">
+                                <button onclick="window.moveTeam('${it.id}','up')" ${isTop?'disabled':''} title="위로" style="width:32px; height:32px; border-radius:8px; border:1px solid var(--border); background:${isTop?'#f5f5f5':'#fff'}; cursor:${isTop?'not-allowed':'pointer'}; opacity:${isTop?0.4:1}; font-size:0.85rem; color:#333;"><i class="fa fa-chevron-up"></i></button>
+                                <button onclick="window.moveTeam('${it.id}','down')" ${isBot?'disabled':''} title="아래로" style="width:32px; height:32px; border-radius:8px; border:1px solid var(--border); background:${isBot?'#f5f5f5':'#fff'}; cursor:${isBot?'not-allowed':'pointer'}; opacity:${isBot?0.4:1}; font-size:0.85rem; color:#333;"><i class="fa fa-chevron-down"></i></button>
+                            </div>
+                            <div style="width:60px; text-align:center; font-family:'Outfit'; font-size:1.6rem; font-weight:900; color:var(--text-dim); letter-spacing:-0.02em;">${String(idx+1).padStart(2,'0')}</div>
+                            <div style="width:64px; height:64px; border-radius:50%; overflow:hidden; flex-shrink:0; background:#f0f0f0; border:2px solid #fff; box-shadow:0 2px 6px rgba(0,0,0,0.08);">
+                                <img src="${photo}" style="width:100%; height:100%; object-fit:cover;" onerror="this.style.display='none'">
+                            </div>
+                            <div style="flex:1; min-width:0;">
+                                <div style="font-weight:900; font-size:1.05rem; color:#111; margin-bottom:2px;">${it.name || '(이름 없음)'}</div>
+                                <div style="font-size:0.82rem; color:var(--text-dim);">${it.role || '-'}</div>
+                            </div>
+                            <div style="display:flex; gap:8px;">
+                                <button class="btn btn-s" onclick="editItem('team','${it.id}')" style="background:#f0f2f5; color:#444; border:1px solid #e1e4e8; border-radius:10px; width:40px; height:40px;"><i class="fa fa-edit"></i></button>
+                                <button class="btn btn-s btn-danger" onclick="deleteItem('team','${it.id}')" style="width:40px; height:40px; border-radius:10px;"><i class="fa fa-trash"></i></button>
+                            </div>
+                        </div>`;
+                    }).join('')}
+                </div>
+
+                ${items.length === 0 ? '<div style="text-align:center; padding:6rem; color:var(--text-dim);">등록된 팀 멤버가 없습니다.</div>' : ''}
+            `;
+
+            // ↑↓ 버튼 핸들러
+            window._teamItems = items;
+            window.moveTeam = async (id, dir) => {
+                const idx = window._teamItems.findIndex(x => x.id === id);
+                if (idx < 0) return;
+                const swapIdx = dir === 'up' ? idx - 1 : idx + 1;
+                if (swapIdx < 0 || swapIdx >= window._teamItems.length) return;
+
+                // 두 멤버의 sort_order 교환 (없으면 자동 부여)
+                const a = window._teamItems[idx];
+                const b = window._teamItems[swapIdx];
+                // 기본값 설정 (모두 0이면 위치 기반으로 부여)
+                if (window._teamItems.every(x => !x.sort_order)) {
+                    // 전체 재배치: 30, 20, 10 형식
+                    for (let i = 0; i < window._teamItems.length; i++) {
+                        window._teamItems[i].sort_order = (window._teamItems.length - i) * 10;
+                    }
+                }
+                const tmp = a.sort_order;
+                a.sort_order = b.sort_order;
+                b.sort_order = tmp;
+
+                try {
+                    await Promise.all([
+                        updateDoc(doc(db, 'team', a.id), { sort_order: a.sort_order }),
+                        updateDoc(doc(db, 'team', b.id), { sort_order: b.sort_order })
+                    ]);
+                    // 모두 0이었던 경우 전체 저장
+                    if (window._teamItems.every(x => x.sort_order)) {
+                        for (const it of window._teamItems) {
+                            await updateDoc(doc(db, 'team', it.id), { sort_order: it.sort_order });
+                        }
+                    }
+                    renderTeamManage(); // 새로 그리기
+                } catch (e) {
+                    alert('순서 변경 실패: ' + e.message);
+                }
+            };
+        } catch (err) {
+            console.error(err);
+            appView.innerHTML = `<div style="text-align:center; padding:6rem; color:#ef4444;">로드 실패: ${err.message}</div>`;
+        }
+    }
 
     async function renderList(col, title, fields) {
         appView.innerHTML = '<div style="text-align:center; padding:10rem;"><i class="fa fa-spinner fa-spin"></i></div>';
