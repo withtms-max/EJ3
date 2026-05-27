@@ -1,0 +1,21 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /the3-app/
+Disallow: /the3cut/
+Disallow: /_backup_today/
+Disallow: /tmp/
+Disallow: /scratch/
+
+# Naver bot
+User-agent: Yeti
+Allow: /
+Disallow: /admin/
+
+# Google bot
+User-agent: Googlebot
+Allow: /
+Disallow: /admin/
+
+# Sitemap
+Sitemap: https://the3.co.kr/sitemap.xml
