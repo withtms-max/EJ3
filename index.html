@@ -2323,15 +2323,9 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
 <section class="fan-hero" id="home">
   <!-- RESPONSIVE VIDEO BACKGROUND -->
   <!-- Desktop Version -->
-  <video id="h-video-desktop" class="hero-video video-desktop" autoplay loop muted playsinline webkit-playsinline x5-playsinline preload="auto" disableRemotePlayback>
-    <source src="hero-desktop.mp4?v=1" type="video/mp4">
-    <source src="hero-desktop.webm?v=1.5" type="video/webm">
-  </video>
+  <video id="h-video-desktop" class="hero-video video-desktop" loop muted playsinline webkit-playsinline preload="none" disableRemotePlayback></video>
   <!-- Mobile Version -->
-  <video id="h-video-mobile" class="hero-video video-mobile" autoplay loop muted playsinline webkit-playsinline x5-playsinline preload="auto" disableRemotePlayback>
-    <source src="hero-mobile.mp4?v=1" type="video/mp4">
-    <source src="hero-mobile.webm?v=1.5" type="video/webm">
-  </video>
+  <video id="h-video-mobile" class="hero-video video-mobile" loop muted playsinline webkit-playsinline preload="none" disableRemotePlayback></video>
   <div class="hero-overlay"></div>
 
   <div class="fh-title" id="fh-title" style="z-index: 100; position: relative; opacity: 1 !important;">
@@ -2800,6 +2794,7 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
+<script src="js/hero-media.js"></script>
 <script type="module">
   import { db, doc, getDoc, setDoc, updateDoc, collection, getDocs, addDoc, query, orderBy } from './js/firebase-init.js';
   
@@ -3295,8 +3290,10 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
 
   // [REFINED] 5채널 독립 레이아웃 튜너 적용 (PC/모바일 분리)
   (async function fetchHeroData() {
+    let heroSettings = {};
     try {
       const snap = await getDoc(doc(db, 'settings', 'hero'));
+      heroSettings = snap.exists() ? snap.data() : {};
       if (snap.exists()) {
         const d = snap.data();
 
@@ -3421,58 +3418,12 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
               }
           }, 1000); // 갤러리 아이템 로드 대기용 여유 시간
           
-          // [UPDATED] 히어로 및 갤러리 영상 연동
-          const vHeroPC = document.getElementById('h-video-desktop');
-          const vHeroMB = document.getElementById('h-video-mobile');
-          const vGallPC = document.getElementById('g-video-desktop');
-          const vGallMB = document.getElementById('g-video-mobile');
-          
-          const applyVideo = (v, customSrc, defaultSrc) => {
-              if (!v) return;
-              const isMobileVideo = v.id && v.id.includes('mobile');
-              // [FIX] 우선순위: Firestore(admin 업로드) 우선 → 없으면 로컬 fallback
-              let targetSrc = (customSrc && customSrc.trim() !== '') ? customSrc : defaultSrc;
-
-              // [iOS/카카오 호환] admin 업로드가 없고 모바일 + webm일 때만 mp4로 fallback
-              if (isMobileVideo && !customSrc && targetSrc.toLowerCase().includes('.webm')) {
-                  targetSrc = 'hero-mobile.mp4?v=2';
-              }
-              // 캐시 방지: admin 업로드 영상 URL에 timestamp 추가
-              if (customSrc && customSrc.trim() !== '' && !targetSrc.includes('?')) {
-                  targetSrc += '?t=' + Date.now();
-              }
-
-              // [FIX] 속성 강제 부여 및 루프 최적화
-              v.muted = true; v.autoplay = true; v.loop = true;
-              v.setAttribute('muted', ''); v.setAttribute('autoplay', ''); v.setAttribute('loop', '');
-              v.setAttribute('playsinline', ''); v.setAttribute('webkit-playsinline', '');
-
-              const videoType = targetSrc.toLowerCase().includes('.webm') ? 'video/webm' : 'video/mp4';
-              const newSourceHTML = `<source src="${targetSrc}" type="${videoType}">`;
-
-              if (v.innerHTML !== newSourceHTML) {
-                  v.removeAttribute('src');
-                  v.innerHTML = newSourceHTML;
-                  v.load();
-                  // [FIX] 브라우저 자동재생 정책 대응을 위한 강제 재생
-                  const playPromise = v.play();
-                  if (playPromise !== undefined) {
-                      playPromise.catch(() => {
-                          v.muted = true;
-                          v.play().catch(e => console.warn('Autoplay prevented:', e));
-                      });
-                  }
-              }
-          };
-
-          // [FIX] 어드민 필드(hero_video_desktop) + 구버전 필드(video_url_pc) 모두 지원
-          // 모바일은 mp4 우선 (iOS/카카오 호환), admin 커스텀이 없을 때만 적용
-          applyVideo(vHeroPC, d.hero_video_desktop || d.video_url_pc, 'hero-desktop.webm?v=1.5');
-          applyVideo(vHeroMB, d.hero_video_mobile || d.video_url_mobile, 'hero-mobile.mp4?v=2');
-          applyVideo(vGallPC, d.gallery_video_desktop || d.gallery_url_pc, 'gallery-desktop.webm?v=1.5');
-          applyVideo(vGallMB, d.gallery_video_mobile || d.gallery_url_mobile, 'gallery-mobile.webm?v=1.5');
       }
-    } catch(e) { console.error('Hero Load Error:', e); }
+    } catch(e) {
+      console.error('Hero Load Error:', e);
+    } finally {
+      window.heroMedia.configure(heroSettings);
+    }
   })();
 
   // ─────────────────────────────────────────────
@@ -4750,26 +4701,6 @@ body.light-mode .chat-meta { color: rgba(0,0,0,0.2); }
       });
   };
 
-  // Video Responsive Guard
-  const checkVideoSource = () => {
-    const isMob = window.innerWidth <= 768;
-    const vD = document.getElementById('h-video-desktop');
-    const vM = document.getElementById('h-video-mobile');
-    if(isMob) { vD?.pause(); vM?.play(); } else { vM?.pause(); vD?.play(); }
-  };
-
-  window.addEventListener('resize', checkVideoSource);
-
-  window.addEventListener('resize', checkVideoSource);
-  window.addEventListener('load', checkVideoSource);
-
-  // Finish Loading Animation Trigger
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-        document.body.classList.remove('loading');
-        document.body.classList.add('loaded');
-    }, 450);
-  });
 </script>
 
 <!-- ─── PORTFOLIO LIGHTBOX MODAL (work.html과 동기화) ─── -->
